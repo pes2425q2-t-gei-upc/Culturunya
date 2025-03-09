@@ -40,6 +40,15 @@
     <Compile Include="api\tests.py" />
     <Compile Include="api\views.py" />
     <Compile Include="api\__init__.py" />
+    <Compile Include="domain\events_service.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="domain\users_service.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="domain\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="manage.py" />
     <Compile Include="Culturunya\__init__.py" />
     <Compile Include="Culturunya\settings.py" />
@@ -53,6 +62,7 @@
     <Folder Include="api\" />
     <Folder Include="api\migrations\" />
     <Folder Include="Culturunya\" />
+    <Folder Include="domain\" />
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="env_culturunya\">
