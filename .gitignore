@@ -8,3 +8,10 @@ env_culturunya/
 # Ignorar archivos de Visual Studio/VSCode
 **/.vs/
 **/.vscode/
+
+#otros tipos de archivos
+*.pyproj
+*.pyproj.user
+*.suo
+*.user
+*.cache
