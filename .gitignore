@@ -1,2 +1,10 @@
 # Ignorar la carpeta del entorno virtual
 env_culturunya/
+
+# Ignorar archivos de Python compilados
+__pycache__/
+*.py[cod]
+
+# Ignorar archivos de Visual Studio/VSCode
+.vs/
+.vscode/
