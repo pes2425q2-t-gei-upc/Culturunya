@@ -54,8 +54,19 @@
     <Compile Include="Culturunya\settings.py" />
     <Compile Include="Culturunya\urls.py" />
     <Compile Include="Culturunya\wsgi.py" />
+    <Compile Include="persistence\admin.py" />
+    <Compile Include="persistence\apps.py" />
+    <Compile Include="persistence\migrations\__init__.py" />
+    <Compile Include="persistence\models.py" />
+    <Compile Include="persistence\tests.py" />
+    <Compile Include="persistence\views.py" />
+    <Compile Include="persistence\__init__.py" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="persistence\__pycache__\admin.cpython-39.pyc" />
+    <Content Include="persistence\__pycache__\apps.cpython-39.pyc" />
+    <Content Include="persistence\__pycache__\models.cpython-39.pyc" />
+    <Content Include="persistence\__pycache__\__init__.cpython-39.pyc" />
     <Content Include="requirements.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -63,6 +74,9 @@
     <Folder Include="api\migrations\" />
     <Folder Include="Culturunya\" />
     <Folder Include="domain\" />
+    <Folder Include="persistence\" />
+    <Folder Include="persistence\migrations\" />
+    <Folder Include="persistence\__pycache__\" />
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="env_culturunya\">
