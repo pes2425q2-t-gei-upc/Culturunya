@@ -1,43 +1,56 @@
 package com.example.culturunya
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.culturunya.ui.theme.CulturunyaTheme
+import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import com.example.culturunya.ui.events.SettingsFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            CulturunyaTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    Greeting("Android")
+        setContentView(R.layout.activity_main)
+
+        // Referència al BottomNavigationView
+        val bottomNavView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+
+        // Quan l'usuari seleccioni un ítem del menú...
+        bottomNavView.setOnItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.navigation_events -> {
+                    replaceFragment(EventsFragment())
+                    true
                 }
+                R.id.navigation_quiz -> {
+                    replaceFragment(QuizFragment())
+                    true
+                }
+                R.id.navigation_leaderboard -> {
+                    replaceFragment(LeaderboardFragment())
+                    true
+                }
+                R.id.navigation_settings -> {
+                    replaceFragment(SettingsFragment())
+                    true
+                }
+                else -> false
             }
         }
+
+        // Carregar per defecte la pantalla d'Events
+        bottomNavView.selectedItemId = R.id.navigation_events
+    }
+
+    private fun replaceFragment(fragment: SettingsFragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, fragment)
+            .commit()
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+private fun Any.replace(fragmentContainer: Int, fragment: SettingsFragment): FragmentTransaction {
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    CulturunyaTheme {
-        Greeting("Android")
-    }
 }

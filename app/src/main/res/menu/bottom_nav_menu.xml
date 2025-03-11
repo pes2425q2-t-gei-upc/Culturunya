@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:id="@+id/navigation_events"
+            android:title="Events"
+            android:icon="@drawable/ic_events" />
+
+    <item
+            android:id="@+id/navigation_quiz"
+            android:title="Quiz"
+            android:icon="@drawable/ic_quiz" />
+
+    <item
+            android:id="@+id/navigation_leaderboard"
+            android:title="Leaderboard"
+            android:icon="@drawable/ic_leaderboard" />
+
+    <item
+            android:id="@+id/navigation_settings"
+            android:title="Settings"
+            android:icon="@drawable/ic_settings" />
+</menu>
