@@ -27,6 +27,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.culturunya.ui.theme.CulturunyaTheme
 
+class TestActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            CulturunyaTheme {
+                ComposablePrincipal()
+            }
+        }
+    }
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ComposablePrincipal() {
@@ -151,9 +162,8 @@ fun ComposablePrincipal() {
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun Preview() {
     CulturunyaTheme {
-
-
+        ComposablePrincipal()
     }
 }
