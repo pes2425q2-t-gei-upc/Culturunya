@@ -2,6 +2,9 @@ import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
+from domain.users_service import get_all_events
+
+
 @csrf_exempt
 def test_api(request):
     return JsonResponse({"message": "Testing API okay"})
@@ -31,5 +34,13 @@ def put_test(request):
 def delete_test(request):
     if request.method == "DELETE":
         return JsonResponse({"message": "Delete request received"})
+    else:
+        return JsonResponse({"error": "Invalid request method"}, status=400)
+
+@csrf_exempt
+def get_events(request):
+    if request.method == "GET":
+        events = get_all_events()
+        return JsonResponse({"events": events})
     else:
         return JsonResponse({"error": "Invalid request method"}, status=400)
