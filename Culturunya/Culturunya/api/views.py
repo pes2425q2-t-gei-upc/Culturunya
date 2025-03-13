@@ -1,8 +1,9 @@
 import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 
-from domain.users_service import get_all_events
+from domain.users_service import get_all_events, filter_events
 
 
 @csrf_exempt
@@ -44,3 +45,13 @@ def get_events(request):
         return JsonResponse({"events": events})
     else:
         return JsonResponse({"error": "Invalid request method"}, status=400)
+
+@csrf_exempt
+@require_POST
+def get_filtered_events(request):
+    try:
+        data = json.loads(request.body)
+        filtered_events = filter_events(data)
+        return JsonResponse({"events": filtered_events}, safe=False)
+    except json.JSONDecodeError:
+        return JsonResponse({"error": "Invalid JSON format"}, status=400)
