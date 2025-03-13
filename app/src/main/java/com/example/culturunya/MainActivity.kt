@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.culturunya.navigation.AppNavigation
 import com.example.culturunya.ui.theme.CulturunyaTheme
 
 class MainActivity : ComponentActivity() {
@@ -26,7 +27,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MainScreen()
+                    AppNavigation()
                 }
             }
         }
@@ -122,6 +123,6 @@ fun Greeting(name: String) {
 @Composable
 fun MainScreenPreview() {
     CulturunyaTheme {
-        MainScreen()
+        AppNavigation()
     }
 }
