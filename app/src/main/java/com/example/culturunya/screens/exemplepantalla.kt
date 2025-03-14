@@ -1,14 +1,24 @@
 package com.example.culturunya.screens
 
+import android.annotation.SuppressLint
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.culturunya.ui.theme.*
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Pantalla() {
@@ -40,11 +50,10 @@ fun MainScreen(navController: NavController) {
         // CONTENIDOR PRINCIPAL
         Box(
             modifier = Modifier
-                .weight(1f) // la caixa ocupa tot l'espai disponible fins al footer
+                .weight(1f)
                 .fillMaxWidth(),
             contentAlignment = Alignment.Center
         ) {
-            // Aquí mostrem el contingut segons la pantalla seleccionada
             when (currentScreen) {
                 "Events" -> EventsScreen()
                 "Quiz" -> QuizScreen()
@@ -75,10 +84,69 @@ fun MainScreen(navController: NavController) {
         }
     }
 }
+
 @Composable
 fun EventsScreen() {
-    Text("Aquesta serà la pantalla d'Events")
+    val events = listOf("Evento 1", "Evento 2", "Evento 3", "Evento 4")
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        events.forEach { event ->
+            EventBox(event)
+        }
+    }
 }
+
+@Composable
+fun EventBox(event: String) {
+    var expanded by remember { mutableStateOf(false) }  // Para controlar el estado del menú desplegable
+    var showMenu by remember { mutableStateOf(false) }  // Para controlar si mostrar el menú
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .background(Purple40, RoundedCornerShape(8.dp))
+            .clickable { showMenu = true }  // Hacer clic en el evento para mostrar el menú
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            Text(
+                text = event,
+                style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold),
+                color = Color.White
+            )
+        }
+
+        // Menú desplegable
+        DropdownMenu(
+            expanded = showMenu,
+            onDismissRequest = { showMenu = false }  // Cerrar el menú cuando se toca fuera de él
+        ) {
+            DropdownMenuItem(
+                text = { Text("Detalles del Evento") },
+                onClick = {
+                    showMenu = false  // Cerrar el menú
+                    // Acción para ver los detalles del evento
+                }
+            )
+            DropdownMenuItem(
+                text = { Text("Guardar Evento") },
+                onClick = {
+                    showMenu = false  // Cerrar el menú
+                    // Acción para guardar el Evento en el calendario personal
+                }
+            )
+
+        }
+    }
+}
+
 
 @Composable
 fun QuizScreen() {
