@@ -47,7 +47,13 @@ class Event(models.Model):
             "date_end": self.date_end.isoformat(),
             "description": self.description,
             "price": self.price,
-            "location": self.location.id if self.location else None
+            "location": {
+                "city": self.location.city if self.location else None,
+                "address": self.location.address if self.location else None,
+                "longitude": self.location.longitude if self.location else None,
+                "latitude": self.location.latitude if self.location else None,
+            } if self.location else None,  # Evitar error si no hay location
+            "categories": [cat.name for cat in self.categories.all()]  # Agregar categorías
         }
 
     def __str__(self):
