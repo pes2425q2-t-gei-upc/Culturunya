@@ -39,5 +39,16 @@ class Event(models.Model):
     location = models.ForeignKey(Location, on_delete=models.CASCADE, related_name='events', null=True)
     categories = models.ManyToManyField(Category, related_name='events')
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "date_start": self.date_start.isoformat(),
+            "date_end": self.date_end.isoformat(),
+            "description": self.description,
+            "price": self.price,
+            "location": self.location.id if self.location else None
+        }
+
     def __str__(self):
         return f"{self.name}"

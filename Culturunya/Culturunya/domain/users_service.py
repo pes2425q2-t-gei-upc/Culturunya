@@ -1,10 +1,12 @@
 from django.db.models import Q
+from django.http import JsonResponse
+from django.core import serializers
+import json
 
 from persistence.models import Event
 
 def get_all_events():
-    #Obtiene todos los eventos de la base de datos.
-    return list(Event.objects.all())
+    return [event.to_dict() for event in Event.objects.all()]
 
 def filter_events(filters):
     query = Q()
