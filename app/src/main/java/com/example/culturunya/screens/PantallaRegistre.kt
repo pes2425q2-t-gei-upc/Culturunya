@@ -24,13 +24,15 @@ import com.example.culturunya.R
 import com.example.culturunya.navigation.AppScreens
 import com.example.culturunya.ui.theme.CulturunyaTheme
 import com.example.culturunya.ui.theme.Morat
-import com.example.culturunya.controllers.comprovaNomContrasenya
+import com.example.culturunya.controllers.enviarDadesAlBackend
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PantallaRegistre(navController: NavController) {
     var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var registreExit by remember { mutableStateOf(false) } // Controla si mostrar la confirmacio
 
     Column(
         modifier = Modifier
@@ -39,26 +41,71 @@ fun PantallaRegistre(navController: NavController) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        MyTextField(navController, label = "Nom d'usuari") { username = it }
-        //MyTextField(navController, label = "Correu electrònic") { email = it }
-        //MyTextField(navController, label = "Contrasenya") { password = it }
+
+        Column(modifier = Modifier.padding(8.dp)) {
+            TextField(
+                value = username,
+                onValueChange = { username = it },
+                label = { Text("Nom d'usuari") }
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            TextField(
+                value = email,
+                onValueChange = { email = it },
+                label = { Text("Correu electronic") }
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            TextField(
+                value = password,
+                onValueChange = { password = it },
+                label = { Text("Contrassenya") }
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
             onClick = {
-                if (username.isNotBlank()
-                    //&& email.isNotBlank() && password.isNotBlank()
-                    ) {
-                    navController.popBackStack()
+                if (username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
+                    if (enviarDadesAlBackend(username, email, password)){
+                        registreExit = true
+                    }
                 }
-            }
+            },
+            colors = ButtonDefaults.buttonColors(containerColor = Morat)
         ) {
             Text("Registrar-se")
         }
     }
+
+
+    if (registreExit) {
+        AlertDialog(
+            onDismissRequest = { registreExit = false },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        registreExit = false
+                        navController.popBackStack() // Torna a la pantalla anterior
+                    }
+                ) {
+                    Text("D'acord")
+                }
+            },
+            title = { Text("Registre completat") },
+            text = { Text("T'has registrat correctament!") }
+        )
+    }
 }
 
+/*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyTextField(navController: NavController, label: String, onTextSaved: (String) -> Unit) {
@@ -74,3 +121,5 @@ fun MyTextField(navController: NavController, label: String, onTextSaved: (Strin
         Spacer(modifier = Modifier.height(8.dp))
     }
 }
+
+ */
