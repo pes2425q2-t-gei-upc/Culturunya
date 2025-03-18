@@ -9,12 +9,18 @@ import androidx.compose.material3.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.culturunya.navigation.AppNavigation
 import com.example.culturunya.ui.theme.CulturunyaTheme
+import androidx.compose.ui.unit.dp
+import com.example.culturunya.navigation.AppScreens
+import androidx.navigation.NavController
+
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -149,8 +155,10 @@ fun MainScreen() {
             BottomButtonItem(
                 screenName = "Settings",
                 iconRes = R.drawable.ic_settings,
-                isSelected = currentScreen == "Settings"
+                isSelected = currentScreen == "Settings",
+                
             ) {
+
                 currentScreen = "Settings"
             }
         }

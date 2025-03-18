@@ -16,6 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.culturunya.navigation.AppScreens
 import com.example.culturunya.ui.theme.*
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -58,7 +59,7 @@ fun MainScreen(navController: NavController) {
                 "Events" -> EventsScreen()
                 "Quiz" -> QuizScreen()
                 "Leaderboard" -> LeaderboardScreen()
-                "Settings" -> SettingsScreen()
+                "Settings" -> SettingsScreen(navController)
             }
         }
 
@@ -159,8 +160,20 @@ fun LeaderboardScreen() {
 }
 
 @Composable
-fun SettingsScreen() {
-    Text("Aquesta serà la pantalla de Settings")
+fun SettingsScreen(navController: NavController) {
+    Column {
+        Text("Aquesta serà la pantalla de Settings")
+        Spacer(modifier = Modifier.height(10.dp))
+        Button(
+            onClick = {
+                navController.navigate(route = AppScreens.TerceraPantalla.route)
+            },
+            modifier = Modifier.width(250.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Morat)
+        ) {
+            Text(text = "Canvi de contrasenya", color = Color.White)
+        }
+    }
 }
 
 // Mantens la funció Greeting si la vols reutilitzar
