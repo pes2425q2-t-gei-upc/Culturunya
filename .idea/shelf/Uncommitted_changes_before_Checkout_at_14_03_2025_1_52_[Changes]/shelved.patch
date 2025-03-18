@@ -1,0 +1,189 @@
+Index: app/build.gradle.kts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>plugins {\r\n    id(\"com.android.application\")\r\n    id(\"org.jetbrains.kotlin.android\")\r\n}\r\n\r\nandroid {\r\n    namespace = \"com.example.culturunya\"\r\n    compileSdk = 35\r\n\r\n    defaultConfig {\r\n        applicationId = \"com.example.culturunya\"\r\n        minSdk = 21\r\n        targetSdk = 35\r\n        versionCode = 1\r\n        versionName = \"1.0\"\r\n\r\n        testInstrumentationRunner = \"androidx.test.runner.AndroidJUnitRunner\"\r\n        vectorDrawables {\r\n            useSupportLibrary = true\r\n        }\r\n    }\r\n\r\n    buildTypes {\r\n        release {\r\n            isMinifyEnabled = false\r\n            proguardFiles(getDefaultProguardFile(\"proguard-android-optimize.txt\"), \"proguard-rules.pro\")\r\n        }\r\n    }\r\n    compileOptions {\r\n        sourceCompatibility = JavaVersion.VERSION_1_8\r\n        targetCompatibility = JavaVersion.VERSION_1_8\r\n    }\r\n    kotlinOptions {\r\n        jvmTarget = \"1.8\"\r\n    }\r\n    buildFeatures {\r\n        compose = true\r\n    }\r\n    composeOptions {\r\n        kotlinCompilerExtensionVersion = \"1.5.8\"\r\n    }\r\n    packaging {\r\n        resources {\r\n            excludes += \"/META-INF/{AL2.0,LGPL2.1}\"\r\n        }\r\n    }\r\n}\r\n\r\ndependencies {\r\n    implementation (\"com.google.android.material:material:1.9.0\")\r\n    implementation(\"androidx.core:core-ktx:1.9.0\")\r\n    implementation(\"androidx.lifecycle:lifecycle-runtime-ktx:2.8.7\")\r\n    implementation(\"androidx.activity:activity-compose:1.10.1\")\r\n    implementation(platform(\"androidx.compose:compose-bom:2023.03.00\"))\r\n    implementation(\"androidx.compose.ui:ui\")\r\n    implementation(\"androidx.compose.ui:ui-graphics\")\r\n    implementation(\"androidx.compose.ui:ui-tooling-preview\")\r\n    implementation(\"androidx.compose.material3:material3\")\r\n    implementation(\"androidx.navigation:navigation-compose:2.8.8\")\r\n    testImplementation(\"junit:junit:4.13.2\")\r\n    androidTestImplementation(\"androidx.test.ext:junit:1.2.1\")\r\n    androidTestImplementation(\"androidx.test.espresso:espresso-core:3.6.1\")\r\n    androidTestImplementation(platform(\"androidx.compose:compose-bom:2023.03.00\"))\r\n    androidTestImplementation(\"androidx.compose.ui:ui-test-junit4\")\r\n    debugImplementation(\"androidx.compose.ui:ui-tooling\")\r\n    debugImplementation(\"androidx.compose.ui:ui-test-manifest\")\r\n}
+===================================================================
+diff --git a/app/build.gradle.kts b/app/build.gradle.kts
+--- a/app/build.gradle.kts	(revision 16533655850e007253b4efbf7175788288593bed)
++++ b/app/build.gradle.kts	(date 1741912555466)
+@@ -44,6 +44,7 @@
+             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+         }
+     }
++    buildToolsVersion = "35.0.1"
+ }
+ 
+ dependencies {
+@@ -57,6 +58,7 @@
+     implementation("androidx.compose.ui:ui-tooling-preview")
+     implementation("androidx.compose.material3:material3")
+     implementation("androidx.navigation:navigation-compose:2.8.8")
++    implementation("androidx.compose.foundation:foundation")
+     testImplementation("junit:junit:4.13.2")
+     androidTestImplementation("androidx.test.ext:junit:1.2.1")
+     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
+@@ -64,4 +66,5 @@
+     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+     debugImplementation("androidx.compose.ui:ui-tooling")
+     debugImplementation("androidx.compose.ui:ui-test-manifest")
++
+ }
+\ No newline at end of file
+Index: app/src/main/java/com/example/culturunya/controllers/CtrlPantallaIniciDeSessio.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.culturunya.controllers\r\n\r\nfun comprovaNomContrasenya(nom: String, contrasenya: String): Boolean {\r\n    //Crida a l'API i retorna cert i és correcte\r\n    return true\r\n}
+===================================================================
+diff --git a/app/src/main/java/com/example/culturunya/controllers/CtrlPantallaIniciDeSessio.kt b/app/src/main/java/com/example/culturunya/controllers/CtrlPantallaIniciDeSessio.kt
+--- a/app/src/main/java/com/example/culturunya/controllers/CtrlPantallaIniciDeSessio.kt	(revision 16533655850e007253b4efbf7175788288593bed)
++++ b/app/src/main/java/com/example/culturunya/controllers/CtrlPantallaIniciDeSessio.kt	(date 1741912320312)
+@@ -3,4 +3,7 @@
+ fun comprovaNomContrasenya(nom: String, contrasenya: String): Boolean {
+     //Crida a l'API i retorna cert i és correcte
+     return true
+-}
+\ No newline at end of file
++}
++/*fun mostraEvents():{
++
++}*/
+\ No newline at end of file
+Index: app/src/main/java/com/example/culturunya/screens/exemplepantalla.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.culturunya.screens\r\n\r\nimport androidx.compose.foundation.layout.*\r\nimport androidx.compose.material3.*\r\nimport androidx.compose.runtime.*\r\nimport androidx.compose.ui.Alignment\r\nimport androidx.compose.ui.Modifier\r\nimport androidx.compose.ui.text.style.TextAlign\r\nimport androidx.compose.ui.unit.dp\r\nimport androidx.navigation.NavController\r\n\r\n@OptIn(ExperimentalMaterial3Api::class)\r\n@Composable\r\nfun Pantalla() {\r\n    Scaffold {\r\n        //MainScreen()\r\n    }\r\n}\r\n\r\n@Composable\r\nfun MainScreen(navController: NavController) {\r\n    // Variable d'estat que guarda quina \"pantalla\" està seleccionada\r\n    var currentScreen by remember { mutableStateOf(\"Events\") }\r\n\r\n    // Distribuïm la pantalla en una columna:\r\n    Column(\r\n        modifier = Modifier.fillMaxSize()\r\n    ) {\r\n        // HEADER (logo, títol, etc.)\r\n        Text(\r\n            text = \"Culturunya\",\r\n            style = MaterialTheme.typography.headlineSmall,\r\n            modifier = Modifier\r\n                .fillMaxWidth()\r\n                .wrapContentHeight()\r\n                .padding(16.dp),\r\n            textAlign = TextAlign.Center\r\n        )\r\n\r\n        // CONTENIDOR PRINCIPAL\r\n        Box(\r\n            modifier = Modifier\r\n                .weight(1f) // la caixa ocupa tot l'espai disponible fins al footer\r\n                .fillMaxWidth(),\r\n            contentAlignment = Alignment.Center\r\n        ) {\r\n            // Aquí mostrem el contingut segons la pantalla seleccionada\r\n            when (currentScreen) {\r\n                \"Events\" -> EventsScreen()\r\n                \"Quiz\" -> QuizScreen()\r\n                \"Leaderboard\" -> LeaderboardScreen()\r\n                \"Settings\" -> SettingsScreen()\r\n            }\r\n        }\r\n\r\n        // FOOTER: 4 botons\r\n        Row(\r\n            modifier = Modifier\r\n                .fillMaxWidth()\r\n                .padding(8.dp),\r\n            horizontalArrangement = Arrangement.SpaceEvenly\r\n        ) {\r\n            Button(onClick = { currentScreen = \"Events\" }) {\r\n                Text(\"Events\")\r\n            }\r\n            Button(onClick = { currentScreen = \"Quiz\" }) {\r\n                Text(\"Quiz\")\r\n            }\r\n            Button(onClick = { currentScreen = \"Leaderboard\" }) {\r\n                Text(\"Leaderboard\")\r\n            }\r\n            Button(onClick = { currentScreen = \"Settings\" }) {\r\n                Text(\"Settings\")\r\n            }\r\n        }\r\n    }\r\n}\r\n@Composable\r\nfun EventsScreen() {\r\n    Text(\"Aquesta serà la pantalla d'Events\")\r\n}\r\n\r\n@Composable\r\nfun QuizScreen() {\r\n    Text(\"Aquesta serà la pantalla de Quiz\")\r\n}\r\n\r\n@Composable\r\nfun LeaderboardScreen() {\r\n    Text(\"Aquesta serà la pantalla de Leaderboard\")\r\n}\r\n\r\n@Composable\r\nfun SettingsScreen() {\r\n    Text(\"Aquesta serà la pantalla de Settings\")\r\n}\r\n\r\n// Mantens la funció Greeting si la vols reutilitzar\r\n@Composable\r\nfun Greeting(name: String) {\r\n    Text(text = \"Hello $name!\")\r\n}
+===================================================================
+diff --git a/app/src/main/java/com/example/culturunya/screens/exemplepantalla.kt b/app/src/main/java/com/example/culturunya/screens/exemplepantalla.kt
+--- a/app/src/main/java/com/example/culturunya/screens/exemplepantalla.kt	(revision 16533655850e007253b4efbf7175788288593bed)
++++ b/app/src/main/java/com/example/culturunya/screens/exemplepantalla.kt	(date 1741913505827)
+@@ -1,14 +1,25 @@
+ package com.example.culturunya.screens
+ 
++import android.annotation.SuppressLint
++import androidx.compose.foundation.background
++import androidx.compose.foundation.clickable
+ import androidx.compose.foundation.layout.*
++import androidx.compose.foundation.shape.RoundedCornerShape
+ import androidx.compose.material3.*
+ import androidx.compose.runtime.*
+ import androidx.compose.ui.Alignment
+ import androidx.compose.ui.Modifier
++import androidx.compose.ui.graphics.Color
++import androidx.compose.ui.text.TextStyle
++import androidx.compose.ui.text.font.FontWeight
+ import androidx.compose.ui.text.style.TextAlign
+ import androidx.compose.ui.unit.dp
++import androidx.compose.ui.unit.sp
+ import androidx.navigation.NavController
++import com.example.culturunya.ui.theme.*
+ 
++
++@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+ @OptIn(ExperimentalMaterial3Api::class)
+ @Composable
+ fun Pantalla() {
+@@ -40,11 +51,10 @@
+         // CONTENIDOR PRINCIPAL
+         Box(
+             modifier = Modifier
+-                .weight(1f) // la caixa ocupa tot l'espai disponible fins al footer
++                .weight(1f)
+                 .fillMaxWidth(),
+             contentAlignment = Alignment.Center
+         ) {
+-            // Aquí mostrem el contingut segons la pantalla seleccionada
+             when (currentScreen) {
+                 "Events" -> EventsScreen()
+                 "Quiz" -> QuizScreen()
+@@ -75,9 +85,67 @@
+         }
+     }
+ }
++
+ @Composable
+ fun EventsScreen() {
+-    Text("Aquesta serà la pantalla d'Events")
++    //Es cridarà a la API per obtenir els events amb les dades netes
++    val events = listOf("Evento 1", "Evento 2", "Evento 3", "Evento 4")
++    Column(
++        modifier = Modifier
++            .fillMaxSize()
++            .padding(16.dp)
++    ) {
++        events.forEach { event ->
++            EventBox(event)
++        }
++    }
++}
++
++@Composable
++fun EventBox(event: String) {
++    var expanded by remember { mutableStateOf(false) }  // Para controlar el estado del menú desplegable
++    var showMenu by remember { mutableStateOf(false) }  // Para controlar si mostrar el menú
++
++    Box(
++        modifier = Modifier
++            .fillMaxWidth()
++            .padding(8.dp)
++            .background(Purple40, RoundedCornerShape(8.dp))
++            .clickable { showMenu = true }  // Hacer clic en el evento para mostrar el menú
++    ) {
++        Column(
++            modifier = Modifier
++                .fillMaxWidth()
++                .padding(16.dp)
++        ) {
++            Text(
++                text = event,
++                style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold),
++                color = Color.White
++            )
++        }
++
++        // Menú desplegable
++        DropdownMenu(
++            expanded = showMenu,
++            onDismissRequest = { showMenu = false }  // Cerrar el menú cuando se toca fuera de él
++        ) {
++            DropdownMenuItem(
++                text = { Text("Detalles del Evento") },
++                onClick = {
++                    showMenu = false  // Cerrar el menú
++                    // Acción para ver los detalles del evento
++                }
++            )
++            DropdownMenuItem(
++                text = { Text("Guardar evento en el calendario") },
++                onClick = {
++                    showMenu = false  // Cerrar el menú
++                    // Acción para guardar el evento en el calendario personal
++                }
++            )
++        }
++    }
+ }
+ 
+ @Composable
+@@ -99,4 +167,4 @@
+ @Composable
+ fun Greeting(name: String) {
+     Text(text = "Hello $name!")
+-}
+\ No newline at end of file
++}
+Index: local.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>## This file must *NOT* be checked into Version Control Systems,\r\n# as it contains information specific to your local configuration.\r\n#\r\n# Location of the SDK. This is only used by Gradle.\r\n# For customization when using a Version Control System, please read the\r\n# header note.\r\n#Tue Mar 11 17:25:39 CET 2025\r\nsdk.dir=C\\:\\\\Users\\\\48085738Y\\\\AppData\\\\Local\\\\Android\\\\Sdk\r\n
+===================================================================
+diff --git a/local.properties b/local.properties
+--- a/local.properties	(revision 16533655850e007253b4efbf7175788288593bed)
++++ b/local.properties	(date 1741911985236)
+@@ -4,5 +4,5 @@
+ # Location of the SDK. This is only used by Gradle.
+ # For customization when using a Version Control System, please read the
+ # header note.
+-#Tue Mar 11 17:25:39 CET 2025
+-sdk.dir=C\:\\Users\\48085738Y\\AppData\\Local\\Android\\Sdk
++#Fri Mar 14 01:26:25 CET 2025
++sdk.dir=C\:\\Users\\kiria\\AppData\\Local\\Android\\Sdk
