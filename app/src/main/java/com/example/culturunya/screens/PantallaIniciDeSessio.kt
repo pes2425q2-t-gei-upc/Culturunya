@@ -151,19 +151,26 @@ fun ComposablePrincipal(navController: NavController) {
                 modifier = Modifier.padding(vertical = 25.dp)
             )
 
-            Row (
-                verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Text(
                     text = "Encara no tens compte? ",
                     fontSize = 14.sp,
                     color = Color.Gray
                 )
-                Text(
-                    text = "Registra't",
-                    fontSize = 14.sp,
-                    color = Color.Blue,
-                    modifier = Modifier.clickable {  }
-                )
+                Button(
+                    onClick = { navController.navigate(route = AppScreens.PantallaRegistre.route) },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+                    contentPadding = PaddingValues(0.dp),
+                    elevation = null
+                ) {
+                    Text(
+                        text = "Registra't",
+                        fontSize = 14.sp,
+                        color = Color.Blue
+                    )
+                }
             }
         }
     }
