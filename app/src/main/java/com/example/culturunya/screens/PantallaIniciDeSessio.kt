@@ -133,7 +133,7 @@ fun ComposableIniciSessio(navController: NavController) {
                     }
                     else {
                         //Comprova si el nom i la contrasenya són correctes
-                        if (comprovaNomContrasenya(usuari, contrasenya)) navController.navigate(route = AppScreens.SegonaPantalla.route)
+                        if (comprovaNomContrasenya(usuari, contrasenya)) navController.navigate(route = AppScreens.MainScreen.route)
                         else missatgeError = "El nom d'usuari i/o la contrasenya són incorrectes"
                     }
                 },
