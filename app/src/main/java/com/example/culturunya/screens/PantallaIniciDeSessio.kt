@@ -10,6 +10,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -39,7 +42,7 @@ class TestActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ComposablePrincipal(navController: NavController) {
+fun ComposableIniciSessio(navController: NavController) {
     var usuari by remember { mutableStateOf("") }
     var contrasenya by remember { mutableStateOf("") }
     var missatgeError by remember { mutableStateOf("") }
@@ -79,6 +82,9 @@ fun ComposablePrincipal(navController: NavController) {
                 label = { Text("Nom d'usuari") },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
+                leadingIcon = {
+                    Icon(imageVector = Icons.Default.Person, contentDescription = "Persona")
+                },
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     textColor = Color.Black,
                     cursorColor = Color.Black,
@@ -96,6 +102,9 @@ fun ComposablePrincipal(navController: NavController) {
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 visualTransformation = PasswordVisualTransformation(),
+                leadingIcon = {
+                    Icon(imageVector = Icons.Default.Lock, contentDescription = "Pany")
+                },
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     textColor = Color.Black,
                     cursorColor = Color.Black,
@@ -124,7 +133,7 @@ fun ComposablePrincipal(navController: NavController) {
                     }
                     else {
                         //Comprova si el nom i la contrasenya són correctes
-                        if (comprovaNomContrasenya(usuari, contrasenya)) navController.navigate(route = AppScreens.SegonaPantalla.route)
+                        if (comprovaNomContrasenya(usuari, contrasenya)) navController.navigate(route = AppScreens.MainScreen.route)
                         else missatgeError = "El nom d'usuari i/o la contrasenya són incorrectes"
                     }
                 },
