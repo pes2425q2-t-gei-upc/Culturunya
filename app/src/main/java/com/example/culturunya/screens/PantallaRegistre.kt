@@ -10,6 +10,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -17,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -26,100 +29,237 @@ import com.example.culturunya.ui.theme.CulturunyaTheme
 import com.example.culturunya.ui.theme.Morat
 import com.example.culturunya.controllers.enviarDadesAlBackend
 
+
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PantallaRegistre(navController: NavController) {
     var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var confirmPassword by remember { mutableStateOf("") }
     var registreExit by remember { mutableStateOf(false) } // Controla si mostrar la confirmacio
+    var passwordVisible by remember { mutableStateOf(false) }
+    val imageRes = if (passwordVisible) R.drawable.image_visible else R.drawable.image_hidden
+    var showDialog by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf("") }
 
-    Column(
+
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+            .background(Color.White),
+        contentAlignment = Alignment.Center
     ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth(0.85f)
+                .background(Color.White, shape = RoundedCornerShape(16.dp))
+                .padding(20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
 
-        Column(modifier = Modifier.padding(8.dp)) {
-            TextField(
+            Image(
+                painter = painterResource(id = imageRes),
+                contentDescription = "Passwors visible/hidden picture",
+                modifier = Modifier
+                    .size(120.dp)
+                    .padding(top = 20.dp, bottom = 8.dp)
+            )
+
+            Text(
+                text = "Crea el teu compte",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+
+            OutlinedTextField(
                 value = username,
                 onValueChange = { username = it },
-                label = { Text("Nom d'usuari") }
+                label = { Text("Nom d'usuari") },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth(),
+                leadingIcon = {
+                    Icon(imageVector = Icons.Default.Person, contentDescription = "Persona")
+                },
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    textColor = Color.Black,
+                    cursorColor = Color.Black,
+                    focusedBorderColor = Color.Gray,
+                    unfocusedBorderColor = Color.LightGray
+                )
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(10.dp))
 
-            TextField(
+            OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
-                label = { Text("Correu electronic") }
+                label = { Text("Correu electronic") },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth(),
+                leadingIcon = {
+                    Icon(imageVector = Icons.Default.Email, contentDescription = "Persona")
+                },
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    textColor = Color.Black,
+                    cursorColor = Color.Black,
+                    focusedBorderColor = Color.Gray,
+                    unfocusedBorderColor = Color.LightGray
+                )
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(10.dp))
 
-            TextField(
+            OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
-                label = { Text("Contrassenya") }
+                label = { Text("Contrasenya") },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth(),
+                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                leadingIcon = {
+                    Icon(imageVector = Icons.Default.Lock, contentDescription = "Pany")
+                },
+                trailingIcon = {
+                    val image = if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff
+                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                        Icon(imageVector = image, contentDescription = "Mostrar/Amagar contrasenya")
+                    }
+                },
+
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    textColor = Color.Black,
+                    cursorColor = Color.Black,
+                    focusedBorderColor = Color.Gray,
+                    unfocusedBorderColor = Color.LightGray
+                )
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
-        }
+            Spacer(modifier = Modifier.height(10.dp))
 
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Button(
-            onClick = {
-                if (username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
-                    if (enviarDadesAlBackend(username, email, password)){
-                        registreExit = true
+            OutlinedTextField(
+                value = confirmPassword,
+                onValueChange = { confirmPassword = it },
+                label = { Text("Confirmar contrasenya") },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth(),
+                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                leadingIcon = {
+                    Icon(imageVector = Icons.Default.Lock, contentDescription = "Pany")
+                },
+                trailingIcon = {
+                    val image = if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff
+                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                        Icon(imageVector = image, contentDescription = "Mostrar/Amagar contrasenya")
                     }
-                }
-            },
-            colors = ButtonDefaults.buttonColors(containerColor = Morat)
-        ) {
-            Text("Registrar-se")
-        }
-    }
+                },
+
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    textColor = Color.Black,
+                    cursorColor = Color.Black,
+                    focusedBorderColor = Color.Gray,
+                    unfocusedBorderColor = Color.LightGray
+                )
+            )
+
+            Spacer(modifier = Modifier.height(10.dp))
 
 
-    if (registreExit) {
-        AlertDialog(
-            onDismissRequest = { registreExit = false },
-            confirmButton = {
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Button(
+                onClick = {
+                    when {
+                        username.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() -> {
+                            errorMessage = "Tots els camps són obligatoris."
+                            showDialog = true
+                        }
+                        !isValidEmail(email) -> { // Nova validació del correu electrònic
+                            errorMessage = "El correu electrònic no és vàlid."
+                            showDialog = true
+                        }
+                        password != confirmPassword -> {
+                            errorMessage = "Les contrasenyes no coincideixen."
+                            showDialog = true
+                        }
+                        !enviarDadesAlBackend(username, email, password) -> {
+                            errorMessage = "Error en registrar-se. Torna a intentar-ho."
+                            showDialog = true
+                        }
+                        else -> {
+                            registreExit = true
+                        }
+                    }
+                },
+                colors = ButtonDefaults.buttonColors(containerColor = Morat)
+            ) {
+                Text("Registrar-se")
+            }
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Ja tens compte? ",
+                    fontSize = 14.sp,
+                    color = Color.Gray
+                )
                 Button(
                     onClick = {
-                        registreExit = false
-                        navController.popBackStack() // Torna a la pantalla anterior
-                    }
+                        navController.navigate(route = AppScreens.IniciSessio.route)
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+                    contentPadding = PaddingValues(0.dp),
+                    elevation = null
                 ) {
-                    Text("D'acord")
+                    Text(
+                        text = "Inicia sessió",
+                        fontSize = 14.sp,
+                        color = Color.Blue
+                    )
                 }
-            },
-            title = { Text("Registre completat") },
-            text = { Text("T'has registrat correctament!") }
-        )
+            }
+        }
+
+
+        if (registreExit) {
+            AlertDialog(
+                onDismissRequest = { registreExit = false },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            registreExit = false
+                            navController.navigate(route = AppScreens.MainScreen.route) // Torna a la pantalla anterior
+                        }
+                    ) {
+                        Text("D'acord")
+                    }
+                },
+                title = { Text("Registre completat") },
+                text = { Text("T'has registrat correctament!") }
+            )
+        }
+
+        if (showDialog) {
+            AlertDialog(
+                onDismissRequest = { showDialog = false },
+                title = { Text("Error en el registre") },
+                text = { Text(errorMessage) },
+                confirmButton = {
+                    Button(onClick = { showDialog = false }) {
+                        Text("OK")
+                    }
+                }
+            )
+        }
     }
 }
 
-/*
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun MyTextField(navController: NavController, label: String, onTextSaved: (String) -> Unit) {
-    var text by remember { mutableStateOf("") }
 
-    Column(modifier = Modifier.padding(8.dp)) {
-        TextField(
-            value = text,
-            onValueChange = { text = it },
-            label = { Text(label) }
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-    }
+fun isValidEmail(email: String): Boolean {
+    return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
 }
-
- */
