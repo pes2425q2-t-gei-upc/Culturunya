@@ -243,9 +243,66 @@ fun EventCalendarScreen() {
 
 @Composable
 fun EventListScreen() {
-    Text("Això és la pantalla List d'Events")
-}
+    val events = listOf("Evento 1", "Evento 2", "Evento 3", "Evento 4")
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        events.forEach { event ->
+            EventBox(event)
 
+        }
+    }
+}
+@Composable
+fun EventBox(event: String) {
+    var expanded by remember { mutableStateOf(false) }  // Para controlar el estado del menú desplegable
+    var showMenu by remember { mutableStateOf(false) }  // Para controlar si mostrar el menú
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .background(Purple40, RoundedCornerShape(8.dp))
+            .clickable { showMenu = true }  // Hacer clic en el evento para mostrar el menú
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            Text(
+                text = event,
+                style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold),
+                color = Color.White
+            )
+        }
+
+        // Menú desplegable
+        DropdownMenu(
+            expanded = showMenu,
+            onDismissRequest = { showMenu = false }  // Cerrar el menú cuando se toca fuera de él
+        ) {
+            DropdownMenuItem(
+                text = { Text("Detalles del Evento") },
+                onClick = {
+                    showMenu = false  // Cerrar el menú
+                    // Acción para ver los detalles del evento
+                }
+            )
+            DropdownMenuItem(
+                text = { Text("Guardar Evento") },
+                onClick = {
+                    showMenu = false  // Cerrar el menú
+                    // Acción para guardar el Evento en el calendario personal
+                }
+            )
+
+
+        }
+    }
+}
 /** ALTRES PANTALLES PRINCIPALS */
 @Composable
 fun QuizScreen() {
