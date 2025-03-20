@@ -33,30 +33,22 @@ def obtener_precio(entrades: str, gratuita: str = None) -> float:
     print(gratuita)
     if gratuita and "s" in gratuita:
         return 0.0
-
-
     texto_lower = entrades.lower()
-
 
     if "gratis" in texto_lower or "gratu" in texto_lower:
         return 0.0
-
 
     patron_precio = re.compile(
         r"(?:preu\s*:\s*)?(\d+(?:[\.,]\d+)?)(?=\s*\u20AC|\s|\$)",
         re.IGNORECASE
     )
     coincidencia = patron_precio.search(entrades)
-
     if coincidencia:
-
         valor = coincidencia.group(1).replace(",", ".")
         try:
             return float(valor)
         except ValueError:
             pass
-
-
     return 0.0
 
 
@@ -83,7 +75,7 @@ def extraer_categorias(tags_mbits):
 def obtener_eventos_filtrados():
     try:
         response = requests.get(URL)
-        response.raise_for_status()  # Lanza una excepción si el código no es 200
+        response.raise_for_status()
         return response.json()
 
     except requests.exceptions.HTTPError as http_err:
@@ -170,5 +162,5 @@ def procesar_eventos_y_guardar():
     print(f"Se procesaron {len(eventos)} eventos.")
 
 
-procesar_eventos_y_guardar()  # Aqui llamar función para traducir el json al formato de los modelos e insertarlos en la bd
+procesar_eventos_y_guardar()
 print("Finished")
