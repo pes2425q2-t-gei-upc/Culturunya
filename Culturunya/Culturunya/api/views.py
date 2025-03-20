@@ -47,11 +47,10 @@ def get_events(request):
         return JsonResponse({"error": "Invalid request method"}, status=400)
 
 @csrf_exempt
-@require_POST
 def get_filtered_events(request):
-    try:
-        data = json.loads(request.body)
-        filtered_events = filter_events(data)
+    if request.method == "GET":
+        filters = request.GET.dict()
+        filtered_events = filter_events(filters)
         return JsonResponse({"events": filtered_events}, safe=False)
-    except json.JSONDecodeError:
-        return JsonResponse({"error": "Invalid JSON format"}, status=400)
+    
+    return JsonResponse({"error": "Invalid request method"}, status=400)

@@ -53,7 +53,7 @@ class Event(models.Model):
                 "longitude": self.location.longitude if self.location else None,
                 "latitude": self.location.latitude if self.location else None,
             } if self.location else None,  # Evitar error si no hay location
-            "categories": [cat.name for cat in self.categories.all()]  # Agregar categorías
+            "categories": [cat.name for cat in self.categories.all()]  # Agregar categorï¿½as
         }
 
     def __str__(self):

@@ -25,7 +25,7 @@ SECRET_KEY = 'c8188dba-8b2d-4004-9456-261540f4a9d4'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'nattech.fib.upc.edu']
 
 # Application references
 # https://docs.djangoproject.com/en/2.1/ref/settings/#std:setting-INSTALLED_APPS
