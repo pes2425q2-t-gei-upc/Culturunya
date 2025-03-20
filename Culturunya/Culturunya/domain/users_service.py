@@ -1,6 +1,7 @@
 from django.db.models import Q
 from django.http import JsonResponse
 from django.core import serializers
+from datetime import datetime
 import json
 
 from persistence.models import Event
@@ -10,11 +11,20 @@ def get_all_events():
 
 def filter_events(filters):
     query = Q()
-    if "category" in filters:
-        query &= Q(category__category=filters["category"])
-    if "date_start" in filters:
-        query &= Q(date_start__gte=filters["date_start"])
-    if "date_end" in filters:
-        query &= Q(date_end__lte=filters["date_end"])
-    events = Event.objects.filter(query)
-    return list(events)
+    if "categories" in filters:
+        categories_list = filters["categories"].split(",")
+        query &= Q(categories__name__in=categories_list)
+    if "date_start_range" in filters:
+        try:
+            date_start_range = datetime.strptime(filters["date_start_range"], "%Y-%m-%d")
+            query &= Q(date_start__gte=date_start_range)
+        except ValueError:
+            print("Error: Formato incorrecto en date_start_range. Se esperaba YYYY-MM-DD")
+    if "date_end_range" in filters:
+        try:
+            date_end_range = datetime.strptime(filters["date_end_range"], "%Y-%m-%d")
+            query &= Q(date_start__lte=date_end_range)
+        except ValueError:
+            print("Error: Formato incorrecto en date_end_range. Se esperaba YYYY-MM-DD")
+    events = Event.objects.filter(query).distinct()
+    return [event.to_dict() for event in events]
