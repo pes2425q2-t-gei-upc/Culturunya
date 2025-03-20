@@ -58,3 +58,19 @@ class Event(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+
+class User(models.Model):
+    id = models.CharField(max_length=255, primary_key=True)
+    username = models.CharField(max_length=255)
+    fullname = models.CharField(max_length=255)
+    email = models.EmailField()
+    phoneNumber = models.CharField(max_length=255)
+    profileImage = models.ImageField()
+    birthday = models.DateTimeField()
+    password = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"{self.username}"
+
+class Rating(models.Model):
+    username = models.CharField(max_length=255, )
