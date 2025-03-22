@@ -251,7 +251,6 @@ fun EventListScreen() {
     ) {
         events.forEach { event ->
             EventBox(event)
-
         }
     }
 }
