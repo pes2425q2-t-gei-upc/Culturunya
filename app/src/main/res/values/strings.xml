@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">Culturunya</string>
+    <string name="app_name">"Culturunya"</string>
+    <string name="login">"Iniciar Sessió"</string>
+    <string name="username">"Nom d'usuari"</string>
+    <string name="password">"Contrasenya"</string>
+    <string name="errNeedUsernameAndPassword">"Indiqui el nom d'usuari i la contrasenya"</string>
+    <string name="errIncorrectUsernameAndPassword">"El nom d'usuari i/o la contrasenya són incorrectes"</string>
+    <string name="enter">"Ingresar"</string>
+    <string name="enterWithGoogle">"Accedir amb Google"</string>
+    <string name="noAccountYet">"Encara no tens compte?"</string>
+    <string name="register">" Registra't"</string>
 </resources>

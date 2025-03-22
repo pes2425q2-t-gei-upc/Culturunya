@@ -1,5 +1,7 @@
 package com.example.culturunya.screens
 
+import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,6 +12,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
@@ -18,8 +21,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import java.util.Locale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -40,12 +45,22 @@ class TestActivity : ComponentActivity() {
     }
 }
 
+fun getString(context: Context, resId: Int, locale: String): String {
+    val config = Configuration(context.resources.configuration)
+    config.setLocale(Locale(locale))
+    return context.createConfigurationContext(config).resources.getString(resId)
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ComposableIniciSessio(navController: NavController) {
     var usuari by remember { mutableStateOf("") }
     var contrasenya by remember { mutableStateOf("") }
     var missatgeError by remember { mutableStateOf("") }
+
+    //variables que necessitem per canviar d'idioma
+    val context = LocalContext.current
+    var currentLocale by remember { mutableStateOf(Locale.getDefault().language) }
 
     Box(
         modifier = Modifier
@@ -60,6 +75,8 @@ fun ComposableIniciSessio(navController: NavController) {
                 .padding(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            //canviar currentLocale a "iso de l'idioma" fa que es canvii l'idioma
+
             Image (
                 painter = painterResource(id = R.drawable.logo_retallat),
                 contentDescription = "Logo retallat"
@@ -68,7 +85,7 @@ fun ComposableIniciSessio(navController: NavController) {
             Spacer(modifier = Modifier.height(40.dp))
 
             Text(
-                text = "Iniciar Sessió",
+                text = getString(context, R.string.login, currentLocale),
                 fontSize = 24.sp,
                 color = Color.Black,
                 fontWeight = FontWeight.Bold
@@ -79,7 +96,7 @@ fun ComposableIniciSessio(navController: NavController) {
             OutlinedTextField(
                 value = usuari,
                 onValueChange = { usuari = it },
-                label = { Text("Nom d'usuari") },
+                label = { Text(getString(context, R.string.username, currentLocale)) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 leadingIcon = {
@@ -98,7 +115,7 @@ fun ComposableIniciSessio(navController: NavController) {
             OutlinedTextField(
                 value = contrasenya,
                 onValueChange = { contrasenya = it },
-                label = { Text("Contrasenya") },
+                label = { Text(getString(context, R.string.password, currentLocale)) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 visualTransformation = PasswordVisualTransformation(),
@@ -129,18 +146,18 @@ fun ComposableIniciSessio(navController: NavController) {
             Button(
                 onClick = {
                     if (usuari.isEmpty() || contrasenya.isEmpty()) {
-                        missatgeError = "Indiqui el nom d'usuari i la contrasenya"
+                        missatgeError = getString(context, R.string.errNeedUsernameAndPassword, currentLocale)
                     }
                     else {
                         //Comprova si el nom i la contrasenya són correctes
                         if (comprovaNomContrasenya(usuari, contrasenya)) navController.navigate(route = AppScreens.MainScreen.route)
-                        else missatgeError = "El nom d'usuari i/o la contrasenya són incorrectes"
+                        else missatgeError = getString(context, R.string.errIncorrectUsernameAndPassword, currentLocale)
                     }
                 },
                 modifier = Modifier.width(250.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Morat)
             ) {
-                Text(text = "Ingresar", color = Color.White)
+                Text(text = getString(context, R.string.enter, currentLocale), color = Color.White)
             }
 
             OutlinedButton(
@@ -151,7 +168,7 @@ fun ComposableIniciSessio(navController: NavController) {
                 modifier = Modifier.padding(16.dp)) {
                 Image(painter = painterResource(id = R.drawable.logo_google), contentDescription = "logo de google")
                 Spacer(modifier = Modifier.width(10.dp))
-                Text(text = "Accedir amb Google", color = Color.Black)
+                Text(text = getString(context, R.string.enterWithGoogle, currentLocale), color = Color.Black)
             }
 
             Divider(
@@ -164,7 +181,7 @@ fun ComposableIniciSessio(navController: NavController) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Encara no tens compte? ",
+                    text = getString(context, R.string.noAccountYet, currentLocale),
                     fontSize = 14.sp,
                     color = Color.Gray
                 )
@@ -175,7 +192,7 @@ fun ComposableIniciSessio(navController: NavController) {
                     elevation = null
                 ) {
                     Text(
-                        text = "Registra't",
+                        text = getString(context, R.string.register, currentLocale),
                         fontSize = 14.sp,
                         color = Color.Blue
                     )
