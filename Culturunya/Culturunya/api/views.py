@@ -100,3 +100,36 @@ def get_filtered_events(request):
         return JsonResponse({"events": filtered_events}, safe=False)
     
     return JsonResponse({"error": "Invalid request method"}, status=400)
+
+@csrf_exempt
+@swagger_auto_schema(
+    method='post',
+    operation_description="Crea un nuevo usuario con nombre, password y correo.",
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        required=['username', 'password', 'email'],
+        properties={
+            'username': openapi.Schema(type=openapi.TYPE_STRING, description="Nombre de usuario"),
+            'password': openapi.Schema(type=openapi.TYPE_STRING, description="Password"),
+            'email': openapi.Schema(type=openapi.TYPE_STRING, format=openapi.FORMAT_EMAIL, description="Correo electronico"),
+        },
+    ),
+    responses={201: "Usuario creado", 400: "Datos invalidos"},
+)
+@api_view(["POST"])
+def create_user(request):
+    try:
+        data = json.loads(request.body)
+        username = data.get("username")
+        password = data.get("password")
+        email = data.get("email")
+
+        if not all([username, password, email]):
+            return JsonResponse({"error": "Todos los campos son obligatorios"}, status=400)
+
+        # Lógica para meter los datos en la base de datos cuando tengamos la clase usuario
+
+        return JsonResponse({"message": "Usuario creado correctamente", "username": username}, status=201)
+
+    except json.JSONDecodeError:
+        return JsonResponse({"error": "Formato JSON inválido"}, status=400)
