@@ -39,7 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'api',
     'persistence',
+    'drf_yasg',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
+}
 
 # Middleware framework
 # https://docs.djangoproject.com/en/2.1/topics/http/middleware/
