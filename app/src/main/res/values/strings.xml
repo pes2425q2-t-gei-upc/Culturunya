@@ -1,4 +1,5 @@
 <resources>
+    <!-- Pantalla Inici de sessió -->
     <string name="app_name">"Culturunya"</string>
     <string name="login">"Iniciar Sessió"</string>
     <string name="username">"Nom d'usuari"</string>
@@ -9,4 +10,19 @@
     <string name="enterWithGoogle">"Accedir amb Google"</string>
     <string name="noAccountYet">"Encara no tens compte?"</string>
     <string name="register">" Registra't"</string>
+
+    <!-- Pantalla Canvi de contrasenya -->
+    <string name="back">"Enrere"</string>
+    <string name="changePassword">"Canvi de Contrasenya"</string>
+    <string name="actualPassword">"Contrasenya actual"</string>
+    <string name="newPassword">"Nova contrasenya"</string>
+    <string name="confirmNewPassword">"Confirmar nova contrasenya"</string>
+    <string name="passwordChangedSuccesfully">"La contrasenya s'ha canviat correctament."</string>
+    <string name="allFieldsCompulsory">"Tots els camps són obligatoris."</string>
+    <string name="passwordsDontMatch">"Les noves contrasenyes no coincideixen."</string>
+    <string name="incorrectActualPassword">"La contrasenya actual és incorrecta."</string>
+    <string name="passwordsMustBeDifferent">"La nova contrasenya no pot ser igual que l'anterior."</string>
+    <string name="changeThePassword">"Canviar contrasenya"</string>
+    <string name="passwordChangeCompleted">"Canvi de contrasenya completat"</string>
+    <string name="ok">"D'acord"</string>
 </resources>
