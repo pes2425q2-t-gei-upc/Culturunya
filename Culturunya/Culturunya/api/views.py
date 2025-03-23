@@ -87,6 +87,27 @@ def get_events(request):
             type=openapi.TYPE_STRING,
             required=False
         ),
+        openapi.Parameter(
+            'longitude',
+            openapi.IN_QUERY,
+            description="longitude={longitude value}",
+            type=openapi.TYPE_STRING,
+            required=False
+        ),
+        openapi.Parameter(
+            'latitude',
+            openapi.IN_QUERY,
+            description="latitude={latitude value}",
+            type=openapi.TYPE_STRING,
+            required=False
+        ),
+        openapi.Parameter(
+            'range',
+            openapi.IN_QUERY,
+            description="range={range value in km}",
+            type=openapi.TYPE_STRING,
+            required=False
+        ),
     ],
     responses={
         200: openapi.Response(description="Lista de eventos filtrados"),
