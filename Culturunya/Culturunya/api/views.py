@@ -18,6 +18,7 @@ def test_api(request):
     return JsonResponse({"message": "Testing API okay"})
 
 @csrf_exempt
+@api_view(["GET"])
 def data_test(request):
     return JsonResponse({"message": "Testing API DATA"})
 
@@ -31,8 +32,8 @@ def post_test(request):
         except json.JSONDecodeError:
             return JsonResponse({"error": "Invalid JSON"}, status=400)
     return JsonResponse({"error": "Invalid request method"}, status=400)
-@csrf_exempt
 
+@csrf_exempt
 @api_view(["PUT"])
 def put_test(request):
     if request.method == "PUT":
