@@ -12,4 +12,7 @@ urlpatterns = [#se concatena con el path de url del proyecto
     path('events/', get_events, name='get_events'),
     path('events/filter/', get_filtered_events, name='get_filtered_events'),
     path('create_user/', create_user, name='create_user'),
+
+    #un endpoint GET para obtener los eventos que un usuario tiene en su calendario personal
+    #otro endpoint POST/DELETE para añadir/quitar eventos de su calendario personal
 ]

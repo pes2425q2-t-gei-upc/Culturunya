@@ -118,6 +118,14 @@ class User(AbstractUser):
 class Administrator(User):
     pass
 
+class PersonalCalendar(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    added_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'event')  # Evita duplicados
+
 class Message(models.Model):
     text = models.TextField()
     read = models.BooleanField(default=False)
