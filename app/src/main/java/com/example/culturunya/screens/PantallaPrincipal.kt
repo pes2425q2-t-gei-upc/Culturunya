@@ -238,7 +238,7 @@ fun EventMapScreen() {
 
 @Composable
 fun EventCalendarScreen() {
-    Text("Això és la pantalla Calendar d'Events")
+    Pk2()
 }
 
 @Composable
