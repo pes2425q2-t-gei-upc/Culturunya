@@ -9,7 +9,7 @@ from rest_framework.decorators import api_view
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
-from domain.users_service import get_all_events, filter_events
+from domain.users_service import get_all_events, filter_events, create_user_service
 
 
 @csrf_exempt
@@ -148,7 +148,7 @@ def create_user(request):
 
         if not all([username, password, email]):
             return JsonResponse({"error": "Todos los campos son obligatorios"}, status=400)
-
+        user = create_user_service(data)
         # Lógica para meter los datos en la base de datos cuando tengamos la clase usuario
 
         return JsonResponse({"message": "Usuario creado correctamente", "username": username, "password": password, "email": email}, status=201)

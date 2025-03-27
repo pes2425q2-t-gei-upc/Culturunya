@@ -4,8 +4,8 @@ from django.core import serializers
 from datetime import datetime
 import json
 from math import radians, cos
-
-from persistence.models import Event
+from django.contrib.auth import get_user_model
+from persistence.models import Event, PersonalCalendar
 
 def get_all_events():
     return [event.to_dict() for event in Event.objects.all()]
@@ -53,3 +53,31 @@ def filter_events(filters):
             print("Error: lat/long/radius_km deben ser valores numericos")
     events = Event.objects.filter(query).distinct()
     return [event.to_dict() for event in events]
+
+
+User = get_user_model()
+
+def create_user_service(data):
+
+    username = data.get('username')
+    password = data.get('password')
+    email = data.get('email')
+    fullname = data.get('fullname', '')         
+    phone_number = data.get('phonenumber', None)
+    birth_date = data.get('birthdate', None)    
+    language = data.get('language', 'ES')
+
+    # Creas instancia del modelo
+    user = User(
+        username=username,
+        email=email,
+        fullname=fullname,
+        phone_number=phone_number,
+        birth_date=birth_date,
+        language=language,
+    )
+    # Manejo de password para que se guarde hasheado
+    user.set_password(password)
+    user.save()
+    PersonalCalendar.objects.create(user=user)
+    return user

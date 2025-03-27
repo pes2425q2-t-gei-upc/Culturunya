@@ -89,12 +89,13 @@ class Action(models.TextChoices):
 
 class User(AbstractUser):
     email = models.EmailField(unique=True)
+    fullname = models.CharField(max_length=50, blank=True, null=True)
     phone_number = models.CharField(max_length=15, blank=True, null=True)
     profile_pic = models.ImageField(upload_to="profiles/", blank=True, null=True)
     birth_date = models.DateField(blank=True, null=True)
-    language = models.CharField(max_length=20, choices=[("ES", "Español"), ("CAT", "Català")])
-    rank_event = models.CharField(max_length=20, choices=TypeRank)
-    rank_quiz = models.CharField(max_length=20, choices=TypeRating)
+    language = models.CharField(max_length=20, choices=[("ES", "Español"), ("CAT", "Català")], default=("ES", "Español"))
+    rank_event = models.CharField(max_length=20, choices=TypeRank.choices, default=TypeRank.UNRANKED)
+    rank_quiz = models.CharField(max_length=20, choices=TypeRating.choices, default=TypeRating.BAD)
     current_event_points = models.IntegerField(default=0)
     current_quiz_points = models.IntegerField(default=0)
     points_to_next_rank_event = models.IntegerField(default=POINTS_TO_NEXT_RANK[TypeRank.UNRANKED])
@@ -119,12 +120,34 @@ class Administrator(User):
     pass
 
 class PersonalCalendar(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name='personal_calendar'
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    constraints = [
+        models.UniqueConstraint(fields=['user'], name='unique_user_calendar')
+    ]
+
+    def __str__(self):
+        return f"Calendar of {self.user.username}"
+
+class CalendarEvent(models.Model):
+    personal_calendar = models.ForeignKey(
+        PersonalCalendar,
+        on_delete=models.CASCADE,
+        related_name='calendar_events'
+    )
+    event = models.ForeignKey(
+        'persistence.Event',
+        on_delete=models.CASCADE
+    )
     added_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ('user', 'event')  # Evita duplicados
+        unique_together = ('personal_calendar', 'event')
 
 class Message(models.Model):
     text = models.TextField()
@@ -163,13 +186,20 @@ class Participation(models.Model):
 
 # Rating Model
 class Rating(models.Model):
+    event = models.ForeignKey(
+        'Event',  # o 'persistence.Event' si estás en otro archivo
+        on_delete=models.CASCADE,
+        related_name='ratings',
+        null=True,
+        blank=True
+    )
     user_email = models.EmailField()
     date = models.DateField(auto_now_add=True)
     comment = models.TextField(blank=True, null=True)
-    rating = models.CharField(max_length=20, choices=TypeRating)
+    rating = models.CharField(max_length=20, choices=TypeRating.choices)
 
     def __str__(self):
-        return f"Rating by {self.user_email}: {self.rating}"
+        return f"Rating by {self.user_email} for {self.event.name}: {self.rating}"
 
 # Report Model
 class Report(models.Model):
@@ -183,7 +213,7 @@ class Report(models.Model):
 # ReportResolution Model
 class ReportResolution(models.Model):
     report = models.OneToOneField(Report, on_delete=models.CASCADE, related_name="resolution")
-    action = models.CharField(max_length=20, choices=Action)
+    action = models.CharField(max_length=20, choices=Action.choices)
     message = models.TextField()
 
     def __str__(self):
