@@ -25,4 +25,12 @@
     <string name="changeThePassword">"Cambiar contraseña"</string>
     <string name="passwordChangeCompleted">"Cambio de contraseña completado"</string>
     <string name="ok">"De acuerdo"</string>
+
+    <!-- Pantalla Settings -->
+    <string name="logout">"Cerrar sesión"</string>
+    <string name="sureLogout">"Seguro que quieres cerrar sesión?"</string>
+    <string name="accept">"Aceptar"</string>
+    <string name="cancel">"Cancelar"</string>
+    <string name="deleteAccount">"Borrar la cuenta"</string>
+    <string name="sureDeleteAccount">"Seguro que quieres eliminar tu cuenta? Esto es irreversible"</string>
 </resources>

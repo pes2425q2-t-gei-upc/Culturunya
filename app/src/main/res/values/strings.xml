@@ -11,18 +11,26 @@
     <string name="noAccountYet">"Don't have an account yet?"</string>
     <string name="register">" Register"</string>
 
-    <!-- Change Password Screen -->
-    <string name="back">"Back"</string>
-    <string name="changePassword">"Change Password"</string>
-    <string name="actualPassword">"Current Password"</string>
-    <string name="newPassword">"New Password"</string>
-    <string name="confirmNewPassword">"Confirm New Password"</string>
-    <string name="passwordChangedSuccesfully">"Password changed successfully."</string>
-    <string name="allFieldsCompulsory">"All fields are required."</string>
-    <string name="passwordsDontMatch">"The new passwords do not match."</string>
-    <string name="incorrectActualPassword">"The current password is incorrect."</string>
-    <string name="passwordsMustBeDifferent">"The new password cannot be the same as the previous one."</string>
-    <string name="changeThePassword">"Change Password"</string>
-    <string name="passwordChangeCompleted">"Password Change Completed"</string>
-    <string name="ok">"Ok"</string>
+    <!-- Pantalla Canvi de contrasenya -->
+    <string name="back">"Enrere"</string>
+    <string name="changePassword">"Canvi de Contrasenya"</string>
+    <string name="actualPassword">"Contrasenya actual"</string>
+    <string name="newPassword">"Nova contrasenya"</string>
+    <string name="confirmNewPassword">"Confirmar nova contrasenya"</string>
+    <string name="passwordChangedSuccesfully">"La contrasenya s'ha canviat correctament."</string>
+    <string name="allFieldsCompulsory">"Tots els camps són obligatoris."</string>
+    <string name="passwordsDontMatch">"Les noves contrasenyes no coincideixen."</string>
+    <string name="incorrectActualPassword">"La contrasenya actual és incorrecta."</string>
+    <string name="passwordsMustBeDifferent">"La nova contrasenya no pot ser igual que l'anterior."</string>
+    <string name="changeThePassword">"Canviar contrasenya"</string>
+    <string name="passwordChangeCompleted">"Canvi de contrasenya completat"</string>
+    <string name="ok">"D'acord"</string>
+
+    <!-- Pantalla Settings -->
+    <string name="logout">"Tancar sessió"</string>
+    <string name="sureLogout">"Segur que vols tancar sessió?"</string>
+    <string name="accept">"Acceptar"</string>
+    <string name="cancel">"Cancelar"</string>
+    <string name="deleteAccount">"Esborrar el compte"</string>
+    <string name="sureDeleteAccount">"Segur que vols eliminar el teu compte? Això és irreversible"</string>
 </resources>
