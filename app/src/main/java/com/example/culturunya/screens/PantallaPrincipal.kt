@@ -107,7 +107,7 @@ fun MainScreen(navController: NavController) {
                 }
                 "Quiz" -> QuizScreen()
                 "Leaderboard" -> LeaderboardScreen()
-                "Settings" -> SettingsScreen()
+                "Settings" -> SettingsScreen(navController)
             }
         }
 
@@ -311,9 +311,4 @@ fun QuizScreen() {
 @Composable
 fun LeaderboardScreen() {
     Text(text = "Aquesta serà la pantalla de Leaderboard")
-}
-
-@Composable
-fun SettingsScreen() {
-    Text(text = "Aquesta serà la pantalla de Settings")
 }

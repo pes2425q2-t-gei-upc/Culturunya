@@ -19,9 +19,6 @@ fun AppNavigation() {
         composable(route = AppScreens.PantallaRegistre.route){
             PantallaRegistre(navController)
         }
-        composable(route = AppScreens.SettingsScreen.route) {
-            SettingsScreen(navController)
-        }
         composable(route = AppScreens.CanviContrasenya.route) {
             PantallaCanviContrasenya(navController)
         }
