@@ -12,6 +12,8 @@ import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -67,6 +69,10 @@ fun CalendarScreen() {
         // Selected Date Details
         Spacer(modifier = Modifier.height(16.dp))
         SelectedDateDisplay(selectedDate)
+
+        // Event List
+        Spacer(modifier = Modifier.height(16.dp))
+        EventListScrollable()
     }
 }
 
@@ -167,4 +173,33 @@ fun SelectedDateDisplay(selectedDate: LocalDate) {
         textAlign = TextAlign.Center,
         modifier = Modifier.fillMaxWidth()
     )
+}
+
+@Composable
+fun EventListScrollable() {
+    val events = listOf("Evento 1", "Evento 2", "Evento 3", "Evento 4", "Evento 5", "Evento 6")
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .height(200.dp),  // Limit height to make it scrollable
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        items(events) { event ->
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 4.dp),
+                elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+                shape = RoundedCornerShape(8.dp)
+            ) {
+                Text(
+                    text = event,
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth(),
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
+        }
+    }
 }
