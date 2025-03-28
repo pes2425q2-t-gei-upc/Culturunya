@@ -178,7 +178,7 @@ fun PantallaRegistre(navController: NavController) {
                             errorMessage = "Tots els camps són obligatoris."
                             showDialog = true
                         }
-                        !isValidEmail(email) -> { // Nova validació del correu electrònic
+                        !isValidEmail(email) -> {
                             errorMessage = "El correu electrònic no és vàlid."
                             showDialog = true
                         }
@@ -186,12 +186,27 @@ fun PantallaRegistre(navController: NavController) {
                             errorMessage = "Les contrasenyes no coincideixen."
                             showDialog = true
                         }
-                        !enviarDadesAlBackend(username, email, password) -> {
-                            errorMessage = "Error en registrar-se. Torna a intentar-ho."
-                            showDialog = true
-                        }
                         else -> {
-                            registreExit = true
+                            val responseCode = enviarDadesAlBackend(username, email, password)
+                            when (responseCode) {
+                                200 -> registreExit = true // Anar a la pantalla principal
+                                400 -> {
+                                    errorMessage = "Error: Dades incorrectes."
+                                    showDialog = true
+                                }
+                                500 -> {
+                                    errorMessage = "Error: Problema al servidor."
+                                    showDialog = true
+                                }
+                                -1 -> {
+                                    errorMessage = "Error de xarxa. Torna a intentar-ho."
+                                    showDialog = true
+                                }
+                                else -> {
+                                    errorMessage = "Error desconegut: $responseCode"
+                                    showDialog = true
+                                }
+                            }
                         }
                     }
                 },

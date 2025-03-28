@@ -1,13 +1,16 @@
 package com.example.culturunya.controllers
 
-import com.example.culturunya.endpoints.Test.Test
+import com.example.culturunya.models.Test.Test
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.POST
-import com.example.culturunya.endpoints.events.*
-import com.example.culturunya.endpoints.Test.*
+import com.example.culturunya.models.events.*
+import com.example.culturunya.models.Test.*
+//import okhttp3.Response
+import retrofit2.http.Body
+import retrofit2.Response
 
 interface Api {
     companion object{
@@ -19,8 +22,8 @@ interface Api {
     @GET("events")
     suspend fun getEvents(): events
 
-    @POST("register")
-    //suspend fun register(@Body user: RegisterRequest): Response<RegisterResponse>
+    @POST("create_user/")
+    suspend fun registerUser(@Body user: RegisterRequest): Response<RegisterResponse>
 
 
     @GET("test")

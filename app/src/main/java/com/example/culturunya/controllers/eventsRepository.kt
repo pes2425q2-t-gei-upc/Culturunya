@@ -1,7 +1,6 @@
 package com.example.culturunya.controllers
 
-import com.example.culturunya.endpoints.events.*
-import kotlin.Result.Companion.failure
+import com.example.culturunya.models.events.*
 
 class eventsRepository (private val api: Api) {
     suspend fun getEvents() : Result<List<Event>>{

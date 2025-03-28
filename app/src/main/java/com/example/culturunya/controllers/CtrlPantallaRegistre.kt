@@ -2,12 +2,16 @@ package com.example.culturunya.controllers
 
 import kotlinx.coroutines.runBlocking
 
-fun enviarDadesAlBackend(username: String, email: String, password: String): Boolean {
+fun enviarDadesAlBackend(username: String, email: String, password: String): Int {
     val api = Api.instance
-    val repository = TestRepository(api)
+    val repository = AuthRepository(api)
 
     return runBlocking {
-        val result = repository.getokay()
-        result.isSuccess && result.getOrNull()?.message == "okay"
+        try {
+            val response = repository.registerUser(username, email, password)
+            response.code() // Retorna el codi HTTP (200, 400, 500...)
+        } catch (e: Exception) {
+            -1 // Retornem -1 en cas d'error
+        }
     }
 }
