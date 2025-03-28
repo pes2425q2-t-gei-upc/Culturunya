@@ -238,7 +238,7 @@ fun EventMapScreen() {
 
 @Composable
 fun EventCalendarScreen() {
-    Pk2()
+    CalendarScreen()
 }
 
 @Composable
