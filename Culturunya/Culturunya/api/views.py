@@ -151,7 +151,7 @@ def create_user(request):
         user = create_user_service(data)
         # Lógica para meter los datos en la base de datos cuando tengamos la clase usuario
 
-        return JsonResponse({"message": "Usuario creado correctamente", "username": username, "password": password, "email": email}, status=201)
+        return JsonResponse({"message": "Usuario creado correctamente", "username": username, "email": email}, status=201)
 
     except json.JSONDecodeError:
         return JsonResponse({"error": "Formato JSON inválido"}, status=400)
