@@ -9,7 +9,9 @@ from rest_framework.decorators import api_view
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
-from domain.users_service import get_all_events, filter_events, create_user_service
+from rest_framework.response import Response
+
+from domain.users_service import get_all_events, filter_events, create_user_service, create_rating
 
 
 @csrf_exempt
@@ -155,3 +157,61 @@ def create_user(request):
 
     except json.JSONDecodeError:
         return JsonResponse({"error": "Formato JSON inválido"}, status=400)
+
+
+
+@csrf_exempt
+@swagger_auto_schema(
+    method='post',
+    operation_description="Crear un nuevo rating de usuario para un evento.",
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        required=['event_id', 'user_id', 'rating'],
+        properties={
+            'event_id': openapi.Schema(type=openapi.TYPE_INTEGER, description='ID del evento'),
+            'user_id': openapi.Schema(type=openapi.TYPE_INTEGER, description='ID del usuario'),
+            'rating': openapi.Schema(type=openapi.TYPE_STRING, description='Valoración del evento'),
+            'comment': openapi.Schema(type=openapi.TYPE_STRING, description='Comentario opcional')
+        }
+    ),
+    responses={
+        201: openapi.Response(
+            description="Rating creado con éxito",
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'id': openapi.Schema(type=openapi.TYPE_INTEGER),
+                    'event_id': openapi.Schema(type=openapi.TYPE_INTEGER),
+                    'user_id': openapi.Schema(type=openapi.TYPE_INTEGER),
+                    'rating': openapi.Schema(type=openapi.TYPE_STRING),
+                    'comment': openapi.Schema(type=openapi.TYPE_STRING),
+                    'date': openapi.Schema(type=openapi.TYPE_STRING, format='date'),
+                }
+            )
+        ),
+        400: openapi.Response(description="Error en la solicitud")
+    }
+)
+@api_view(['POST'])
+def create_rating_endpoint(request):
+    try:
+        event_id = request.data['event_id']
+        user_id = request.data['user_id']
+        rating = request.data['rating']
+        comment = request.data.get('comment', None)
+
+        rating_obj = create_rating(event_id, user_id, rating, comment)
+
+        return Response({
+            "id": rating_obj.id,
+            "event_id": rating_obj.event.id,
+            "user_id": rating_obj.user.id,
+            "rating": rating_obj.rating,
+            "comment": rating_obj.comment,
+            "date": rating_obj.date
+        }, status=status.HTTP_201_CREATED)
+
+    except KeyError as e:
+        return Response({"error": f"Falta el campo obligatorio: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
+    except ValueError as e:
+        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)

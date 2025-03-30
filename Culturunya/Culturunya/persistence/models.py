@@ -187,19 +187,25 @@ class Participation(models.Model):
 # Rating Model
 class Rating(models.Model):
     event = models.ForeignKey(
-        'Event',  # o 'persistence.Event' si estás en otro archivo
+        'Event',  # o 'persistence.Event' si está en otro archivo
         on_delete=models.CASCADE,
         related_name='ratings',
         null=True,
         blank=True
     )
-    user_email = models.EmailField()
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='ratings',
+        null=True,
+        blank=True
+    )
     date = models.DateField(auto_now_add=True)
     comment = models.TextField(blank=True, null=True)
     rating = models.CharField(max_length=20, choices=TypeRating.choices)
 
     def __str__(self):
-        return f"Rating by {self.user_email} for {self.event.name}: {self.rating}"
+        return f"Rating by {self.user.username} for {self.event.name}: {self.rating}"
 
 # Report Model
 class Report(models.Model):

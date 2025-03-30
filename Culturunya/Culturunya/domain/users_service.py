@@ -5,7 +5,8 @@ from datetime import datetime
 import json
 from math import radians, cos
 from django.contrib.auth import get_user_model
-from persistence.models import Event, PersonalCalendar
+from django.core.exceptions import ObjectDoesNotExist
+from persistence.models import Event, PersonalCalendar, Rating
 
 def get_all_events():
     return [event.to_dict() for event in Event.objects.all()]
@@ -67,7 +68,7 @@ def create_user_service(data):
     birth_date = data.get('birthdate', None)    
     language = data.get('language', 'ES')
 
-    # Creas instancia del modelo
+    # Crea instancia del modelo
     user = User(
         username=username,
         email=email,
@@ -81,3 +82,17 @@ def create_user_service(data):
     user.save()
     PersonalCalendar.objects.create(user=user)
     return user
+
+def create_rating(event_id: int, user_id: int, rating: str, comment: str = None) -> Rating:
+    try:
+        event = Event.objects.get(id=event_id)
+        user = User.objects.get(id=user_id)
+    except ObjectDoesNotExist:
+        raise ValueError("Usuario o evento no encontrado")
+
+    return Rating.objects.create(
+        event=event,
+        user=user,
+        rating=rating,
+        comment=comment
+    )
