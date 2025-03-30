@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # --- CONFIGURACIÓN ---
-REPO_DIR="~/Culturunya/Culturunya"    # Directorio donde está tu repositorio
-BRANCH="DEV_Back"                     # Rama que quieres comprobar
+REPO_DIR="~/Culturunya/Culturunya" 
+BRANCH="DEV_Back"                  
 SERVER_IP="0.0.0.0"
 SERVER_PORT="8089"
-PYTHON_CMD="~/Culturunya/Culturunya/Culturunya/Culturunya/venv/bin/python"              # Cambia esto si usas un virtualenv diferente
-PIP_CMD="~/Culturunya/Culturunya/Culturunya/Culturunya/venv/bin/pip"                    # Cambia si usas pip de un virtualenv
+PYTHON_CMD="~/Culturunya/Culturunya/Culturunya/Culturunya/venv/bin/python"
+PIP_CMD="~/Culturunya/Culturunya/Culturunya/Culturunya/venv/bin/pip"      
 MAIL_SUBJECT_ERROR="Error en despliegue Django"
 MAIL_SUBJECT_SUCCESS="Despliegue Django Exitoso"
 MAIL_RECIPIENTS="richard.pie@estudiantat.upc.edu martin.viteri@estudiantat.upc.edu"
