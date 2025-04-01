@@ -5,6 +5,8 @@ import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -21,6 +23,9 @@ import androidx.navigation.NavController
 import com.example.culturunya.R
 import com.example.culturunya.navigation.AppScreens
 import com.example.culturunya.ui.theme.*
+import com.example.culturunya.controllers.*
+import com.example.culturunya.endpoints.events.Event
+import com.example.culturunya.endpoints.events.EventViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -32,10 +37,9 @@ fun Pantalla() {
 }
 
 @Composable
-fun MainScreen(navController: NavController) {
+fun MainScreen(navController: NavController, viewModel: EventViewModel) {
     // Estat per a la pantalla principal
     var currentScreen by remember { mutableStateOf("Events") }
-
     // Estat per als sub-botons d'Events (Map, Calendar, List)
     // Només s'usa si la pantalla principal seleccionada és "Events".
     var currentEventsSubScreen by remember { mutableStateOf("Map") }
@@ -102,7 +106,7 @@ fun MainScreen(navController: NavController) {
                     when (currentEventsSubScreen) {
                         "Map" -> EventMapScreen()
                         "Calendar" -> EventCalendarScreen()
-                        "List" -> EventListScreen()
+                        "List" -> EventListScreen(viewModel)
                     }
                 }
                 "Quiz" -> QuizScreen()
@@ -238,24 +242,77 @@ fun EventMapScreen() {
 
 @Composable
 fun EventCalendarScreen() {
-    Text("Això és la pantalla Calendar d'Events")
+    CalendarScreen()
 }
 
 @Composable
-fun EventListScreen() {
-    val events = listOf("Evento 1", "Evento 2", "Evento 3", "Evento 4")
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        events.forEach { event ->
-            EventBox(event)
+fun EventListScreen(viewModel: EventViewModel) {
+    var selecetedEvent by remember { mutableStateOf<Event?>(null) }
+    val events by viewModel.events.collectAsState()
+    if(selecetedEvent == null){
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ){
+            if(events.isEmpty()){
+                Text("No hay eventos", color = Color.Black)
+            }
+            else{
+                LazyColumn {
+                    items(events) { event ->
+                        EventBox(event) {selecetedEvent = event}
+                    }
+                }
+            }
+        }
+    }
+    else{
+        EventInfo(event = selecetedEvent!!){
+            selecetedEvent = null
         }
     }
 }
+
 @Composable
-fun EventBox(event: String) {
+fun EventInfo(event: Event, onBack: () -> Unit) {
+
+    LazyColumn(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+        item( key = event.id) {
+        Text(text = "Info del evento: ${event.name}",modifier = Modifier
+                .fillMaxWidth()
+            .wrapContentHeight()
+            .padding(8.dp),
+            textAlign = TextAlign.Center)
+        Text(text = "Ubicacion del evento: ${event.location.address}",modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .padding(8.dp),
+            textAlign = TextAlign.Center)
+        Text("Descripcion del evento: ${event.description}",modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .padding(8.dp),
+            textAlign = TextAlign.Center)
+        Text("Fecha de inicio: ${event.date_start}",modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .padding(8.dp),
+            textAlign = TextAlign.Center)
+        Text("Fecho de fin: ${event.date_end}",modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .padding(8.dp),
+            textAlign = TextAlign.Center)
+        Button(onClick = onBack, modifier = Modifier.padding(8.dp), colors = ButtonDefaults.buttonColors(), shape = RoundedCornerShape(8.dp)) {
+            Text("Volver")
+        }
+        }
+    }
+}
+
+@Composable
+fun EventBox(event: Event, onEventClick: (Event) -> Unit) {
     var expanded by remember { mutableStateOf(false) }  // Para controlar el estado del menú desplegable
     var showMenu by remember { mutableStateOf(false) }  // Para controlar si mostrar el menú
 
@@ -272,7 +329,7 @@ fun EventBox(event: String) {
                 .padding(16.dp)
         ) {
             Text(
-                text = event,
+                text = event.name,
                 style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold),
                 color = Color.White
             )
@@ -286,8 +343,8 @@ fun EventBox(event: String) {
             DropdownMenuItem(
                 text = { Text("Detalles del Evento") },
                 onClick = {
-                    showMenu = false  // Cerrar el menú
-                    // Acción para ver los detalles del evento
+                    onEventClick(event) // Call the callback with the selected event
+                    showMenu = false
                 }
             )
             DropdownMenuItem(

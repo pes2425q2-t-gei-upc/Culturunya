@@ -19,13 +19,13 @@ interface Api {
             .client(OkHttpClient.Builder().build()).build().create(Api::class.java)
     }
 
-    @GET("events")
+    @GET("events/")
     suspend fun getEvents(): events
 
     @POST("create_user/")
     suspend fun registerUser(@Body user: RegisterRequest): Response<RegisterResponse>
 
 
-    @GET("test")
+    @GET("test/")
     suspend fun getokay(): Test
 }
