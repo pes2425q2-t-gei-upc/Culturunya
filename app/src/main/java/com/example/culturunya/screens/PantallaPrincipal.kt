@@ -111,7 +111,7 @@ fun MainScreen(navController: NavController, viewModel: EventViewModel) {
                 }
                 "Quiz" -> QuizScreen()
                 "Leaderboard" -> LeaderboardScreen()
-                "Settings" -> SettingsScreen()
+                "Settings" -> SettingsScreen(navController)
             }
         }
 
@@ -242,7 +242,7 @@ fun EventMapScreen() {
 
 @Composable
 fun EventCalendarScreen() {
-    Text("Això és la pantalla Calendar d'Events")
+    CalendarScreen()
 }
 
 @Composable
@@ -368,9 +368,4 @@ fun QuizScreen() {
 @Composable
 fun LeaderboardScreen() {
     Text(text = "Aquesta serà la pantalla de Leaderboard")
-}
-
-@Composable
-fun SettingsScreen() {
-    Text(text = "Aquesta serà la pantalla de Settings")
 }

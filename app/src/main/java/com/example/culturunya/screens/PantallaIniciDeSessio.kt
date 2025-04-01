@@ -16,6 +16,8 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -24,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import java.util.Locale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -57,8 +60,7 @@ fun ComposableIniciSessio(navController: NavController) {
     var usuari by remember { mutableStateOf("") }
     var contrasenya by remember { mutableStateOf("") }
     var missatgeError by remember { mutableStateOf("") }
-
-    //variables que necessitem per canviar d'idioma
+    var passwordVisible by remember { mutableStateOf(false) }
     val context = LocalContext.current
     var currentLocale by remember { mutableStateOf(Locale.getDefault().language) }
 
@@ -118,7 +120,13 @@ fun ComposableIniciSessio(navController: NavController) {
                 label = { Text(getString(context, R.string.password, currentLocale)) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
-                visualTransformation = PasswordVisualTransformation(),
+                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                trailingIcon = {
+                    val image = if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff
+                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                        Icon(imageVector = image, contentDescription = "Mostrar/Amagar contrasenya")
+                    }
+                },
                 leadingIcon = {
                     Icon(imageVector = Icons.Default.Lock, contentDescription = "Pany")
                 },
