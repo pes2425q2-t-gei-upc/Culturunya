@@ -1,5 +1,6 @@
 package com.example.culturunya.controllers
 
+import android.util.Log
 import kotlinx.coroutines.runBlocking
 
 fun enviarDadesAlBackend(username: String, email: String, password: String): Int {
@@ -9,9 +10,11 @@ fun enviarDadesAlBackend(username: String, email: String, password: String): Int
     return runBlocking {
         try {
             val response = repository.registerUser(username, email, password)
-            response.code() // Retorna el codi HTTP (200, 400, 500...)
+            // ✅ Només retornem el codi HTTP, ignorant username i email de la resposta JSON
+            return@runBlocking response.code()
         } catch (e: Exception) {
-            -1 // Retornem -1 en cas d'error
+            Log.e("Registre", "Error de xarxa: ${e.message}", e)
+            return@runBlocking -1  // Retornem -1 si hi ha un error de xarxa
         }
     }
 }

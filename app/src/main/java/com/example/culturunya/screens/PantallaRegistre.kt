@@ -189,7 +189,7 @@ fun PantallaRegistre(navController: NavController) {
                         else -> {
                             val responseCode = enviarDadesAlBackend(username, email, password)
                             when (responseCode) {
-                                200 -> registreExit = true // Anar a la pantalla principal
+                                201 -> registreExit = true // Anar a la pantalla principal
                                 400 -> {
                                     errorMessage = "Error: Dades incorrectes."
                                     showDialog = true

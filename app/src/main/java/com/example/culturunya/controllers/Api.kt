@@ -1,6 +1,8 @@
 package com.example.culturunya.controllers
 
 import com.example.culturunya.models.Test.Test
+import com.example.culturunya.models.RegisterRequest
+import com.example.culturunya.models.RegisterResponse
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
