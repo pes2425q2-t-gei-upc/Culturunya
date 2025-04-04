@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.culturunya.endpoints.events.EventViewModel
+import com.example.culturunya.screens.*
 import com.example.culturunya.screens.ComposableIniciSessio
 import com.example.culturunya.screens.MainScreen
 import com.example.culturunya.screens.PantallaRegistre
@@ -27,6 +28,9 @@ fun AppNavigation() {
         }
         composable(route = AppScreens.SettingsScreen.route) {
             SettingsScreen(navController)
+        }
+        composable(route = AppScreens.CanviContrasenya.route) {
+            PantallaCanviContrasenya(navController)
         }
     }
 }
