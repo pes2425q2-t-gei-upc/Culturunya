@@ -1,5 +1,5 @@
 package com.example.culturunya.endpoints.events
 
-data class events(
+data class Events(
     val events: List<Event>
 )

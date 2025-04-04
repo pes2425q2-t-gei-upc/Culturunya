@@ -1,13 +1,12 @@
 package com.example.culturunya.controllers
 
-import com.example.culturunya.endpoints.Test.*
-import com.example.culturunya.endpoints.events.Event
-import kotlin.Result.Companion.failure
+import com.example.culturunya.endpoints.test.Test
 
 class TestRepository (private val api: Api){
     suspend fun getokay() : Result<Test>{
+        val response = api.getokay()
         return try {
-            Result.success(api.getokay())
+            Result.success(response)
         } catch (e: Exception){
             Result.failure(e)
         }

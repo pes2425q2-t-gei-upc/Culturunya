@@ -9,7 +9,9 @@ import com.example.culturunya.endpoints.events.EventViewModel
 import com.example.culturunya.screens.ComposableIniciSessio
 import com.example.culturunya.screens.MainScreen
 import com.example.culturunya.screens.PantallaRegistre
+import com.example.culturunya.screens.PantallaCanviContrasenya
 import com.example.culturunya.screens.SettingsScreen
+
 
     @Composable
 fun AppNavigation() {
@@ -27,6 +29,9 @@ fun AppNavigation() {
         }
         composable(route = AppScreens.SettingsScreen.route) {
             SettingsScreen(navController)
+        }
+        composable(route = AppScreens.CanviContrasenya.route) {
+            PantallaCanviContrasenya(navController)
         }
     }
 }
