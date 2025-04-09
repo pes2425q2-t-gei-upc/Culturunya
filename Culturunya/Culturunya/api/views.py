@@ -345,3 +345,21 @@ def create_rating_endpoint(request):
         return Response({"error": f"Falta el campo obligatorio: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
     except ValueError as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+@swagger_auto_schema(
+    method='delete',
+    operation_description="Permite que un usuario autenticado elimine su propia cuenta.",
+    security=[{'Token': []}],
+        responses={
+            204: "Cuenta eliminada exitosamente.",
+            401: "No autenticado.",
+        }
+)
+
+@api_view(["DELETE"])
+@permission_classes([IsAuthenticated])
+def delete_own_account(request):
+    user = request.user
+    username = user.username
+    user.delete()
+    return Response({"message": f"Cuenta '{username}' eliminada correctamente."}, status=status.HTTP_200_OK)
