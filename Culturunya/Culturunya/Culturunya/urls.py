@@ -23,6 +23,7 @@ from django.urls import path, include, re_path
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from rest_framework.authentication import TokenAuthentication
 
 schema_view = get_schema_view( #http://127.0.0.1:8000/swagger/
    openapi.Info(
@@ -32,6 +33,7 @@ schema_view = get_schema_view( #http://127.0.0.1:8000/swagger/
    ),
    public=True,
    permission_classes=(permissions.AllowAny,),
+   authentication_classes=(TokenAuthentication,),
 )
 
 urlpatterns = [
