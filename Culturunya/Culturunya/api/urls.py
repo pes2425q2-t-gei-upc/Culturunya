@@ -3,7 +3,7 @@ from django.urls import path
 from .views import (
     test_api, data_test, post_test, put_test, delete_test,
     get_events, get_filtered_events, create_user, create_rating_endpoint,
-    CustomObtainAuthToken, delete_own_account, ChangePasswordView,
+    CustomObtainAuthToken, delete_own_account, ChangePasswordView, UserProfileView,
 )
 from .views import data_test
 from .views import delete_test
@@ -19,11 +19,12 @@ urlpatterns = [#se concatena con el path de url del proyecto
     path('events/', get_events, name='get_events'),
     path('events/filter/', get_filtered_events, name='get_filtered_events'),
     path('create_user/', create_user, name='create_user'),
+
     path('ratings/', create_rating_endpoint, name='create_rating'),
     path('login/', CustomObtainAuthToken.as_view(), name='api_token_auth'),
     path('delete_account/', delete_own_account, name='delete_own_account'),
-    path('change-password/', ChangePasswordView.as_view(), name='change-password'),
-
+    path('change_password/', ChangePasswordView.as_view(), name='change-password'),
+    path('api/user/profile/', UserProfileView.as_view(), name='user-profile'),
     #un endpoint GET para obtener los eventos que un usuario tiene en su calendario personal
     #otro endpoint POST/DELETE para añadir/quitar eventos de su calendario personal
 ]
