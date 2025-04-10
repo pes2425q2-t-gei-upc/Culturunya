@@ -3,6 +3,7 @@ package com.example.culturunya.screens
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -31,11 +32,12 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.culturunya.R
-import com.example.culturunya.controllers.LoginViewModel
 import com.example.culturunya.navigation.AppScreens
 import com.example.culturunya.ui.theme.CulturunyaTheme
 import com.example.culturunya.ui.theme.Morat
 import com.example.culturunya.controllers.comprovaNomContrasenya
+import com.example.culturunya.endpoints.login.LoginViewModel
+import com.example.culturunya.models.currentUser.User
 
 fun getString(context: Context, resId: Int, locale: String): String {
     val config = Configuration(context.resources.configuration)
@@ -53,6 +55,7 @@ fun ComposableIniciSessio(navController: NavController) {
     val context = LocalContext.current
     var currentLocale by remember { mutableStateOf(Locale.getDefault().language) }
     val loginViewModel: LoginViewModel = viewModel()
+    var token = ""
 
     val loginResponse = loginViewModel.loginResponse.collectAsState().value
     val loginError = loginViewModel.loginError.collectAsState().value
@@ -189,7 +192,11 @@ fun ComposableIniciSessio(navController: NavController) {
                     color = Color.Gray
                 )
                 Button(
-                    onClick = { navController.navigate(route = AppScreens.PantallaRegistre.route) },
+                    onClick = {
+                        //User.getInstance()
+                        //User.setUserData(token, usuari)
+                        navController.navigate(route = AppScreens.PantallaRegistre.route)
+                              },
                     colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
                     contentPadding = PaddingValues(0.dp),
                     elevation = null

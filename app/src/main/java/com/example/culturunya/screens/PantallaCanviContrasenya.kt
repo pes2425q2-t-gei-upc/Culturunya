@@ -22,9 +22,12 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.culturunya.R
 import com.example.culturunya.controllers.getContrasenyaUsuariActual
+import com.example.culturunya.endpoints.changePassword.ChangePasswordViewModel
+import com.example.culturunya.endpoints.deleteAccount.DeleteAccountViewModel
 import com.example.culturunya.navigation.AppScreens
 import com.example.culturunya.ui.theme.Morat
 import com.example.culturunya.ui.theme.VerdFosc
@@ -44,6 +47,8 @@ fun PantallaCanviContrasenya(navController: NavController) {
     var isLoading by remember { mutableStateOf(false) }
     val context = LocalContext.current
     var currentLocale by remember { mutableStateOf(Locale.getDefault().language) }
+
+    val changePasswordViewModel: ChangePasswordViewModel = viewModel()
 
     Box(
         modifier = Modifier
@@ -212,6 +217,7 @@ fun PantallaCanviContrasenya(navController: NavController) {
                             missatgeError = getString(context, R.string.passwordsMustBeDifferent, currentLocale)
                         else -> {
                             missatgeError = ""
+                            changePasswordViewModel.changePassword(contrasenyaActual, novaContrasenya)
                             haCanviat = true
                         }
                     }

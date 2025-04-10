@@ -19,8 +19,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.culturunya.R
+import com.example.culturunya.endpoints.deleteAccount.DeleteAccountViewModel
+import com.example.culturunya.endpoints.login.LoginViewModel
 import com.example.culturunya.navigation.AppScreens
 import com.example.culturunya.ui.theme.Morat
 import java.util.*
@@ -31,6 +34,8 @@ fun SettingsScreen(navController: NavController) {
     // Control de diàlegs
     var showLogoutDialog by remember { mutableStateOf(false) }
     var showDeleteDialog by remember { mutableStateOf(false) }
+
+    val deleteAccountViewModel: DeleteAccountViewModel = viewModel()
 
     // Per a l'exemple, agafem l'idioma per defecte del dispositiu
     val context = LocalContext.current
@@ -147,7 +152,10 @@ fun SettingsScreen(navController: NavController) {
             color = Color.Gray,
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { showDeleteDialog = true }
+                .clickable {
+
+                    showDeleteDialog = true
+                }
                 .padding(8.dp)
         )
     }
@@ -160,8 +168,7 @@ fun SettingsScreen(navController: NavController) {
             confirmButton = {
                 Button(
                     onClick = {
-                        // Aquí crides la funció de logout:
-                        // if (ferLogout()) ...
+
                         navController.navigate(AppScreens.IniciSessio.route)
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Morat)
@@ -189,8 +196,7 @@ fun SettingsScreen(navController: NavController) {
             confirmButton = {
                 Button(
                     onClick = {
-                        // Aquí crides la funció d'esborrar compte:
-                        // if (esborrarCompte()) ...
+                        deleteAccountViewModel.deleteAccount()
                         navController.navigate(AppScreens.IniciSessio.route)
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Morat)
