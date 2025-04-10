@@ -19,6 +19,7 @@ from rest_framework.authtoken.models import Token
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
+from api.serializers import UserProfileSerializer
 # Services
 from domain.users_service import get_all_events, filter_events, create_user_service, create_rating
 
@@ -396,3 +397,14 @@ class ChangePasswordView(APIView):
             user.save()
             return Response({"detail": "Contraseña cambiada correctamente."}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class UserProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(
+        operation_summary="Obtener información del usuario autenticado",
+        responses={200: UserProfileSerializer()}
+    )
+    def get(self, request):
+        serializer = UserProfileSerializer(request.user)
+        return Response(serializer.data)
