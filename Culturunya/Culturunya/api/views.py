@@ -360,3 +360,39 @@ def delete_own_account(request):
     username = user.username
     user.delete()
     return Response({"message": f"Cuenta '{username}' eliminada correctamente."}, status=status.HTTP_200_OK)
+
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework import serializers
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
+
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+
+class ChangePasswordView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(
+        request_body=ChangePasswordSerializer,
+        operation_summary="Cambiar contraseña",
+        operation_description="Permite a un usuario autenticado cambiar su contraseña actual.",
+        responses={
+            200: "Contraseña cambiada exitosamente.",
+            400: "Error de validación o contraseña actual incorrecta.",
+            401: "No autenticado.",
+        }
+    )
+    def post(self, request):
+        serializer = ChangePasswordSerializer(data=request.data)
+        if serializer.is_valid():
+            user = request.user
+            if not user.check_password(serializer.validated_data['old_password']):
+                return Response({"detail": "La contraseña actual es incorrecta."}, status=status.HTTP_400_BAD_REQUEST)
+            user.set_password(serializer.validated_data['new_password'])
+            user.save()
+            return Response({"detail": "Contraseña cambiada correctamente."}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
