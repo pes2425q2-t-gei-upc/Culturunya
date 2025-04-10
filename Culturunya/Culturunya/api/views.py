@@ -108,6 +108,24 @@ def create_user(request):
     except json.JSONDecodeError:
         return JsonResponse({"error": "Formato JSON invalido"}, status=400)
 
+@swagger_auto_schema(
+    method='get',
+    operation_description="Obtiene todos los eventos. No requiere token.",
+    responses={
+        200: openapi.Response(description="Lista de eventos"),
+        400: openapi.Response(description="Error en la solicitud"),
+    }
+)
+
+@api_view(["GET"])
+def get_events(request):
+    if request.method == "GET":
+        events = get_all_events()
+        return JsonResponse({"events": events})
+    else:
+        return JsonResponse({"error": "Invalid request method"}, status=400)
+
+
 
 #
 # ENDPOINTS PROTEGIDOS (requieren token)
@@ -200,27 +218,6 @@ def delete_test(request):
         return JsonResponse({"message": "Delete request received"})
     else:
         return JsonResponse({"error": "Invalid request method"}, status=400)
-
-@swagger_auto_schema(
-    method='get',
-    operation_description="Obtiene todos los eventos. Requiere token.",
-    security=[{'Token': []}],  # Esto le dice a Swagger que requiere autenticacion por token
-    responses={
-        200: openapi.Response(description="Lista de eventos"),
-        401: openapi.Response(description="No autorizado - token no valido o faltante"),
-    }
-)
-
-@api_view(["GET"])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-def get_events(request):
-    if request.method == "GET":
-        events = get_all_events()
-        return JsonResponse({"events": events})
-    else:
-        return JsonResponse({"error": "Invalid request method"}, status=400)
-
 
 @swagger_auto_schema(
     method='get',
