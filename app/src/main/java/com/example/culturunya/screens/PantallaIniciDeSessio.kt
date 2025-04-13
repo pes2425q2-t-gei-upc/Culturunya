@@ -1,16 +1,10 @@
 package com.example.culturunya.screens
 
 import android.content.Context
-import android.content.res.Configuration
-import android.os.Bundle
-import android.util.Log
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
@@ -33,17 +27,17 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.culturunya.R
 import com.example.culturunya.navigation.AppScreens
-import com.example.culturunya.ui.theme.CulturunyaTheme
 import com.example.culturunya.ui.theme.Morat
-import com.example.culturunya.controllers.comprovaNomContrasenya
 import com.example.culturunya.endpoints.login.LoginViewModel
-import com.example.culturunya.models.currentUser.User
+import com.example.culturunya.models.currentSession.CurrentSession
 
-fun getString(context: Context, resId: Int, locale: String): String {
-    val config = Configuration(context.resources.configuration)
-    config.setLocale(Locale(locale))
-    return context.createConfigurationContext(config).resources.getString(resId)
+fun getString(context: Context, id: Int, langCode: String): String {
+    val config = context.resources.configuration
+    val locale = Locale(langCode)
+    val localizedContext = context.createConfigurationContext(config.apply { setLocale(locale) })
+    return localizedContext.resources.getString(id)
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -53,7 +47,8 @@ fun ComposableIniciSessio(navController: NavController) {
     var missatgeError by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
     val context = LocalContext.current
-    var currentLocale by remember { mutableStateOf(Locale.getDefault().language) }
+    CurrentSession.getInstance()
+    val currentLocale = CurrentSession.language
     val loginViewModel: LoginViewModel = viewModel()
     var token = ""
 

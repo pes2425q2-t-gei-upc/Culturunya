@@ -2,6 +2,7 @@ package com.example.culturunya.screens
 
 import android.content.Context
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -28,6 +29,7 @@ import com.example.culturunya.R
 import com.example.culturunya.controllers.getContrasenyaUsuariActual
 import com.example.culturunya.endpoints.changePassword.ChangePasswordViewModel
 import com.example.culturunya.endpoints.deleteAccount.DeleteAccountViewModel
+import com.example.culturunya.models.currentSession.CurrentSession
 import com.example.culturunya.navigation.AppScreens
 import com.example.culturunya.ui.theme.Morat
 import com.example.culturunya.ui.theme.VerdFosc
@@ -46,7 +48,8 @@ fun PantallaCanviContrasenya(navController: NavController) {
     var confirmNewPasswordVisible by remember { mutableStateOf(false) }
     var isLoading by remember { mutableStateOf(false) }
     val context = LocalContext.current
-    var currentLocale by remember { mutableStateOf(Locale.getDefault().language) }
+    CurrentSession.getInstance()
+    val currentLocale = CurrentSession.language
 
     val changePasswordViewModel: ChangePasswordViewModel = viewModel()
 
@@ -194,7 +197,7 @@ fun PantallaCanviContrasenya(navController: NavController) {
                         }
                     },
                     title = { Text(getString(context, R.string.passwordChangeCompleted, currentLocale)) },
-                    text = { Text(getString(context, R.string.passwordChangedSuccesfully, currentLocale)) },
+                    text = { Text(getString(context, R.string.passwordChangedSuccessfully, currentLocale)) },
                     containerColor = Color.White
                 )
             }
@@ -205,7 +208,7 @@ fun PantallaCanviContrasenya(navController: NavController) {
                     when {
                         haCanviat -> true //Si ja s'ha fet el canvi, ignora que tornis a apretar
                         contrasenyaActual.isEmpty() || novaContrasenya.isEmpty() || confirmaNovaContrasenya.isEmpty() ->
-                            missatgeError = getString(context, R.string.allFieldsCompulsory, currentLocale)
+                            missatgeError = getString(context, R.string.allFieldsRequired, currentLocale)
 
                         novaContrasenya != confirmaNovaContrasenya ->
                             missatgeError = getString(context, R.string.passwordsDontMatch, currentLocale)

@@ -7,9 +7,7 @@ import com.example.culturunya.controllers.Api
 import com.example.culturunya.controllers.AuthRepository
 import com.example.culturunya.models.changePassword.ChangePasswordRequest
 import com.example.culturunya.models.changePassword.ChangePasswordResponse
-import com.example.culturunya.models.currentUser.User
-import com.example.culturunya.models.deleteAccount.DeleteAccountRequest
-import com.example.culturunya.models.deleteAccount.DeleteAccountResponse
+import com.example.culturunya.models.currentSession.CurrentSession
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -29,9 +27,8 @@ class ChangePasswordViewModel: ViewModel() {
     fun changePassword(oldPassword: String, newPassword: String) {
         viewModelScope.launch {
             try {
-                User.getInstance()
-                val currentToken = User.token
-                Log.d("tokenFinal", "Este es el token: $currentToken")
+                CurrentSession.getInstance()
+                val currentToken = CurrentSession.token
                 val response = repository.changePassword("Token $currentToken", ChangePasswordRequest(oldPassword, newPassword))
                 _changePasswordResponse.value = response
                 _changePasswordError.value = null
