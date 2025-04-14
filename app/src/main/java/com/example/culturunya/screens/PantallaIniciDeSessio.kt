@@ -37,17 +37,6 @@ import com.example.culturunya.ui.theme.CulturunyaTheme
 import com.example.culturunya.ui.theme.Morat
 import com.example.culturunya.controllers.comprovaNomContrasenya
 
-class TestActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            CulturunyaTheme {
-                //ComposablePrincipal()
-            }
-        }
-    }
-}
-
 fun getString(context: Context, resId: Int, locale: String): String {
     val config = Configuration(context.resources.configuration)
     config.setLocale(Locale(locale))

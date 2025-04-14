@@ -118,7 +118,7 @@ fun SettingsScreen(navController: NavController) {
                     icon = Icons.Default.Help,
                     text = "Help & support", // o getString(context, R.string.helpSupport, currentLocale)
                     onClick = {
-                        // Navega a la secció d'ajuda
+                        navController.navigate(AppScreens.Xat.route)
                     }
                 )
             }

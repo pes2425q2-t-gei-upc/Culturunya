@@ -6,4 +6,5 @@ sealed class AppScreens(val route: String) {
     object MainScreen: AppScreens("main_screen")
     object SettingsScreen: AppScreens("settings_screen")
     object CanviContrasenya: AppScreens("changePassword_screen")
+    object Xat: AppScreens("chatScreen")
 }
