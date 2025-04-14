@@ -44,7 +44,7 @@ fun MainScreen(navController: NavController, viewModel: EventViewModel) {
     // Només s'usa si la pantalla principal seleccionada és "Events".
     var currentEventsSubScreen by remember { mutableStateOf("Map") }
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier.fillMaxSize().background(color = Color.White)) {
         // HEADER
         Text(
             text = "Culturunya",
@@ -172,20 +172,20 @@ fun TopButtonItem(
 ) {
     val buttonColors = if (isSelected) {
         ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary
+            containerColor = Color.White,
+            contentColor = Morat
         )
     } else {
         ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.surface,
-            contentColor = MaterialTheme.colorScheme.onSurface
+            containerColor = Color.White,
+            contentColor = Color.Black
         )
     }
 
     Button(
         onClick = onClick,
         colors = buttonColors,
-        modifier = Modifier.wrapContentSize()
+        modifier = Modifier.wrapContentSize(),
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Icon(
@@ -208,13 +208,13 @@ fun BottomButtonItem(
 ) {
     val buttonColors = if (isSelected) {
         ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary
+            containerColor = Color.White,
+            contentColor = Morat
         )
     } else {
         ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.surface,
-            contentColor = MaterialTheme.colorScheme.onSurface
+            containerColor = Color.White,
+            contentColor = Color.Black
         )
     }
 
@@ -229,7 +229,7 @@ fun BottomButtonItem(
                 contentDescription = screenName
             )
             Spacer(modifier = Modifier.height(4.dp))
-            Text(text = screenName)
+            Text(text = screenName, fontSize = 11.sp)
         }
     }
 }

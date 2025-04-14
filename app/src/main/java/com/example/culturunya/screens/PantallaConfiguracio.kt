@@ -2,9 +2,11 @@ package com.example.culturunya.screens
 
 import android.content.Context
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -32,10 +34,6 @@ fun SettingsScreen(navController: NavController) {
     var showLogoutDialog by remember { mutableStateOf(false) }
     var showDeleteDialog by remember { mutableStateOf(false) }
 
-    // Per a l'exemple, agafem l'idioma per defecte del dispositiu
-    val context = LocalContext.current
-    val currentLocale = Locale.getDefault().language
-
     // Contenidor principal
     Column(
         modifier = Modifier
@@ -46,7 +44,7 @@ fun SettingsScreen(navController: NavController) {
         ProfileHeader(
             username = "Username",
             email = "exampleaddress@gmail.com",
-            avatarRes = R.drawable.ic_launcher_foreground  // Canvia-ho pel teu recurs d'imatge
+            avatarRes = R.drawable.ic_launcher_foreground  // Canviar pel recurs d'imatge
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -54,16 +52,21 @@ fun SettingsScreen(navController: NavController) {
         // SECTION: "ACCOUNT"
         Text(
             text = "ACCOUNT",
-            fontWeight = FontWeight.SemiBold,
             fontSize = 14.sp,
-            color = Color.Gray,
+            color = Color.Black,
+            fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(horizontal = 8.dp)
         )
 
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp),
+                .padding(vertical = 8.dp)
+                .border(
+                    width = 2.dp,
+                    color = Color.LightGray,
+                    shape = RoundedCornerShape(16.dp)
+                ),
             shape = MaterialTheme.shapes.medium,
             colors = CardDefaults.cardColors(containerColor = Color.White)
         ) {
@@ -92,16 +95,21 @@ fun SettingsScreen(navController: NavController) {
         // SECTION: "SETTINGS"
         Text(
             text = "SETTINGS",
-            fontWeight = FontWeight.SemiBold,
+            fontWeight = FontWeight.Bold,
             fontSize = 14.sp,
-            color = Color.Gray,
+            color = Color.Black,
             modifier = Modifier.padding(horizontal = 8.dp)
         )
 
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp),
+                .padding(vertical = 8.dp)
+                .border(
+                    width = 2.dp,
+                    color = Color.LightGray,
+                    shape = RoundedCornerShape(16.dp)
+                ),
             shape = MaterialTheme.shapes.medium,
             colors = CardDefaults.cardColors(containerColor = Color.White)
         ) {
