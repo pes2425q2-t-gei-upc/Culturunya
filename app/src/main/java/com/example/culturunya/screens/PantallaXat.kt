@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -25,6 +26,8 @@ import androidx.navigation.NavController
 import com.example.culturunya.ui.theme.GrisMoltFluix
 import com.example.culturunya.ui.theme.Morat
 import com.example.culturunya.ui.theme.Purple80
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 
 data class Message(
     val text: String,
@@ -67,10 +70,46 @@ fun PantallaXat(navController: NavController) {
             .fillMaxSize()
             .background(color = Color.White)
         ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp)
+                .imePadding(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            IconButton(onClick = { navController.popBackStack() }) {
+                Icon(
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = "Back"
+                )
+            }
+
+
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .background(Morat)
+            )
+
+            Spacer(modifier = Modifier.width(12.dp))
+
+            Text(
+                text = "Nombre Usuario",
+                style = MaterialTheme.typography.titleMedium
+            )
+        }
+
+        Divider(
+            color = Color.Gray,
+            thickness = 1.dp,
+        )
+
         LazyColumn(
             modifier = Modifier
                 .weight(1f)
-                .padding(8.dp),
+                .padding(8.dp)
+                .imePadding(),
             reverseLayout = true
         ) {
             items(messages.reversed()) { message ->
@@ -106,7 +145,11 @@ fun PantallaXat(navController: NavController) {
             IconButton(
                 onClick = {
                     if (messageText.isNotBlank()) {
+                        val nuevoMensaje = Message(messageText, true)
                         //enviar a back
+                        messages = messages.toMutableList().apply {
+                            add(nuevoMensaje)
+                        }
                         messageText = ""
                     }
                 },
