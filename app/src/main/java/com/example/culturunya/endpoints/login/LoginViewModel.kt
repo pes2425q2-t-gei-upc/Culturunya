@@ -1,15 +1,20 @@
 package com.example.culturunya.endpoints.login
 
+import androidx.compose.runtime.*
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.culturunya.R
 import com.example.culturunya.controllers.Api
 import com.example.culturunya.controllers.AuthRepository
 import com.example.culturunya.models.currentSession.CurrentSession
 import com.example.culturunya.models.login.LoginRequest
 import com.example.culturunya.models.login.LoginResponse
+import com.example.culturunya.screens.getString
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 
 class LoginViewModel : ViewModel() {
     private val _loginResponse = MutableStateFlow<LoginResponse?>(null)
@@ -29,9 +34,18 @@ class LoginViewModel : ViewModel() {
                 CurrentSession.getInstance()
                 CurrentSession.setUserData(response.token, username, password)
                 _loginError.value = null
-            } catch (e: Exception) {
-                _loginError.value = e.message ?: "Error desconocido"
+            } catch (e: HttpException) {
                 _loginResponse.value = null
+                _loginError.value = when (e.code()) {
+                    400 -> "400"
+                    401 -> "401"
+                    500 -> "500"
+                    else -> "Error: ${e.code()} ${e.message()}"
+                }
+            } catch (e: Exception) {
+                // Otros errores como problemas de red
+                _loginResponse.value = null
+                _loginError.value = "Connection error"
             }
         }
     }

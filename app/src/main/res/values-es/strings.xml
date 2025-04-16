@@ -10,6 +10,8 @@
     <string name="enterWithGoogle">"Acceder con Google"</string>
     <string name="noAccountYet">"Aún no tienes cuenta?"</string>
     <string name="register">" Regístrate"</string>
+    <string name="notAuthorized">"No estás autorizado"</string>
+    <string name="serverError">"Error del servidor. Inténtalo más tarde."</string>
 
     <!-- Pantalla Canvi de contrasenya -->
     <string name="back">"Atrás"</string>
