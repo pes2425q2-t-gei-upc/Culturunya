@@ -55,7 +55,7 @@ fun MessageBubble(message: Message) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PantallaXat(navController: NavController) {
+fun PantallaXat(navController: NavController, username: String) {
     var messageText by remember { mutableStateOf("") }
     var messages by remember {
         mutableStateOf(
@@ -84,7 +84,6 @@ fun PantallaXat(navController: NavController) {
                 )
             }
 
-
             Box(
                 modifier = Modifier
                     .size(40.dp)
@@ -95,7 +94,7 @@ fun PantallaXat(navController: NavController) {
             Spacer(modifier = Modifier.width(12.dp))
 
             Text(
-                text = "Nombre Usuario",
+                text = username,
                 style = MaterialTheme.typography.titleMedium
             )
         }

@@ -1,5 +1,6 @@
     package com.example.culturunya.navigation
 
+import PantallaLlistaXats
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
@@ -29,8 +30,14 @@ fun AppNavigation() {
         composable(route = AppScreens.CanviContrasenya.route) {
             PantallaCanviContrasenya(navController)
         }
-        composable(route = AppScreens.Xat.route) {
-            PantallaXat(navController)
+        composable(
+            route = "chatScreen/{username}"
+        ) { backStackEntry ->
+            val username = backStackEntry.arguments?.getString("username") ?: ""
+            PantallaXat(navController, username)
+        }
+        composable(route = AppScreens.LlistaXats.route) {
+            PantallaLlistaXats(navController)
         }
     }
 }
