@@ -48,12 +48,13 @@ fun MainScreen(navController: NavController, viewModel: EventViewModel) {
         // HEADER
         Text(
             text = "Culturunya",
-            style = MaterialTheme.typography.headlineSmall,
+            fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
                 .padding(16.dp),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            color = Color.Black
         )
 
         // SEGONA FILA (només visible si "Events" està seleccionat)
