@@ -30,5 +30,8 @@ bin/
 
 .gradle/
 .idea/
-
 local.properties
+/.gradle
+.idea/workspace.xml
+.idea/workspace.xml
+/.idea

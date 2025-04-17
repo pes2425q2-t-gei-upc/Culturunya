@@ -1,0 +1,36 @@
+<resources>
+    <!-- Pantalla Inici de sessió -->
+    <string name="app_name">"Culturunya"</string>
+    <string name="login">"Iniciar Sesión"</string>
+    <string name="username">"Nombre de usuario"</string>
+    <string name="password">"Contraseña"</string>
+    <string name="errNeedUsernameAndPassword">"Indique el nombre de usuario y la contraseña"</string>
+    <string name="errIncorrectUsernameAndPassword">"El nombre de usuario y/o la contraseña son incorrectos"</string>
+    <string name="enter">"Ingresar"</string>
+    <string name="enterWithGoogle">"Acceder con Google"</string>
+    <string name="noAccountYet">"Aún no tienes cuenta?"</string>
+    <string name="register">" Regístrate"</string>
+
+    <!-- Pantalla Canvi de contrasenya -->
+    <string name="back">"Atrás"</string>
+    <string name="changePassword">"Cambio de Contraseña"</string>
+    <string name="actualPassword">"Contraseña actual"</string>
+    <string name="newPassword">"Nueva contraseña"</string>
+    <string name="confirmNewPassword">"Confirmar nueva contraseña"</string>
+    <string name="passwordChangedSuccesfully">"La contraseña se ha cambiado correctamente."</string>
+    <string name="allFieldsCompulsory">"Todos los campos son obligatorios."</string>
+    <string name="passwordsDontMatch">"Las nuevas contraseñas no coinciden."</string>
+    <string name="incorrectActualPassword">"La contraseña actual es incorrecta."</string>
+    <string name="passwordsMustBeDifferent">"La nueva contraseña no puede ser igual que la anterior."</string>
+    <string name="changeThePassword">"Cambiar contraseña"</string>
+    <string name="passwordChangeCompleted">"Cambio de contraseña completado"</string>
+    <string name="ok">"De acuerdo"</string>
+
+    <!-- Pantalla Settings -->
+    <string name="logout">"Cerrar sesión"</string>
+    <string name="sureLogout">"Seguro que quieres cerrar sesión?"</string>
+    <string name="accept">"Aceptar"</string>
+    <string name="cancel">"Cancelar"</string>
+    <string name="deleteAccount">"Borrar la cuenta"</string>
+    <string name="sureDeleteAccount">"Seguro que quieres eliminar tu cuenta? Esto es irreversible"</string>
+</resources>
