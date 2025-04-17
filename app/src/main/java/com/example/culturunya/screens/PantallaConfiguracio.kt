@@ -39,6 +39,7 @@ fun SettingsScreen(navController: NavController) {
     val context = LocalContext.current
     CurrentSession.getInstance()
     var currentLocale by remember { mutableStateOf(CurrentSession.language) }
+    val username = CurrentSession.username
 
     val options = listOf("English", "Español")
     var expanded by remember { mutableStateOf(false) }
@@ -50,7 +51,7 @@ fun SettingsScreen(navController: NavController) {
             .padding(16.dp)
     ) {
         ProfileHeader(
-            username = "Username",
+            username = username,
             email = "exampleaddress@gmail.com",
             avatarRes = R.drawable.ic_launcher_foreground
         )
@@ -284,7 +285,7 @@ fun ProfileHeader(
                 .size(60.dp)
                 .clip(CircleShape)
                 .background(Color.LightGray),
-            tint = Color.White // Canvia'l si el recurs és un vector
+            tint = Color.White
         )
 
         Spacer(modifier = Modifier.width(16.dp))
