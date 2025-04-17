@@ -439,4 +439,56 @@ def send_message(request):
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def get_conversation_with_admin(request):
+    user = request.user
 
+    if isinstance(user, Administrator):
+        return Response({"error": "Un administrador no usa este endpoint"}, status=403)
+
+    # Buscar el primer admin (representante del "soporte")
+    admin = Administrator.objects.first()
+    if not admin:
+        return Response({"error": "No hay administradores disponibles"}, status=404)
+
+    messages = Message.objects.filter(
+        sender__in=[user, admin],
+        receiver__in=[user, admin]
+    ).order_by("date_written")
+
+    result = [{
+        "from": "Administrador" if isinstance(msg.sender, Administrator) else msg.sender.username,
+        "to": "Administrador" if isinstance(msg.receiver, Administrator) else msg.receiver.username,
+        "text": msg.text,
+        "date": msg.date_written,
+    } for msg in messages]
+
+    return Response(result)
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def get_conversation_with_user(request, user_id):
+    admin = request.user
+
+    if not isinstance(admin, Administrator):
+        return Response({"error": "Solo los administradores pueden acceder a este recurso"}, status=403)
+
+    try:
+        user = User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        return Response({"error": "Usuario no encontrado"}, status=404)
+
+    messages = Message.objects.filter(
+        sender__in=[admin, user],
+        receiver__in=[admin, user]
+    ).order_by("date_written")
+
+    result = [{
+        "from": msg.sender.username,
+        "to": msg.receiver.username,
+        "text": msg.text,
+        "date": msg.date_written,
+    } for msg in messages]
+
+    return Response(result)
