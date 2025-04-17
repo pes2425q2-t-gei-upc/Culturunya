@@ -23,3 +23,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
             'points_to_next_rank_event',
             'points_to_next_quiz_points',
         ]
+
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)

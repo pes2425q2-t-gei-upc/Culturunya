@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from Culturunya import settings
+
 
 class Location(models.Model):
     longitude = models.FloatField()
@@ -150,6 +152,16 @@ class CalendarEvent(models.Model):
         unique_together = ('personal_calendar', 'event')
 
 class Message(models.Model):
+    sender = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='sent_messages'
+    )
+    receiver = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='received_messages'
+    )
     text = models.TextField()
     read = models.BooleanField(default=False)
     date_written = models.DateTimeField(auto_now_add=True)
@@ -157,7 +169,7 @@ class Message(models.Model):
     date_read = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        return f"Message: {self.text[:30]}..."
+        return f"{self.sender.username} -> {self.receiver.username}: {self.text[:30]}"
 
 # Quiz Model
 class Quiz(models.Model):

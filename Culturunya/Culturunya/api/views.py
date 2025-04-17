@@ -1,4 +1,6 @@
 import json
+
+from django.contrib.messages.storage.cookie import MessageSerializer
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from rest_framework import status
@@ -14,14 +16,21 @@ from rest_framework.permissions import IsAuthenticated
 # DRF Token login
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework import serializers
+from drf_yasg.utils import swagger_auto_schema
 
 # Swagger
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
-from api.serializers import UserProfileSerializer
+from api.serializers import UserProfileSerializer, ChangePasswordSerializer
 # Services
 from domain.users_service import get_all_events, filter_events, create_user_service, create_rating
+from persistence.models import User, Administrator, Message
 
 
 #
@@ -362,17 +371,6 @@ def delete_own_account(request):
     user.delete()
     return Response({"message": f"Cuenta '{username}' eliminada correctamente."}, status=status.HTTP_200_OK)
 
-from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from rest_framework import status
-from rest_framework import serializers
-from drf_yasg.utils import swagger_auto_schema
-from drf_yasg import openapi
-
-class ChangePasswordSerializer(serializers.Serializer):
-    old_password = serializers.CharField(required=True)
-    new_password = serializers.CharField(required=True)
 
 class ChangePasswordView(APIView):
     permission_classes = [IsAuthenticated]
@@ -408,3 +406,37 @@ class UserProfileView(APIView):
     def get(self, request):
         serializer = UserProfileSerializer(request.user)
         return Response(serializer.data)
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def send_message(request):
+    try:
+        data = json.loads(request.body)
+        text = data['text']
+        receiver_id = data['receiver_id']
+        if receiver_id:
+            receiver = User.objects.get(id=receiver_id)
+        else:
+            # Buscar primer administrador disponible
+            admins = Administrator.objects.all()
+            if not admins.exists():
+                return Response({"error": "No hay administradores disponibles"}, status=404)
+            receiver = admins.first()
+
+        Message.objects.create(
+            sender=request.user,
+            receiver=receiver,
+            text=text
+        )
+
+        return Response({
+            "message": "Mensaje enviado con éxito",
+            "receiver": receiver.username
+        }, status=201)
+
+    except User.DoesNotExist:
+        return Response({"error": "Usuario receptor no encontrado"}, status=404)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
