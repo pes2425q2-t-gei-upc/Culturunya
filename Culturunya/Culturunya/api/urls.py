@@ -20,7 +20,6 @@ urlpatterns = [#se concatena con el path de url del proyecto
     #un endpoint GET para obtener los eventos que un usuario tiene en su calendario personal
     #otro endpoint POST/DELETE para añadir/quitar eventos de su calendario personal
     path('create_user/', create_user, name='create_user'),
-
     path('ratings/', create_rating_endpoint, name='create_rating'),
     path('login/', CustomObtainAuthToken.as_view(), name='api_token_auth'),
     path('delete_account/', delete_own_account, name='delete_own_account'),
