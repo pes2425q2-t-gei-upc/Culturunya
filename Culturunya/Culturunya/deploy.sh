@@ -59,7 +59,7 @@ if [ "$LOCAL_COMMIT" != "$REMOTE_COMMIT" ]; then
     }
 
     # 3. Instalar dependencias
-    $PIP_CMD install -r $PIP_CMD install -r /home/alumne/Culturunya/Culturunya/Culturunya/Culturunya/requirements.txt || {
+    $PIP_CMD install -r /home/alumne/Culturunya/Culturunya/Culturunya/Culturunya/requirements.txt || {
         send_error_mail "Error instalando dependencias con requirements.txt"
         exit 1
     }
