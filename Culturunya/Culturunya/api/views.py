@@ -413,15 +413,11 @@ def send_message(request):
     try:
         data = json.loads(request.body)
         text = data['text']
-        receiver_id = data['receiver_id']
-        if receiver_id:
-            receiver = User.objects.get(id=receiver_id)
-        else:
-            # Buscar primer administrador disponible
-            admins = Administrator.objects.all()
-            if not admins.exists():
-                return Response({"error": "No hay administradores disponibles"}, status=404)
-            receiver = admins.first()
+        # Buscar primer administrador disponible
+        admins = Administrator.objects.all()
+        if not admins.exists():
+             return Response({"error": "No hay administradores disponibles"}, status=404)
+        receiver = admins.first()
 
         Message.objects.create(
             sender=request.user,
@@ -434,8 +430,6 @@ def send_message(request):
             "receiver": receiver.username
         }, status=201)
 
-    except User.DoesNotExist:
-        return Response({"error": "Usuario receptor no encontrado"}, status=404)
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 

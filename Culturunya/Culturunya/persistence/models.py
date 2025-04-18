@@ -155,12 +155,14 @@ class Message(models.Model):
     sender = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name='sent_messages'
+        related_name='sent_messages',
+        null=True
     )
     receiver = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name='received_messages'
+        related_name='received_messages',
+        null=True
     )
     text = models.TextField()
     read = models.BooleanField(default=False)
