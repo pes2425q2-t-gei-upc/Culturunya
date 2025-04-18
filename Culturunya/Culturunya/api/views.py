@@ -208,7 +208,6 @@ def put_test(request):
             return JsonResponse({"error": "Invalid JSON"}, status=400)
     return JsonResponse({"error": "Invalid request method"}, status=400)
 
-
 @swagger_auto_schema(
     method='delete',
     operation_description="DELETE test, requiere token.",
