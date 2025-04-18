@@ -112,13 +112,12 @@ def create_message(sender_id: int, receiver_id: int, text: str) -> Message:
         text=text
     )
 
-def get_messages(sender_id: int, receiver_id: int):
+def get_messages(user1: int, user2: int):
     try:
-        sender = User.objects.get(id=sender_id)
-        receiver = User.objects.get(id=receiver_id)
+        user1 = User.objects.get(id=user1)
+        user2 = User.objects.get(id=user2)
     except ObjectDoesNotExist:
         raise ValueError("Usuario o admin no encontrado")
     return Message.objects.filter(
-        sender=sender,
-        receiver=receiver
+        Q(sender=user1, receiver=user2) | Q(sender=user2, receiver=user1)
     ).order_by("date_written")
