@@ -24,7 +24,7 @@ function send_success_mail() {
 }
 
 # Logic Region
-REPO_DIR="/home/alumne/Culturunya/Culturunya/Culturunya"
+REPO_DIR="/home/alumne/Culturunya/Culturunya"
 cd "$REPO_DIR" || {
     send_error_mail "No se pudo acceder al directorio $REPO_DIR"
     exit 1
@@ -56,6 +56,12 @@ if [ "$LOCAL_COMMIT" != "$REMOTE_COMMIT" ]; then
     # 2. Hacer pull
     git pull origin "$BRANCH" || {
         send_error_mail "Error al hacer git pull en la rama $BRANCH"
+        exit 1
+    }
+
+    REPO_DIR="/home/alumne/Culturunya/Culturunya/Culturunya/Culturunya"
+    cd "$REPO_DIR" || {
+        send_error_mail "No se pudo acceder al directorio $REPO_DIR"
         exit 1
     }
 
