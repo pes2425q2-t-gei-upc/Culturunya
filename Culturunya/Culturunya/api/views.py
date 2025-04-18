@@ -1,17 +1,12 @@
 import json
 
-from django.contrib.messages.storage.cookie import MessageSerializer
 from django.http import JsonResponse
-from django.views.decorators.http import require_POST
-from rest_framework import status
-from rest_framework.response import Response
 
 # DRF / Auth
 from rest_framework.decorators import (
     api_view, authentication_classes, permission_classes
 )
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
 
 # DRF Token login
 from rest_framework.authtoken.views import ObtainAuthToken
@@ -20,8 +15,6 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework import serializers
-from drf_yasg.utils import swagger_auto_schema
 
 # Swagger
 from drf_yasg.utils import swagger_auto_schema
@@ -29,8 +22,9 @@ from drf_yasg import openapi
 
 from api.serializers import UserProfileSerializer, ChangePasswordSerializer
 # Services
-from domain.users_service import get_all_events, filter_events, create_user_service, create_rating
-from persistence.models import User, Administrator, Message
+from domain.users_service import get_all_events, filter_events, create_user_service, create_rating, create_message, \
+    get_messages
+from persistence.models import User
 
 
 #
@@ -426,18 +420,12 @@ def send_message_user_to_admin(request):
     try:
         data = json.loads(request.body)
         text = data['text']
-        user = request.user
+        user = User.objects.get(id=request.user.id)
+        if user.is_admin:
+            return Response({"error": "Un administrador no usa este endpoint"}, status=403)
         # Buscar primer administrador disponible
-        admins = Administrator.objects.all()
-        if not admins.exists():
-             return Response({"error": "No hay administradores disponibles"}, status=404)
-        receiver = admins.first()
-
-        Message.objects.create(
-            sender=user,
-            receiver=receiver,
-            text=text
-        )
+        admin = User.objects.filter(is_admin=True).first()
+        create_message(user.id, admin.id, text)
 
         return Response({"message": "Mensaje enviado con éxito"}, status=201)
 
@@ -465,22 +453,17 @@ def send_message_admin_to_user(request):
         data = json.loads(request.body)
         receiver_id = data.get("receiver_id")
         text = data.get("text")
+        user = User.objects.get(id=request.user.id)
 
-        if not receiver_id or not text:
-            return Response({"error": "Faltan campos"}, status=400)
+        if not user.is_admin:
+            return Response({"error": "Solo los administradores pueden enviar mensajes desde este endpoint"},
+                            status=403)
 
         receiver = User.objects.get(id=receiver_id)
-
-        Message.objects.create(
-            sender=request.user,
-            receiver=receiver,
-            text=text
-        )
+        create_message(user.id, receiver.id, text)
 
         return Response({"message": "Mensaje enviado con éxito"}, status=201)
 
-    except User.DoesNotExist:
-        return Response({"error": "Usuario no encontrado"}, status=404)
     except Exception as e:
         return Response({"error": str(e)}, status=400)
 
@@ -511,24 +494,21 @@ def send_message_admin_to_user(request):
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def get_conversation_with_admin(request):
-    user = request.user
+    user = User.objects.get(id=request.user.id)
 
-    if isinstance(user, Administrator):
+    if user.is_admin:
         return Response({"error": "Un administrador no usa este endpoint"}, status=403)
 
     # Buscar el primer admin (representante del "soporte")
-    admin = Administrator.objects.first()
+    admin = User.objects.filter(is_admin=True).first()
     if not admin:
         return Response({"error": "No hay administradores disponibles"}, status=404)
 
-    messages = Message.objects.filter(
-        sender__in=[user, admin],
-        receiver__in=[user, admin]
-    ).order_by("date_written")
+    messages = get_messages(user.id, admin.id)
 
     result = [{
-        "from": "Administrador" if isinstance(msg.sender, Administrator) else msg.sender.username,
-        "to": "Administrador" if isinstance(msg.receiver, Administrator) else msg.receiver.username,
+        "from": "Administrador" if msg.sender.is_admin else msg.sender.username,
+        "to": "Administrador" if msg.receiver.is_admin else msg.receiver.username,
         "text": msg.text,
         "date": msg.date_written,
     } for msg in messages]
@@ -562,20 +542,12 @@ def get_conversation_with_admin(request):
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def get_conversation_with_user(request, user_id):
-    admin = request.user
+    admin = User.objects.get(id=request.user.id)
 
-    if not isinstance(admin, Administrator):
+    if not admin.is_admin:
         return Response({"error": "Solo los administradores pueden acceder a este recurso"}, status=403)
 
-    try:
-        user = User.objects.get(id=user_id)
-    except User.DoesNotExist:
-        return Response({"error": "Usuario no encontrado"}, status=404)
-
-    messages = Message.objects.filter(
-        sender__in=[admin, user],
-        receiver__in=[admin, user]
-    ).order_by("date_written")
+    messages = get_messages(admin.id, user_id)
 
     result = [{
         "from": msg.sender.username,

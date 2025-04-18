@@ -1,3 +1,5 @@
+from typing import List
+
 from django.db.models import Q
 from django.http import JsonResponse
 from django.core import serializers
@@ -6,7 +8,8 @@ import json
 from math import radians, cos
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
-from persistence.models import Event, PersonalCalendar, Rating
+from persistence.models import Event, PersonalCalendar, Rating, Message
+
 
 def get_all_events():
     return [event.to_dict() for event in Event.objects.all()]
@@ -96,3 +99,26 @@ def create_rating(event_id: int, user_id: int, rating: str, comment: str = None)
         rating=rating,
         comment=comment
     )
+
+def create_message(sender_id: int, receiver_id: int, text: str) -> Message:
+    try:
+        sender = User.objects.get(id=sender_id)
+        receiver = User.objects.get(id=receiver_id)
+    except ObjectDoesNotExist:
+        raise ValueError("Usuario o admin no encontrado")
+    return Message.objects.create(
+        sender=sender,
+        receiver=receiver,
+        text=text
+    )
+
+def get_messages(sender_id: int, receiver_id: int):
+    try:
+        sender = User.objects.get(id=sender_id)
+        receiver = User.objects.get(id=receiver_id)
+    except ObjectDoesNotExist:
+        raise ValueError("Usuario o admin no encontrado")
+    return Message.objects.filter(
+        sender=sender,
+        receiver=receiver
+    ).order_by("date_written")
