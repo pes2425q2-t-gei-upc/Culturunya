@@ -67,10 +67,11 @@ class CustomObtainAuthToken(ObtainAuthToken):
         # No ponemos security aqui, pues es publico (el usuario no tiene token aun).
     )
     def post(self, request, *args, **kwargs):
-        response = super().post(request, *args, **kwargs)
-        token = Token.objects.get(key=response.data['token'])
-        user = token.user
-
+        serializer = self.serializer_class(data=request.data,
+                                           context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)
         return Response({
             'token': token.key,
             'user_id': user.id,
@@ -362,7 +363,6 @@ def create_rating_endpoint(request):
             401: "No autenticado.",
         }
 )
-
 @api_view(["DELETE"])
 @permission_classes([IsAuthenticated])
 def delete_own_account(request):
@@ -407,12 +407,26 @@ class UserProfileView(APIView):
         serializer = UserProfileSerializer(request.user)
         return Response(serializer.data)
 
+@swagger_auto_schema(
+    method='post',
+    operation_description="Enviar un mensaje al admin.",
+    security=[{'Token': []}],
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        required=['text'],
+        properties={
+            'text': openapi.Schema(type=openapi.TYPE_STRING, description='contenido del mensaje'),
+        }
+    ),
+    responses={201: "Mensaje enviado", 401: "No autenticado", 404: "Admin no encontrado"}
+)
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
-def send_message(request):
+def send_message_user_to_admin(request):
     try:
         data = json.loads(request.body)
         text = data['text']
+        user = request.user
         # Buscar primer administrador disponible
         admins = Administrator.objects.all()
         if not admins.exists():
@@ -420,19 +434,80 @@ def send_message(request):
         receiver = admins.first()
 
         Message.objects.create(
+            sender=user,
+            receiver=receiver,
+            text=text
+        )
+
+        return Response({"message": "Mensaje enviado con éxito"}, status=201)
+
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+@swagger_auto_schema(
+    method="post",
+    operation_summary="Admin envía mensaje a un usuario",
+    security=[{'Token': []}],
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        required=["receiver_id", "text"],
+        properties={
+            "receiver_id": openapi.Schema(type=openapi.TYPE_INTEGER, description="ID del usuario destinatario"),
+            "text": openapi.Schema(type=openapi.TYPE_STRING, description="Contenido del mensaje"),
+        },
+    ),
+    responses={201: "Mensaje enviado", 401: "No autenticado", 404: "Usuario no encontrado"}
+)
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])  # Puedes hacer una permission extra que restrinja solo a admins si quieres
+def send_message_admin_to_user(request):
+    try:
+        data = json.loads(request.body)
+        receiver_id = data.get("receiver_id")
+        text = data.get("text")
+
+        if not receiver_id or not text:
+            return Response({"error": "Faltan campos"}, status=400)
+
+        receiver = User.objects.get(id=receiver_id)
+
+        Message.objects.create(
             sender=request.user,
             receiver=receiver,
             text=text
         )
 
-        return Response({
-            "message": "Mensaje enviado con éxito",
-            "receiver": receiver.username
-        }, status=201)
+        return Response({"message": "Mensaje enviado con éxito"}, status=201)
 
+    except User.DoesNotExist:
+        return Response({"error": "Usuario no encontrado"}, status=404)
     except Exception as e:
-        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error": str(e)}, status=400)
 
+@swagger_auto_schema(
+    method="get",
+    operation_summary="Obtener el chat con el admin",
+    security=[{'Token': []}],
+    responses={
+        200: openapi.Response(
+            description="Lista de mensajes entre usuario y admin",
+            schema=openapi.Schema(
+                type=openapi.TYPE_ARRAY,
+                items=openapi.Schema(
+                    type=openapi.TYPE_OBJECT,
+                    properties={
+                        'from': openapi.Schema(type=openapi.TYPE_STRING, description="Username del que envia el mensaje, en el caso del admin es 'Administrador'"),
+                        'to': openapi.Schema(type=openapi.TYPE_STRING, description="Username del que recibe el mensaje, en el caso del admin es 'Administrador'"),
+                        'text': openapi.Schema(type=openapi.TYPE_STRING, description="Contenido del mensaje"),
+                        'date': openapi.Schema(type=openapi.TYPE_STRING, format='date')
+                    }
+                )
+            )
+        ),
+        403: openapi.Response(description="Un admin no usa este endpoint"),
+        404: openapi.Response(description="No hay administradores disponibles"),
+    }
+)
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def get_conversation_with_admin(request):
@@ -460,6 +535,30 @@ def get_conversation_with_admin(request):
 
     return Response(result)
 
+@swagger_auto_schema(
+    method="get",
+    operation_summary="Obtener el chat con el user",
+    security=[{'Token': []}],
+    responses={
+        200: openapi.Response(
+            description="Chat obtenido",
+            schema=openapi.Schema(
+                type=openapi.TYPE_ARRAY,
+                items=openapi.Schema(
+                    type=openapi.TYPE_OBJECT,
+                    properties={
+                            'from': openapi.Schema(type=openapi.TYPE_STRING, description="Username del que envia el mensaje"),
+                            'to': openapi.Schema(type=openapi.TYPE_STRING, description="Username del que recibe el mensaje"),
+                            'text': openapi.Schema(type=openapi.TYPE_STRING, description="Contenido del mensaje"),
+                            'date': openapi.Schema(type=openapi.TYPE_STRING, format='date')
+                    }
+                )
+            )
+        ),
+        403: openapi.Response(description="Solo los admins pueden acceder a este endpoint"),
+        404: openapi.Response(description="Usuario no encontrado"),
+    }
+)
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def get_conversation_with_user(request, user_id):
