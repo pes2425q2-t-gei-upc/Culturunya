@@ -24,6 +24,7 @@ function send_success_mail() {
 }
 
 # Logic Region
+REPO_DIR="/home/alumne/Culturunya/Culturunya/Culturunya"
 cd "$REPO_DIR" || {
     send_error_mail "No se pudo acceder al directorio $REPO_DIR"
     exit 1
