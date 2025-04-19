@@ -1,5 +1,16 @@
 #!/bin/bash
 
+# --- Protección para evitar múltiples ejecuciones ---
+LOCKFILE="/tmp/deploy.lock"
+
+if [ -e "$LOCKFILE" ]; then
+    echo "Ya se está ejecutando el script de despliegue."
+    exit 1
+fi
+
+touch "$LOCKFILE"
+trap 'rm -f "$LOCKFILE"' EXIT
+
 # --- CONFIGURACIÓN ---
 REPO_DIR="/home/alumne/Culturunya/Culturunya"
 VENV_PATH="/home/alumne/Culturunya/Culturunya/Culturunya/Culturunya/venv"
