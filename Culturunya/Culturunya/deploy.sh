@@ -78,7 +78,7 @@ if [ "$LOCAL_COMMIT" != "$REMOTE_COMMIT" ]; then
     }
 
     # 5. Levantar servidor en segundo plano
-    nohup $PYTHON_CMD manage.py runserver "$SERVER_IP:$SERVER_PORT" > /dev/null 2>&1 &
+    nohup $PYTHON_CMD manage.py runserver "$SERVER_IP:$SERVER_PORT" > output.log 2>&1 &
 
     # 6. Enviar correo de éxito
     send_success_mail "El despliegue de la app Django se ha realizado correctamente. El servidor se ha iniciado en $SERVER_IP:$SERVER_PORT."
