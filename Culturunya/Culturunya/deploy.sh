@@ -46,10 +46,12 @@ if [ "$LOCAL_COMMIT" != "$REMOTE_COMMIT" ]; then
     # 1. Detener procesos runserver del entorno virtual
     P_IDS=$(pgrep -f "$PYTHON_CMD manage.py runserver")
     if [ -n "$P_IDS" ]; then
-        kill $P_IDS || {
-            send_error_mail "No se pudo detener el/los proceso(s) runserver con PID(s): $P_IDS"
-            exit 1
-        }
+        for PID in $P_IDS; do
+            kill "$PID" || {
+                send_error_mail "No se pudo detener el proceso runserver con PID: $PID"
+                exit 1
+            }
+        done
         sleep 2
     fi
 
