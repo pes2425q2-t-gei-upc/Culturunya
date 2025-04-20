@@ -95,7 +95,7 @@ class User(AbstractUser):
     phone_number = models.CharField(max_length=15, blank=True, null=True)
     profile_pic = models.ImageField(upload_to="profiles/", blank=True, null=True)
     birth_date = models.DateField(blank=True, null=True)
-    language = models.CharField(max_length=20, choices=[("ES", "Español"), ("CAT", "Català")], default=("ES", "Español"))
+    language = models.CharField(max_length=20, choices=[("ES", "Español"), ("EN", "English")], default=("ES", "Español"))
     rank_event = models.CharField(max_length=20, choices=TypeRank.choices, default=TypeRank.UNRANKED)
     rank_quiz = models.CharField(max_length=20, choices=TypeRating.choices, default=TypeRating.BAD)
     current_event_points = models.IntegerField(default=0)
