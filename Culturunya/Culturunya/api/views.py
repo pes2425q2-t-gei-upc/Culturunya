@@ -606,3 +606,38 @@ def update_language(request):
         return Response({"message": "Idioma actualizado correctamente", "language": new_language}, status=200)
     except Exception as e:
         return Response({"error": str(e)}, status=500)
+
+
+@swagger_auto_schema(
+    method="put",
+    operation_summary="Cambiar nombre de usuario",
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        required=["username"],
+        properties={
+            "username": openapi.Schema(
+                type=openapi.TYPE_STRING,
+                description="nombre del usuario",
+            ),
+        }
+    ),
+    responses={
+        200: "Nombre de usuario actualizado correctamente",
+        401: "No autenticado",
+        500: "Error del servidor",
+    },
+    security=[{"Token": []}],
+)
+@api_view(["PUT"])
+@permission_classes([IsAuthenticated])
+def update_username(request):
+    try:
+        data = json.loads(request.body)
+        new_username = data.get("username")
+        user = request.user
+        user.username = new_username
+        user.save()
+
+        return Response({"message": "Nombre de usuario actualizado correctamente"}, status=200)
+    except Exception as e:
+        return Response({"error": str(e)}, status=500)
