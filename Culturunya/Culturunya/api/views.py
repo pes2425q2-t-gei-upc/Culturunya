@@ -557,3 +557,52 @@ def get_conversation_with_user(request, user_id):
     } for msg in messages]
 
     return Response(result)
+
+@swagger_auto_schema(
+    method="put",
+    operation_summary="Actualizar idioma del usuario",
+    operation_description="Permite a un usuario autenticado cambiar su idioma preferido. Solo se aceptan los valores 'ES' (Español) y 'EN' (English).",
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        required=["language"],
+        properties={
+            "language": openapi.Schema(
+                type=openapi.TYPE_STRING,
+                description="Código del idioma ('ES' o 'EN')",
+                enum=["ES", "EN"]
+            ),
+        }
+    ),
+    responses={
+        200: openapi.Response(
+            description="Idioma actualizado correctamente",
+            examples={
+                "application/json": {
+                    "message": "Idioma actualizado correctamente",
+                    "language": "ES"
+                }
+            }
+        ),
+        400: "Idioma no válido",
+        401: "No autenticado",
+        500: "Error del servidor"
+    },
+    security=[{"Token": []}],
+)
+@api_view(["PUT"])
+@permission_classes([IsAuthenticated])
+def update_language(request):
+    try:
+        data = json.loads(request.body)
+        new_language = data.get("language")
+
+        if new_language not in ["ES", "EN"]:
+            return Response({"error": "Idioma no valido"}, status=400)
+
+        user = request.user
+        user.language = new_language
+        user.save()
+
+        return Response({"message": "Idioma actualizado correctamente", "language": new_language}, status=200)
+    except Exception as e:
+        return Response({"error": str(e)}, status=500)
