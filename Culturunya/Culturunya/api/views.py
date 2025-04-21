@@ -72,6 +72,29 @@ class CustomObtainAuthToken(ObtainAuthToken):
             'email': user.email
         })
 
+@swagger_auto_schema(
+    method='post',
+    operation_description="Cierra la sesión del usuario autenticado (requiere token).",
+    security=[{'Token': []}],
+    responses={
+        200: openapi.Response(description="Sesión cerrada exitosamente"),
+        400: openapi.Response(description="Sesión no existente o ya eliminada"),
+    }
+)
+@api_view(['POST'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def logout_view(request):
+    """
+    Logout del usuario actual invalidando su token.
+    """
+    try:
+        request.user.auth_token.delete()
+    except (AttributeError, Token.DoesNotExist):
+        return Response({"error": "Sesión no existente o ya eliminada"}, status=status.HTTP_400_BAD_REQUEST)
+
+    return Response({"message": "Sesión cerrada exitosamente"}, status=status.HTTP_200_OK)
+
 
 #
 # ENDPOINTS ABIERTOS (no requieren token)
