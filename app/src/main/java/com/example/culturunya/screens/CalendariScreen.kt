@@ -4,8 +4,6 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import java.time.LocalDate
-import java.time.format.TextStyle
-import java.util.Locale
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
@@ -20,14 +18,26 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.culturunya.R
+import com.example.culturunya.models.currentSession.CurrentSession
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun CalendarScreen() {
     var currentDate by remember { mutableStateOf(LocalDate.now()) }
     var selectedDate by remember { mutableStateOf(LocalDate.now()) }
+    val context = LocalContext.current
+    CurrentSession.getInstance()
+    val currentLocale = CurrentSession.language
+
+    val monthResources = listOf(
+        R.string.january, R.string.february, R.string.march, R.string.april,
+        R.string.may, R.string.june, R.string.july, R.string.august,
+        R.string.september, R.string.october, R.string.november, R.string.december
+    )
 
     Column(
         modifier = Modifier
@@ -41,8 +51,7 @@ fun CalendarScreen() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "${currentDate.month.getDisplayName(TextStyle.FULL, Locale("es"))
-                    .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale("es")) else it.toString() }} ${currentDate.year}",
+                text = "${getString(context, monthResources[currentDate.month.ordinal], currentLocale)} ${currentDate.year}",
                 style = MaterialTheme.typography.titleLarge
             )
             Row {
@@ -83,25 +92,32 @@ fun CalendarGrid(
     selectedDate: LocalDate,
     onDateSelected: (LocalDate) -> Unit
 ) {
+    val context = LocalContext.current
+    CurrentSession.getInstance()
+    val currentLocale = CurrentSession.language
     val firstDayOfMonth = currentDate.withDayOfMonth(1)
     val daysInMonth = currentDate.lengthOfMonth()
 
     // Adjust startingWeekday to make Monday the first day (0-based index)
     val startingWeekday = (firstDayOfMonth.dayOfWeek.value - 1 + 7) % 7
 
-    val dayNames = listOf("L", "M", "X", "J", "V", "S", "D")
+    val dayShortResources = listOf(
+        R.string.mondayShort, R.string.tuesdayShort, R.string.wednesdayShort, R.string.thursdayShort,
+        R.string.fridayShort, R.string.saturdayShort, R.string.sundayShort
+    )
 
     // Day names header
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        dayNames.forEach { day ->
+        dayShortResources.forEach { resId ->
             Text(
-                text = day,
+                text = getString(context, resId, currentLocale),
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.weight(1f),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                maxLines = 1
             )
         }
     }
@@ -164,11 +180,26 @@ fun CalendarGrid(
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun SelectedDateDisplay(selectedDate: LocalDate) {
-    val dayOfWeekName = selectedDate.dayOfWeek.getDisplayName(TextStyle.FULL, Locale("es"))
-        .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale("es")) else it.toString() }
+    val context = LocalContext.current
+    CurrentSession.getInstance()
+    val currentLocale = CurrentSession.language
+
+    val dayResources = listOf(
+        R.string.monday, R.string.tuesday, R.string.wednesday,
+        R.string.thursday, R.string.friday, R.string.saturday, R.string.sunday
+    )
+
+    val monthResources = listOf(
+        R.string.january, R.string.february, R.string.march, R.string.april,
+        R.string.may, R.string.june, R.string.july, R.string.august,
+        R.string.september, R.string.october, R.string.november, R.string.december
+    )
 
     Text(
-        text = "$dayOfWeekName, ${selectedDate.dayOfMonth} de ${selectedDate.month.getDisplayName(TextStyle.FULL, Locale("es"))} de ${selectedDate.year}",
+        text = "${getString(context, dayResources[selectedDate.dayOfWeek.ordinal], currentLocale)}, " +
+                "${selectedDate.dayOfMonth} ${getString(context, R.string.ofconnector, currentLocale)} " +
+                "${getString(context, monthResources[selectedDate.month.ordinal], currentLocale)} " +
+                "${selectedDate.year}",
         style = MaterialTheme.typography.bodyLarge,
         textAlign = TextAlign.Center,
         modifier = Modifier.fillMaxWidth()

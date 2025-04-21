@@ -40,4 +40,36 @@
     <string name="currentLanguage">"Idioma actual"</string>
     <string name="helpNSupport">"Ayuda y soporte"</string>
     <string name="changeUsername">"Cambiar nombre de usuario"</string>
+
+    <!-- Pantalla Calendari -->
+    <string name="monday">Lunes</string>
+    <string name="mondayShort">L</string>
+    <string name="tuesday">Martes</string>
+    <string name="tuesdayShort">M</string>
+    <string name="wednesday">Miércoles</string>
+    <string name="wednesdayShort">X</string>
+    <string name="thursday">Jueves</string>
+    <string name="thursdayShort">J</string>
+    <string name="friday">Viernes</string>
+    <string name="fridayShort">V</string>
+    <string name="saturday">Sábado</string>
+    <string name="saturdayShort">S</string>
+    <string name="sunday">Domingo</string>
+    <string name="sundayShort">D</string>
+
+    <string name="january">Enero</string>
+    <string name="february">Febrero</string>
+    <string name="march">Marzo</string>
+    <string name="april">Abril</string>
+    <string name="may">Mayo</string>
+    <string name="june">Junio</string>
+    <string name="july">Julio</string>
+    <string name="august">Agosto</string>
+    <string name="september">Septiembre</string>
+    <string name="october">Octubre</string>
+    <string name="november">Noviembre</string>
+    <string name="december">Diciembre</string>
+
+    <string name="ofconnector">de</string>
+
 </resources>
