@@ -39,51 +39,75 @@ fun CalendarScreen() {
         R.string.september, R.string.october, R.string.november, R.string.december
     )
 
-    Column(
+    val events = listOf("Evento 1", "Evento 2", "Evento 3", "Evento 4", "Evento 5", "Evento 6")
+
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        // Calendar Header with Navigation
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "${getString(context, monthResources[currentDate.month.ordinal], currentLocale)} ${currentDate.year}",
-                style = MaterialTheme.typography.titleLarge
-            )
-            Row {
-                IconButton(onClick = {
-                    currentDate = currentDate.minusMonths(1)
-                }) {
-                    Icon(Icons.Default.KeyboardArrowLeft, contentDescription = "Previous Month")
-                }
-                IconButton(onClick = {
-                    currentDate = currentDate.plusMonths(1)
-                }) {
-                    Icon(Icons.Default.KeyboardArrowRight, contentDescription = "Next Month")
+        item {
+            // Calendar Header with Navigation
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "${getString(context, monthResources[currentDate.month.ordinal], currentLocale)} ${currentDate.year}",
+                    style = MaterialTheme.typography.titleLarge
+                )
+                Row {
+                    IconButton(onClick = {
+                        currentDate = currentDate.minusMonths(1)
+                    }) {
+                        Icon(Icons.Default.KeyboardArrowLeft, contentDescription = "Previous Month")
+                    }
+                    IconButton(onClick = {
+                        currentDate = currentDate.plusMonths(1)
+                    }) {
+                        Icon(Icons.Default.KeyboardArrowRight, contentDescription = "Next Month")
+                    }
                 }
             }
         }
 
-        // Calendar Grid
-        CalendarGrid(
-            currentDate = currentDate,
-            selectedDate = selectedDate,
-            onDateSelected = { selectedDate = it }
-        )
+        item {
+            // Calendar Grid
+            CalendarGrid(
+                currentDate = currentDate,
+                selectedDate = selectedDate,
+                onDateSelected = { selectedDate = it }
+            )
+        }
 
-        // Selected Date Details
-        Spacer(modifier = Modifier.height(16.dp))
-        SelectedDateDisplay(selectedDate)
+        item {
+            // Selected Date Details
+            SelectedDateDisplay(selectedDate)
+        }
 
         // Event List
-        Spacer(modifier = Modifier.height(16.dp))
-        EventListScrollable()
+        items(events) { event ->
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 4.dp),
+                elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+                shape = RoundedCornerShape(8.dp)
+            ) {
+                Text(
+                    text = event,
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth(),
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
+        }
     }
 }
+
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -204,33 +228,4 @@ fun SelectedDateDisplay(selectedDate: LocalDate) {
         textAlign = TextAlign.Center,
         modifier = Modifier.fillMaxWidth()
     )
-}
-
-@Composable
-fun EventListScrollable() {
-    val events = listOf("Evento 1", "Evento 2", "Evento 3", "Evento 4", "Evento 5", "Evento 6")
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .height(200.dp),  // Limit height to make it scrollable
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        items(events) { event ->
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 4.dp),
-                elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-                shape = RoundedCornerShape(8.dp)
-            ) {
-                Text(
-                    text = event,
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth(),
-                    style = MaterialTheme.typography.bodyLarge
-                )
-            }
-        }
-    }
 }
