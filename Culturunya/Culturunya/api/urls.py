@@ -5,7 +5,7 @@ from .views import (
     get_events, get_filtered_events, create_user, create_rating_endpoint,
     CustomObtainAuthToken, delete_own_account, ChangePasswordView, UserProfileView, get_conversation_with_admin,
     get_conversation_with_user, send_message_user_to_admin, send_message_admin_to_user, update_language,
-    update_username, logout_view
+    update_username, logout_view, resolve_report, list_reports, create_report
 )
 from .views import data_test
 from .views import delete_test
@@ -23,6 +23,7 @@ urlpatterns = [#se concatena con el path de url del proyecto
     path('create_user/', create_user, name='create_user'),
     path('ratings/', create_rating_endpoint, name='create_rating'),
     path('login/', CustomObtainAuthToken.as_view(), name='api_token_auth'),
+    path('logout/', logout_view, name='logout'),
     path('delete_account/', delete_own_account, name='delete_own_account'),
     path('chat/send_to_admin/', send_message_user_to_admin, name='send_to_admin'),
     path('chat/send_to_user/', send_message_admin_to_user, name='send_to_user'),
@@ -32,5 +33,7 @@ urlpatterns = [#se concatena con el path de url del proyecto
     path('user/change_password/', ChangePasswordView.as_view(), name='change_password'),
     path('user/update_language/', update_language, name='update_language'),
     path('user/update_username/', update_username, name='update_username'),
-    path('logout/', logout_view, name='logout'),
+    path('reports/create/', create_report, name='create_report'),
+    path('reports/', list_reports, name='list_reports'),
+    path('reports/<int:report_id>/resolve/', resolve_report, name='resolve_report'),
 ]
