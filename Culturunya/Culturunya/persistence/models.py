@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils import timezone
 
 from Culturunya import settings
 
@@ -221,18 +222,51 @@ class Rating(models.Model):
 
 # Report Model
 class Report(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reports")
-    message = models.TextField()
-    date = models.DateTimeField(auto_now_add=True)
+    reported_user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="reports_received",
+        help_text="Usuario que fue reportado",
+        null = True
+    )
+    reporter = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="reports_made",
+        help_text="Usuario que ha hecho el reporte",
+        null = True
+    )
+    message = models.TextField(help_text="Descripción del motivo del reporte")
+    date = models.DateTimeField(default=timezone.now)
+    is_resolved = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"Report by {self.user.username} on {self.date}"
-
+        return f"Reporte de {self.reporter.username} contra {self.reported_user.username} en {self.date.strftime('%Y-%m-%d')}"
 # ReportResolution Model
 class ReportResolution(models.Model):
-    report = models.OneToOneField(Report, on_delete=models.CASCADE, related_name="resolution")
-    action = models.CharField(max_length=20, choices=Action.choices)
-    message = models.TextField()
+    report = models.OneToOneField(
+        Report,
+        on_delete=models.CASCADE,
+        related_name="resolution",
+        help_text="Reporte al que se aplica esta resolución",
+        null = True
+    )
+    resolved_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="resolutions_made",
+        help_text="Administrador que resolvió el reporte"
+    )
+    action = models.CharField(
+        max_length=20,
+        choices=Action.choices,
+        help_text="Acción tomada como resultado del reporte",
+        null = True
+    )
+    message = models.TextField(help_text="Comentario adicional del administrador")
+    date_resolved = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return f"Resolution for Report {self.report.id}: {self.action}"
+        return f"Resolución para reporte #{self.report.id} - Acción: {self.action}"

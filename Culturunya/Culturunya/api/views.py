@@ -20,11 +20,12 @@ from rest_framework import status
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
-from api.serializers import UserProfileSerializer, ChangePasswordSerializer
+from api.serializers import UserProfileSerializer, ChangePasswordSerializer, ReportSerializer, \
+    ReportResolutionSerializer
 # Services
 from domain.users_service import get_all_events, filter_events, create_user_service, create_rating, create_message, \
     get_messages
-from persistence.models import User
+from persistence.models import User, Report
 
 
 #
@@ -668,3 +669,114 @@ def update_username(request):
         return Response({"message": "Nombre de usuario actualizado correctamente"}, status=200)
     except Exception as e:
         return Response({"error": str(e)}, status=500)
+
+@swagger_auto_schema(
+    method="post",
+    operation_summary="Crear un reporte sobre un usuario",
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        required=["reported_user", "message"],
+        properties={
+            "reported_user": openapi.Schema(type=openapi.TYPE_INTEGER, description="ID del usuario reportado"),
+            "message": openapi.Schema(type=openapi.TYPE_STRING, description="Motivo del reporte"),
+        },
+    ),
+    responses={
+        201: openapi.Response(description="Reporte creado correctamente"),
+        400: openapi.Response(description="Datos inválidos"),
+        401: openapi.Response(description="No autenticado")
+    },
+    security=[{'Token': []}]
+)
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_report(request):
+    serializer = ReportSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(reporter=request.user)
+        return Response({"message": "Reporte enviado correctamente"}, status=201)
+    return Response(serializer.errors, status=400)
+
+@swagger_auto_schema(
+    method="get",
+    operation_summary="Listar todos los reportes no resueltos",
+    responses={
+        200: openapi.Response(
+            description="Lista de reportes pendientes",
+            schema=openapi.Schema(
+                type=openapi.TYPE_ARRAY,
+                items=openapi.Schema(
+                    type=openapi.TYPE_OBJECT,
+                    properties={
+                        "id": openapi.Schema(type=openapi.TYPE_INTEGER),
+                        "reporter": openapi.Schema(type=openapi.TYPE_STRING),
+                        "reported_user": openapi.Schema(type=openapi.TYPE_STRING),
+                        "message": openapi.Schema(type=openapi.TYPE_STRING),
+                        "date": openapi.Schema(type=openapi.TYPE_STRING, format='date-time')
+                    }
+                )
+            )
+        ),
+        403: openapi.Response(description="No autorizado")
+    },
+    security=[{'Token': []}]
+)
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def list_reports(request):
+    user = User.objects.get(id=request.user.id)
+    if not user.is_admin:
+        return Response({"error": "No autorizado"}, status=403)
+
+    reports = Report.objects.all().order_by("-date")
+    serializer = ReportSerializer(reports, many=True)
+    return Response(serializer.data)
+
+@swagger_auto_schema(
+    method="post",
+    operation_summary="Resolver un reporte",
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        required=["action", "message"],
+        properties={
+            "action": openapi.Schema(
+                type=openapi.TYPE_STRING,
+                enum=["NoAction", "Warning", "Ban"],
+                description="Acción tomada"
+            ),
+            "message": openapi.Schema(type=openapi.TYPE_STRING, description="Comentario del administrador"),
+        }
+    ),
+    responses={
+        200: openapi.Response(description="Reporte resuelto correctamente"),
+        404: openapi.Response(description="Reporte no encontrado"),
+        400: openapi.Response(description="Error de validación")
+    },
+    security=[{'Token': []}]
+)
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def resolve_report(request, report_id):
+    user = User.objects.get(id=request.user.id)
+    if not user.is_admin:
+        return Response({"error": "No autorizado"}, status=403)
+
+    try:
+        report = Report.objects.get(id=report_id)
+    except Report.DoesNotExist:
+        return Response({"error": "Reporte no encontrado"}, status=404)
+
+    if report.is_resolved:
+        return Response({"error": "Este reporte ya ha sido resuelto"}, status=400)
+
+    serializer = ReportResolutionSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(
+            report=report,
+            resolved_by=request.user
+        )
+        report.is_resolved = True
+        report.save()
+        return Response({"message": "Reporte resuelto correctamente"}, status=200)
+
+    return Response(serializer.errors, status=400)
