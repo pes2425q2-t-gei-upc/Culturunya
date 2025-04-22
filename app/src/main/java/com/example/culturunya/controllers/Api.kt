@@ -38,7 +38,7 @@ interface Api {
     suspend fun login(@Body loginRequest: LoginRequest): LoginResponse
 
     @DELETE("delete_account/")
-    suspend fun deleteAccount(@Header("Authorization") token: String): DeleteAccountResponse
+    suspend fun deleteAccount(@Header("Authorization") token: String): Response<Unit>
 
     @POST("change-password/")
     suspend fun changePassword(@Header("Authorization") token: String, @Body changePasswordRequest: ChangePasswordRequest): ChangePasswordResponse

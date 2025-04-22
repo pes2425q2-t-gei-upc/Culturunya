@@ -40,4 +40,6 @@
     <string name="currentLanguage">"Idioma actual"</string>
     <string name="helpNSupport">"Ayuda y soporte"</string>
     <string name="changeUsername">"Cambiar nombre de usuario"</string>
+    <string name="deleteErrorNoAuth">"Error eliminando la cuenta. Usuario no autenticado"</string>
+    <string name="deleteError">"Error eliminando la cuenta."</string>
 </resources>
