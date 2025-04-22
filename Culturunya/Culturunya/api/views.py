@@ -393,6 +393,7 @@ class ChangePasswordView(APIView):
     permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(
+        method="put",
         request_body=ChangePasswordSerializer,
         operation_summary="Cambiar contraseña",
         operation_description="Permite a un usuario autenticado cambiar su contraseña actual.",
@@ -402,7 +403,7 @@ class ChangePasswordView(APIView):
             401: "No autenticado.",
         }
     )
-    def post(self, request):
+    def put(self, request):
         serializer = ChangePasswordSerializer(data=request.data)
         if serializer.is_valid():
             user = request.user
