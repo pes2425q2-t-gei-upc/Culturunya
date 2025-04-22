@@ -670,7 +670,24 @@ def update_username(request):
     except Exception as e:
         return Response({"error": str(e)}, status=500)
 
-
+@swagger_auto_schema(
+    method="post",
+    operation_summary="Crear un reporte sobre un usuario",
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        required=["reported_user_id", "message"],
+        properties={
+            "reported_user_id": openapi.Schema(type=openapi.TYPE_INTEGER, description="ID del usuario reportado"),
+            "message": openapi.Schema(type=openapi.TYPE_STRING, description="Motivo del reporte"),
+        },
+    ),
+    responses={
+        201: openapi.Response(description="Reporte creado correctamente"),
+        400: openapi.Response(description="Datos inválidos"),
+        401: openapi.Response(description="No autenticado")
+    },
+    security=[{'Token': []}]
+)
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def create_report(request):
@@ -680,7 +697,30 @@ def create_report(request):
         return Response({"message": "Reporte enviado correctamente"}, status=201)
     return Response(serializer.errors, status=400)
 
-
+@swagger_auto_schema(
+    method="get",
+    operation_summary="Listar todos los reportes no resueltos",
+    responses={
+        200: openapi.Response(
+            description="Lista de reportes pendientes",
+            schema=openapi.Schema(
+                type=openapi.TYPE_ARRAY,
+                items=openapi.Schema(
+                    type=openapi.TYPE_OBJECT,
+                    properties={
+                        "id": openapi.Schema(type=openapi.TYPE_INTEGER),
+                        "reporter": openapi.Schema(type=openapi.TYPE_STRING),
+                        "reported_user": openapi.Schema(type=openapi.TYPE_STRING),
+                        "message": openapi.Schema(type=openapi.TYPE_STRING),
+                        "date": openapi.Schema(type=openapi.TYPE_STRING, format='date-time')
+                    }
+                )
+            )
+        ),
+        403: openapi.Response(description="No autorizado")
+    },
+    security=[{'Token': []}]
+)
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def list_reports(request):
@@ -692,7 +732,28 @@ def list_reports(request):
     serializer = ReportSerializer(reports, many=True)
     return Response(serializer.data)
 
-
+@swagger_auto_schema(
+    method="post",
+    operation_summary="Resolver un reporte",
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        required=["action", "message"],
+        properties={
+            "action": openapi.Schema(
+                type=openapi.TYPE_STRING,
+                enum=["NoAction", "Warning", "Ban"],
+                description="Acción tomada"
+            ),
+            "message": openapi.Schema(type=openapi.TYPE_STRING, description="Comentario del administrador"),
+        }
+    ),
+    responses={
+        200: openapi.Response(description="Reporte resuelto correctamente"),
+        404: openapi.Response(description="Reporte no encontrado"),
+        400: openapi.Response(description="Error de validación")
+    },
+    security=[{'Token': []}]
+)
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def resolve_report(request, report_id):
