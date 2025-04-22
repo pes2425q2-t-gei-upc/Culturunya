@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
+from persistence.models import Report, ReportResolution
+
 User = get_user_model()
 
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -27,3 +29,16 @@ class UserProfileSerializer(serializers.ModelSerializer):
 class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
+
+# serializers.py
+class ReportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Report
+        fields = ['id', 'reported_user', 'message', 'date', 'is_resolved']
+        read_only_fields = ['id', 'reporter', 'date', 'is_resolved']
+
+class ReportResolutionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReportResolution
+        fields = ['report', 'action', 'message']
+

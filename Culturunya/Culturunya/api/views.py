@@ -20,11 +20,12 @@ from rest_framework import status
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
-from api.serializers import UserProfileSerializer, ChangePasswordSerializer
+from api.serializers import UserProfileSerializer, ChangePasswordSerializer, ReportSerializer, \
+    ReportResolutionSerializer
 # Services
 from domain.users_service import get_all_events, filter_events, create_user_service, create_rating, create_message, \
     get_messages
-from persistence.models import User
+from persistence.models import User, Report
 
 
 #
@@ -664,3 +665,53 @@ def update_username(request):
         return Response({"message": "Nombre de usuario actualizado correctamente"}, status=200)
     except Exception as e:
         return Response({"error": str(e)}, status=500)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_report(request):
+    serializer = ReportSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(reporter=request.user)
+        return Response({"message": "Reporte enviado correctamente"}, status=201)
+    return Response(serializer.errors, status=400)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def list_reports(request):
+    user = User.objects.get(id=request.user.id)
+    if not user.is_admin:
+        return Response({"error": "No autorizado"}, status=403)
+
+    reports = Report.objects.all().order_by("-date")
+    serializer = ReportSerializer(reports, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def resolve_report(request, report_id):
+    user = User.objects.get(id=request.user.id)
+    if not user.is_admin:
+        return Response({"error": "No autorizado"}, status=403)
+
+    try:
+        report = Report.objects.get(id=report_id)
+    except Report.DoesNotExist:
+        return Response({"error": "Reporte no encontrado"}, status=404)
+
+    if report.is_resolved:
+        return Response({"error": "Este reporte ya ha sido resuelto"}, status=400)
+
+    serializer = ReportResolutionSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(
+            report=report,
+            resolved_by=request.user
+        )
+        report.is_resolved = True
+        report.save()
+        return Response({"message": "Reporte resuelto correctamente"}, status=200)
+
+    return Response(serializer.errors, status=400)
