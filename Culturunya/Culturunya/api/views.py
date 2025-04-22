@@ -390,40 +390,6 @@ def delete_own_account(request):
     return Response({"message": f"Cuenta '{username}' eliminada correctamente."}, status=status.HTTP_200_OK)
 
 
-class ChangePasswordView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    @swagger_auto_schema(
-        request_body=ChangePasswordSerializer,
-        operation_summary="Cambiar contraseña",
-        operation_description="Permite a un usuario autenticado cambiar su contraseña actual.",
-        responses={
-            200: "Contraseña cambiada exitosamente.",
-            400: "Error de validación o contraseña actual incorrecta.",
-            401: "No autenticado.",
-        }
-    )
-    def post(self, request):
-        serializer = ChangePasswordSerializer(data=request.data)
-        if serializer.is_valid():
-            user = request.user
-            if not user.check_password(serializer.validated_data['old_password']):
-                return Response({"detail": "La contraseña actual es incorrecta."}, status=status.HTTP_400_BAD_REQUEST)
-            user.set_password(serializer.validated_data['new_password'])
-            user.save()
-            return Response({"detail": "Contraseña cambiada correctamente."}, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-class UserProfileView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    @swagger_auto_schema(
-        operation_summary="Obtener información del usuario autenticado",
-        responses={200: UserProfileSerializer()}
-    )
-    def get(self, request):
-        serializer = UserProfileSerializer(request.user)
-        return Response(serializer.data)
 
 @swagger_auto_schema(
     method='post',
@@ -581,6 +547,44 @@ def get_conversation_with_user(request, user_id):
     } for msg in messages]
 
     return Response(result)
+
+
+class ChangePasswordView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(
+        request_body=ChangePasswordSerializer,
+        operation_summary="Cambiar contraseña",
+        operation_description="Permite a un usuario autenticado cambiar su contraseña actual.",
+        responses={
+            200: "Contraseña cambiada exitosamente.",
+            400: "Error de validación o contraseña actual incorrecta.",
+            401: "No autenticado.",
+        }
+    )
+    def put(self, request):
+        serializer = ChangePasswordSerializer(data=request.data)
+        if serializer.is_valid():
+            user = request.user
+            if not user.check_password(serializer.validated_data['old_password']):
+                return Response({"detail": "La contraseña actual es incorrecta."}, status=status.HTTP_400_BAD_REQUEST)
+            user.set_password(serializer.validated_data['new_password'])
+            user.save()
+            return Response({"detail": "Contraseña cambiada correctamente."}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(
+        operation_summary="Obtener información del usuario autenticado",
+        responses={200: UserProfileSerializer()}
+    )
+    def get(self, request):
+        serializer = UserProfileSerializer(request.user)
+        return Response(serializer.data)
+
 
 @swagger_auto_schema(
     method="put",
