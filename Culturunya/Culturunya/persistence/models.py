@@ -226,13 +226,15 @@ class Report(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="reports_received",
-        help_text="Usuario que fue reportado"
+        help_text="Usuario que fue reportado",
+        null = True
     )
     reporter = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="reports_made",
-        help_text="Usuario que ha hecho el reporte"
+        help_text="Usuario que ha hecho el reporte",
+        null = True
     )
     message = models.TextField(help_text="Descripción del motivo del reporte")
     date = models.DateTimeField(default=timezone.now)
@@ -246,7 +248,8 @@ class ReportResolution(models.Model):
         Report,
         on_delete=models.CASCADE,
         related_name="resolution",
-        help_text="Reporte al que se aplica esta resolución"
+        help_text="Reporte al que se aplica esta resolución",
+        null = True
     )
     resolved_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -259,7 +262,8 @@ class ReportResolution(models.Model):
     action = models.CharField(
         max_length=20,
         choices=Action.choices,
-        help_text="Acción tomada como resultado del reporte"
+        help_text="Acción tomada como resultado del reporte",
+        null = True
     )
     message = models.TextField(help_text="Comentario adicional del administrador")
     date_resolved = models.DateTimeField(default=timezone.now)

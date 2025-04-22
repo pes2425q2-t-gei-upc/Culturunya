@@ -675,9 +675,9 @@ def update_username(request):
     operation_summary="Crear un reporte sobre un usuario",
     request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT,
-        required=["reported_user_id", "message"],
+        required=["reported_user", "message"],
         properties={
-            "reported_user_id": openapi.Schema(type=openapi.TYPE_INTEGER, description="ID del usuario reportado"),
+            "reported_user": openapi.Schema(type=openapi.TYPE_INTEGER, description="ID del usuario reportado"),
             "message": openapi.Schema(type=openapi.TYPE_STRING, description="Motivo del reporte"),
         },
     ),
