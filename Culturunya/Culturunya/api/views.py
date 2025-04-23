@@ -24,7 +24,7 @@ from api.serializers import UserProfileSerializer, ChangePasswordSerializer, Rep
     ReportResolutionSerializer
 # Services
 from domain.users_service import get_all_events, filter_events, create_user_service, create_rating, create_message, \
-    get_messages
+    get_messages, create_resolved_report
 from persistence.models import User, Report
 
 
@@ -758,25 +758,5 @@ def list_reports(request):
 @permission_classes([IsAuthenticated])
 def resolve_report(request, report_id):
     user = User.objects.get(id=request.user.id)
-    if not user.is_admin:
-        return Response({"error": "No autorizado"}, status=403)
-
-    try:
-        report = Report.objects.get(id=report_id)
-    except Report.DoesNotExist:
-        return Response({"error": "Reporte no encontrado"}, status=404)
-
-    if report.is_resolved:
-        return Response({"error": "Este reporte ya ha sido resuelto"}, status=400)
-
-    serializer = ReportResolutionSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save(
-            report=report,
-            resolved_by=request.user
-        )
-        report.is_resolved = True
-        report.save()
-        return Response({"message": "Reporte resuelto correctamente"}, status=200)
-
-    return Response(serializer.errors, status=400)
+    status_msg, status_code = create_resolved_report(request.data, user, report_id)
+    return Response(status_msg, status=status_code)
