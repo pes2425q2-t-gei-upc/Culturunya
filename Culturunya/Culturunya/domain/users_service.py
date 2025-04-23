@@ -8,7 +8,9 @@ import json
 from math import radians, cos
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
-from persistence.models import Event, PersonalCalendar, Rating, Message
+
+from api.serializers import ReportResolutionSerializer
+from persistence.models import Event, PersonalCalendar, Rating, Message, Report
 
 
 def get_all_events():
@@ -121,3 +123,42 @@ def get_messages(user1: int, user2: int):
     return Message.objects.filter(
         Q(sender=user1, receiver=user2) | Q(sender=user2, receiver=user1)
     ).order_by("date_written")
+
+def create_resolved_report(data, user, report_id):
+    if not user.is_admin:
+        return {"error": "No autorizado"}, 403
+    try:
+        report = Report.objects.get(id=report_id)
+    except Report.DoesNotExist:
+        return {"error": "Reporte no encontrado"}, 404
+
+    if report.is_resolved:
+        return {"error": "Este reporte ya ha sido resuelto"}, 400
+
+    serializer = ReportResolutionSerializer(data=data)
+    if serializer.is_valid():
+        action = data["action"]
+        message = data["message"]
+        if action == "Warning":
+            create_message(user.id, report.reported_user.id, message)
+            serializer.save(
+                report=report,
+                resolved_by=user,
+                message=message
+            )
+        elif action == "Ban":
+            reported_user = User.objects.get(id=report.reported_user.id)
+            reported_user.is_banned = True
+            reported_user.save()
+            create_message(user.id, reported_user.id, message)
+            serializer.save(
+                report=report,
+                resolved_by=user,
+                message=message
+            )
+
+        report.is_resolved = True
+        report.save()
+        return {"message": "Report resuelto correctamente"}, 200
+
+    return {"error": serializer.errors}, 400
