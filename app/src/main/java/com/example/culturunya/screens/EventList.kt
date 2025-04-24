@@ -19,7 +19,8 @@ fun EventListScreen(
     onEventSelected: (Event) -> Unit
 ) {
     var selectedEvent by remember { mutableStateOf<Event?>(null) }
-    val events by viewModel.events.collectAsState()
+    // Usar allEvents para la lista completa
+    val events by viewModel.allEvents.collectAsState()
 
     if (selectedEvent == null) {
         EventListView(events, onEventSelected = { event ->

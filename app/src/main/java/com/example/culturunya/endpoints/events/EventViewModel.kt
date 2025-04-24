@@ -8,8 +8,11 @@ import kotlinx.coroutines.launch
 import com.example.culturunya.controllers.*
 
 class EventViewModel: ViewModel() {
-    private val _events = MutableStateFlow<List<Event>>(emptyList())
-    val events: StateFlow<List<Event>> = _events
+    private val _allEvents = MutableStateFlow<List<Event>>(emptyList())
+    val allEvents: StateFlow<List<Event>> = _allEvents
+
+    private val _filteredEvents = MutableStateFlow<List<Event>>(emptyList())
+    val filteredEvents: StateFlow<List<Event>> = _filteredEvents
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading
@@ -29,7 +32,8 @@ class EventViewModel: ViewModel() {
             _isLoading.value = true
             _error.value = null
             try {
-                _events.value = repository.getEvents().getOrThrow()
+                _allEvents.value = repository.getEvents().getOrThrow()
+                _filteredEvents.value = _allEvents.value // Inicialmente, mostrar todos los eventos
             } catch (e: Exception) {
                 _error.value = "Error al cargar eventos: ${e.message}"
             } finally {
@@ -44,7 +48,9 @@ class EventViewModel: ViewModel() {
             _error.value = null
 
             repository.filterByDateRange(dateStart, dateEnd)
-                .onSuccess { _events.value = it }
+                .onSuccess {
+                    _filteredEvents.value = it
+                }
                 .onFailure { e ->
                     _error.value = when {
                         e is IllegalStateException -> "Por favor inicie sesión"
@@ -56,7 +62,4 @@ class EventViewModel: ViewModel() {
             _isLoading.value = false
         }
     }
-
-
-
 }
