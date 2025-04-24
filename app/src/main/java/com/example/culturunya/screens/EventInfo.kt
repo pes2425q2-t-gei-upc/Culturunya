@@ -1,65 +1,236 @@
 package com.example.culturunya.screens.events
 
+import androidx.annotation.DrawableRes
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.culturunya.R
 import com.example.culturunya.endpoints.events.Event
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EventInfo(
     event: Event,
     onBack: () -> Unit
 ) {
-    LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        item {
-            Column(
-                modifier = Modifier.padding(16.dp)
+    val scrollState = rememberScrollState()
+    val purpleGradient = Brush.verticalGradient(
+        colors = listOf(
+            Color(0xFF6A1B9A),
+            Color(0xFF9C27B0),
+            Color(0xFFBA68C8)
+        )
+    )
+
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        text = event.name,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        color = Color.White,
+                        fontSize = 22.sp,  // Tamaño aumentado
+                        fontWeight = FontWeight.Bold  // Texto más grueso
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = onBack) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Volver",
+                            tint = Color.White,
+                            modifier = Modifier.size(28.dp)  // Icono más grande
+                        )
+                    }
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = Color(0xFF6A1B9A)
+                )
+            )
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .verticalScroll(scrollState)
+                .background(Color(0xFFF3E5F5)),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            // Sección de imagen del evento
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp)
+                    .background(purpleGradient),
+                contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "Info del evento: ${event.name}",
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center
+                    text = "Imagen del Evento",
+                    color = Color.White,
+                    fontSize = 22.sp,  // Tamaño aumentado
+                    fontWeight = FontWeight.Bold
                 )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "Ubicación: ${event.location.address}",
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "Descripción: ${event.description}",
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "Fecha de inicio: ${event.date_start}",
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "Fecha de fin: ${event.date_end}",
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                Button(
-                    onClick = onBack,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text("Volver")
-                }
             }
+
+            // Contenido del evento
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                // Categorías
+                if (event.categories.isNotEmpty()) {
+                    Text(
+                        text = "Categorías:",
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            fontSize = 18.sp,  // Tamaño aumentado
+                            color = Color(0xFF7B1FA2)
+                        ),
+                        modifier = Modifier.padding(bottom = 4.dp)
+                    )
+                    Text(
+                        text = event.categories.joinToString(", "),
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                            fontSize = 16.sp  // Tamaño aumentado
+                        ),
+                        modifier = Modifier.padding(bottom = 12.dp)
+                    )
+                }
+
+                // Ubicación
+                InfoItem(
+                    title = "Ubicación",
+                    content = event.location.address,
+                    iconRes = R.drawable.ic_location
+                )
+
+                // Fechas y horas
+                Text(
+                    text = "Fechas:",
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        fontSize = 18.sp,
+                        color = Color(0xFF7B1FA2)
+                    ),
+                    modifier = Modifier.padding(top = 8.dp, bottom = 4.dp)
+                )
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    InfoItem(
+                        title = "Inicio",
+                        content = event.date_start.split("T")[0],  //fecha
+                        iconRes = R.drawable.ic_calendar,
+                        modifier = Modifier.weight(1f)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    InfoItem(
+                        title = "Hora",
+                        content = event.date_start.split("T")[1].take(5),  //hora (HH:MM)
+                        iconRes = R.drawable.ic_time,
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    InfoItem(
+                        title = "Fin",
+                        content = event.date_end.split("T")[0],
+                        iconRes = R.drawable.ic_calendar,
+                        modifier = Modifier.weight(1f)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    InfoItem(
+                        title = "Hora",
+                        content = event.date_end.split("T")[1].take(5),
+                        iconRes = R.drawable.ic_time,
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+
+                // Precio
+                InfoItem(
+                    title = "Precio",
+                    content = event.price,
+                    iconRes = R.drawable.ic_price
+                )
+
+                // Descripción (mantenemos el tamaño original)
+                Text(
+                    text = "Descripción",
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        fontSize = 18.sp,
+                        color = Color(0xFF6A1B9A)
+                    ),
+                    modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                )
+                Text(
+                    text = event.description,
+                    style = MaterialTheme.typography.bodyLarge,
+                    textAlign = TextAlign.Justify,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun InfoItem(
+    title: String,
+    content: String,
+    @DrawableRes iconRes: Int? = null,
+    modifier: Modifier = Modifier
+) {
+    Column(modifier = modifier.padding(vertical = 8.dp)) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.labelLarge.copy(
+                fontSize = 16.sp,
+                color = Color(0xFF7B1FA2).copy(alpha = 0.8f)
+            )
+        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(top = 4.dp)
+        ) {
+            iconRes?.let {  // "let" en minúsculas
+                Icon(
+                    painter = painterResource(id = it),
+                    contentDescription = null,
+                    tint = Color(0xFF6A1B9A),  // Corregido formato del color
+                    modifier = Modifier.size(40.dp).padding(end = 8.dp)
+                )
+            }
+            Text(
+                text = content,
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    fontSize = 16.sp
+                ),
+                color = Color.Black
+            )
         }
     }
 }
