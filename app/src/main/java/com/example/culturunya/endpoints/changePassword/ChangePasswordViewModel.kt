@@ -6,35 +6,32 @@ import androidx.lifecycle.viewModelScope
 import com.example.culturunya.controllers.Api
 import com.example.culturunya.controllers.AuthRepository
 import com.example.culturunya.models.changePassword.ChangePasswordRequest
-import com.example.culturunya.models.changePassword.ChangePasswordResponse
 import com.example.culturunya.models.currentSession.CurrentSession
+import com.example.culturunya.models.deleteAccount.DeleteAccountRequest
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 
 class ChangePasswordViewModel: ViewModel() {
-
-
-    private val _changePasswordResponse = MutableStateFlow<ChangePasswordResponse?>(null)
-    val changePasswordResponse: StateFlow<ChangePasswordResponse?> = _changePasswordResponse
-
-    private val _changePasswordError = MutableStateFlow<String?>(null)
-    val changePasswordError: StateFlow<String?> = _changePasswordError
+    private val _changePasswordStatus = MutableStateFlow<Int?>(null)
+    val changePasswordStatus: StateFlow<Int?> = _changePasswordStatus
 
     private val api = Api.instance
     private val repository = AuthRepository(api)
 
     fun changePassword(oldPassword: String, newPassword: String) {
         viewModelScope.launch {
-            try {
-                CurrentSession.getInstance()
-                val currentToken = CurrentSession.token
-                val response = repository.changePassword("Token $currentToken", ChangePasswordRequest(oldPassword, newPassword))
-                _changePasswordResponse.value = response
-                _changePasswordError.value = null
-            } catch (e: Exception) {
-                _changePasswordError.value = e.message ?: "Error desconocido"
-                _changePasswordResponse.value = null
+            val currentToken = CurrentSession.token
+            val result = repository.changePassword("Token $currentToken", ChangePasswordRequest(oldPassword, newPassword))
+
+            result.onSuccess {
+                _changePasswordStatus.value = 200
+            }.onFailure { error ->
+                _changePasswordStatus.value = when (error) {
+                    is HttpException -> error.code()
+                    else -> -1
+                }
             }
         }
     }

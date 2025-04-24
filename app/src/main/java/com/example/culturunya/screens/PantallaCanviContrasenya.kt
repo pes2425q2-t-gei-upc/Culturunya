@@ -51,6 +51,8 @@ fun PantallaCanviContrasenya(navController: NavController) {
     val currentLocale = CurrentSession.language
 
     val changePasswordViewModel: ChangePasswordViewModel = viewModel()
+    val changePasswordCode by changePasswordViewModel.changePasswordStatus.collectAsState()
+    var showErrorDialog by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
@@ -180,7 +182,7 @@ fun PantallaCanviContrasenya(navController: NavController) {
             }
 
             Spacer(modifier = Modifier.height(10.dp))
-
+            Log.d("Codi change password:", "$changePasswordCode")
             if (haCanviat) {
                 AlertDialog(
                     onDismissRequest = { haCanviat = false },
@@ -206,7 +208,6 @@ fun PantallaCanviContrasenya(navController: NavController) {
                     CurrentSession.getInstance()
                     val contrasenyaCorrecta = CurrentSession.password
                     when {
-                        haCanviat -> true //Si ja s'ha fet el canvi, ignora que tornis a apretar
                         contrasenyaActual.isEmpty() || novaContrasenya.isEmpty() || confirmaNovaContrasenya.isEmpty() ->
                             missatgeError = getString(context, R.string.allFieldsRequired, currentLocale)
 
@@ -218,18 +219,40 @@ fun PantallaCanviContrasenya(navController: NavController) {
 
                         contrasenyaActual == novaContrasenya ->
                             missatgeError = getString(context, R.string.passwordsMustBeDifferent, currentLocale)
+
                         else -> {
                             missatgeError = ""
                             changePasswordViewModel.changePassword(contrasenyaActual, novaContrasenya)
-                            haCanviat = true
                         }
                     }
                 },
                 modifier = Modifier.width(250.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Morat)
             ) {
-                Text(text = getString(context, R.string.changeThePassword, currentLocale), color = Color.White)
+                Text(
+                    text = getString(context, R.string.changeThePassword, currentLocale),
+                    color = Color.White
+                )
             }
+
+
+            LaunchedEffect(changePasswordCode) {
+                when (changePasswordCode) {
+                    200 -> navController.navigate(AppScreens.IniciSessio.route)
+                    else -> if (changePasswordCode != null) showErrorDialog = true
+                }
+            }
+
+            if (showErrorDialog) {
+                var message = getString(context, R.string.changePasswordErrorNoAuth, currentLocale)
+                if (changePasswordCode == 400) {
+                    message = getString(context, R.string.validationError, currentLocale)
+                }
+                popUpError(message, onClick = {
+                    showErrorDialog = false
+                })
+            }
+
         }
     }
 }

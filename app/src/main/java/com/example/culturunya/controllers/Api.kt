@@ -8,9 +8,8 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import com.example.culturunya.endpoints.events.*
 import com.example.culturunya.endpoints.test.Test
 import com.example.culturunya.models.changePassword.ChangePasswordRequest
-import com.example.culturunya.models.changePassword.ChangePasswordResponse
 import com.example.culturunya.models.deleteAccount.DeleteAccountRequest
-import com.example.culturunya.models.deleteAccount.DeleteAccountResponse
+import com.example.culturunya.models.events.Events
 import com.example.culturunya.models.login.LoginRequest
 import com.example.culturunya.models.login.LoginResponse
 //import okhttp3.Response
@@ -40,6 +39,6 @@ interface Api {
     @DELETE("delete_account/")
     suspend fun deleteAccount(@Header("Authorization") token: String): Response<Unit>
 
-    @POST("change-password/")
-    suspend fun changePassword(@Header("Authorization") token: String, @Body changePasswordRequest: ChangePasswordRequest): ChangePasswordResponse
+    @PUT("user/change_password/")
+    suspend fun changePassword(@Header("Authorization") token: String, @Body changePasswordRequest: ChangePasswordRequest): Response<Unit>
 }

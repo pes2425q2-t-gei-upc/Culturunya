@@ -24,8 +24,8 @@ import com.example.culturunya.R
 import com.example.culturunya.navigation.AppScreens
 import com.example.culturunya.ui.theme.*
 import com.example.culturunya.controllers.*
-import com.example.culturunya.endpoints.events.Event
 import com.example.culturunya.endpoints.events.EventViewModel
+import com.example.culturunya.models.events.Event
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)

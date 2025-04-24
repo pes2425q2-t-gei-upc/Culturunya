@@ -26,6 +26,8 @@
     <string name="passwordsMustBeDifferent">"The new password cannot be the same as the previous one."</string>
     <string name="changeThePassword">"Change Password"</string>
     <string name="passwordChangeCompleted">"Password change completed"</string>
+    <string name="validationError">"Validation error"</string>
+    <string name="changePasswordErrorNoAuth">"Error changing password. Unauthenticated user"</string>
     <string name="ok">"OK"</string>
 
     <!-- Pantalla Settings -->
