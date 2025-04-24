@@ -22,11 +22,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.culturunya.R
+
 import com.example.culturunya.endpoints.events.Event
 import com.example.culturunya.endpoints.events.EventViewModel
 import com.example.culturunya.models.currentSession.CurrentSession
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -36,6 +38,7 @@ fun CalendarScreen(viewModel: EventViewModel) {
     val context = LocalContext.current
     CurrentSession.getInstance()
     val currentLocale = CurrentSession.language
+
 
     val filteredEvents by viewModel.events.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
@@ -49,11 +52,13 @@ fun CalendarScreen(viewModel: EventViewModel) {
         )
     }
 
+
     val monthResources = listOf(
         R.string.january, R.string.february, R.string.march, R.string.april,
         R.string.may, R.string.june, R.string.july, R.string.august,
         R.string.september, R.string.october, R.string.november, R.string.december
     )
+
 
     LazyColumn(
         modifier = Modifier
@@ -139,6 +144,7 @@ fun CalendarScreen(viewModel: EventViewModel) {
             items(filteredEvents) { event ->
                 EventItem(event = event)
             }
+
         }
     }
 }
