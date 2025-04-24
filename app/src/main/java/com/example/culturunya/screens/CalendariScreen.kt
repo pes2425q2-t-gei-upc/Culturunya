@@ -22,16 +22,36 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.culturunya.R
+
+import com.example.culturunya.endpoints.events.Event
+import com.example.culturunya.endpoints.events.EventViewModel
 import com.example.culturunya.models.currentSession.CurrentSession
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun CalendarScreen() {
+fun CalendarScreen(viewModel: EventViewModel) {
     var currentDate by remember { mutableStateOf(LocalDate.now()) }
     var selectedDate by remember { mutableStateOf(LocalDate.now()) }
     val context = LocalContext.current
     CurrentSession.getInstance()
     val currentLocale = CurrentSession.language
+
+
+    val filteredEvents by viewModel.events.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
+    val error by viewModel.error.collectAsState()
+
+    LaunchedEffect(selectedDate) {
+        val formattedDate = selectedDate.format(DateTimeFormatter.ISO_LOCAL_DATE)
+        viewModel.filterEventsByDate(
+            dateStart = formattedDate,
+            dateEnd = formattedDate,
+        )
+    }
+
 
     val monthResources = listOf(
         R.string.january, R.string.february, R.string.march, R.string.april,
@@ -39,7 +59,6 @@ fun CalendarScreen() {
         R.string.september, R.string.october, R.string.november, R.string.december
     )
 
-    val events = listOf("Evento 1", "Evento 2", "Evento 3", "Evento 4", "Evento 5", "Evento 6")
 
     LazyColumn(
         modifier = Modifier
@@ -87,23 +106,45 @@ fun CalendarScreen() {
             SelectedDateDisplay(selectedDate)
         }
 
-        // Event List
-        items(events) { event ->
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 4.dp),
-                elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-                shape = RoundedCornerShape(8.dp)
-            ) {
-                Text(
-                    text = event,
+        if (isLoading) {
+            item {
+                CircularProgressIndicator(
                     modifier = Modifier
+                        .fillMaxWidth()
                         .padding(16.dp)
-                        .fillMaxWidth(),
-                    style = MaterialTheme.typography.bodyLarge
+                        .wrapContentWidth(Alignment.CenterHorizontally)
                 )
             }
+        }
+
+        error?.let { errorMessage ->
+            item {
+                Text(
+                    text = errorMessage,
+                    color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                )
+            }
+        }
+
+        // Event List
+        if (filteredEvents.isEmpty() && !isLoading && error == null) {
+            item {
+                Text(
+                    text = "No hay eventos para este día",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    textAlign = TextAlign.Center
+                )
+            }
+        } else {
+            items(filteredEvents) { event ->
+                EventItem(event = event)
+            }
+
         }
     }
 }
@@ -228,4 +269,55 @@ fun SelectedDateDisplay(selectedDate: LocalDate) {
         textAlign = TextAlign.Center,
         modifier = Modifier.fillMaxWidth()
     )
+
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
+fun EventItem(event: Event) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        shape = RoundedCornerShape(8.dp)
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Text(
+                text = event.name,
+                style = MaterialTheme.typography.titleMedium
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = event.description,
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+
+            val startDate = LocalDate.parse(event.date_start.substringBefore("T"))
+            val startTime = LocalTime.parse(event.date_start.substringAfter("T").substringBefore("+"))
+            val endDate = LocalDate.parse(event.date_end.substringBefore("T"))
+            val endTime = LocalTime.parse(event.date_end.substringAfter("T").substringBefore("+"))
+
+            Text(
+                text = "Inicio: ${startDate}",
+                style = MaterialTheme.typography.bodySmall
+            )
+            Text(
+                text = "Hora Inicio: ${startTime}",
+                style = MaterialTheme.typography.bodySmall
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = "Fin: ${endDate}",
+                style = MaterialTheme.typography.bodySmall
+            )
+            Text(
+                text = "Hora Fin: ${endTime}",
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
+    }
 }

@@ -21,9 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.culturunya.R
-import com.example.culturunya.navigation.AppScreens
 import com.example.culturunya.ui.theme.*
-import com.example.culturunya.controllers.*
 import com.example.culturunya.endpoints.events.Event
 import com.example.culturunya.endpoints.events.EventViewModel
 
@@ -106,7 +104,7 @@ fun MainScreen(navController: NavController, viewModel: EventViewModel) {
                     // Depenent de l'estat subScreen, mostrem una pantalla d'Events o altra
                     when (currentEventsSubScreen) {
                         "Map" -> EventMapScreen()
-                        "Calendar" -> EventCalendarScreen()
+                        "Calendar" -> EventCalendarScreen(viewModel)
                         "List" -> EventListScreen(viewModel)
                     }
                 }
@@ -242,8 +240,8 @@ fun EventMapScreen() {
 }
 
 @Composable
-fun EventCalendarScreen() {
-    CalendarScreen()
+fun EventCalendarScreen(viewModel: EventViewModel) {
+    CalendarScreen(viewModel)
 }
 
 @Composable

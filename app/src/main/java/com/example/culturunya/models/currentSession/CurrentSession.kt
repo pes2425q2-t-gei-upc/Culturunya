@@ -1,7 +1,5 @@
 package com.example.culturunya.models.currentSession
 
-import android.util.Log
-import androidx.compose.runtime.mutableStateOf
 import java.util.*
 
 class CurrentSession private constructor() {
@@ -32,5 +30,8 @@ class CurrentSession private constructor() {
         fun changeLanguage(lang: String) {
             language = lang
         }
+
+        fun getAuthHeader(): String = "Token $token"
+
     }
 }
