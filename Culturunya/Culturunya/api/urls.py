@@ -5,7 +5,7 @@ from .views import (
     get_events, get_filtered_events, create_user, create_rating_endpoint,
     CustomObtainAuthToken, delete_own_account, ChangePasswordView, UserProfileView, get_conversation_with_admin,
     get_conversation_with_user, send_message_user_to_admin, send_message_admin_to_user, update_language,
-    update_username, logout_view, resolve_report, list_reports, create_report
+    update_username, logout_view, resolve_report, list_reports, create_report, get_event_comments
 )
 from .views import data_test
 from .views import delete_test
@@ -21,7 +21,8 @@ urlpatterns = [#se concatena con el path de url del proyecto
     #un endpoint GET para obtener los eventos que un usuario tiene en su calendario personal
     #otro endpoint POST/DELETE para añadir/quitar eventos de su calendario personal
     path('create_user/', create_user, name='create_user'),
-    path('ratings/', create_rating_endpoint, name='create_rating'),
+    path('ratings/create/', create_rating_endpoint, name='create_rating'),
+    path('ratings/<int:event_id>/', get_event_comments, name='get_event_comments'),
     path('login/', CustomObtainAuthToken.as_view(), name='api_token_auth'),
     path('logout/', logout_view, name='logout'),
     path('delete_account/', delete_own_account, name='delete_own_account'),

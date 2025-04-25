@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
-from persistence.models import Report, ReportResolution
+from persistence.models import Report, ReportResolution, Rating
 
 User = get_user_model()
 
@@ -26,6 +26,12 @@ class UserProfileSerializer(serializers.ModelSerializer):
             'points_to_next_quiz_points',
         ]
 
+class UserSimpleInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'profile_pic']
+    profile_pic = serializers.ImageField(read_only=True)
+
 class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
@@ -42,3 +48,8 @@ class ReportResolutionSerializer(serializers.ModelSerializer):
         model = ReportResolution
         fields = ['report', 'action', 'message']
 
+class RatingSerializer(serializers.ModelSerializer):
+    user = UserSimpleInfoSerializer('user', read_only=True)
+    class Meta:
+        model = Rating
+        fields = ['user', 'date', 'rating', 'comment']
