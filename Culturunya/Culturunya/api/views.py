@@ -21,11 +21,11 @@ from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
 from api.serializers import UserProfileSerializer, ChangePasswordSerializer, ReportSerializer, \
-    ReportResolutionSerializer
+    ReportResolutionSerializer, RatingSerializer
 # Services
 from domain.users_service import get_all_events, filter_events, create_user_service, create_rating, create_message, \
     get_messages, create_resolved_report
-from persistence.models import User, Report
+from persistence.models import User, Report, Rating
 
 
 #
@@ -371,6 +371,32 @@ def create_rating_endpoint(request):
         return Response({"error": f"Falta el campo obligatorio: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
     except ValueError as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+@swagger_auto_schema(
+    method="get",
+    operation_summary="Obtener comentarios de un evento",
+    manual_parameters=[
+        openapi.Parameter(
+            name='event_id',
+            in_=openapi.IN_PATH,
+            type=openapi.TYPE_INTEGER,
+            description="ID del evento del que se quieren obtener los comentarios",
+            required=True
+        )
+    ],
+    responses={
+        200: openapi.Response(
+            description="Lista de comentarios",
+            schema=RatingSerializer(many=True),
+        ),
+        404: "Evento no encontrado o sin comentarios"
+    }
+)
+@api_view(["GET"])
+def get_event_comments(request, event_id):
+    comments = Rating.objects.filter(event_id=event_id, comment__isnull=False).exclude(comment__exact="").select_related('user')
+    serializer = RatingSerializer(comments, many=True)
+    return Response(serializer.data)
 
 @swagger_auto_schema(
     method='delete',
