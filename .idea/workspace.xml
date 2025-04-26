@@ -16,18 +16,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="393b6216-b3ba-4902-a55f-80ae4ad778ba" name="Changes" comment="Rama para mostrar eventos">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/screens/MapScreen.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/controllers/CtrlPantallaRegistre.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/controllers/CtrlPantallaRegistre.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/controllers/EventsRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/controllers/EventsRepository.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/controllers/TestRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/controllers/TestRepository.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/endpoints/events/EventViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/endpoints/events/EventViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/navigation/AppNavigation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/navigation/AppNavigation.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/screens/PantallaPrincipal.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/screens/PantallaPrincipal.kt" afterDir="false" />
-    </list>
+    <list default="true" id="393b6216-b3ba-4902-a55f-80ae4ad778ba" name="Changes" comment="Rama para mostrar el Mapa de eventos" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -200,7 +189,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742686781936</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Rama para mostrar el Mapa de eventos">
+      <option name="closed" value="true" />
+      <created>1745690719234</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1745690719234</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -208,7 +205,8 @@
     <MESSAGE value="List of Events with default events to keep the menu" />
     <MESSAGE value="Principal Screen Controller" />
     <MESSAGE value="Rama para mostrar eventos" />
-    <option name="LAST_COMMIT_MESSAGE" value="Rama para mostrar eventos" />
+    <MESSAGE value="Rama para mostrar el Mapa de eventos" />
+    <option name="LAST_COMMIT_MESSAGE" value="Rama para mostrar el Mapa de eventos" />
   </component>
   <component name="play_dynamic_filters_status">
     <option name="appIdToCheckInfo">
