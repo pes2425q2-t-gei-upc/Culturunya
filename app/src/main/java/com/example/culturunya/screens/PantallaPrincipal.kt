@@ -11,7 +11,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -24,8 +23,15 @@ import com.example.culturunya.R
 import com.example.culturunya.navigation.AppScreens
 import com.example.culturunya.ui.theme.*
 import com.example.culturunya.controllers.*
-import com.example.culturunya.endpoints.events.Event
+import com.example.culturunya.models.events.Event
 import com.example.culturunya.endpoints.events.EventViewModel
+import androidx.compose.ui.viewinterop.AndroidView
+import android.os.Bundle
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.example.culturunya.screens.*
+
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -235,10 +241,6 @@ fun BottomButtonItem(
 }
 
 /** PANTALLES D’ESDEVENIMENTS (SUB-SCREENS) */
-@Composable
-fun EventMapScreen() {
-    Text("Això és la pantalla Map d'Events")
-}
 
 @Composable
 fun EventCalendarScreen() {

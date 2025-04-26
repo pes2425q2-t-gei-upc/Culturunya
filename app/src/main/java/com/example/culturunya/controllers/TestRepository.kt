@@ -1,6 +1,6 @@
 package com.example.culturunya.controllers
 
-import com.example.culturunya.endpoints.Test.*
+import com.example.culturunya.models.Test.Test
 import com.example.culturunya.endpoints.events.Event
 import kotlin.Result.Companion.failure
 

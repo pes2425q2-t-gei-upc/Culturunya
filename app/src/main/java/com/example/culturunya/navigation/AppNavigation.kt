@@ -1,4 +1,4 @@
-    package com.example.culturunya.navigation
+package com.example.culturunya.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel

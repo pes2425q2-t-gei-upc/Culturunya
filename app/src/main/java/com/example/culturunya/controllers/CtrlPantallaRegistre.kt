@@ -10,7 +10,7 @@ fun enviarDadesAlBackend(username: String, email: String, password: String): Int
     return runBlocking {
         try {
             val response = repository.registerUser(username, email, password)
-            // ✅ Només retornem el codi HTTP, ignorant username i email de la resposta JSON
+            //Només retornem el codi HTTP, ignorant username i email de la resposta JSON
             return@runBlocking response.code()
         } catch (e: Exception) {
             Log.e("Registre", "Error de xarxa: ${e.message}", e)

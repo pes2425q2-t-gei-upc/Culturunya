@@ -27,7 +27,6 @@ interface Api {
     @POST("create_user/")
     suspend fun registerUser(@Body user: RegisterRequest): Response<RegisterResponse>
 
-
     @GET("test/")
     suspend fun getokay(): Test
 }
