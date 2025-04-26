@@ -6,8 +6,9 @@ import kotlin.Result.Companion.failure
 
 class TestRepository (private val api: Api){
     suspend fun getokay() : Result<Test>{
+        val response = api.getokay()
         return try {
-            Result.success(api.getokay())
+            Result.success(response)
         } catch (e: Exception){
             Result.failure(e)
         }

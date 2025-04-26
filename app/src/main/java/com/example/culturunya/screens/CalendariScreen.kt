@@ -4,8 +4,6 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import java.time.LocalDate
-import java.time.format.TextStyle
-import java.util.Locale
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
@@ -20,61 +18,151 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.culturunya.R
+
+import com.example.culturunya.endpoints.events.Event
+import com.example.culturunya.endpoints.events.EventViewModel
+import com.example.culturunya.models.currentSession.CurrentSession
+import com.example.culturunya.screens.events.EventBox
+import com.example.culturunya.screens.events.EventInfo
+import java.time.format.DateTimeFormatter
+
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun CalendarScreen() {
+fun CalendarScreen(viewModel: EventViewModel) {
     var currentDate by remember { mutableStateOf(LocalDate.now()) }
     var selectedDate by remember { mutableStateOf(LocalDate.now()) }
+    var selectedEvent by remember { mutableStateOf<Event?>(null) }
+    val context = LocalContext.current
+    CurrentSession.getInstance()
+    val currentLocale = CurrentSession.language
 
-    Column(
+    // Usar filteredEvents para el calendario
+    val filteredEvents by viewModel.filteredEvents.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
+    val error by viewModel.error.collectAsState()
+
+    LaunchedEffect(selectedDate) {
+        val formattedDate = selectedDate.format(DateTimeFormatter.ISO_LOCAL_DATE)
+        viewModel.filterEventsByDate(
+            dateStart = formattedDate,
+            dateEnd = formattedDate
+        )
+    }
+
+    val monthResources = listOf(
+        R.string.january, R.string.february, R.string.march, R.string.april,
+        R.string.may, R.string.june, R.string.july, R.string.august,
+        R.string.september, R.string.october, R.string.november, R.string.december
+    )
+
+    // Mostrar EventInfo si hay un evento seleccionado
+    if (selectedEvent != null) {
+        EventInfo(
+            event = selectedEvent!!,
+            onBack = { selectedEvent = null }
+        )
+        return
+    }
+
+    // Pantalla principal del calendario
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        // Calendar Header with Navigation
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "${currentDate.month.getDisplayName(TextStyle.FULL, Locale("es"))
-                    .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale("es")) else it.toString() }} ${currentDate.year}",
-                style = MaterialTheme.typography.titleLarge
-            )
-            Row {
-                IconButton(onClick = {
-                    currentDate = currentDate.minusMonths(1)
-                }) {
-                    Icon(Icons.Default.KeyboardArrowLeft, contentDescription = "Previous Month")
-                }
-                IconButton(onClick = {
-                    currentDate = currentDate.plusMonths(1)
-                }) {
-                    Icon(Icons.Default.KeyboardArrowRight, contentDescription = "Next Month")
+        item {
+            // Calendar Header with Navigation
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "${getString(context, monthResources[currentDate.month.ordinal], currentLocale)} ${currentDate.year}",
+                    style = MaterialTheme.typography.titleLarge
+                )
+                Row {
+                    IconButton(onClick = {
+                        currentDate = currentDate.minusMonths(1)
+                    }) {
+                        Icon(Icons.Default.KeyboardArrowLeft, contentDescription = "Previous Month")
+                    }
+                    IconButton(onClick = {
+                        currentDate = currentDate.plusMonths(1)
+                    }) {
+                        Icon(Icons.Default.KeyboardArrowRight, contentDescription = "Next Month")
+                    }
                 }
             }
         }
 
-        // Calendar Grid
-        CalendarGrid(
-            currentDate = currentDate,
-            selectedDate = selectedDate,
-            onDateSelected = { selectedDate = it }
-        )
+        item {
+            // Calendar Grid
+            CalendarGrid(
+                currentDate = currentDate,
+                selectedDate = selectedDate,
+                onDateSelected = { selectedDate = it }
+            )
+        }
 
-        // Selected Date Details
-        Spacer(modifier = Modifier.height(16.dp))
-        SelectedDateDisplay(selectedDate)
+        item {
+            // Selected Date Details
+            SelectedDateDisplay(selectedDate)
+        }
 
-        // Event List
-        Spacer(modifier = Modifier.height(16.dp))
-        EventListScrollable()
+        if (isLoading) {
+            item {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                        .wrapContentWidth(Alignment.CenterHorizontally)
+                )
+            }
+        }
+
+        error?.let { errorMessage ->
+            item {
+                Text(
+                    text = errorMessage,
+                    color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                )
+            }
+        }
+
+        // Event List usando EventBox
+        if (filteredEvents.isEmpty() && !isLoading && error == null) {
+            item {
+                Text(
+                    text = "No hay eventos para este día",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    textAlign = TextAlign.Center
+                )
+            }
+        } else {
+            items(filteredEvents) { event ->
+                EventBox(
+                    event = event,
+                    onEventClick = { selectedEvent = it }
+                )
+            }
+        }
     }
 }
+
+// Elimina el composable EventItem original ya que ahora usamos EventBox
+
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -83,25 +171,32 @@ fun CalendarGrid(
     selectedDate: LocalDate,
     onDateSelected: (LocalDate) -> Unit
 ) {
+    val context = LocalContext.current
+    CurrentSession.getInstance()
+    val currentLocale = CurrentSession.language
     val firstDayOfMonth = currentDate.withDayOfMonth(1)
     val daysInMonth = currentDate.lengthOfMonth()
 
     // Adjust startingWeekday to make Monday the first day (0-based index)
     val startingWeekday = (firstDayOfMonth.dayOfWeek.value - 1 + 7) % 7
 
-    val dayNames = listOf("L", "M", "X", "J", "V", "S", "D")
+    val dayShortResources = listOf(
+        R.string.mondayShort, R.string.tuesdayShort, R.string.wednesdayShort, R.string.thursdayShort,
+        R.string.fridayShort, R.string.saturdayShort, R.string.sundayShort
+    )
 
     // Day names header
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        dayNames.forEach { day ->
+        dayShortResources.forEach { resId ->
             Text(
-                text = day,
+                text = getString(context, resId, currentLocale),
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.weight(1f),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                maxLines = 1
             )
         }
     }
@@ -164,42 +259,29 @@ fun CalendarGrid(
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun SelectedDateDisplay(selectedDate: LocalDate) {
-    val dayOfWeekName = selectedDate.dayOfWeek.getDisplayName(TextStyle.FULL, Locale("es"))
-        .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale("es")) else it.toString() }
+    val context = LocalContext.current
+    CurrentSession.getInstance()
+    val currentLocale = CurrentSession.language
+
+    val dayResources = listOf(
+        R.string.monday, R.string.tuesday, R.string.wednesday,
+        R.string.thursday, R.string.friday, R.string.saturday, R.string.sunday
+    )
+
+    val monthResources = listOf(
+        R.string.january, R.string.february, R.string.march, R.string.april,
+        R.string.may, R.string.june, R.string.july, R.string.august,
+        R.string.september, R.string.october, R.string.november, R.string.december
+    )
 
     Text(
-        text = "$dayOfWeekName, ${selectedDate.dayOfMonth} de ${selectedDate.month.getDisplayName(TextStyle.FULL, Locale("es"))} de ${selectedDate.year}",
+        text = "${getString(context, dayResources[selectedDate.dayOfWeek.ordinal], currentLocale)}, " +
+                "${selectedDate.dayOfMonth} ${getString(context, R.string.ofconnector, currentLocale)} " +
+                "${getString(context, monthResources[selectedDate.month.ordinal], currentLocale)} " +
+                "${selectedDate.year}",
         style = MaterialTheme.typography.bodyLarge,
         textAlign = TextAlign.Center,
         modifier = Modifier.fillMaxWidth()
     )
-}
 
-@Composable
-fun EventListScrollable() {
-    val events = listOf("Evento 1", "Evento 2", "Evento 3", "Evento 4", "Evento 5", "Evento 6")
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .height(200.dp),  // Limit height to make it scrollable
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        items(events) { event ->
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 4.dp),
-                elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-                shape = RoundedCornerShape(8.dp)
-            ) {
-                Text(
-                    text = event,
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth(),
-                    style = MaterialTheme.typography.bodyLarge
-                )
-            }
-        }
-    }
 }

@@ -10,7 +10,9 @@ import com.example.culturunya.screens.*
 import com.example.culturunya.screens.ComposableIniciSessio
 import com.example.culturunya.screens.MainScreen
 import com.example.culturunya.screens.PantallaRegistre
+import com.example.culturunya.screens.PantallaCanviContrasenya
 import com.example.culturunya.screens.SettingsScreen
+
 
     @Composable
 fun AppNavigation() {
