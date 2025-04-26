@@ -25,7 +25,7 @@ from api.serializers import UserProfileSerializer, ChangePasswordSerializer, Rep
 # Services
 from domain.users_service import get_all_events, filter_events, create_user_service, create_rating, create_message, \
     get_messages, create_resolved_report
-from persistence.models import User, Report, Rating
+from persistence.models import User, Report, Rating, TypeRating
 
 
 #
@@ -357,6 +357,9 @@ def create_rating_endpoint(request):
         rating = request.data['rating']
         comment = request.data.get('comment', None)
 
+        valid_ratings = [choice.value for choice in TypeRating.choices]
+        if rating not in valid_ratings:
+            return Response({"error": f"Rating invalido. Opciones validas: {valid_ratings}"}, status=400)
         rating_obj = create_rating(event_id, user_id, rating, comment)
         return Response({
             "id": rating_obj.id,
