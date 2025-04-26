@@ -328,17 +328,7 @@ def get_filtered_events(request):
     responses={
         201: openapi.Response(
             description="Rating creado con exito",
-            schema=openapi.Schema(
-                type=openapi.TYPE_OBJECT,
-                properties={
-                    'id': openapi.Schema(type=openapi.TYPE_INTEGER),
-                    'event_id': openapi.Schema(type=openapi.TYPE_INTEGER),
-                    'user_id': openapi.Schema(type=openapi.TYPE_INTEGER),
-                    'rating': openapi.Schema(type=openapi.TYPE_STRING),
-                    'comment': openapi.Schema(type=openapi.TYPE_STRING),
-                    'date': openapi.Schema(type=openapi.TYPE_STRING, format='date'),
-                }
-            )
+            schema=RatingSerializer()
         ),
         400: openapi.Response(description="Error en la solicitud")
     }
@@ -361,14 +351,8 @@ def create_rating_endpoint(request):
         if rating not in valid_ratings:
             return Response({"error": f"Rating invalido. Opciones validas: {valid_ratings}"}, status=400)
         rating_obj = create_rating(event_id, user_id, rating, comment)
-        return Response({
-            "id": rating_obj.id,
-            "event_id": rating_obj.event.id,
-            "user_id": rating_obj.user.id,
-            "rating": rating_obj.rating,
-            "comment": rating_obj.comment,
-            "date": rating_obj.date
-        }, status=status.HTTP_201_CREATED)
+        serializer = RatingSerializer(rating_obj)
+        return Response(serializer, status=status.HTTP_201_CREATED)
 
     except KeyError as e:
         return Response({"error": f"Falta el campo obligatorio: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
