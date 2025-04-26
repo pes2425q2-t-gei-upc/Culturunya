@@ -52,4 +52,4 @@ class RatingSerializer(serializers.ModelSerializer):
     user = UserSimpleInfoSerializer('user', read_only=True)
     class Meta:
         model = Rating
-        fields = ['user', 'date', 'rating', 'comment']
+        fields = ['user', 'id', 'date', 'rating', 'comment']
