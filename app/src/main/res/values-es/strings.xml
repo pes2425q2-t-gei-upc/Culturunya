@@ -75,5 +75,6 @@
     <!-- Pantalla EventList -->
     <string name="orderByDate">"Ordenar por fecha"</string>
     <string name="orderByName">"Ordenar por nombre"</string>
+    <string name="fromPrice">"Desde "</string>
 
 </resources>

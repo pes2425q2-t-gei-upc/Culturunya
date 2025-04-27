@@ -1,5 +1,7 @@
 package com.example.culturunya.screens.events
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -38,6 +40,7 @@ import com.example.culturunya.ui.theme.Purple40
 import java.text.Collator
 import java.util.Locale
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun EventListScreen(
     viewModel: EventViewModel,
@@ -68,6 +71,7 @@ enum class SortCriteria {
     NAME, DATE
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun EventListView(
@@ -119,8 +123,8 @@ private fun EventListView(
                     // We will modify the text to use a stringResource
                     readOnly = true,
                     value = when (currentSortCriteria) {
-                        SortCriteria.DATE -> stringResource(id = R.string.orderByDate)
-                        SortCriteria.NAME -> stringResource(id = R.string.orderByName)
+                        SortCriteria.DATE -> getString(context, R.string.orderByDate, currentLocale)
+                        SortCriteria.NAME -> getString(context, R.string.orderByName, currentLocale)
                     },
                     onValueChange = {},
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
@@ -147,14 +151,14 @@ private fun EventListView(
                         .background(Purple40)
                 ) {
                     DropdownMenuItem(
-                        text = { Text(stringResource(id = R.string.orderByName)) },
+                        text = { Text(getString(context, R.string.orderByName, currentLocale)) },
                         onClick = {
                             currentSortCriteria = SortCriteria.NAME
                             expanded = false
                         }
                     )
                     DropdownMenuItem(
-                        text = { Text(stringResource(id = R.string.orderByDate)) },
+                        text = { Text(getString(context, R.string.orderByDate, currentLocale)) },
                         onClick = {
                             currentSortCriteria = SortCriteria.DATE
                             expanded = false

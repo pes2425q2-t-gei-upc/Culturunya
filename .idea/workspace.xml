@@ -16,9 +16,11 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="393b6216-b3ba-4902-a55f-80ae4ad778ba" name="Changes" comment="Cambio de idioma pantalla calendar">
+    <list default="true" id="393b6216-b3ba-4902-a55f-80ae4ad778ba" name="Changes" comment="Estética de EventBox cambiada para que se parezca al mockup">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/screens/EventBox.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/screens/EventBox.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/screens/EventList.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/screens/EventList.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/ui/theme/Color.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/ui/theme/Color.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values-es/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-es/strings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
@@ -48,12 +50,7 @@
         </task>
         <projects_view>
           <tree_state>
-            <expand>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="Culturunya" type="f1a62948:ProjectNode" />
-              </path>
-            </expand>
+            <expand />
             <select />
           </tree_state>
         </projects_view>
@@ -86,7 +83,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/pes2425q2-t-gei-upc/Culturunya.git&quot;,
-    &quot;accountId&quot;: &quot;9e328bb6-5987-4e99-842b-c28be3913cec&quot;
+    &quot;accountId&quot;: &quot;c76918d0-81c4-4add-b7e6-ce71efb4dce5&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -116,17 +113,28 @@
     "git-widget-placeholder": "#158-Ordenar-Eventos",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/kiria/StudioProjects/Culturunya/settings.gradle.kts",
-    "project.structure.last.edited": "SDK Location",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.17",
     "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "kotlin-gradle-user-dirs": [
+      "C:\\Users\\eerre\\.gradle"
+    ]
   }
 }]]></component>
   <component name="PsdUISettings">
     <option name="LAST_EDITED_BUILD_TYPE" value="release" />
   </component>
   <component name="RunManager">
-    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
+    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
       <module name="Culturunya.app" />
       <option name="ANDROID_RUN_CONFIGURATION_SCHEMA_VERSION" value="1" />
       <option name="DEPLOY" value="true" />
@@ -199,6 +207,14 @@
       </method>
     </configuration>
   </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.18034.62" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.18034.62" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -207,6 +223,11 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1741604056254</updated>
+      <workItem from="1745094289383" duration="1785000" />
+      <workItem from="1745096206700" duration="7341000" />
+      <workItem from="1745195147387" duration="6204000" />
+      <workItem from="1745258322202" duration="1083000" />
+      <workItem from="1745259576626" duration="3461000" />
     </task>
     <task id="LOCAL-00001" summary="List of Events with default events to keep the menu">
       <option name="closed" value="true" />
@@ -224,27 +245,44 @@
       <option name="project" value="LOCAL" />
       <updated>1742686781936</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Cambio de idioma pantalla calendar">
+      <option name="closed" value="true" />
+      <created>1745203050001</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1745203050001</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="conf" />
     <MESSAGE value="List of Events with default events to keep the menu" />
     <MESSAGE value="Principal Screen Controller" />
     <MESSAGE value="Rama para mostrar eventos" />
-    <option name="LAST_COMMIT_MESSAGE" value="Rama para mostrar eventos" />
+    <MESSAGE value="Cambio de idioma pantalla calendar" />
+    <MESSAGE value="Estética de EventBox cambiada para que se parezca al mockup" />
+    <option name="LAST_COMMIT_MESSAGE" value="Estética de EventBox cambiada para que se parezca al mockup" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
   <component name="play_dynamic_filters_status">
     <option name="appIdToCheckInfo">
       <map>
         <entry key="com.example.culturunya">
           <value>
-            <CheckInfo lastCheckTimestamp="1745719840089" />
+            <CheckInfo lastCheckTimestamp="1745781348131" />
           </value>
         </entry>
         <entry key="com.example.culturunya.test">
           <value>
-            <CheckInfo lastCheckTimestamp="1745719840090" />
+            <CheckInfo lastCheckTimestamp="1745781348131" />
           </value>
         </entry>
       </map>
