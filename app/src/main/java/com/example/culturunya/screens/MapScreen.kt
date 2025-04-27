@@ -5,24 +5,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
+import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
-import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.core.content.ContextCompat
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
-import com.google.maps.android.compose.GoogleMap
-import com.google.maps.android.compose.MapProperties
-import com.google.maps.android.compose.rememberCameraPositionState
-import kotlinx.coroutines.tasks.await
-//-----
-import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -31,10 +16,16 @@ import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.google.maps.android.compose.GoogleMap
-import com.google.maps.android.compose.rememberCameraPositionState
+import androidx.core.content.ContextCompat
+import com.example.culturunya.endpoints.events.EventViewModel
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.compose.*
 import kotlinx.coroutines.tasks.await
 import java.time.LocalDate
 import java.time.format.TextStyle
@@ -112,21 +103,52 @@ fun MapContent() {
     val fusedLocationClient = remember { LocationServices.getFusedLocationProviderClient(context) }
     val cameraPositionState = rememberCameraPositionState()
 
+    val viewModel = remember { EventViewModel() }
+
     var currentDate by remember { mutableStateOf(LocalDate.now()) }
-    var distanceKm by remember { mutableStateOf(10f) } // Distància seleccionada
+    var distanceKm by remember { mutableStateOf(10f) }
+
+    val filteredEvents by viewModel.filteredEventsByDistanceAndDate.collectAsState() // <- aquí
+    val isLoading by viewModel.isLoading.collectAsState()
+    val error by viewModel.error.collectAsState()
+
+    var currentLocation by remember { mutableStateOf<Location?>(null) }
 
     LaunchedEffect(Unit) {
         val location = getLastKnownLocation(context, fusedLocationClient)
         location?.let {
+            currentLocation = it
             val userLatLng = LatLng(it.latitude, it.longitude)
             cameraPositionState.position = CameraPosition.fromLatLngZoom(userLatLng, 15f)
+
+            val firstDayOfMonth = currentDate.withDayOfMonth(1).toString()
+            val lastDayOfMonth = currentDate.withDayOfMonth(currentDate.lengthOfMonth()).toString()
+            viewModel.filterEventsByRangeAndDate(
+                firstDayOfMonth,
+                lastDayOfMonth,
+                Pair(it.longitude, it.latitude),
+                distanceKm.toInt()
+            )
+        }
+    }
+
+    LaunchedEffect(currentDate, distanceKm) {
+        currentLocation?.let {
+            val firstDayOfMonth = currentDate.withDayOfMonth(1).toString()
+            val lastDayOfMonth = currentDate.withDayOfMonth(currentDate.lengthOfMonth()).toString()
+            viewModel.filterEventsByRangeAndDate(
+                firstDayOfMonth,
+                lastDayOfMonth,
+                Pair(it.longitude, it.latitude),
+                distanceKm.toInt()
+            )
         }
     }
 
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        // Header Mes i Any
+        // Header Mes y Año
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -134,9 +156,7 @@ fun MapContent() {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = {
-                currentDate = currentDate.minusMonths(1)
-            }) {
+            IconButton(onClick = { currentDate = currentDate.minusMonths(1) }) {
                 Icon(Icons.Default.KeyboardArrowLeft, contentDescription = "Mes anterior")
             }
             Text(
@@ -144,27 +164,36 @@ fun MapContent() {
                     .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale("es")) else it.toString() }} ${currentDate.year}",
                 style = MaterialTheme.typography.titleLarge
             )
-            IconButton(onClick = {
-                currentDate = currentDate.plusMonths(1)
-            }) {
-                Icon(Icons.Default.KeyboardArrowRight, contentDescription = "Mes següent")
+            IconButton(onClick = { currentDate = currentDate.plusMonths(1) }) {
+                Icon(Icons.Default.KeyboardArrowRight, contentDescription = "Mes siguiente")
             }
         }
 
         // Google Map
         Box(
             modifier = Modifier
-                .weight(1f) // Que ocupi tot l'espai disponible entre header i slider
+                .weight(1f)
                 .fillMaxWidth()
         ) {
             GoogleMap(
                 modifier = Modifier.fillMaxSize(),
                 cameraPositionState = cameraPositionState,
                 properties = MapProperties(isMyLocationEnabled = true)
-            )
+            ) {
+                filteredEvents.forEach { event -> // <- Aquí
+                    val latitude = event.location.latitude
+                    val longitude = event.location.longitude
+
+                    Marker(
+                        state = MarkerState(position = LatLng(latitude, longitude)),
+                        title = event.name,
+                        snippet = event.description
+                    )
+                }
+            }
         }
 
-        // Slider de Distància
+        // Slider de Distancia
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -178,9 +207,10 @@ fun MapContent() {
                 value = distanceKm,
                 onValueChange = { distanceKm = it },
                 valueRange = 10f..100f,
-                steps = 9, // 10, 20, ..., 100 → 9 pasos intermedios
+                steps = 9,
                 modifier = Modifier.fillMaxWidth()
             )
         }
     }
 }
+

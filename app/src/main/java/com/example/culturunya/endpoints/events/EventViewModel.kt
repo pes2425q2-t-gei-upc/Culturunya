@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import com.example.culturunya.controllers.*
-import com.example.culturunya.models.events.Event
+import com.example.culturunya.endpoints.events.Event
 
 
 class EventViewModel: ViewModel() {
@@ -24,6 +24,10 @@ class EventViewModel: ViewModel() {
 
     private val api = Api.instance
     private val repository = EventsRepository(api)
+
+    private val _filteredEventsByDistanceAndDate = MutableStateFlow<List<Event>>(emptyList())
+    val filteredEventsByDistanceAndDate: StateFlow<List<Event>> = _filteredEventsByDistanceAndDate
+
 
     init {
         loadAllEvents()
@@ -64,4 +68,31 @@ class EventViewModel: ViewModel() {
             _isLoading.value = false
         }
     }
+
+    fun filterEventsByRangeAndDate(
+        dateStart: String,
+        dateEnd: String,
+        location: Pair<Double, Double>,
+        range: Int
+    ) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            _error.value = null
+
+            repository.filterByDistanceAndDate(dateStart, dateEnd, location, range)
+                .onSuccess {
+                    _filteredEventsByDistanceAndDate.value = it
+                }
+                .onFailure { e ->
+                    _error.value = when {
+                        e is IllegalStateException -> "Por favor inicie sesión"
+                        e is java.net.HttpRetryException && e.responseCode() == 401 ->
+                            "Sesión expirada. Vuelva a iniciar sesión"
+                        else -> "Error al filtrar eventos: ${e.message}"
+                    }
+                }
+            _isLoading.value = false
+        }
+    }
+
 }

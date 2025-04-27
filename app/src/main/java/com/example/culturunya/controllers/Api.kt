@@ -6,7 +6,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import com.example.culturunya.endpoints.events.*
-import com.example.culturunya.endpoints.test.Test
+import com.example.culturunya.models.test.Test
 import com.example.culturunya.models.changePassword.ChangePasswordRequest
 import com.example.culturunya.models.changePassword.ChangePasswordResponse
 import com.example.culturunya.models.deleteAccount.DeleteAccountResponse

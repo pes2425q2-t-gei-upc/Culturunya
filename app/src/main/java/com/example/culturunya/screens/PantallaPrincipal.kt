@@ -1,6 +1,7 @@
 package com.example.culturunya.screens
 
 import android.annotation.SuppressLint
+import android.os.Build
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -27,6 +28,7 @@ import com.example.culturunya.models.events.Event
 import com.example.culturunya.endpoints.events.EventViewModel
 import androidx.compose.ui.viewinterop.AndroidView
 import android.os.Bundle
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -43,6 +45,7 @@ fun Pantalla() {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MainScreen(navController: NavController, viewModel: EventViewModel) {
     // Estat per a la pantalla principal
@@ -243,10 +246,7 @@ fun BottomButtonItem(
 }
 
 /** PANTALLES D’ESDEVENIMENTS (SUB-SCREENS) */
-@Composable
-fun EventMapScreen() {
-    Text("Això és la pantalla Map d'Events")
-}
+
 
 @Composable
 fun EventCalendarScreen(viewModel: EventViewModel) {

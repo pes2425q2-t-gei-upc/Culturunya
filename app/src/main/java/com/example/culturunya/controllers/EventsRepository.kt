@@ -1,6 +1,5 @@
 package com.example.culturunya.controllers
 
-import com.example.culturunya.models.events.Event
 import com.example.culturunya.endpoints.events.*
 import com.example.culturunya.models.currentSession.CurrentSession
 
@@ -39,6 +38,20 @@ class EventsRepository(private val api: Api) {
         getFilteredEvents(
             dateStart = dateStart,
             dateEnd = dateEnd
+        ).getOrThrow()
+    }
+
+    suspend fun filterByDistanceAndDate(
+        dateStart: String,
+        dateEnd: String,
+        location: Pair<Double, Double>,
+        range: Int,
+    ): Result<List<Event>> = runCatching {
+        getFilteredEvents(
+            dateStart = dateStart,
+            dateEnd = dateEnd,
+            location = location,
+            range = range,
         ).getOrThrow()
     }
 }
