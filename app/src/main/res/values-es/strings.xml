@@ -72,4 +72,8 @@
 
     <string name="ofconnector">de</string>
 
+    <!-- Pantalla EventList -->
+    <string name="orderByDate">"Ordenar por fecha"</string>
+    <string name="orderByName">"Ordenar por nombre"</string>
+
 </resources>
