@@ -352,7 +352,7 @@ def create_rating_endpoint(request):
             return Response({"error": f"Rating invalido. Opciones validas: {valid_ratings}"}, status=400)
         rating_obj = create_rating(event_id, user_id, rating, comment)
         serializer = RatingSerializer(rating_obj)
-        return Response(serializer, status=status.HTTP_201_CREATED)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     except KeyError as e:
         return Response({"error": f"Falta el campo obligatorio: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
