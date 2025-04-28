@@ -76,5 +76,7 @@
     <string name="orderByDate">"Ordenar por fecha"</string>
     <string name="orderByName">"Ordenar por nombre"</string>
     <string name="fromPrice">"Desde "</string>
+    <!-- Pantalla RatingList -->
+    <string name="Comment">"Comentario"</string>
 
 </resources>
