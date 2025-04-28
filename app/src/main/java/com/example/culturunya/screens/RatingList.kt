@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.culturunya.endpoints.events.RatingViewModel
 import com.example.culturunya.endpoints.events.Rating
-
+import com.example.culturunya.ui.theme.*
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -43,7 +43,7 @@ fun RatingListScreen(
             Text(text = errorMessage, color = Color.Red)
         }
         if (ratings.isEmpty() && error == null) {
-            Text("No ratings yet", color = Color.Black)
+            Text("No ratings yet", color = Purple40)
         } else {
             Column(
                 modifier = Modifier
