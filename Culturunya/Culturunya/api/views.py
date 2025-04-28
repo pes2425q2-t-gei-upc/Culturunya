@@ -24,7 +24,7 @@ from api.serializers import UserProfileSerializer, ChangePasswordSerializer, Rep
     ReportResolutionSerializer, RatingSerializer
 # Services
 from domain.users_service import get_all_events, filter_events, create_user_service, create_rating, create_message, \
-    get_messages, create_resolved_report
+    get_messages, create_resolved_report, get_messages_admin
 from persistence.models import User, Report, Rating, TypeRating
 
 
@@ -561,7 +561,38 @@ def get_conversation_with_user(request, user_id):
 
     return Response(result)
 
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def list_chats_admin(request):
+    user = User.objects.get(id=request.user.id)
+    if not user.is_admin:
+        return Response({"error": "Solo los administradores pueden acceder a este recurso"}, status=403)
 
+    # Buscar todos los usuarios que tienen algún mensaje con este admin
+    user_ids = get_messages_admin(user).values_list(
+        'sender_id', 'receiver_id'
+    )
+    not_admin_user_ids = set()
+    for sender_id, receiver_id in user_ids:
+        if sender_id != user.id:
+            not_admin_user_ids.add(sender_id)
+        if receiver_id != user.id:
+            not_admin_user_ids.add(receiver_id)
+
+    users_with_last_message = []
+    for user_id in not_admin_user_ids:
+        last_message = get_messages(user_id, user.id).order_by("date_written").first()
+        regular_user = User.objects.get(id=user_id)
+        if last_message:
+            users_with_last_message.append({
+                "user_id": user_id,
+                "username": regular_user.username,
+                "profile_pic": regular_user.profile_pic if regular_user.profile_pic else None,
+                "last_message_text, isAdmin?": last_message.text,
+                "last_message_from_admin?": last_message.sender.is_admin,
+                "last_message_date": last_message.date_written
+            })
+    return Response(users_with_last_message)
 class ChangePasswordView(APIView):
     permission_classes = [IsAuthenticated]
 
