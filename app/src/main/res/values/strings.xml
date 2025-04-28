@@ -78,5 +78,11 @@
     <string name="fromPrice">"From "</string>
     <!-- Pantalla RatingList -->
     <string name="Comment">"Comment"</string>
+    <string name="Rating">"Rating"</string>
+    <string name="Report">"Report"</string>
+    <string name="atDate">"at"</string>
+    <string name="from">"from"</string>
+    <string name="to">"to"</string>
+    <string name="saysComment">says</string>
 
 </resources>

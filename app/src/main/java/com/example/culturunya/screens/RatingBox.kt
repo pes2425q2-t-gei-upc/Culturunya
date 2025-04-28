@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.culturunya.R
 import com.example.culturunya.endpoints.events.Rating
 import com.example.culturunya.models.currentSession.CurrentSession
 import com.example.culturunya.ui.theme.*
@@ -38,10 +39,10 @@ fun RatingBox(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
-            .background(PurpleGrey80, RoundedCornerShape(8.dp))
+            .background(GrisMoltFluix, RoundedCornerShape(8.dp))
     ){
         Column (modifier = Modifier.padding(8.dp)){
-            Text(text = rating.user.username + " " + rating.date.toString() ,style = MaterialTheme.typography.titleMedium.copy(
+            Text(text = rating.user.username + " " + getString(context, R.string.atDate, currentLocale) +" "+ rating.date.toString() + " " + getString(context, R.string.saysComment, currentLocale),style = MaterialTheme.typography.titleMedium.copy(
                 fontSize = 18.sp,
                 color = Purple40
             ),
@@ -49,7 +50,7 @@ fun RatingBox(
             Spacer(modifier = Modifier.padding(8.dp))
             rating.comment?.let { Text(text= it, color = Purple40) }
             Spacer(modifier = Modifier.padding(8.dp))
-            Text(text = rating.rating.toString(), color = Purple40)
+            Text(text = getString(context, R.string.Rating, currentLocale) + ": " + rating.rating.toString(), color = Purple40)
             Spacer(modifier = Modifier.padding(8.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -65,7 +66,7 @@ fun RatingBox(
                         // logica reportar
                     }
                 ){
-                    Text(text = "Reportar", modifier = Modifier.padding(2.dp).background(Color.Red), color= Color.White)
+                    Text(text = getString(context, R.string.Report, currentLocale), modifier = Modifier.padding(2.dp).background(Color.Red), color= Color.White)
                 }
             }
 

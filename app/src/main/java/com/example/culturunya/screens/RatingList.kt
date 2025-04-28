@@ -62,7 +62,7 @@ fun RatingListScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(8.dp)
     ) {
         Column(
                 modifier = Modifier
@@ -77,7 +77,7 @@ fun RatingListScreen(
                         singleLine = true,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(5.dp),
+                            .padding(8.dp),
                         leadingIcon = {
                             Icon(imageVector = Icons.Default.Person, contentDescription = "Persona")
                         },

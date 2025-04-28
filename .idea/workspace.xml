@@ -16,8 +16,9 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="393b6216-b3ba-4902-a55f-80ae4ad778ba" name="Changes" comment="Comentarios presentados y botón para reportar">
+    <list default="true" id="393b6216-b3ba-4902-a55f-80ae4ad778ba" name="Changes" comment="Formulario para añadir comentario (sin Rating) y botón para comentar">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/screens/RatingBox.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/screens/RatingBox.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/screens/RatingList.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/screens/RatingList.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values-es/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-es/strings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
@@ -270,7 +271,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745800543893</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Formulario para añadir comentario (sin Rating) y botón para comentar">
+      <option name="closed" value="true" />
+      <created>1745801551921</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1745801551921</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -286,7 +295,8 @@
     <MESSAGE value="Estética de EventBox cambiada para que se parezca al mockup e idioma aplicado a order y precio" />
     <MESSAGE value="Lógica de Comentarios" />
     <MESSAGE value="Comentarios presentados y botón para reportar" />
-    <option name="LAST_COMMIT_MESSAGE" value="Comentarios presentados y botón para reportar" />
+    <MESSAGE value="Formulario para añadir comentario (sin Rating) y botón para comentar" />
+    <option name="LAST_COMMIT_MESSAGE" value="Formulario para añadir comentario (sin Rating) y botón para comentar" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
