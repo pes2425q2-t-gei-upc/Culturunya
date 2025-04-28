@@ -24,9 +24,7 @@ import androidx.compose.ui.unit.sp
 import com.example.culturunya.R
 import com.example.culturunya.endpoints.events.Event
 import com.example.culturunya.models.currentSession.CurrentSession
-import com.example.culturunya.ui.theme.Purple40
-import com.example.culturunya.ui.theme.PurpleGrey40
-import com.example.culturunya.ui.theme.PurpleGrey80
+import com.example.culturunya.ui.theme.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
@@ -83,6 +81,7 @@ fun EventBox(
                 .fillMaxHeight(), contentAlignment = Alignment.Center){
                 Text("Foto evento")
             }
+            //
             Column(
                 modifier = Modifier
                     .fillMaxWidth()

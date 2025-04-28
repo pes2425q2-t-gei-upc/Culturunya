@@ -50,4 +50,10 @@ interface Api {
 
     @POST("change-password/")
     suspend fun changePassword(@Header("Authorization") token: String, @Body changePasswordRequest: ChangePasswordRequest): ChangePasswordResponse
+
+    @GET("ratings/{event_id}/")
+    suspend fun getRatingsForEvent(@Path("event_id") eventId: Long, @Header("Authorization") token: String? = null): List<Rating>
+
+    @GET("ratings/{ratingId}")
+    suspend fun getRatingById(@Path("ratingId") ratingId: String, @Header("Authorization") token: String? = null): Rating
 }
