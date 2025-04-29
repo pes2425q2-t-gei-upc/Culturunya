@@ -22,4 +22,13 @@ class RatingsRepository(private val api: Api) {
             Result.failure(e)
         }
     }
+
+    suspend fun postRating(rating: Rating): Result<Rating> {
+        return try {
+            val response = api.postRating(rating)
+            Result.success(response)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 }

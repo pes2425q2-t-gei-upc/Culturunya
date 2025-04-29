@@ -1,4 +1,4 @@
-package com.example.culturunya.endpoints.events
+package com.example.culturunya.endpoints.users
 import com.squareup.moshi.Json
 
 data class UserSimpleInfo (

@@ -7,6 +7,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import com.example.culturunya.endpoints.events.*
 import com.example.culturunya.endpoints.test.Test
+import com.example.culturunya.endpoints.users.UserSimpleInfo
 import com.example.culturunya.models.changePassword.ChangePasswordRequest
 import com.example.culturunya.models.changePassword.ChangePasswordResponse
 import com.example.culturunya.models.deleteAccount.DeleteAccountResponse
@@ -56,4 +57,10 @@ interface Api {
 
     @GET("ratings/{ratingId}")
     suspend fun getRatingById(@Path("ratingId") ratingId: String, @Header("Authorization") token: String? = null): Rating
+
+    @POST("ratings/create/")
+    suspend fun postRating(@Body rating: Rating, @Header("Authorization") token: String? = null): Rating
+
+    @GET("user/profile_info")
+    suspend fun getProfileInfo(@Header("Authorization") token: String? = null): UserSimpleInfo
 }

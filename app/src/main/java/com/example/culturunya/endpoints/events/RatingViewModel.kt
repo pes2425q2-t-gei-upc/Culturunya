@@ -1,14 +1,12 @@
 package com.example.culturunya.endpoints.events
 
-import android.annotation.SuppressLint
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.culturunya.controllers.Api
 import com.example.culturunya.controllers.RatingsRepository
 import kotlinx.coroutines.launch
 import java.util.Collections.emptyList
-import androidx.compose.runtime.collectAsState
+import com.example.culturunya.endpoints.users.UserSimpleInfo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -40,6 +38,15 @@ class RatingViewModel : ViewModel() {
             ratingsRepository.getRatingById(ratingId).onSuccess {
                 _rating.value = it
             }.onFailure {
+            }
+        }
+    }
+    fun postRating(rating: Rating) {
+        viewModelScope.launch {
+            ratingsRepository.postRating(rating).onSuccess {
+                _rating.value = it
+            }.onFailure {
+                _error.value = "Error: ${it.message}"
             }
         }
     }

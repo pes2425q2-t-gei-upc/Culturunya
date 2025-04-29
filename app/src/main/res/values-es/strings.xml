@@ -84,5 +84,6 @@
     <string name="from">"de"</string>
     <string name="to">"a"</string>
     <string name="saysComment">dice</string>
+    <string name="send">"Enviar"</string>
 
 </resources>

@@ -36,6 +36,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.culturunya.R
 import com.example.culturunya.endpoints.events.RatingViewModel
 import com.example.culturunya.endpoints.events.Rating
+import com.example.culturunya.endpoints.users.UserSimpleInfo
+import com.example.culturunya.endpoints.users.UserViewModel
 import com.example.culturunya.models.currentSession.CurrentSession
 import com.example.culturunya.ui.theme.*
 
@@ -46,7 +48,8 @@ import com.example.culturunya.ui.theme.*
 fun RatingListScreen(
     eventId: Long,
     onRatingSelected: (Rating) -> Unit, // Use your Rating class
-    ratingViewModel: RatingViewModel = viewModel()
+    ratingViewModel: RatingViewModel = viewModel(),
+    userViewModel: UserViewModel = viewModel()
 ) {
     // Collect the error
     val error by ratingViewModel.error.collectAsState()
@@ -54,7 +57,9 @@ fun RatingListScreen(
     ratingViewModel.fetchRatingsForEvent(eventId)
     // Collect the ratings
     val ratings by ratingViewModel.ratings.collectAsState()
+    val user = UserSimpleInfo("test", "test@test.com", "")
     var rating_new by remember { mutableStateOf("") }
+    var comment_new by remember { mutableStateOf("") }
     val context = LocalContext.current
     CurrentSession.getInstance()
     val currentLocale by remember { mutableStateOf(CurrentSession.language) }
@@ -71,9 +76,28 @@ fun RatingListScreen(
             Box(modifier = Modifier.fillMaxWidth()) {
                 Column(modifier= Modifier.fillMaxWidth()) {
                     OutlinedTextField(
+                        value = comment_new,
+                        onValueChange = { comment_new = it },
+                        label = { Text(getString(context, R.string.Comment, currentLocale)) },
+                        singleLine = true,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp),
+                        leadingIcon = {
+                            Icon(imageVector = Icons.Default.Person, contentDescription = "Persona")
+                        },
+                        colors = TextFieldDefaults.outlinedTextFieldColors(
+                            textColor = Color.Black,
+                            cursorColor = Color.Black,
+                            focusedBorderColor = Color.Gray,
+                            unfocusedBorderColor = Color.LightGray
+                        )
+                    )
+                    Spacer(modifier = Modifier.padding(8.dp))
+                    OutlinedTextField(
                         value = rating_new,
                         onValueChange = { rating_new = it },
-                        label = { Text(getString(context, R.string.Comment, currentLocale)) },
+                        label = { Text(getString(context, R.string.Rating, currentLocale)) },
                         singleLine = true,
                         modifier = Modifier
                             .fillMaxWidth()
@@ -100,11 +124,11 @@ fun RatingListScreen(
                                 contentColor = Color.White
                             ),
                             onClick = {
-                                // logica Comentar
+                                ratingViewModel.postRating(Rating(user = user, id = eventId, date = "", rating = rating_new, comment = comment_new,))
                             }
                         ) {
                             Text(
-                                text = "Comentar",
+                                text = getString(context, R.string.send, currentLocale),
                                 modifier = Modifier.padding(2.dp),
                                 color = Color.White
                             )

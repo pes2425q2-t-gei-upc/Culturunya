@@ -26,6 +26,7 @@ import com.example.culturunya.R
 import com.example.culturunya.controllers.RatingsRepository
 import com.example.culturunya.endpoints.events.Event
 import com.example.culturunya.endpoints.events.RatingViewModel
+import com.example.culturunya.endpoints.users.UserViewModel
 import com.example.culturunya.screens.RatingListScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -45,6 +46,7 @@ fun EventInfo(
     )
 
     val ratingViewModel: RatingViewModel = viewModel()
+    val userViewModel: UserViewModel = viewModel()
 
     Scaffold(
         topBar = {
@@ -208,6 +210,7 @@ fun EventInfo(
                             println("Selected rating: ${rating.id}")
                         },
                         ratingViewModel = ratingViewModel,
+                        userViewModel = userViewModel
                     )
                 }
             }
