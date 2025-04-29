@@ -564,24 +564,24 @@ def get_conversation_with_user(request, user_id):
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def list_chats_admin(request):
-    user = User.objects.get(id=request.user.id)
-    if not user.is_admin:
+    admin = User.objects.get(id=request.user.id)
+    if not admin.is_admin:
         return Response({"error": "Solo los administradores pueden acceder a este recurso"}, status=403)
 
     # Buscar todos los usuarios que tienen algún mensaje con este admin
-    user_ids = get_messages_admin(user).values_list(
+    user_ids = get_messages_admin(admin).values_list(
         'sender_id', 'receiver_id'
     )
     not_admin_user_ids = set()
     for sender_id, receiver_id in user_ids:
-        if sender_id != user.id:
+        if sender_id != admin.id:
             not_admin_user_ids.add(sender_id)
-        if receiver_id != user.id:
+        if receiver_id != admin.id:
             not_admin_user_ids.add(receiver_id)
 
     users_with_last_message = []
     for user_id in not_admin_user_ids:
-        last_message = get_messages(user_id, user.id).order_by("date_written").first()
+        last_message = get_messages(user_id, admin.id).order_by("-date_written").first()
         regular_user = User.objects.get(id=user_id)
         if last_message:
             users_with_last_message.append({
