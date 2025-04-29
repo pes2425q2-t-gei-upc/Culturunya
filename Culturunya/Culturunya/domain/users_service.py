@@ -124,6 +124,11 @@ def get_messages(user1: int, user2: int):
         Q(sender=user1, receiver=user2) | Q(sender=user2, receiver=user1)
     ).order_by("date_written")
 
+def get_messages_admin(admin):
+    return Message.objects.filter(
+        Q(sender=admin) | Q(receiver=admin)
+    ).order_by("date_written")
+
 def create_resolved_report(data, user, report_id):
     if not user.is_admin:
         return {"error": "No autorizado"}, 403
