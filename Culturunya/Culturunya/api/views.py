@@ -321,7 +321,11 @@ def get_filtered_events(request):
         required=['event_id', 'rating'],
         properties={
             'event_id': openapi.Schema(type=openapi.TYPE_INTEGER, description='ID del evento'),
-            'rating': openapi.Schema(type=openapi.TYPE_STRING, description='Valoracion del evento'),
+            'rating': openapi.Schema(
+                type=openapi.TYPE_STRING,
+                description='Valoracion del evento. Debe ser uno de los valores permitidos.',
+                enum=["Bad", "Mediocre", "KindaFun", "Fun", "Awesome"]
+            ),
             'comment': openapi.Schema(type=openapi.TYPE_STRING, description='Comentario opcional')
         }
     ),
@@ -330,7 +334,7 @@ def get_filtered_events(request):
             description="Rating creado con exito",
             schema=RatingSerializer()
         ),
-        400: openapi.Response(description="Error en la solicitud")
+        400: openapi.Response(description="Datos inválidos")
     }
 )
 @api_view(['POST'])
@@ -358,6 +362,76 @@ def create_rating_endpoint(request):
         return Response({"error": f"Falta el campo obligatorio: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
     except ValueError as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+@swagger_auto_schema(
+    method='put',
+    operation_description="Editar una valoración (requiere token).",
+    security=[{'Token': []}],
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        required=['rating'],
+        properties={
+            'rating': openapi.Schema(
+                type=openapi.TYPE_STRING,
+                description='Valoracion del evento. Debe ser uno de los valores permitidos.',
+                enum=["Bad", "Mediocre", "KindaFun", "Fun", "Awesome"]
+            ),
+            'comment': openapi.Schema(
+                type=openapi.TYPE_STRING,
+                description='Comentario opcional'
+            )
+        }
+    ),
+    responses={
+        200: openapi.Response(description="Rating actualizado correctamente", schema=RatingSerializer()),
+        400: "Datos inválidos",
+        401: "Sin autorización",
+        404: "Rating no encontrado o no autorizado"
+    },
+)
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def edit_rating(request, rating_id):
+    try:
+        rating = Rating.objects.get(id=rating_id)
+    except Rating.DoesNotExist:
+        return Response({"error": "Rating no encontrado"}, status=status.HTTP_404_NOT_FOUND)
+    if request.user.id != rating.user.id:
+        return Response({"error:": "El usario no tiene permisos para editar esa valoracion"})
+    data = request.data
+    new_rating_choices = data['rating']
+    new_comment = data['comment']
+    if new_rating_choices and new_rating_choices not in dict(Rating._meta.get_field('rating').choices):
+        valid_ratings = [choice[0] for choice in TypeRating.choices]
+        return Response({"error": f"Rating invalido. Opciones validas: {valid_ratings}"}, status=status.HTTP_400_BAD_REQUEST)
+
+    if new_rating_choices:
+        rating.rating = new_rating_choices
+    rating.comment = new_comment
+    rating.save()
+    return Response({"Valoracion actualizada correctamente"}, status=status.HTTP_200_OK)
+
+@swagger_auto_schema(
+    method='delete',
+    operation_description='Borrar una valoración',
+    security=[{'Token': []}],
+    responses={
+        200: "Valoración borrada correctamente",
+        401: "Sin autorización",
+        404: "Rating no encontrado"
+    }
+)
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_rating(request, rating_id):
+    try:
+        rating = Rating.objects.get(id=rating_id)
+    except Rating.DoesNotExist:
+        return Response({"error": "Rating no encontrado"}, status=status.HTTP_404_NOT_FOUND)
+    if request.user.id != rating.user.id:
+        return Response({"error": "El no tiene permisos para borrar esa valoracion"})
+    rating.delete()
+    return Response({"Valoracion borrada correctamente"}, status=status.HTTP_200_OK)
 
 @swagger_auto_schema(
     method="get",
@@ -403,10 +477,9 @@ def delete_own_account(request):
     return Response({"message": f"Cuenta '{username}' eliminada correctamente."}, status=status.HTTP_200_OK)
 
 
-
 @swagger_auto_schema(
     method='post',
-    operation_description="Enviar un mensaje al admin.",
+    operation_summary="Enviar un mensaje al admin.",
     security=[{'Token': []}],
     request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT,
@@ -561,6 +634,35 @@ def get_conversation_with_user(request, user_id):
 
     return Response(result)
 
+@swagger_auto_schema(
+    method="get",
+    operation_summary="Listar chats del administrador con usuarios",
+    operation_description="""
+Devuelve una lista de usuarios que han intercambiado mensajes con el administrador autenticado,
+junto con el último mensaje enviado/recibido, su fecha y si fue el admin quien lo envió.
+""",
+    responses={
+        200: openapi.Response(
+            description="Lista de chats con último mensaje",
+            schema=openapi.Schema(
+                type=openapi.TYPE_ARRAY,
+                items=openapi.Schema(
+                    type=openapi.TYPE_OBJECT,
+                    properties={
+                        "user_id": openapi.Schema(type=openapi.TYPE_INTEGER, description="ID del usuario"),
+                        "username": openapi.Schema(type=openapi.TYPE_STRING, description="Nombre de usuario"),
+                        "profile_pic": openapi.Schema(type=openapi.TYPE_STRING, format="uri", description="URL de la foto de perfil (puede ser null)"),
+                        "last_message_text, isAdmin?": openapi.Schema(type=openapi.TYPE_STRING, description="Texto del último mensaje"),
+                        "last_message_from_admin?": openapi.Schema(type=openapi.TYPE_BOOLEAN, description="Indica si el mensaje fue enviado por el admin"),
+                        "last_message_date": openapi.Schema(type=openapi.TYPE_STRING, format="date-time", description="Fecha del último mensaje"),
+                    }
+                )
+            )
+        ),
+        403: openapi.Response(description="Solo los administradores pueden acceder"),
+    },
+    security=[{'Token': []}],
+)
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def list_chats_admin(request):
