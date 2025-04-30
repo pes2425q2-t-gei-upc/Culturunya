@@ -146,7 +146,8 @@ fun CalendarScreen(viewModel: EventViewModel) {
                     text = "No hay eventos para este día",
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp),
+                        //.padding(16.dp)
+                    ,
                     textAlign = TextAlign.Center
                 )
             }
