@@ -161,9 +161,6 @@ fun CalendarScreen(viewModel: EventViewModel) {
     }
 }
 
-// Elimina el composable EventItem original ya que ahora usamos EventBox
-
-
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun CalendarGrid(
