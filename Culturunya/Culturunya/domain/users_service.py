@@ -36,14 +36,14 @@ def filter_events(filters):
         except ValueError:
             print("Error: Formato incorrecto en date_end_range. Se esperaba YYYY-MM-DD")
 
-    if "latitude" in filters and "longitude" in filters and "radius_km" in filters:
+    if "latitude" in filters and "longitude" in filters and "range" in filters:
         try:
             center_lat = float(filters["latitude"])
             center_lng = float(filters["longitude"])
-            radius_km  = float(filters["radius_km"])
+            range = float(filters["range"])
 
-            lat_range = radius_km / 110.574
-            lng_range = radius_km / (111.320 * cos(radians(center_lat)))
+            lat_range = range / 110.574
+            lng_range = range / (111.320 * cos(radians(center_lat)))
 
             min_lat = center_lat - lat_range
             max_lat = center_lat + lat_range
