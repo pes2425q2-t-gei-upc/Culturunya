@@ -6,8 +6,6 @@ sealed class AppScreens(val route: String) {
     object MainScreen: AppScreens("main_screen")
     object SettingsScreen: AppScreens("settings_screen")
     object CanviContrasenya: AppScreens("changePassword_screen")
-    object Xat: AppScreens("chatScreen/{username}") {
-        fun createRoute(userName: String) = "chatScreen/${userName}"
-    }
-    object LlistaXats: AppScreens("chatListScreen")
+    object Xat: AppScreens("chat_screen")
+    object LlistaXats: AppScreens("chatList_screen")
 }

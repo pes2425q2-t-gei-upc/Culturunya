@@ -28,6 +28,8 @@ import com.example.culturunya.navigation.AppScreens
 import com.example.culturunya.ui.theme.Morat
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.culturunya.endpoints.getChats.GetChatsViewModel
 
 
 data class Chat(
@@ -38,23 +40,12 @@ data class Chat(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PantallaLlistaXats(navController: NavController) {
-    val chats = listOf(
-        Chat("Juan Pérez", "Nos vemos mañana 👋", Morat),
-        Chat("Mamá", "Te dejé la comida 🍲", Morat),
-        Chat("Laura Gómez", "¿Puedes llamarme?", Morat),
-        Chat("Grupo Trabajo", "Archivo subido ✅", Morat),
-        Chat("Bot Bancario", "Tu estado de cuenta está listo", Morat),
-        Chat("Bot Bancario", "Tu estado de cuenta está listo", Morat),
-        Chat("Bot Bancario", "Tu estado de cuenta está listo", Morat),
-        Chat("Bot Bancario", "Tu estado de cuenta está listo", Morat),
-        Chat("Bot Bancario", "Tu estado de cuenta está listo", Morat),
-        Chat("Bot Bancario", "Tu estado de cuenta está listo", Morat),
-        Chat("Bot Bancario", "Tu estado de cuenta está listo", Morat),
-        Chat("Bot Bancario", "Tu estado de cuenta está listo", Morat),
-        Chat("Bot Bancario", "Tu estado de cuenta está listo", Morat),
-        Chat("Bot Bancario", "Tu estado de cuenta está listo", Morat)
-    )
+fun PantallaLlistaXats(
+    navController: NavController,
+    getChatsViewModel: GetChatsViewModel = viewModel()
+) {
+    val response by getChatsViewModel.getChatsResponse.collectAsState()
+    val error by getChatsViewModel.getChatsError.collectAsState()
 
     Column(
         modifier = Modifier
@@ -63,9 +54,7 @@ fun PantallaLlistaXats(navController: NavController) {
             .padding(top = 16.dp)
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .imePadding(),
+            modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = { navController.popBackStack() }) {
@@ -82,31 +71,52 @@ fun PantallaLlistaXats(navController: NavController) {
             )
         }
 
-        Divider(
-            color = Color.Black,
-            thickness = 1.dp,
-        )
+        Divider(color = Color.Black, thickness = 1.dp)
 
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.White)
-                .padding(top = 16.dp)
-        ) {
-            items(chats) { chat ->
-                ChatItem(chat, navController)
-                Divider()
+        when {
+            response != null -> {
+                val chats = response!!.map {
+                    Chat(
+                        name = it.username,
+                        lastMessage = it.last_message_text ?: "",
+                        avatar = Morat // O puedes usar un generador de color aleatorio
+                    )
+                }
+
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 16.dp)
+                ) {
+                    items(chats) { chat ->
+                        ChatItem(chat, navController)
+                        Divider()
+                    }
+                }
+            }
+
+            error != null -> {
+                Text(
+                    text = "Error al cargar los chats (código $error)",
+                    color = Color.Red,
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+
+            else -> {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
             }
         }
     }
 }
+
 
 @Composable
 fun ChatItem(chat: Chat, navController: NavController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { navController.navigate(AppScreens.Xat.createRoute(chat.name)) }
+            .clickable { /*navegar al xat amb l'usuari*/ }
             .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {

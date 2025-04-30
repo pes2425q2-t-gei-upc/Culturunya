@@ -10,11 +10,14 @@ import com.example.culturunya.endpoints.ratings.Rating
 import com.example.culturunya.endpoints.ratings.RatingRequest
 import com.example.culturunya.endpoints.test.Test
 import com.example.culturunya.endpoints.users.UserSimpleInfo
+import com.example.culturunya.models.Message
 import com.example.culturunya.models.changePassword.ChangePasswordRequest
 import com.example.culturunya.models.changePassword.ChangePasswordResponse
 import com.example.culturunya.models.deleteAccount.DeleteAccountResponse
+import com.example.culturunya.models.getChats.ChatInfo
 import com.example.culturunya.models.login.LoginRequest
 import com.example.culturunya.models.login.LoginResponse
+import com.example.culturunya.models.sendMessage.SendMessageRequest
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -53,6 +56,15 @@ interface Api {
 
     @PUT("user/change_password/")
     suspend fun changePassword(@Header("Authorization") token: String, @Body newPassword: ChangePasswordRequest): ChangePasswordResponse
+
+    @GET("chat/admin_chats/")
+    suspend fun getChats(@Header("Authorization") token: String): List<ChatInfo>
+
+    @GET("chat/with_admin/")
+    suspend fun getChatWithAdmin(@Header("Authorization") token: String): List<Message>
+
+    @POST("chat/send_to_admin/")
+    suspend fun sendMessageToAdmin(@Header("Authorization") token: String, @Body sendMessageRequest: SendMessageRequest): Response<Unit>
 
     @GET("ratings/{event_id}/")
     suspend fun getRatingsForEvent(@Path("event_id") eventId: Long, @Header("Authorization") token: String? = null): List<Rating>

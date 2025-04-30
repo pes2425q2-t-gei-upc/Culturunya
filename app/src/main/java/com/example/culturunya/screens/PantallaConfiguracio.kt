@@ -1,6 +1,7 @@
 package com.example.culturunya.screens
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -25,11 +26,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.culturunya.R
 import com.example.culturunya.endpoints.deleteAccount.DeleteAccountViewModel
+import com.example.culturunya.endpoints.getChats.GetChatsViewModel
 import com.example.culturunya.models.currentSession.CurrentSession
 import com.example.culturunya.navigation.AppScreens
 import com.example.culturunya.ui.theme.GrisMoltFluix
 import com.example.culturunya.ui.theme.Morat
-import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -41,6 +42,10 @@ fun SettingsScreen(navController: NavController) {
     // Per a l'exemple, agafem l'idioma per defecte del dispositiu
     val deleteAccountViewModel: DeleteAccountViewModel = viewModel()
 
+    val getChatsViewModel: GetChatsViewModel = viewModel()
+    val getChatsResponse = getChatsViewModel.getChatsResponse.collectAsState().value
+    var getChatsCode = getChatsViewModel.getChatsError.collectAsState().value
+
     val context = LocalContext.current
     CurrentSession.getInstance()
     var currentLocale by remember { mutableStateOf(CurrentSession.language) }
@@ -49,6 +54,14 @@ fun SettingsScreen(navController: NavController) {
     val options = listOf("English", "Español")
     var expanded by remember { mutableStateOf(false) }
     var selectedOption by remember { mutableStateOf(if (currentLocale == "en") options[0] else options[1]) }
+
+    LaunchedEffect(getChatsResponse, getChatsCode) {
+        if (getChatsResponse != null) {
+            navController.navigate(route = AppScreens.LlistaXats.route)
+            CurrentSession.isAdmin()
+        }
+        else if (getChatsCode == 403) navController.navigate(route = AppScreens.Xat.route)
+    }
 
     // Contenidor principal
     Column(
@@ -206,7 +219,10 @@ fun SettingsScreen(navController: NavController) {
                     icon = Icons.Default.Help,
                     text = getString(context, R.string.helpNSupport, currentLocale),
                     onClick = {
-                        navController.navigate(AppScreens.Xat.route)
+                        getChatsViewModel.getChats()
+                        Log.d("Codi getChats:", "$getChatsCode")
+                        val token = CurrentSession.token
+                        Log.d("Token actual:", "$token")
                     }
                 )
             }

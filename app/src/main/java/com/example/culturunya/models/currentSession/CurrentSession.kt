@@ -16,6 +16,8 @@ class CurrentSession private constructor() {
 
         var language: String = Locale.getDefault().language
 
+        var is_admin: Boolean = false
+
         fun getInstance() =
             instance ?: synchronized(this) {
                 instance ?: CurrentSession().also { instance = it }
@@ -25,6 +27,10 @@ class CurrentSession private constructor() {
             this.token = token
             this.username = username
             this.password = password
+        }
+
+        fun isAdmin() {
+            this.is_admin = true
         }
 
         fun changeLanguage(lang: String) {

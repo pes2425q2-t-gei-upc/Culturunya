@@ -28,20 +28,20 @@ import com.example.culturunya.ui.theme.Morat
 import com.example.culturunya.ui.theme.Purple80
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
-
-data class Message(
-    val text: String,
-    val isFromUser: Boolean
-)
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.culturunya.endpoints.getChatWithAdmin.GetChatWithAdminViewModel
+import com.example.culturunya.endpoints.sendMessageToAdmin.SendMessageToAdminViewModel
+import com.example.culturunya.models.Message
+import kotlinx.coroutines.delay
 
 @Composable
 fun MessageBubble(message: Message) {
-    val backgroundColor = if (message.isFromUser) Morat else GrisMoltFluix
-    val textColor = if (message.isFromUser) Color.White else Color.Black
+    val backgroundColor = if (message.from != "Administrador") Morat else GrisMoltFluix
+    val textColor = if (message.from != "Administrador") Color.White else Color.Black
 
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = if (message.isFromUser) Arrangement.End else Arrangement.Start
+        horizontalArrangement = if (message.from != "Administrador") Arrangement.End else Arrangement.Start
     ) {
         Box(
             modifier = Modifier
@@ -55,17 +55,21 @@ fun MessageBubble(message: Message) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PantallaXat(navController: NavController, username: String) {
+fun PantallaXat(navController: NavController) {
     var messageText by remember { mutableStateOf("") }
-    var messages by remember {
-        mutableStateOf(
-            listOf(
-                Message("Hola, ¿cómo estás?", false),
-                Message("¡Bien! ¿Y tú?", true),
-                Message("Todo bien, gracias por preguntar.", false)
-            )
-        )
+    val loadMessagesViewModel: GetChatWithAdminViewModel = viewModel()
+    val sendMessageViewModel: SendMessageToAdminViewModel = viewModel()
+    val sendMessageStatus by sendMessageViewModel.sendMessageToAdminStatus.collectAsState()
+
+    LaunchedEffect(Unit) {
+        while (true) {
+            delay(50)
+            loadMessagesViewModel.getChatWithAdmin()
+        }
     }
+
+    val messages by loadMessagesViewModel.getChatWithAdminResponse.collectAsState(initial = emptyList())
+
     Column(modifier = Modifier
             .fillMaxSize()
             .background(color = Color.White)
@@ -94,7 +98,7 @@ fun PantallaXat(navController: NavController, username: String) {
             Spacer(modifier = Modifier.width(12.dp))
 
             Text(
-                text = username,
+                text = "nombre de usuario",
                 style = MaterialTheme.typography.titleMedium
             )
         }
@@ -111,7 +115,7 @@ fun PantallaXat(navController: NavController, username: String) {
                 .imePadding(),
             reverseLayout = true
         ) {
-            items(messages.reversed()) { message ->
+            items(messages.orEmpty().reversed()) { message ->
                 MessageBubble(message)
                 Spacer(modifier = Modifier.height(13.dp))
             }
@@ -144,11 +148,7 @@ fun PantallaXat(navController: NavController, username: String) {
             IconButton(
                 onClick = {
                     if (messageText.isNotBlank()) {
-                        val nuevoMensaje = Message(messageText, true)
-                        //enviar a back
-                        messages = messages.toMutableList().apply {
-                            add(nuevoMensaje)
-                        }
+                        sendMessageViewModel.sendMessageToAdmin(messageText)
                         messageText = ""
                     }
                 },

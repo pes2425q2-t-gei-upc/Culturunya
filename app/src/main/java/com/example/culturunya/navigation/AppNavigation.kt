@@ -30,11 +30,8 @@ fun AppNavigation() {
         composable(route = AppScreens.CanviContrasenya.route) {
             PantallaCanviContrasenya(navController)
         }
-        composable(
-            route = "chatScreen/{username}"
-        ) { backStackEntry ->
-            val username = backStackEntry.arguments?.getString("username") ?: ""
-            PantallaXat(navController, username)
+        composable(route = AppScreens.Xat.route) {
+            PantallaXat(navController)
         }
         composable(route = AppScreens.LlistaXats.route) {
             PantallaLlistaXats(navController)
