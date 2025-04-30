@@ -1,6 +1,8 @@
 package com.example.culturunya.screens.events
 
+import android.os.Build
 import androidx.annotation.DrawableRes
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -19,9 +21,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.culturunya.R
 import com.example.culturunya.endpoints.events.Event
+import com.example.culturunya.endpoints.ratings.RatingViewModel
+import com.example.culturunya.endpoints.users.UserViewModel
+import com.example.culturunya.screens.RatingListScreen
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EventInfo(
@@ -36,6 +43,9 @@ fun EventInfo(
             Color(0xFFBA68C8)
         )
     )
+
+    val ratingViewModel: RatingViewModel = viewModel()
+    val userViewModel: UserViewModel = viewModel()
 
     Scaffold(
         topBar = {
@@ -192,6 +202,16 @@ fun EventInfo(
                     textAlign = TextAlign.Justify,
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
+                Column {
+                    RatingListScreen(
+                        eventId = event.id.toLong(),
+                        onRatingSelected = { rating ->
+                            println("Selected rating: ${rating.id}")
+                        },
+                        ratingViewModel = ratingViewModel,
+                        userViewModel = userViewModel
+                    )
+                }
             }
         }
     }
@@ -221,7 +241,9 @@ private fun InfoItem(
                     painter = painterResource(id = it),
                     contentDescription = null,
                     tint = Color(0xFF6A1B9A),  // Corregido formato del color
-                    modifier = Modifier.size(40.dp).padding(end = 8.dp)
+                    modifier = Modifier
+                        .size(40.dp)
+                        .padding(end = 8.dp)
                 )
             }
             Text(

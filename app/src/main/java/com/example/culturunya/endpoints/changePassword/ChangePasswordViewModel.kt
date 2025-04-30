@@ -1,5 +1,6 @@
 package com.example.culturunya.endpoints.changePassword
 
+import retrofit2.HttpException
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,12 +15,11 @@ import kotlinx.coroutines.launch
 
 class ChangePasswordViewModel: ViewModel() {
 
-
     private val _changePasswordResponse = MutableStateFlow<ChangePasswordResponse?>(null)
     val changePasswordResponse: StateFlow<ChangePasswordResponse?> = _changePasswordResponse
 
-    private val _changePasswordError = MutableStateFlow<String?>(null)
-    val changePasswordError: StateFlow<String?> = _changePasswordError
+    private val _error = MutableStateFlow<String?>(null)
+    val error: StateFlow<String?> = _error
 
     private val api = Api.instance
     private val repository = AuthRepository(api)
@@ -28,14 +28,19 @@ class ChangePasswordViewModel: ViewModel() {
         viewModelScope.launch {
             try {
                 CurrentSession.getInstance()
-                val currentToken = CurrentSession.token
-                val response = repository.changePassword("Token $currentToken", ChangePasswordRequest(oldPassword, newPassword))
+
+                val response = repository.changePassword("Token ${CurrentSession.token}", ChangePasswordRequest(oldPassword, newPassword))
                 _changePasswordResponse.value = response
-                _changePasswordError.value = null
-            } catch (e: Exception) {
-                _changePasswordError.value = e.message ?: "Error desconocido"
+                _error.value = null
+            }  catch (e: Exception) {
+                _error.value = e.message ?: "Error desconocido"
                 _changePasswordResponse.value = null
             }
+            catch (e: HttpException) {
+                _changePasswordResponse.value = ChangePasswordResponse(e.code())
+                _error.value = e.code().toString()
+            }
+
         }
     }
 }

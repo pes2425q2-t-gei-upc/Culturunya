@@ -52,6 +52,7 @@ fun PantallaCanviContrasenya(navController: NavController) {
     val currentLocale = CurrentSession.language
 
     val changePasswordViewModel: ChangePasswordViewModel = viewModel()
+    val error by changePasswordViewModel.error.collectAsState()
 
     Box(
         modifier = Modifier
@@ -171,6 +172,39 @@ fun PantallaCanviContrasenya(navController: NavController) {
 
             Spacer(modifier = Modifier.height(10.dp))
 
+            error?.let { errorMessage ->
+                Text(text = errorMessage, Modifier.padding(4.dp), color = Color.Red)
+                missatgeError = errorMessage
+            }
+
+            Button(
+                onClick = {
+                    val contrasenyaCorrecta = getContrasenyaUsuariActual()
+                    when {
+                        haCanviat -> true //Si ja s'ha fet el canvi, ignora que tornis a apretar
+                        contrasenyaActual.isEmpty() || novaContrasenya.isEmpty() || confirmaNovaContrasenya.isEmpty() ->
+                            missatgeError = getString(context, R.string.allFieldsRequired, currentLocale)
+
+                        novaContrasenya != confirmaNovaContrasenya ->
+                            missatgeError = getString(context, R.string.passwordsDontMatch, currentLocale)
+
+                        contrasenyaActual != contrasenyaCorrecta ->
+                            missatgeError = getString(context, R.string.incorrectActualPassword, currentLocale)
+
+                        contrasenyaActual == novaContrasenya ->
+                            missatgeError = getString(context, R.string.passwordsMustBeDifferent, currentLocale)
+                        else -> {
+                            changePasswordViewModel.changePassword(contrasenyaActual, novaContrasenya)
+                            haCanviat = true
+                        }
+                    }
+                },
+                modifier = Modifier.width(250.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Morat)
+            ) {
+                Text(text = getString(context, R.string.changeThePassword, currentLocale), color = Color.White)
+            }
+
             if (missatgeError.isNotEmpty()) {
                 Text(
                     text = missatgeError,
@@ -200,35 +234,6 @@ fun PantallaCanviContrasenya(navController: NavController) {
                     text = { Text(getString(context, R.string.passwordChangedSuccessfully, currentLocale)) },
                     containerColor = Color.White
                 )
-            }
-
-            Button(
-                onClick = {
-                    val contrasenyaCorrecta = getContrasenyaUsuariActual()
-                    when {
-                        haCanviat -> true //Si ja s'ha fet el canvi, ignora que tornis a apretar
-                        contrasenyaActual.isEmpty() || novaContrasenya.isEmpty() || confirmaNovaContrasenya.isEmpty() ->
-                            missatgeError = getString(context, R.string.allFieldsRequired, currentLocale)
-
-                        novaContrasenya != confirmaNovaContrasenya ->
-                            missatgeError = getString(context, R.string.passwordsDontMatch, currentLocale)
-
-                        contrasenyaActual != contrasenyaCorrecta ->
-                            missatgeError = getString(context, R.string.incorrectActualPassword, currentLocale)
-
-                        contrasenyaActual == novaContrasenya ->
-                            missatgeError = getString(context, R.string.passwordsMustBeDifferent, currentLocale)
-                        else -> {
-                            missatgeError = ""
-                            changePasswordViewModel.changePassword(contrasenyaActual, novaContrasenya)
-                            haCanviat = true
-                        }
-                    }
-                },
-                modifier = Modifier.width(250.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Morat)
-            ) {
-                Text(text = getString(context, R.string.changeThePassword, currentLocale), color = Color.White)
             }
         }
     }

@@ -77,4 +77,14 @@
     <string name="orderByName">"Ordenar por nombre"</string>
     <string name="fromPrice">"Desde "</string>
 
+    <!-- Pantalla RatingList -->
+    <string name="Comment">"Comentario"</string>
+    <string name="Rating">"Valoración"</string>
+    <string name="Report">"Reportar"</string>
+    <string name="atDate">"el"</string>
+    <string name="from">"de"</string>
+    <string name="to">"a"</string>
+    <string name="saysComment">dice</string>
+    <string name="send">"Enviar"</string>
+
 </resources>

@@ -35,10 +35,11 @@ import com.example.culturunya.endpoints.events.Event
 import com.example.culturunya.endpoints.events.EventViewModel
 import com.example.culturunya.models.currentSession.CurrentSession
 import com.example.culturunya.screens.getString
-import com.example.culturunya.ui.theme.Morat
-import com.example.culturunya.ui.theme.Purple40
 import java.text.Collator
 import java.util.Locale
+import androidx.compose.foundation.lazy.items
+import com.example.culturunya.ui.theme.Morat
+import com.example.culturunya.ui.theme.Purple40
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -90,7 +91,6 @@ private fun EventListView(
     val spanishCollator = Collator.getInstance(Locale("es", "ES"))
     spanishCollator.strength = Collator.PRIMARY // To ignore case differences
 
-    // Sort events according to the current order and ascending state.
     val sortedEvents = when (currentSortCriteria) {
         SortCriteria.DATE -> {
             if (isAscending) {
