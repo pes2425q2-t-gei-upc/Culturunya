@@ -1,11 +1,9 @@
 package com.example.culturunya.controllers
 
-fun comprovaNomContrasenya(nom: String, contrasenya: String): Boolean {
-    //Crida a l'API i retorna cert i és correcte
+import android.util.Log
+import com.example.culturunya.models.login.LoginRequest
+import kotlinx.coroutines.runBlocking
+
+suspend fun comprovaNomContrasenya(nom: String, contrasenya: String): Boolean {
     return true
 }
-
-/*fun enviarDadesAlBackend(username: String, email: String, password: String): Boolean{
-    //Crida a l'API i retorna cert i és correcte
-    return true
-}*/

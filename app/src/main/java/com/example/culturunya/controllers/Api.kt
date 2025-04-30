@@ -5,13 +5,15 @@ import com.example.culturunya.models.RegisterResponse
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.POST
 import com.example.culturunya.endpoints.events.*
 import com.example.culturunya.endpoints.test.Test
-//import okhttp3.Response
-import retrofit2.http.Body
+import com.example.culturunya.models.changePassword.ChangePasswordRequest
+import com.example.culturunya.models.changePassword.ChangePasswordResponse
+import com.example.culturunya.models.deleteAccount.DeleteAccountResponse
+import com.example.culturunya.models.login.LoginRequest
+import com.example.culturunya.models.login.LoginResponse
 import retrofit2.Response
+import retrofit2.http.*
 
 interface Api {
     companion object{
@@ -23,10 +25,29 @@ interface Api {
     @GET("events/")
     suspend fun getEvents(): Events
 
+    @GET("events/filter/")
+    suspend fun getFilteredEvents(
+        @Query("categories") categories: String? = null,
+        @Query("date_start_range") dateStart: String? = null,
+        @Query("date_end_range") dateEnd: String? = null,
+        @Query("longitude") longitude: Double? = null,
+        @Query("latitude") latitude: Double? = null,
+        @Query("range") range: Int? = null,
+        @Header("Authorization") token: String? = null
+    ): Events
+
     @POST("create_user/")
     suspend fun registerUser(@Body user: RegisterRequest): Response<RegisterResponse>
 
-
     @GET("test/")
     suspend fun getokay(): Test
+
+    @POST("login/")
+    suspend fun login(@Body loginRequest: LoginRequest): LoginResponse
+
+    @DELETE("delete_account/")
+    suspend fun deleteAccount(@Header("Authorization") token: String): DeleteAccountResponse
+
+    @POST("change-password/")
+    suspend fun changePassword(@Header("Authorization") token: String, @Body changePasswordRequest: ChangePasswordRequest): ChangePasswordResponse
 }
