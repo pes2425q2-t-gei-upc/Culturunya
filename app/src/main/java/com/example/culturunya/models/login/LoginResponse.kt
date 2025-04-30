@@ -1,8 +1,12 @@
 package com.example.culturunya.models.login
 
+import com.squareup.moshi.Json
+
 data class LoginResponse(
-    val email: String,
+    @Json(name = "token")
     val token: String,
+    @Json(name = "user_id")
     val user_id: Int,
-    val username: String
+    @Json (name = "email")
+    val email: String
 )

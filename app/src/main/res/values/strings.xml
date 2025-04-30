@@ -44,4 +44,49 @@
     <string name="changeUsername">"Change username"</string>
     <string name="deleteErrorNoAuth">"Error deleting account. Unauthenticated user"</string>
     <string name="deleteError">"Error deleting account."</string>
+
+    <!-- Pantalla Calendari -->
+    <string name="monday">Monday</string>
+    <string name="mondayShort">M</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="tuesdayShort">T</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="wednesdayShort">W</string>
+    <string name="thursday">Thursday</string>
+    <string name="thursdayShort">T</string>
+    <string name="friday">Friday</string>
+    <string name="fridayShort">F</string>
+    <string name="saturday">Saturday</string>
+    <string name="saturdayShort">S</string>
+    <string name="sunday">Sunday</string>
+    <string name="sundayShort">S</string>
+
+    <string name="january">January</string>
+    <string name="february">February</string>
+    <string name="march">March</string>
+    <string name="april">April</string>
+    <string name="may">May</string>
+    <string name="june">June</string>
+    <string name="july">July</string>
+    <string name="august">August</string>
+    <string name="september">September</string>
+    <string name="october">October</string>
+    <string name="november">November</string>
+    <string name="december">December</string>
+
+    <string name="ofconnector">of</string>
+
+    <!-- Pantalla EventList -->
+    <string name="orderByDate">"Order by date"</string>
+    <string name="orderByName">"Order by name"</string>
+    <string name="fromPrice">"From "</string>
+    <!-- Pantalla RatingList -->
+    <string name="Comment">"Comment"</string>
+    <string name="Rating">"Rating"</string>
+    <string name="Report">"Report"</string>
+    <string name="atDate">"at"</string>
+    <string name="from">"from"</string>
+    <string name="to">"to"</string>
+    <string name="saysComment">says</string>
+    <string name="send">"Send"</string>
 </resources>

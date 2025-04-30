@@ -6,13 +6,17 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import com.example.culturunya.endpoints.events.*
+import com.example.culturunya.endpoints.ratings.Rating
+import com.example.culturunya.endpoints.ratings.RatingRequest
 import com.example.culturunya.endpoints.test.Test
+import com.example.culturunya.endpoints.users.UserSimpleInfo
 import com.example.culturunya.models.changePassword.ChangePasswordRequest
+import com.example.culturunya.models.changePassword.ChangePasswordResponse
+import com.example.culturunya.models.deleteAccount.DeleteAccountResponse
 import com.example.culturunya.models.deleteAccount.DeleteAccountRequest
 import com.example.culturunya.models.events.Events
 import com.example.culturunya.models.login.LoginRequest
 import com.example.culturunya.models.login.LoginResponse
-//import okhttp3.Response
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -26,9 +30,19 @@ interface Api {
     @GET("events/")
     suspend fun getEvents(): Events
 
+    @GET("events/filter/")
+    suspend fun getFilteredEvents(
+        @Query("categories") categories: String? = null,
+        @Query("date_start_range") dateStart: String? = null,
+        @Query("date_end_range") dateEnd: String? = null,
+        @Query("longitude") longitude: Double? = null,
+        @Query("latitude") latitude: Double? = null,
+        @Query("range") range: Int? = null,
+        @Header("Authorization") token: String
+    ): Events
+
     @POST("create_user/")
     suspend fun registerUser(@Body user: RegisterRequest): Response<RegisterResponse>
-
 
     @GET("test/")
     suspend fun getokay(): Test
@@ -40,5 +54,17 @@ interface Api {
     suspend fun deleteAccount(@Header("Authorization") token: String): Response<Unit>
 
     @PUT("user/change_password/")
-    suspend fun changePassword(@Header("Authorization") token: String, @Body changePasswordRequest: ChangePasswordRequest): Response<Unit>
+    suspend fun changePassword(@Header("Authorization") token: String, @Body newPassword: ChangePasswordRequest): ChangePasswordResponse
+
+    @GET("ratings/{event_id}/")
+    suspend fun getRatingsForEvent(@Path("event_id") eventId: Long, @Header("Authorization") token: String? = null): List<Rating>
+
+    @GET("ratings/{ratingId}")
+    suspend fun getRatingById(@Path("ratingId") ratingId: String, @Header("Authorization") token: String? = null): Rating
+
+    @POST("ratings/create/")
+    suspend fun postRating(@Body rating: RatingRequest, @Header("Authorization") token: String): Rating
+
+    @GET("user/profile_info")
+    suspend fun getProfileInfo(@Header("Authorization") token: String): UserSimpleInfo
 }

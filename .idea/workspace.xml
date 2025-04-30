@@ -16,14 +16,21 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="393b6216-b3ba-4902-a55f-80ae4ad778ba" name="Changes" comment="Rama para mostrar eventos">
+    <list default="true" id="393b6216-b3ba-4902-a55f-80ae4ad778ba" name="Changes" comment="Comentarios hechos y Cambiar contraseña arreglado">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/endpoints/ratings/RatingRequest.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/controllers/Api.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/controllers/Api.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/controllers/TestRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/controllers/TestRepository.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/endpoints/Test/Test.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/endpoints/test/Test.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/endpoints/events/events.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/endpoints/events/Events.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/models/Test/Test.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/models/test/Test.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/navigation/AppNavigation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/navigation/AppNavigation.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/controllers/RatingsRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/controllers/RatingsRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/endpoints/changePassword/ChangePasswordViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/endpoints/changePassword/ChangePasswordViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/endpoints/events/Rating.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/endpoints/ratings/Rating.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/endpoints/events/RatingViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/endpoints/ratings/RatingViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/endpoints/events/Ratings.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/endpoints/ratings/Ratings.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/models/changePassword/ChangePasswordRequest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/models/changePassword/ChangePasswordRequest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/screens/CalendariScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/screens/CalendariScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/screens/EventInfo.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/screens/EventInfo.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/screens/PantallaCanviContrasenya.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/screens/PantallaCanviContrasenya.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/screens/RatingBox.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/screens/RatingBox.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/screens/RatingList.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/screens/RatingList.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,12 +58,7 @@
         </task>
         <projects_view>
           <tree_state>
-            <expand>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="Culturunya" type="f1a62948:ProjectNode" />
-              </path>
-            </expand>
+            <expand />
             <select />
           </tree_state>
         </projects_view>
@@ -66,16 +68,16 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="resourceFile" />
         <option value="Kotlin File" />
         <option value="Kotlin Class" />
-        <option value="resourceFile" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="DEV_Front" />
+        <entry key="$PROJECT_DIR$" value="#158-Ordenar-Eventos" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -106,30 +108,43 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Android App.app.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;DEV__Front&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/kiria/StudioProjects/Culturunya/settings.gradle.kts&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;SDK Location&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.notifications&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Android App.app.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "com.google.services.firebase.aqiPopupShown": "true",
+    "git-widget-placeholder": "#147-Funcionalidad-Comentarios",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/kiria/StudioProjects/Culturunya/settings.gradle.kts",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.17",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="PsdUISettings">
     <option name="LAST_EDITED_BUILD_TYPE" value="release" />
   </component>
+  <component name="RecentsManager">
+    <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="com.example.culturunya.endpoints.ratings" />
+      <recent name="com.example.culturunya.endpoints.users" />
+    </key>
+  </component>
   <component name="RunManager">
-    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
+    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
       <module name="Culturunya.app" />
       <option name="ANDROID_RUN_CONFIGURATION_SCHEMA_VERSION" value="1" />
       <option name="DEPLOY" value="true" />
@@ -202,6 +217,14 @@
       </method>
     </configuration>
   </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.18034.62" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.18034.62" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -210,6 +233,11 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1741604056254</updated>
+      <workItem from="1745094289383" duration="1785000" />
+      <workItem from="1745096206700" duration="7341000" />
+      <workItem from="1745195147387" duration="6204000" />
+      <workItem from="1745258322202" duration="1083000" />
+      <workItem from="1745259576626" duration="3461000" />
     </task>
     <task id="LOCAL-00001" summary="List of Events with default events to keep the menu">
       <option name="closed" value="true" />
@@ -227,27 +255,91 @@
       <option name="project" value="LOCAL" />
       <updated>1742686781936</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Cambio de idioma pantalla calendar">
+      <option name="closed" value="true" />
+      <created>1745203050001</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1745203050001</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Estética de EventBox cambiada para que se parezca al mockup e idioma aplicado a order y precio">
+      <option name="closed" value="true" />
+      <created>1745783247005</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1745783247005</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Lógica de Comentarios">
+      <option name="closed" value="true" />
+      <created>1745798690040</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1745798690040</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Comentarios presentados y botón para reportar">
+      <option name="closed" value="true" />
+      <created>1745800543893</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1745800543893</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Formulario para añadir comentario (sin Rating) y botón para comentar">
+      <option name="closed" value="true" />
+      <created>1745801551921</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1745801551921</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Mejora estética e idioma aplicado">
+      <option name="closed" value="true" />
+      <created>1745815791574</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1745815791574</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="conf" />
     <MESSAGE value="List of Events with default events to keep the menu" />
     <MESSAGE value="Principal Screen Controller" />
     <MESSAGE value="Rama para mostrar eventos" />
-    <option name="LAST_COMMIT_MESSAGE" value="Rama para mostrar eventos" />
+    <MESSAGE value="Cambio de idioma pantalla calendar" />
+    <MESSAGE value="Estética de EventBox cambiada para que se parezca al mockup" />
+    <MESSAGE value="Estética de EventBox cambiada para que se parezca al mockup e idioma aplicado a order y precio" />
+    <MESSAGE value="Lógica de Comentarios" />
+    <MESSAGE value="Comentarios presentados y botón para reportar" />
+    <MESSAGE value="Formulario para añadir comentario (sin Rating) y botón para comentar" />
+    <MESSAGE value="Mejora estética e idioma aplicado" />
+    <MESSAGE value="Comentarios hechos y Cambiar contraseña arreglado" />
+    <option name="LAST_COMMIT_MESSAGE" value="Comentarios hechos y Cambiar contraseña arreglado" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
   <component name="play_dynamic_filters_status">
     <option name="appIdToCheckInfo">
       <map>
         <entry key="com.example.culturunya">
-          <value>
-            <CheckInfo lastCheckTimestamp="1743459226020" />
+
+            <CheckInfo lastCheckTimestamp="1745941929341" />
+            <CheckInfo lastCheckTimestamp="1745781348131" />
           </value>
         </entry>
         <entry key="com.example.culturunya.test">
           <value>
-            <CheckInfo lastCheckTimestamp="1743459226019" />
+            <CheckInfo lastCheckTimestamp="1745941929341" />
           </value>
         </entry>
       </map>
