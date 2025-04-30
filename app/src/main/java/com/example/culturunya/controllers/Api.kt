@@ -6,6 +6,8 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import com.example.culturunya.endpoints.events.*
+import com.example.culturunya.endpoints.ratings.Rating
+import com.example.culturunya.endpoints.ratings.RatingRequest
 import com.example.culturunya.endpoints.test.Test
 import com.example.culturunya.endpoints.users.UserSimpleInfo
 import com.example.culturunya.models.changePassword.ChangePasswordRequest
@@ -34,7 +36,7 @@ interface Api {
         @Query("longitude") longitude: Double? = null,
         @Query("latitude") latitude: Double? = null,
         @Query("range") range: Int? = null,
-        @Header("Authorization") token: String? = null
+        @Header("Authorization") token: String
     ): Events
 
     @POST("create_user/")
@@ -49,8 +51,8 @@ interface Api {
     @DELETE("delete_account/")
     suspend fun deleteAccount(@Header("Authorization") token: String): DeleteAccountResponse
 
-    @POST("change-password/")
-    suspend fun changePassword(@Header("Authorization") token: String, @Body changePasswordRequest: ChangePasswordRequest): ChangePasswordResponse
+    @PUT("user/change_password/")
+    suspend fun changePassword(@Header("Authorization") token: String, @Body newPassword: ChangePasswordRequest): ChangePasswordResponse
 
     @GET("ratings/{event_id}/")
     suspend fun getRatingsForEvent(@Path("event_id") eventId: Long, @Header("Authorization") token: String? = null): List<Rating>
@@ -59,8 +61,8 @@ interface Api {
     suspend fun getRatingById(@Path("ratingId") ratingId: String, @Header("Authorization") token: String? = null): Rating
 
     @POST("ratings/create/")
-    suspend fun postRating(@Body rating: Rating, @Header("Authorization") token: String? = null): Rating
+    suspend fun postRating(@Body rating: RatingRequest, @Header("Authorization") token: String): Rating
 
     @GET("user/profile_info")
-    suspend fun getProfileInfo(@Header("Authorization") token: String? = null): UserSimpleInfo
+    suspend fun getProfileInfo(@Header("Authorization") token: String): UserSimpleInfo
 }

@@ -23,9 +23,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.culturunya.R
-import com.example.culturunya.controllers.RatingsRepository
 import com.example.culturunya.endpoints.events.Event
-import com.example.culturunya.endpoints.events.RatingViewModel
+import com.example.culturunya.endpoints.ratings.RatingViewModel
 import com.example.culturunya.endpoints.users.UserViewModel
 import com.example.culturunya.screens.RatingListScreen
 

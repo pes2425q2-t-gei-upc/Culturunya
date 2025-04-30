@@ -34,8 +34,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.culturunya.R
-import com.example.culturunya.endpoints.events.RatingViewModel
-import com.example.culturunya.endpoints.events.Rating
+import com.example.culturunya.endpoints.ratings.RatingViewModel
+import com.example.culturunya.endpoints.ratings.Rating
 import com.example.culturunya.endpoints.users.UserSimpleInfo
 import com.example.culturunya.endpoints.users.UserViewModel
 import com.example.culturunya.models.currentSession.CurrentSession
@@ -58,6 +58,7 @@ fun RatingListScreen(
     // Collect the ratings
     val ratings by ratingViewModel.ratings.collectAsState()
     val user = UserSimpleInfo("test", "test@test.com", "")
+    val date = ""
     var rating_new by remember { mutableStateOf("") }
     var comment_new by remember { mutableStateOf("") }
     val context = LocalContext.current
@@ -124,7 +125,15 @@ fun RatingListScreen(
                                 contentColor = Color.White
                             ),
                             onClick = {
-                                ratingViewModel.postRating(Rating(user = user, id = eventId, date = "", rating = rating_new, comment = comment_new,))
+                                ratingViewModel.createRating(
+                                    user,
+                                    eventId,
+                                    date,
+                                    rating_new,
+                                    comment_new
+                                )
+                                // Refresh the list
+
                             }
                         ) {
                             Text(
@@ -141,8 +150,9 @@ fun RatingListScreen(
             error?.let { errorMessage ->
                 Text(text = errorMessage, Modifier.padding(4.dp), color = Color.Red)
             }
+            //Spacer(modifier = Modifier.padding(5.dp))
             if (ratings.isEmpty() && error == null) {
-                    Text("No ratings yet", color = Purple40)
+                    Text("No ratings yet", color = Purple40, modifier = Modifier.padding(8.dp))
             } else {
                 ratings.forEach { rating ->
                     RatingBox(rating = rating, onRatingClick = { onRatingSelected(rating) })

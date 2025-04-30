@@ -1,4 +1,4 @@
-package com.example.culturunya.endpoints.events
+package com.example.culturunya.endpoints.ratings
 
 import com.example.culturunya.endpoints.users.UserSimpleInfo
 import com.squareup.moshi.Json
