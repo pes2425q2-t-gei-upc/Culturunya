@@ -21,13 +21,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.culturunya.R
-import com.example.culturunya.endpoints.deleteAccount.DeleteAccountViewModel
-import com.example.culturunya.models.currentSession.CurrentSession
 import com.example.culturunya.navigation.AppScreens
-import com.example.culturunya.ui.theme.GrisMoltFluix
 import com.example.culturunya.ui.theme.Morat
 import java.util.*
 
@@ -38,18 +34,6 @@ fun SettingsScreen(navController: NavController) {
     var showLogoutDialog by remember { mutableStateOf(false) }
     var showDeleteDialog by remember { mutableStateOf(false) }
 
-    // Per a l'exemple, agafem l'idioma per defecte del dispositiu
-    val deleteAccountViewModel: DeleteAccountViewModel = viewModel()
-
-    val context = LocalContext.current
-    CurrentSession.getInstance()
-    var currentLocale by remember { mutableStateOf(CurrentSession.language) }
-    val username = CurrentSession.username
-
-    val options = listOf("English", "Español")
-    var expanded by remember { mutableStateOf(false) }
-    var selectedOption by remember { mutableStateOf(if (currentLocale == "en") options[0] else options[1]) }
-
     // Contenidor principal
     Column(
         modifier = Modifier
@@ -58,16 +42,16 @@ fun SettingsScreen(navController: NavController) {
     ) {
         // SECTION: Perfil (Avatar, Nom, Correu)
         ProfileHeader(
-            username = username,
+            username = "Username",
             email = "exampleaddress@gmail.com",
-            avatarRes = R.drawable.ic_launcher_foreground
+            avatarRes = R.drawable.ic_launcher_foreground  // Canviar pel recurs d'imatge
         )
 
         Spacer(modifier = Modifier.height(24.dp))
 
         // SECTION: "ACCOUNT"
         Text(
-            text = getString(context, R.string.account, currentLocale),
+            text = "ACCOUNT",
             fontSize = 14.sp,
             color = Color.Black,
             fontWeight = FontWeight.Bold,
@@ -89,15 +73,16 @@ fun SettingsScreen(navController: NavController) {
             Column {
                 SettingsButton(
                     icon = Icons.Default.Person,
-                    text = getString(context, R.string.changeUsername, currentLocale),
+                    text = "Change username",  // o getString(context, R.string.change_username, currentLocale)
                     onClick = {
-                        // Pantalla Canvi de username
+                        // Navega al teu canvi de nom d'usuari, per exemple:
+                        //navController.navigate(AppScreens.CanviUsuari.route)
                     }
                 )
-                Divider(color = Color.LightGray)
+                Divider()
                 SettingsButton(
                     icon = Icons.Default.Key,
-                    text = getString(context, R.string.changeThePassword, currentLocale),
+                    text = "Change password",  // o getString(context, R.string.changePassword, currentLocale)
                     onClick = {
                         navController.navigate(AppScreens.CanviContrasenya.route)
                     }
@@ -109,7 +94,7 @@ fun SettingsScreen(navController: NavController) {
 
         // SECTION: "SETTINGS"
         Text(
-            text = getString(context, R.string.settings, currentLocale),
+            text = "SETTINGS",
             fontWeight = FontWeight.Bold,
             fontSize = 14.sp,
             color = Color.Black,
@@ -129,82 +114,17 @@ fun SettingsScreen(navController: NavController) {
             colors = CardDefaults.cardColors(containerColor = Color.White)
         ) {
             Column {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable(onClick = {})
-                        .padding(16.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            imageVector = Icons.Default.Language,
-                            contentDescription = null,
-                            tint = Color.Gray,
-                            modifier = Modifier.size(20.dp)
-                        )
-                        Spacer(modifier = Modifier.width(12.dp))
-                        Text(
-                            text = getString(context, R.string.currentLanguage, currentLocale),
-                            color = Color.Gray
-                        )
+                SettingsButton(
+                    icon = Icons.Default.Language,
+                    text = "Language",  // o getString(context, R.string.language, currentLocale)
+                    onClick = {
+                        // Navega o mostra un diàleg per canviar l'idioma
                     }
-                    ExposedDropdownMenuBox(
-                        expanded = expanded,
-                        onExpandedChange = { expanded = !expanded }
-                    ) {
-                        TextField(
-                            value = selectedOption,
-                            onValueChange = {},
-                            readOnly = true,
-                            trailingIcon = {
-                                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
-                            },
-                            modifier = Modifier
-                                .menuAnchor()
-                                .padding(10.dp, 0.dp)
-                                .width(200.dp)
-                                .height(54.dp)
-                                .border(
-                                    width = 1.dp,
-                                    color = Color.LightGray,
-                                    shape = RoundedCornerShape(8.dp)
-                                )
-                                .background(Color.White, shape = RoundedCornerShape(8.dp)),
-                            colors = ExposedDropdownMenuDefaults.textFieldColors(
-                                containerColor = Color.White,
-                                textColor = Color.Black,
-                                unfocusedIndicatorColor = Color.LightGray,
-                                focusedIndicatorColor = Color.LightGray,
-                                disabledIndicatorColor = Color.Transparent
-                            )
-                        )
-                        ExposedDropdownMenu(
-                            expanded = expanded,
-                            onDismissRequest = { expanded = false },
-                            modifier = Modifier.background(color = GrisMoltFluix)
-                        ) {
-                            options.forEach { selectionOption ->
-                                DropdownMenuItem(
-                                    text = { Text(selectionOption, color = Color.Black) },
-                                    onClick = {
-                                        selectedOption = selectionOption
-                                        expanded = false
-                                        if (selectionOption == "English") CurrentSession.changeLanguage("en") else CurrentSession.changeLanguage("es")
-                                        CurrentSession.getInstance()
-                                        currentLocale = CurrentSession.language
-                                    },
-                                    modifier = Modifier.background(GrisMoltFluix)
-                                )
-                            }
-                        }
-                    }
-                }
-                Divider(color = Color.LightGray)
+                )
+                Divider()
                 SettingsButton(
                     icon = Icons.Default.Help,
-                    text = getString(context, R.string.helpNSupport, currentLocale),
+                    text = "Help & support", // o getString(context, R.string.helpSupport, currentLocale)
                     onClick = {
                         // Navega a la secció d'ajuda
                     }
@@ -219,7 +139,7 @@ fun SettingsScreen(navController: NavController) {
 
         // BOTÓ "LOG OUT"
         Text(
-            text = getString(context, R.string.logout, currentLocale),
+            text = "Log out",  // o getString(context, R.string.logout, currentLocale)
             fontWeight = FontWeight.Bold,
             color = Color.Red,
             modifier = Modifier
@@ -230,7 +150,7 @@ fun SettingsScreen(navController: NavController) {
 
         // BOTÓ "DELETE ACCOUNT"
         Text(
-            text = getString(context, R.string.deleteAccount, currentLocale),
+            text = "Delete account",  // o getString(context, R.string.deleteAccount, currentLocale)
             fontWeight = FontWeight.Medium,
             color = Color.Gray,
             modifier = Modifier
@@ -244,15 +164,17 @@ fun SettingsScreen(navController: NavController) {
     if (showLogoutDialog) {
         AlertDialog(
             onDismissRequest = { showLogoutDialog = false },
-            title = { Text(getString(context, R.string.sureLogout, currentLocale)) },
+            title = { Text("Are you sure you want to log out?") },
             confirmButton = {
                 Button(
                     onClick = {
+                        // Aquí crides la funció de logout:
+                        // if (ferLogout()) ...
                         navController.navigate(AppScreens.IniciSessio.route)
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Morat)
                 ) {
-                    Text(getString(context, R.string.accept, currentLocale))
+                    Text("Accept")
                 }
             },
             dismissButton = {
@@ -260,7 +182,7 @@ fun SettingsScreen(navController: NavController) {
                     onClick = { showLogoutDialog = false },
                     colors = ButtonDefaults.buttonColors(containerColor = Morat)
                 ) {
-                    Text(getString(context, R.string.cancel, currentLocale))
+                    Text("Cancel")
                 }
             },
             containerColor = Color.White
@@ -271,16 +193,17 @@ fun SettingsScreen(navController: NavController) {
     if (showDeleteDialog) {
         AlertDialog(
             onDismissRequest = { showDeleteDialog = false },
-            title = { Text(getString(context, R.string.sureDeleteAccount, currentLocale)) },
+            title = { Text("Are you sure you want to delete your account?") },
             confirmButton = {
                 Button(
                     onClick = {
-                        deleteAccountViewModel.deleteAccount()
+                        // Aquí crides la funció d'esborrar compte:
+                        // if (esborrarCompte()) ...
                         navController.navigate(AppScreens.IniciSessio.route)
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Morat)
                 ) {
-                    Text(getString(context, R.string.accept, currentLocale))
+                    Text("Accept")
                 }
             },
             dismissButton = {
@@ -288,7 +211,7 @@ fun SettingsScreen(navController: NavController) {
                     onClick = { showDeleteDialog = false },
                     colors = ButtonDefaults.buttonColors(containerColor = Morat)
                 ) {
-                    Text(getString(context, R.string.cancel, currentLocale))
+                    Text("Cancel")
                 }
             },
             containerColor = Color.White
@@ -296,7 +219,9 @@ fun SettingsScreen(navController: NavController) {
     }
 }
 
-
+/**
+ * Mostra la capçalera amb l'avatar circular, el nom d'usuari i el correu.
+ */
 @Composable
 fun ProfileHeader(
     username: String,
@@ -317,7 +242,7 @@ fun ProfileHeader(
                 .size(60.dp)
                 .clip(CircleShape)
                 .background(Color.LightGray),
-            tint = Color.White
+            tint = Color.White // Canvia'l si el recurs és un vector
         )
 
         Spacer(modifier = Modifier.width(16.dp))
@@ -327,8 +252,7 @@ fun ProfileHeader(
             Text(
                 text = username,
                 fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
-                color = Color.Black
+                fontSize = 18.sp
             )
             Text(
                 text = email,
@@ -377,3 +301,12 @@ fun SettingsButton(
         )
     }
 }
+
+/**
+ * Exemple de funció per obtenir string internacionalitzat,
+ * si ho vols integrar amb strings.xml i locals.
+ */
+fun getLocalizedString(context: Context, resId: Int, locale: String): String {
+    return context.getString(resId)
+}
+

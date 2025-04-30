@@ -1,10 +1,18 @@
 package com.example.culturunya.screens
 
 import android.content.Context
+import android.content.res.Configuration
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.painterResource
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
@@ -16,28 +24,35 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import java.util.Locale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.culturunya.R
 import com.example.culturunya.navigation.AppScreens
+import com.example.culturunya.ui.theme.CulturunyaTheme
 import com.example.culturunya.ui.theme.Morat
-import com.example.culturunya.endpoints.login.LoginViewModel
-import com.example.culturunya.models.currentSession.CurrentSession
+import com.example.culturunya.controllers.comprovaNomContrasenya
 
-fun getString(context: Context, id: Int, langCode: String): String {
-    val config = context.resources.configuration
-    val locale = Locale(langCode)
-    val localizedContext = context.createConfigurationContext(config.apply { setLocale(locale) })
-    return localizedContext.resources.getString(id)
+class TestActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            CulturunyaTheme {
+                //ComposablePrincipal()
+            }
+        }
+    }
 }
 
+fun getString(context: Context, resId: Int, locale: String): String {
+    val config = Configuration(context.resources.configuration)
+    config.setLocale(Locale(locale))
+    return context.createConfigurationContext(config).resources.getString(resId)
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,21 +62,7 @@ fun ComposableIniciSessio(navController: NavController) {
     var missatgeError by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
     val context = LocalContext.current
-    CurrentSession.getInstance()
-    val currentLocale = CurrentSession.language
-    val loginViewModel: LoginViewModel = viewModel()
-    var token = ""
-
-    val loginResponse = loginViewModel.loginResponse.collectAsState().value
-    var loginError = loginViewModel.loginError.collectAsState().value
-
-    LaunchedEffect(loginResponse) {
-        if (loginResponse != null) {
-            navController.navigate(route = AppScreens.MainScreen.route) {
-                popUpTo(AppScreens.IniciSessio.route) { inclusive = true }
-            }
-        }
-    }
+    var currentLocale by remember { mutableStateOf(Locale.getDefault().language) }
 
     Box(
         modifier = Modifier
@@ -76,7 +77,9 @@ fun ComposableIniciSessio(navController: NavController) {
                 .padding(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Image(
+            //canviar currentLocale a "iso de l'idioma" fa que es canvii l'idioma
+
+            Image (
                 painter = painterResource(id = R.drawable.logo_retallat),
                 contentDescription = "Logo retallat"
             )
@@ -137,12 +140,9 @@ fun ComposableIniciSessio(navController: NavController) {
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            if (loginError?.isNotEmpty() == true) {
-                if (loginError == "400") loginError = getString(context, R.string.errIncorrectUsernameAndPassword, currentLocale)
-                else if (loginError == "401") loginError = getString(context, R.string.notAuthorized, currentLocale)
-                else if (loginError == "500") loginError = getString(context, R.string.serverError, currentLocale)
+            if (missatgeError.isNotEmpty()) {
                 Text(
-                    text = loginError!!,
+                    text = missatgeError,
                     color = Color.Red,
                     fontSize = 14.sp
                 )
@@ -155,8 +155,11 @@ fun ComposableIniciSessio(navController: NavController) {
                 onClick = {
                     if (usuari.isEmpty() || contrasenya.isEmpty()) {
                         missatgeError = getString(context, R.string.errNeedUsernameAndPassword, currentLocale)
-                    } else {
-                        loginViewModel.login(usuari, contrasenya)
+                    }
+                    else {
+                        //Comprova si el nom i la contrasenya són correctes
+                        if (comprovaNomContrasenya(usuari, contrasenya)) navController.navigate(route = AppScreens.MainScreen.route)
+                        else missatgeError = getString(context, R.string.errIncorrectUsernameAndPassword, currentLocale)
                     }
                 },
                 modifier = Modifier.width(250.dp),
@@ -167,6 +170,7 @@ fun ComposableIniciSessio(navController: NavController) {
 
             OutlinedButton(
                 onClick = {
+                    //Crida a la pantalla d'iniciar sessió amb Google
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Color.White),
                 modifier = Modifier.padding(16.dp)) {
@@ -190,11 +194,7 @@ fun ComposableIniciSessio(navController: NavController) {
                     color = Color.Gray
                 )
                 Button(
-                    onClick = {
-                        //User.getInstance()
-                        //User.setUserData(token, usuari)
-                        navController.navigate(route = AppScreens.PantallaRegistre.route)
-                              },
+                    onClick = { navController.navigate(route = AppScreens.PantallaRegistre.route) },
                     colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
                     contentPadding = PaddingValues(0.dp),
                     elevation = null
@@ -209,4 +209,3 @@ fun ComposableIniciSessio(navController: NavController) {
         }
     }
 }
-

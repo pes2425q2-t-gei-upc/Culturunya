@@ -16,13 +16,14 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="393b6216-b3ba-4902-a55f-80ae4ad778ba" name="Changes" comment="Estética de EventBox cambiada para que se parezca al mockup">
+    <list default="true" id="393b6216-b3ba-4902-a55f-80ae4ad778ba" name="Changes" comment="Rama para mostrar eventos">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/screens/EventBox.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/screens/EventBox.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/screens/EventList.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/screens/EventList.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/ui/theme/Color.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/ui/theme/Color.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-es/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-es/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/controllers/Api.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/controllers/Api.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/controllers/TestRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/controllers/TestRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/endpoints/Test/Test.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/endpoints/test/Test.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/endpoints/events/events.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/endpoints/events/Events.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/models/Test/Test.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/models/test/Test.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/navigation/AppNavigation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/culturunya/navigation/AppNavigation.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +34,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=PhysicalDevice, isTemplate=false, identifier=serial=6e3c555a)]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=C:\Users\kiria\.android\avd\Medium_Phone.avd)]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -50,7 +51,12 @@
         </task>
         <projects_view>
           <tree_state>
-            <expand />
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="Culturunya" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
             <select />
           </tree_state>
         </projects_view>
@@ -83,7 +89,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/pes2425q2-t-gei-upc/Culturunya.git&quot;,
-    &quot;accountId&quot;: &quot;c76918d0-81c4-4add-b7e6-ce71efb4dce5&quot;
+    &quot;accountId&quot;: &quot;9e328bb6-5987-4e99-842b-c28be3913cec&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -100,41 +106,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Android App.app.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.readMode.enableVisualFormatting": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "#158-Ordenar-Eventos",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/kiria/StudioProjects/Culturunya/settings.gradle.kts",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.17",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
-  },
-  "keyToStringList": {
-    "kotlin-gradle-user-dirs": [
-      "C:\\Users\\eerre\\.gradle"
-    ]
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Android App.app.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;DEV__Front&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/kiria/StudioProjects/Culturunya/settings.gradle.kts&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;SDK Location&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.notifications&quot;
   }
-}]]></component>
+}</component>
   <component name="PsdUISettings">
     <option name="LAST_EDITED_BUILD_TYPE" value="release" />
   </component>
   <component name="RunManager">
-    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
+    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
       <module name="Culturunya.app" />
       <option name="ANDROID_RUN_CONFIGURATION_SCHEMA_VERSION" value="1" />
       <option name="DEPLOY" value="true" />
@@ -207,14 +202,6 @@
       </method>
     </configuration>
   </component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.18034.62" />
-        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.18034.62" />
-      </set>
-    </attachedChunks>
-  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -223,11 +210,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1741604056254</updated>
-      <workItem from="1745094289383" duration="1785000" />
-      <workItem from="1745096206700" duration="7341000" />
-      <workItem from="1745195147387" duration="6204000" />
-      <workItem from="1745258322202" duration="1083000" />
-      <workItem from="1745259576626" duration="3461000" />
     </task>
     <task id="LOCAL-00001" summary="List of Events with default events to keep the menu">
       <option name="closed" value="true" />
@@ -245,44 +227,27 @@
       <option name="project" value="LOCAL" />
       <updated>1742686781936</updated>
     </task>
-    <task id="LOCAL-00003" summary="Cambio de idioma pantalla calendar">
-      <option name="closed" value="true" />
-      <created>1745203050001</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1745203050001</updated>
-    </task>
-    <option name="localTasksCounter" value="4" />
+    <option name="localTasksCounter" value="3" />
     <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="conf" />
     <MESSAGE value="List of Events with default events to keep the menu" />
     <MESSAGE value="Principal Screen Controller" />
     <MESSAGE value="Rama para mostrar eventos" />
-    <MESSAGE value="Cambio de idioma pantalla calendar" />
-    <MESSAGE value="Estética de EventBox cambiada para que se parezca al mockup" />
-    <option name="LAST_COMMIT_MESSAGE" value="Estética de EventBox cambiada para que se parezca al mockup" />
-  </component>
-  <component name="XSLT-Support.FileAssociations.UIState">
-    <expand />
-    <select />
+    <option name="LAST_COMMIT_MESSAGE" value="Rama para mostrar eventos" />
   </component>
   <component name="play_dynamic_filters_status">
     <option name="appIdToCheckInfo">
       <map>
         <entry key="com.example.culturunya">
           <value>
-            <CheckInfo lastCheckTimestamp="1745781348131" />
+            <CheckInfo lastCheckTimestamp="1743459226020" />
           </value>
         </entry>
         <entry key="com.example.culturunya.test">
           <value>
-            <CheckInfo lastCheckTimestamp="1745781348131" />
+            <CheckInfo lastCheckTimestamp="1743459226019" />
           </value>
         </entry>
       </map>

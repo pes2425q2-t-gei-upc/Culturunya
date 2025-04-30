@@ -10,70 +10,27 @@
     <string name="enterWithGoogle">"Sign in with Google"</string>
     <string name="noAccountYet">"Don't have an account yet?"</string>
     <string name="register">" Register"</string>
-    <string name="notAuthorized">"You are not authorized"</string>
-    <string name="serverError">"Server error. Try again later."</string>
 
     <!-- Pantalla Canvi de contrasenya -->
-    <string name="back">"Back"</string>
-    <string name="changePassword">"Password change"</string>
-    <string name="actualPassword">"Current password"</string>
-    <string name="newPassword">"New password"</string>
-    <string name="confirmNewPassword">"Confirm new password"</string>
-    <string name="passwordChangedSuccessfully">"Password changed successfully"</string>
-    <string name="allFieldsRequired">"All fields are required."</string>
-    <string name="passwordsDontMatch">"New passwords don't match."</string>
-    <string name="incorrectActualPassword">"The current password is incorrect."</string>
-    <string name="passwordsMustBeDifferent">"The new password cannot be the same as the previous one."</string>
-    <string name="changeThePassword">"Change Password"</string>
-    <string name="passwordChangeCompleted">"Password change completed"</string>
-    <string name="ok">"OK"</string>
+    <string name="back">"Enrere"</string>
+    <string name="changePassword">"Canvi de Contrasenya"</string>
+    <string name="actualPassword">"Contrasenya actual"</string>
+    <string name="newPassword">"Nova contrasenya"</string>
+    <string name="confirmNewPassword">"Confirmar nova contrasenya"</string>
+    <string name="passwordChangedSuccesfully">"La contrasenya s'ha canviat correctament."</string>
+    <string name="allFieldsCompulsory">"Tots els camps són obligatoris."</string>
+    <string name="passwordsDontMatch">"Les noves contrasenyes no coincideixen."</string>
+    <string name="incorrectActualPassword">"La contrasenya actual és incorrecta."</string>
+    <string name="passwordsMustBeDifferent">"La nova contrasenya no pot ser igual que l'anterior."</string>
+    <string name="changeThePassword">"Canviar contrasenya"</string>
+    <string name="passwordChangeCompleted">"Canvi de contrasenya completat"</string>
+    <string name="ok">"D'acord"</string>
 
     <!-- Pantalla Settings -->
-    <string name="logout">"Log out"</string>
-    <string name="sureLogout">"Are you sure you want to log out?"</string>
-    <string name="accept">"Accept"</string>
-    <string name="cancel">"Cancel"</string>
-    <string name="deleteAccount">"Delete account"</string>
-    <string name="sureDeleteAccount">"Are you sure you want to delete your account? This is irreversible"</string>
-    <string name="account">"ACCOUNT"</string>
-    <string name="settings">"SETTINGS"</string>
-    <string name="currentLanguage">"Current language"</string>
-    <string name="helpNSupport">"Help &amp; support"</string>
-    <string name="changeUsername">"Change username"</string>
-
-    <!-- Pantalla Calendari -->
-    <string name="monday">Monday</string>
-    <string name="mondayShort">M</string>
-    <string name="tuesday">Tuesday</string>
-    <string name="tuesdayShort">T</string>
-    <string name="wednesday">Wednesday</string>
-    <string name="wednesdayShort">W</string>
-    <string name="thursday">Thursday</string>
-    <string name="thursdayShort">T</string>
-    <string name="friday">Friday</string>
-    <string name="fridayShort">F</string>
-    <string name="saturday">Saturday</string>
-    <string name="saturdayShort">S</string>
-    <string name="sunday">Sunday</string>
-    <string name="sundayShort">S</string>
-
-    <string name="january">January</string>
-    <string name="february">February</string>
-    <string name="march">March</string>
-    <string name="april">April</string>
-    <string name="may">May</string>
-    <string name="june">June</string>
-    <string name="july">July</string>
-    <string name="august">August</string>
-    <string name="september">September</string>
-    <string name="october">October</string>
-    <string name="november">November</string>
-    <string name="december">December</string>
-
-    <string name="ofconnector">of</string>
-
-    <!-- Pantalla EventList -->
-    <string name="orderByDate">"Order by date"</string>
-    <string name="orderByName">"Order by name"</string>
-    <string name="fromPrice">"From "</string>
+    <string name="logout">"Tancar sessió"</string>
+    <string name="sureLogout">"Segur que vols tancar sessió?"</string>
+    <string name="accept">"Acceptar"</string>
+    <string name="cancel">"Cancelar"</string>
+    <string name="deleteAccount">"Esborrar el compte"</string>
+    <string name="sureDeleteAccount">"Segur que vols eliminar el teu compte? Això és irreversible"</string>
 </resources>

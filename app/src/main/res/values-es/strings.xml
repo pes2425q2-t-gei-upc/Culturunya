@@ -10,8 +10,6 @@
     <string name="enterWithGoogle">"Acceder con Google"</string>
     <string name="noAccountYet">"Aún no tienes cuenta?"</string>
     <string name="register">" Regístrate"</string>
-    <string name="notAuthorized">"No estás autorizado"</string>
-    <string name="serverError">"Error del servidor. Inténtalo más tarde."</string>
 
     <!-- Pantalla Canvi de contrasenya -->
     <string name="back">"Atrás"</string>
@@ -19,8 +17,8 @@
     <string name="actualPassword">"Contraseña actual"</string>
     <string name="newPassword">"Nueva contraseña"</string>
     <string name="confirmNewPassword">"Confirmar nueva contraseña"</string>
-    <string name="passwordChangedSuccessfully">"La contraseña se ha cambiado correctamente."</string>
-    <string name="allFieldsRequired">"Todos los campos son obligatorios."</string>
+    <string name="passwordChangedSuccesfully">"La contraseña se ha cambiado correctamente."</string>
+    <string name="allFieldsCompulsory">"Todos los campos son obligatorios."</string>
     <string name="passwordsDontMatch">"Las nuevas contraseñas no coinciden."</string>
     <string name="incorrectActualPassword">"La contraseña actual es incorrecta."</string>
     <string name="passwordsMustBeDifferent">"La nueva contraseña no puede ser igual que la anterior."</string>
@@ -35,46 +33,4 @@
     <string name="cancel">"Cancelar"</string>
     <string name="deleteAccount">"Borrar la cuenta"</string>
     <string name="sureDeleteAccount">"Seguro que quieres eliminar tu cuenta? Esto es irreversible"</string>
-    <string name="account">"CUENTA"</string>
-    <string name="settings">"AJUSTES"</string>
-    <string name="currentLanguage">"Idioma actual"</string>
-    <string name="helpNSupport">"Ayuda y soporte"</string>
-    <string name="changeUsername">"Cambiar nombre de usuario"</string>
-
-    <!-- Pantalla Calendari -->
-    <string name="monday">Lunes</string>
-    <string name="mondayShort">L</string>
-    <string name="tuesday">Martes</string>
-    <string name="tuesdayShort">M</string>
-    <string name="wednesday">Miércoles</string>
-    <string name="wednesdayShort">X</string>
-    <string name="thursday">Jueves</string>
-    <string name="thursdayShort">J</string>
-    <string name="friday">Viernes</string>
-    <string name="fridayShort">V</string>
-    <string name="saturday">Sábado</string>
-    <string name="saturdayShort">S</string>
-    <string name="sunday">Domingo</string>
-    <string name="sundayShort">D</string>
-
-    <string name="january">Enero</string>
-    <string name="february">Febrero</string>
-    <string name="march">Marzo</string>
-    <string name="april">Abril</string>
-    <string name="may">Mayo</string>
-    <string name="june">Junio</string>
-    <string name="july">Julio</string>
-    <string name="august">Agosto</string>
-    <string name="september">Septiembre</string>
-    <string name="october">Octubre</string>
-    <string name="november">Noviembre</string>
-    <string name="december">Diciembre</string>
-
-    <string name="ofconnector">de</string>
-
-    <!-- Pantalla EventList -->
-    <string name="orderByDate">"Ordenar por fecha"</string>
-    <string name="orderByName">"Ordenar por nombre"</string>
-    <string name="fromPrice">"Desde "</string>
-
 </resources>

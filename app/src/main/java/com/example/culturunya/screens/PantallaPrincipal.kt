@@ -14,17 +14,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.culturunya.R
+import com.example.culturunya.navigation.AppScreens
 import com.example.culturunya.ui.theme.*
-
+import com.example.culturunya.controllers.*
+import com.example.culturunya.endpoints.events.Event
 import com.example.culturunya.endpoints.events.EventViewModel
-
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -47,13 +48,12 @@ fun MainScreen(navController: NavController, viewModel: EventViewModel) {
         // HEADER
         Text(
             text = "Culturunya",
-            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
                 .padding(16.dp),
-            textAlign = TextAlign.Center,
-            color = Color.Black
+            textAlign = TextAlign.Center
         )
 
         // SEGONA FILA (només visible si "Events" està seleccionat)
@@ -105,7 +105,7 @@ fun MainScreen(navController: NavController, viewModel: EventViewModel) {
                     // Depenent de l'estat subScreen, mostrem una pantalla d'Events o altra
                     when (currentEventsSubScreen) {
                         "Map" -> EventMapScreen()
-                        "Calendar" -> EventCalendarScreen(viewModel)
+                        "Calendar" -> EventCalendarScreen()
                         "List" -> EventListScreen(viewModel)
                     }
                 }
@@ -241,19 +241,124 @@ fun EventMapScreen() {
 }
 
 @Composable
-fun EventCalendarScreen(viewModel: EventViewModel) {
-    CalendarScreen(viewModel)
+fun EventCalendarScreen() {
+    CalendarScreen()
 }
 
 @Composable
 fun EventListScreen(viewModel: EventViewModel) {
-    com.example.culturunya.screens.events.EventListScreen(
-        viewModel = viewModel,
-        onEventSelected = { event ->}
-    )
+    var selecetedEvent by remember { mutableStateOf<Event?>(null) }
+    val events by viewModel.events.collectAsState()
+    if(selecetedEvent == null){
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ){
+            if(events.isEmpty()){
+                Text("No hay eventos", color = Color.Black)
+            }
+            else{
+                LazyColumn {
+                    items(events) { event ->
+                        EventBox(event) {selecetedEvent = event}
+                    }
+                }
+            }
+        }
+    }
+    else{
+        EventInfo(event = selecetedEvent!!){
+            selecetedEvent = null
+        }
+    }
 }
 
+@Composable
+fun EventInfo(event: Event, onBack: () -> Unit) {
 
+    LazyColumn(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+        item( key = event.id) {
+        Text(text = "Info del evento: ${event.name}",modifier = Modifier
+                .fillMaxWidth()
+            .wrapContentHeight()
+            .padding(8.dp),
+            textAlign = TextAlign.Center)
+        Text(text = "Ubicacion del evento: ${event.location.address}",modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .padding(8.dp),
+            textAlign = TextAlign.Center)
+        Text("Descripcion del evento: ${event.description}",modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .padding(8.dp),
+            textAlign = TextAlign.Center)
+        Text("Fecha de inicio: ${event.date_start}",modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .padding(8.dp),
+            textAlign = TextAlign.Center)
+        Text("Fecho de fin: ${event.date_end}",modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .padding(8.dp),
+            textAlign = TextAlign.Center)
+        Button(onClick = onBack, modifier = Modifier.padding(8.dp), colors = ButtonDefaults.buttonColors(), shape = RoundedCornerShape(8.dp)) {
+            Text("Volver")
+        }
+        }
+    }
+}
+
+@Composable
+fun EventBox(event: Event, onEventClick: (Event) -> Unit) {
+    var expanded by remember { mutableStateOf(false) }  // Para controlar el estado del menú desplegable
+    var showMenu by remember { mutableStateOf(false) }  // Para controlar si mostrar el menú
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .background(Purple40, RoundedCornerShape(8.dp))
+            .clickable { showMenu = true }  // Hacer clic en el evento para mostrar el menú
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            Text(
+                text = event.name,
+                style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold),
+                color = Color.White
+            )
+        }
+
+        // Menú desplegable
+        DropdownMenu(
+            expanded = showMenu,
+            onDismissRequest = { showMenu = false }  // Cerrar el menú cuando se toca fuera de él
+        ) {
+            DropdownMenuItem(
+                text = { Text("Detalles del Evento") },
+                onClick = {
+                    onEventClick(event) // Call the callback with the selected event
+                    showMenu = false
+                }
+            )
+            DropdownMenuItem(
+                text = { Text("Guardar Evento") },
+                onClick = {
+                    showMenu = false  // Cerrar el menú
+                    // Acción para guardar el Evento en el calendario personal
+                }
+            )
+
+
+        }
+    }
+}
 /** ALTRES PANTALLES PRINCIPALS */
 @Composable
 fun QuizScreen() {
