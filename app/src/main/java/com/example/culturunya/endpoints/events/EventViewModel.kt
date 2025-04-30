@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import com.example.culturunya.controllers.*
-import com.example.culturunya.models.events.Event
+import com.example.culturunya.models.events.*
 
 class EventViewModel: ViewModel() {
     private val _allEvents = MutableStateFlow<List<Event>>(emptyList())
