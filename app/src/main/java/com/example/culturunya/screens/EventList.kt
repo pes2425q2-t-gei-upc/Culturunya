@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenuItem
@@ -27,16 +28,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.culturunya.R
 import com.example.culturunya.endpoints.events.Event
 import com.example.culturunya.endpoints.events.EventViewModel
 import com.example.culturunya.models.currentSession.CurrentSession
 import com.example.culturunya.screens.getString
-import com.example.culturunya.ui.theme.Purple40
 import java.text.Collator
 import java.util.Locale
 import androidx.compose.foundation.lazy.items
+import com.example.culturunya.ui.theme.Morat
+import com.example.culturunya.ui.theme.Purple40
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -88,7 +91,6 @@ private fun EventListView(
     val spanishCollator = Collator.getInstance(Locale("es", "ES"))
     spanishCollator.strength = Collator.PRIMARY // To ignore case differences
 
-    // Sort Events according to the current order and ascending state.
     val sortedEvents = when (currentSortCriteria) {
         SortCriteria.DATE -> {
             if (isAscending) {

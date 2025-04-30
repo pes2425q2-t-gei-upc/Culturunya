@@ -332,8 +332,9 @@
     <option name="appIdToCheckInfo">
       <map>
         <entry key="com.example.culturunya">
-          <value>
+
             <CheckInfo lastCheckTimestamp="1745941929341" />
+            <CheckInfo lastCheckTimestamp="1745781348131" />
           </value>
         </entry>
         <entry key="com.example.culturunya.test">

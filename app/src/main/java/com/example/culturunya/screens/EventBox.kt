@@ -82,6 +82,7 @@ fun EventBox(
                 Text("Foto evento")
             }
             //
+
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
