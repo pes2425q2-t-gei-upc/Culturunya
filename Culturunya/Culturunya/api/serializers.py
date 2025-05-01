@@ -41,7 +41,9 @@ class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
 
-# serializers.py
+class GoogleAuthSerializer(serializers.Serializer):
+    id_token = serializers.CharField()
+
 class ReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Report

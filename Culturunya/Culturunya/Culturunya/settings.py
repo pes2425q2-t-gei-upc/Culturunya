@@ -105,6 +105,9 @@ DATABASES = {
     }
 }
 
+GOOGLE_CLIENT_ID = "com.tuapp.android"
+
+
 MEDIA_URL  = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 os.makedirs(settings.MEDIA_ROOT, exist_ok=True)

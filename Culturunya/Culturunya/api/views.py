@@ -16,6 +16,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 
+from google.oauth2 import id_token
+from google.auth.transport import requests as g_requests
+from api.serializers import GoogleAuthSerializer
+from django.conf import settings
+
 # Swagger
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
@@ -68,7 +73,8 @@ class CustomObtainAuthToken(ObtainAuthToken):
                                            context={'request': request})
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
-        token, created = Token.objects.get_or_create(user=user)
+        Token.objects.filter(user=user).delete()
+        token = Token.objects.create(user=user)
         return Response({
             'token': token.key,
             'user_id': user.id,
@@ -97,6 +103,47 @@ def logout_view(request):
         return Response({"error": "Sesión no existente o ya eliminada"}, status=status.HTTP_400_BAD_REQUEST)
 
     return Response({"message": "Sesión cerrada exitosamente"}, status=status.HTTP_200_OK)
+
+
+@swagger_auto_schema(
+    method="post",
+    operation_summary="Login / registro con Google",
+    request_body=GoogleAuthSerializer,
+    responses={200: openapi.Response(
+        description="Token de sesión propio",
+        examples={"application/json": {"token": "abcd123...", "username": "anna"}}
+    )}
+)
+@api_view(["POST"])
+def google_auth(request):
+    serializer = GoogleAuthSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    id_token_str = serializer.validated_data["id_token"]
+
+    try:
+
+        idinfo = id_token.verify_oauth2_token(
+            id_token_str,
+            g_requests.Request(),
+            settings.GOOGLE_CLIENT_ID
+        )
+    except ValueError:
+        return Response({"error": "ID token inválido"}, status=400)
+
+    sub   = idinfo["sub"]
+    email = idinfo.get("email")
+    name  = idinfo.get("name", "")
+
+
+    user, _ = User.objects.get_or_create(
+        google_sub=sub,
+        defaults={"username": email, "email": email, "first_name": name}
+    )
+
+
+    Token.objects.filter(user=user).delete()
+    token = Token.objects.create(user=user)
+    return Response({"token": token.key, "username": user.username})
 
 
 #
