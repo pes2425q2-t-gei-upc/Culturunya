@@ -6,13 +6,11 @@ import com.example.culturunya.models.RegisterRequest
 import com.example.culturunya.models.RegisterResponse
 import com.example.culturunya.models.changePassword.ChangePasswordRequest
 import com.example.culturunya.models.deleteAccount.DeleteAccountRequest
-import com.example.culturunya.models.deleteAccount.DeleteAccountResponse
 import com.example.culturunya.models.getChats.ChatInfo
 import com.example.culturunya.models.login.LoginRequest
 import com.example.culturunya.models.login.LoginResponse
 import com.example.culturunya.models.sendMessage.SendMessageToAdminRequest
 import com.example.culturunya.models.sendMessage.SendMessageToUserRequest
-import retrofit2.HttpException
 import retrofit2.HttpException
 
 class AuthRepository(private val api: Api) {

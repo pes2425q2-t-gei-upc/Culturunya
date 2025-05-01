@@ -12,8 +12,7 @@ import com.example.culturunya.endpoints.test.Test
 import com.example.culturunya.endpoints.users.UserSimpleInfo
 import com.example.culturunya.models.Message
 import com.example.culturunya.models.changePassword.ChangePasswordRequest
-import com.example.culturunya.models.changePassword.ChangePasswordResponse
-import com.example.culturunya.models.deleteAccount.DeleteAccountResponse
+import com.example.culturunya.models.events.Events
 import com.example.culturunya.models.getChats.ChatInfo
 import com.example.culturunya.models.getChats.GetChatWithUserRequest
 import com.example.culturunya.models.login.LoginRequest
