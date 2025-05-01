@@ -7,11 +7,14 @@ import unicodedata
 from django.utils import timezone
 from dateutil import parser as date_parser
 from persistence.models import Location, Event, Category
+from django.core.files.base import ContentFile
+from typing import Optional
 
+BASE_IMG_URL = "https://agenda.cultura.gencat.cat"
 today = datetime.date.today().strftime("%Y-%m-%d")
 URL = (
     "https://analisi.transparenciacatalunya.cat/resource/rhpv-yr4f.json?"
-    "$select=codi,latitud,longitud,adre_a,municipi,denominaci,data_inici,data_fi,gratuita,entrades,descripcio,tags_mbits"
+    "$select=codi,latitud,longitud,adre_a,municipi,denominaci,data_inici,data_fi,gratuita,entrades,descripcio,tags_mbits,imatges"
     f"&$where=latitud IS NOT NULL AND "
     f"longitud IS NOT NULL AND "
     f"adre_a IS NOT NULL AND adre_a <> '' AND "
@@ -25,6 +28,11 @@ URL = (
     f"tags_mbits IS NOT NULL AND tags_mbits <> ''"
     "&$order=data_inici ASC"
 )
+
+def _get_first_image_path(imatges_field: Optional[str]) -> Optional[str]:
+    if not imatges_field:
+        return None
+    return imatges_field.split(",")[0].strip()
 
 
 def obtener_precio(entrades: str, gratuita: str = None) -> float:
@@ -134,6 +142,9 @@ def procesar_eventos_y_guardar():
                 }
             )
 
+            img_path = _get_first_image_path(e.get("imatges"))
+            full_img_url = f"{BASE_IMG_URL}{img_path}" if img_path else None
+
             event_obj, created = Event.objects.update_or_create(
                 id=event_id,
                 defaults={
@@ -145,6 +156,17 @@ def procesar_eventos_y_guardar():
                     "location": loc
                 }
             )
+            if full_img_url and (not event_obj.image or event_obj.image.name == ""):
+                try:
+                    resp = requests.get(full_img_url, timeout=10)
+                    resp.raise_for_status()
+                    event_obj.image.save(
+                        f"{event_id}.jpg",
+                        ContentFile(resp.content),
+                        save=True
+                    )
+                except Exception as ex:
+                    print(f"No se pudo descargar imagen de {event_id}: {ex}")
 
 
             categorias = extraer_categorias(e.get("tags_mbits", ""))

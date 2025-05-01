@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 import posixpath
+from django.conf import settings
 
 
 
@@ -103,6 +104,10 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
+MEDIA_URL  = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+os.makedirs(settings.MEDIA_ROOT, exist_ok=True)
 
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {

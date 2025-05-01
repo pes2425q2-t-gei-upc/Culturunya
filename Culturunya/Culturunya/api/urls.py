@@ -5,7 +5,8 @@ from .views import (
     get_events, get_filtered_events, create_user, create_rating_endpoint,
     CustomObtainAuthToken, delete_own_account, ChangePasswordView, UserProfileView, get_conversation_with_admin,
     get_conversation_with_user, send_message_user_to_admin, send_message_admin_to_user, update_language,
-    update_username, logout_view, resolve_report, list_reports, create_report, get_event_comments, list_chats_admin
+    update_username, logout_view, resolve_report, list_reports, create_report, get_event_comments, list_chats_admin,
+    upload_profile_pic
 )
 from .views import data_test
 from .views import delete_test
@@ -32,6 +33,7 @@ urlpatterns = [#se concatena con el path de url del proyecto
     path('chat/with_user/<int:user_id>', get_conversation_with_user, name='get_conversation_with_user'),
     path('chat/admin_chats/', list_chats_admin, name='list_chats_admin'),
     path('user/profile_info/', UserProfileView.as_view(), name='user_profile'),
+    path("user/profile_pic/", upload_profile_pic, name="upload_profile_pic"),
     path('user/change_password/', ChangePasswordView.as_view(), name='change_password'),
     path('user/update_language/', update_language, name='update_language'),
     path('user/update_username/', update_username, name='update_username'),

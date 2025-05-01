@@ -26,7 +26,9 @@ from api.serializers import UserProfileSerializer, ChangePasswordSerializer, Rep
 from domain.users_service import get_all_events, filter_events, create_user_service, create_rating, create_message, \
     get_messages, create_resolved_report, get_messages_admin
 from persistence.models import User, Report, Rating, TypeRating
-
+from api.serializers import ProfilePicSerializer
+from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.decorators import parser_classes
 
 #
 # LOGIN
@@ -730,6 +732,38 @@ class UserProfileView(APIView):
     def get(self, request):
         serializer = UserProfileSerializer(request.user)
         return Response(serializer.data)
+
+
+@swagger_auto_schema(
+    method='post',
+    operation_summary="Subir / reemplazar la foto de perfil",
+    operation_description="Envía un archivo en un multipart-form con la clave `profile_pic`.",
+    manual_parameters=[
+        openapi.Parameter(
+            name="profile_pic",
+            in_=openapi.IN_FORM,
+            type=openapi.TYPE_FILE,
+            required=True,
+            description="Imagen de perfil"
+        )
+    ],
+    responses={
+        200: openapi.Response(description="Foto actualizada"),
+        400: openapi.Response(description="Dato inválido"),
+        401: openapi.Response(description="No autenticado"),
+    }
+)
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+@parser_classes([MultiPartParser, FormParser])
+def upload_profile_pic(request):
+    user = request.user
+    serializer = ProfilePicSerializer(user, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        # Devolver la URL completa para que el front la cachee
+        return Response({"profile_pic": serializer.data["profile_pic"]}, status=200)
+    return Response(serializer.errors, status=400)
 
 
 @swagger_auto_schema(

@@ -1,8 +1,9 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
-
 from Culturunya import settings
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile 
 
 
 class Location(models.Model):
@@ -33,6 +34,11 @@ class Category(models.Model):
         category, created = Category.objects.get_or_create(name=category_name)
         return category
 
+
+def event_image_path(instance, filename):
+    ext = filename.split('.')[-1]
+    return f"event_images/{instance.id}.{ext}"
+
 class Event(models.Model):
     id = models.CharField(max_length=255, primary_key=True)
     name = models.CharField(max_length=255)
@@ -42,6 +48,10 @@ class Event(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     location = models.ForeignKey(Location, on_delete=models.CASCADE, related_name='events', null=True)
     categories = models.ManyToManyField(Category, related_name='events')
+    image = models.ImageField(
+        upload_to=event_image_path,
+        blank=True, null=True
+    )
 
     def to_dict(self):
         return {
@@ -56,8 +66,9 @@ class Event(models.Model):
                 "address": self.location.address if self.location else None,
                 "latitude": self.location.latitude if self.location else None,
                 "longitude": self.location.longitude if self.location else None,
-            } if self.location else None,  # Evitar error si no hay location
-            "categories": [cat.name for cat in self.categories.all()]  # Agregar categor�as
+            } if self.location else None,
+            "categories": [cat.name for cat in self.categories.all()],
+            "image": self.image.url if self.image else None,
         }
 
     def __str__(self):

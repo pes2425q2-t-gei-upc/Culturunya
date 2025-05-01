@@ -32,6 +32,11 @@ class UserSimpleInfoSerializer(serializers.ModelSerializer):
         fields = ['username', 'email', 'profile_pic']
     profile_pic = serializers.ImageField(read_only=True)
 
+class ProfilePicSerializer(serializers.ModelSerializer):
+    class Meta:
+        model  = User
+        fields = ["profile_pic"]
+
 class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
