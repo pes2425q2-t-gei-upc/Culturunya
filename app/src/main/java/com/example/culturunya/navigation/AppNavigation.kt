@@ -34,5 +34,8 @@ fun AppNavigation() {
         composable(route = AppScreens.CanviContrasenya.route) {
             PantallaCanviContrasenya(navController)
         }
+        composable(route = "event_map_screen") {
+            EventMapScreen()
+        }
     }
 }
