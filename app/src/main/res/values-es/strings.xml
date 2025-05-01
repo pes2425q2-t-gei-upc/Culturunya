@@ -26,6 +26,8 @@
     <string name="passwordsMustBeDifferent">"La nueva contraseña no puede ser igual que la anterior."</string>
     <string name="changeThePassword">"Cambiar contraseña"</string>
     <string name="passwordChangeCompleted">"Cambio de contraseña completado"</string>
+    <string name="validationError">"Error de validación"</string>
+    <string name="changePasswordErrorNoAuth">"Error cambiando la contraseña. Usuario no autenticado"</string>
     <string name="ok">"De acuerdo"</string>
 
     <!-- Pantalla Settings -->
@@ -40,6 +42,8 @@
     <string name="currentLanguage">"Idioma actual"</string>
     <string name="helpNSupport">"Ayuda y soporte"</string>
     <string name="changeUsername">"Cambiar nombre de usuario"</string>
+    <string name="deleteErrorNoAuth">"Error eliminando la cuenta. Usuario no autenticado"</string>
+    <string name="deleteError">"Error eliminando la cuenta."</string>
 
     <!-- Pantalla Calendari -->
     <string name="monday">Lunes</string>

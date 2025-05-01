@@ -54,10 +54,10 @@ interface Api {
     suspend fun login(@Body loginRequest: LoginRequest): LoginResponse
 
     @DELETE("delete_account/")
-    suspend fun deleteAccount(@Header("Authorization") token: String): DeleteAccountResponse
+    suspend fun deleteAccount(@Header("Authorization") token: String): Response<Unit>
 
     @PUT("user/change_password/")
-    suspend fun changePassword(@Header("Authorization") token: String, @Body newPassword: ChangePasswordRequest): ChangePasswordResponse
+    suspend fun changePassword(@Header("Authorization") token: String, @Body newPassword: ChangePasswordRequest): Response<Unit>
 
     @GET("chat/admin_chats/")
     suspend fun getChats(@Header("Authorization") token: String): List<ChatInfo>

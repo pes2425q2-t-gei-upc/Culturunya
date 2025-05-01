@@ -28,7 +28,7 @@ import com.example.culturunya.navigation.AppScreens
 import com.example.culturunya.ui.theme.CulturunyaTheme
 import com.example.culturunya.ui.theme.Morat
 import com.example.culturunya.controllers.enviarDadesAlBackend
-
+import com.example.culturunya.models.currentSession.CurrentSession
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -248,7 +248,7 @@ fun PantallaRegistre(navController: NavController) {
                     Button(
                         onClick = {
                             registreExit = false
-                            navController.navigate(route = AppScreens.MainScreen.route) // Torna a la pantalla anterior
+                            navController.navigate(route = AppScreens.IniciSessio.route)
                         }
                     ) {
                         Text("D'acord")
