@@ -26,7 +26,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.culturunya.R
-import com.example.culturunya.controllers.getContrasenyaUsuariActual
 import com.example.culturunya.endpoints.changePassword.ChangePasswordViewModel
 import com.example.culturunya.endpoints.deleteAccount.DeleteAccountViewModel
 import com.example.culturunya.models.currentSession.CurrentSession
@@ -52,7 +51,8 @@ fun PantallaCanviContrasenya(navController: NavController) {
     val currentLocale = CurrentSession.language
 
     val changePasswordViewModel: ChangePasswordViewModel = viewModel()
-    val error by changePasswordViewModel.error.collectAsState()
+    val changePasswordCode by changePasswordViewModel.changePasswordStatus.collectAsState()
+    var showErrorDialog by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
@@ -172,39 +172,6 @@ fun PantallaCanviContrasenya(navController: NavController) {
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            error?.let { errorMessage ->
-                Text(text = errorMessage, Modifier.padding(4.dp), color = Color.Red)
-                missatgeError = errorMessage
-            }
-
-            Button(
-                onClick = {
-                    val contrasenyaCorrecta = getContrasenyaUsuariActual()
-                    when {
-                        haCanviat -> true //Si ja s'ha fet el canvi, ignora que tornis a apretar
-                        contrasenyaActual.isEmpty() || novaContrasenya.isEmpty() || confirmaNovaContrasenya.isEmpty() ->
-                            missatgeError = getString(context, R.string.allFieldsRequired, currentLocale)
-
-                        novaContrasenya != confirmaNovaContrasenya ->
-                            missatgeError = getString(context, R.string.passwordsDontMatch, currentLocale)
-
-                        contrasenyaActual != contrasenyaCorrecta ->
-                            missatgeError = getString(context, R.string.incorrectActualPassword, currentLocale)
-
-                        contrasenyaActual == novaContrasenya ->
-                            missatgeError = getString(context, R.string.passwordsMustBeDifferent, currentLocale)
-                        else -> {
-                            changePasswordViewModel.changePassword(contrasenyaActual, novaContrasenya)
-                            haCanviat = true
-                        }
-                    }
-                },
-                modifier = Modifier.width(250.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Morat)
-            ) {
-                Text(text = getString(context, R.string.changeThePassword, currentLocale), color = Color.White)
-            }
-
             if (missatgeError.isNotEmpty()) {
                 Text(
                     text = missatgeError,
@@ -215,7 +182,7 @@ fun PantallaCanviContrasenya(navController: NavController) {
             }
 
             Spacer(modifier = Modifier.height(10.dp))
-
+            Log.d("Codi change password:", "$changePasswordCode")
             if (haCanviat) {
                 AlertDialog(
                     onDismissRequest = { haCanviat = false },
@@ -235,6 +202,57 @@ fun PantallaCanviContrasenya(navController: NavController) {
                     containerColor = Color.White
                 )
             }
+
+            Button(
+                onClick = {
+                    CurrentSession.getInstance()
+                    val contrasenyaCorrecta = CurrentSession.password
+                    when {
+                        contrasenyaActual.isEmpty() || novaContrasenya.isEmpty() || confirmaNovaContrasenya.isEmpty() ->
+                            missatgeError = getString(context, R.string.allFieldsRequired, currentLocale)
+
+                        novaContrasenya != confirmaNovaContrasenya ->
+                            missatgeError = getString(context, R.string.passwordsDontMatch, currentLocale)
+
+                        contrasenyaActual != contrasenyaCorrecta ->
+                            missatgeError = getString(context, R.string.incorrectActualPassword, currentLocale)
+
+                        contrasenyaActual == novaContrasenya ->
+                            missatgeError = getString(context, R.string.passwordsMustBeDifferent, currentLocale)
+
+                        else -> {
+                            missatgeError = ""
+                            changePasswordViewModel.changePassword(contrasenyaActual, novaContrasenya)
+                        }
+                    }
+                },
+                modifier = Modifier.width(250.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Morat)
+            ) {
+                Text(
+                    text = getString(context, R.string.changeThePassword, currentLocale),
+                    color = Color.White
+                )
+            }
+
+
+            LaunchedEffect(changePasswordCode) {
+                when (changePasswordCode) {
+                    200 -> navController.navigate(AppScreens.IniciSessio.route)
+                    else -> if (changePasswordCode != null) showErrorDialog = true
+                }
+            }
+
+            if (showErrorDialog) {
+                var message = getString(context, R.string.changePasswordErrorNoAuth, currentLocale)
+                if (changePasswordCode == 400) {
+                    message = getString(context, R.string.validationError, currentLocale)
+                }
+                popUpError(message, onClick = {
+                    showErrorDialog = false
+                })
+            }
+
         }
     }
 }

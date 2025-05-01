@@ -1,6 +1,7 @@
 package com.example.culturunya.screens
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -38,8 +39,9 @@ fun SettingsScreen(navController: NavController) {
     var showLogoutDialog by remember { mutableStateOf(false) }
     var showDeleteDialog by remember { mutableStateOf(false) }
 
-    // Per a l'exemple, agafem l'idioma per defecte del dispositiu
     val deleteAccountViewModel: DeleteAccountViewModel = viewModel()
+    val deleteCode by deleteAccountViewModel.deleteAccountStatus.collectAsState()
+    var showDeleteErrorDialog by remember { mutableStateOf(false) }
 
     val context = LocalContext.current
     CurrentSession.getInstance()
@@ -242,57 +244,40 @@ fun SettingsScreen(navController: NavController) {
 
     // DIALOG: Confirmació Logout
     if (showLogoutDialog) {
-        AlertDialog(
-            onDismissRequest = { showLogoutDialog = false },
-            title = { Text(getString(context, R.string.sureLogout, currentLocale)) },
-            confirmButton = {
-                Button(
-                    onClick = {
-                        navController.navigate(AppScreens.IniciSessio.route)
-                    },
-                    colors = ButtonDefaults.buttonColors(containerColor = Morat)
-                ) {
-                    Text(getString(context, R.string.accept, currentLocale))
-                }
-            },
-            dismissButton = {
-                Button(
-                    onClick = { showLogoutDialog = false },
-                    colors = ButtonDefaults.buttonColors(containerColor = Morat)
-                ) {
-                    Text(getString(context, R.string.cancel, currentLocale))
-                }
-            },
-            containerColor = Color.White
+        popUpDialog(
+            getString(context, R.string.sureLogout, currentLocale),
+            onConfirm = {navController.navigate(AppScreens.IniciSessio.route)},
+            onDismiss = {showLogoutDialog = false}
         )
+    }
+
+    LaunchedEffect(deleteCode) {
+        if (deleteCode == 204) {
+            navController.navigate(AppScreens.IniciSessio.route)
+        }
+        else if (deleteCode != null) {
+            showDeleteErrorDialog = true
+        }
     }
 
     // DIALOG: Confirmació Eliminar compte
     if (showDeleteDialog) {
-        AlertDialog(
-            onDismissRequest = { showDeleteDialog = false },
-            title = { Text(getString(context, R.string.sureDeleteAccount, currentLocale)) },
-            confirmButton = {
-                Button(
-                    onClick = {
-                        deleteAccountViewModel.deleteAccount()
-                        navController.navigate(AppScreens.IniciSessio.route)
-                    },
-                    colors = ButtonDefaults.buttonColors(containerColor = Morat)
-                ) {
-                    Text(getString(context, R.string.accept, currentLocale))
-                }
+        popUpDialog(
+            getString(context, R.string.sureDeleteAccount, currentLocale),
+            onConfirm = {
+                deleteAccountViewModel.deleteAccount()
+                showDeleteDialog = false
             },
-            dismissButton = {
-                Button(
-                    onClick = { showDeleteDialog = false },
-                    colors = ButtonDefaults.buttonColors(containerColor = Morat)
-                ) {
-                    Text(getString(context, R.string.cancel, currentLocale))
-                }
-            },
-            containerColor = Color.White
+            onDismiss = { showDeleteDialog = false }
         )
+    }
+
+    if (showDeleteErrorDialog) {
+        var message = getString(context, R.string.deleteErrorNoAuth, currentLocale)
+        if (deleteCode != 401) getString(context, R.string.deleteError, currentLocale)
+        popUpError(message, onClick = {
+            showDeleteErrorDialog = false
+        })
     }
 }
 
@@ -376,4 +361,51 @@ fun SettingsButton(
             tint = Color.LightGray
         )
     }
+}
+
+@Composable
+fun popUpDialog(title: String, onConfirm: () -> Unit, onDismiss: () -> Unit) {
+    val context = LocalContext.current
+    CurrentSession.getInstance()
+    var currentLocale by remember { mutableStateOf(CurrentSession.language) }
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(title) },
+        confirmButton = {
+            Button(
+                onClick = onConfirm,
+                colors = ButtonDefaults.buttonColors(containerColor = Morat)
+            ) {
+                Text(getString(context, R.string.accept, currentLocale))
+            }
+        },
+        dismissButton = {
+            Button(
+                onClick = onDismiss,
+                colors = ButtonDefaults.buttonColors(containerColor = Morat)
+            ) {
+                Text(getString(context, R.string.cancel, currentLocale))
+            }
+        },
+        containerColor = Color.White
+    )
+}
+
+@Composable
+fun popUpError(text: String, onClick: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onClick,
+        title = {
+            Text(text)
+        },
+        confirmButton = {
+            Button(
+                onClick = onClick,
+                colors = ButtonDefaults.buttonColors(containerColor = Morat)
+            ) {
+                Text("OK")
+            }
+        },
+        containerColor = Color.White
+    )
 }
