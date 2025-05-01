@@ -172,7 +172,7 @@ private fun EventListView(
                 colors = ButtonDefaults.buttonColors(containerColor = Purple40)
             ) {
                 Text(
-                    text = "A/D",
+                    text = "↑/↓",
                     color = Color.White
                 )
             }
