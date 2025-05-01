@@ -87,4 +87,6 @@
     <string name="saysComment">dice</string>
     <string name="send">"Enviar"</string>
 
+    <!-- Pantalla Xat -->
+    <string name="administrator">"Administrador"</string>
 </resources>

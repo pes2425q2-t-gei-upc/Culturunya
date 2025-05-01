@@ -1,6 +1,5 @@
 package com.example.culturunya.screens
 
-import android.text.Layout
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,32 +15,33 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.material3.TextField
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.modifier.ModifierLocalReadScope
 import androidx.navigation.NavController
 import com.example.culturunya.ui.theme.GrisMoltFluix
 import com.example.culturunya.ui.theme.Morat
-import com.example.culturunya.ui.theme.Purple80
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.culturunya.R
 import com.example.culturunya.endpoints.getChatWithAdmin.GetChatWithAdminViewModel
+import com.example.culturunya.endpoints.getChatWithUserViewModel.GetChatWithUserViewModel
 import com.example.culturunya.endpoints.sendMessageToAdmin.SendMessageToAdminViewModel
+import com.example.culturunya.endpoints.sendMessageToUser.SendMessageToUserViewModel
 import com.example.culturunya.models.Message
+import com.example.culturunya.models.currentSession.CurrentSession
 import kotlinx.coroutines.delay
 
 @Composable
-fun MessageBubble(message: Message) {
-    val backgroundColor = if (message.from != "Administrador") Morat else GrisMoltFluix
-    val textColor = if (message.from != "Administrador") Color.White else Color.Black
+fun MessageBubble(message: Message, imAdmin: Boolean, username: String) {
+    val backgroundColor = if (iveSentIt(message, imAdmin, username)) Morat else GrisMoltFluix
+    val textColor = if (iveSentIt(message, imAdmin, username)) Color.White else Color.Black
 
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = if (message.from != "Administrador") Arrangement.End else Arrangement.Start
+        horizontalArrangement = if (iveSentIt(message, imAdmin, username)) Arrangement.End else Arrangement.Start
     ) {
         Box(
             modifier = Modifier
@@ -55,21 +55,46 @@ fun MessageBubble(message: Message) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PantallaXat(navController: NavController) {
+fun PantallaXat(navController: NavController, userId: Int?, username: String?, imageUrl: String?) {
+    val context = LocalContext.current
+    CurrentSession.getInstance()
+    val currentLocale = CurrentSession.language
+    var imAdmin = false
+    if (userId != -1 && username != null) imAdmin = true
     var messageText by remember { mutableStateOf("") }
-    val loadMessagesViewModel: GetChatWithAdminViewModel = viewModel()
-    val sendMessageViewModel: SendMessageToAdminViewModel = viewModel()
-    val sendMessageStatus by sendMessageViewModel.sendMessageToAdminStatus.collectAsState()
+
+    val loadMessagesViewModel = if (imAdmin) {
+        viewModel<GetChatWithUserViewModel>()
+    } else {
+        viewModel<GetChatWithAdminViewModel>()
+    }
+    val sendMessageViewModel = if (imAdmin) {
+        viewModel<SendMessageToUserViewModel>()
+    } else {
+        viewModel<SendMessageToAdminViewModel>()
+    }
+    val messages by if (imAdmin) {
+        (loadMessagesViewModel as GetChatWithUserViewModel).getChatWithUserResponse.collectAsState(initial = emptyList())
+    } else {
+        (loadMessagesViewModel as GetChatWithAdminViewModel).getChatWithAdminResponse.collectAsState(initial = emptyList())
+    }
+    val sendMessageStatus by if (imAdmin) {
+        (sendMessageViewModel as SendMessageToUserViewModel).sendMessageToUserStatus.collectAsState()
+    } else {
+        (sendMessageViewModel as SendMessageToAdminViewModel).sendMessageToAdminStatus.collectAsState()
+    }
 
     LaunchedEffect(Unit) {
         while (true) {
             delay(50)
-            loadMessagesViewModel.getChatWithAdmin()
+            if (imAdmin) {
+                (loadMessagesViewModel as GetChatWithUserViewModel).getChatWithUser(userId!!.toString())
+            } else {
+                (loadMessagesViewModel as GetChatWithAdminViewModel).getChatWithAdmin()
+            }
         }
     }
-
-    val messages by loadMessagesViewModel.getChatWithAdminResponse.collectAsState(initial = emptyList())
-
+    
     Column(modifier = Modifier
             .fillMaxSize()
             .background(color = Color.White)
@@ -81,7 +106,9 @@ fun PantallaXat(navController: NavController) {
                 .imePadding(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = { navController.popBackStack() }) {
+            IconButton(onClick = {
+                navController.popBackStack()
+            }) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = "Back"
@@ -98,7 +125,7 @@ fun PantallaXat(navController: NavController) {
             Spacer(modifier = Modifier.width(12.dp))
 
             Text(
-                text = "nombre de usuario",
+                text = if (imAdmin) username!! else getString(context, R.string.administrator, currentLocale),
                 style = MaterialTheme.typography.titleMedium
             )
         }
@@ -116,7 +143,7 @@ fun PantallaXat(navController: NavController) {
             reverseLayout = true
         ) {
             items(messages.orEmpty().reversed()) { message ->
-                MessageBubble(message)
+                MessageBubble(message, imAdmin, username!!)
                 Spacer(modifier = Modifier.height(13.dp))
             }
         }
@@ -148,7 +175,11 @@ fun PantallaXat(navController: NavController) {
             IconButton(
                 onClick = {
                     if (messageText.isNotBlank()) {
-                        sendMessageViewModel.sendMessageToAdmin(messageText)
+                        if (imAdmin) {
+                            (sendMessageViewModel as SendMessageToUserViewModel).sendMessageToUser(userId!!, messageText)
+                        } else {
+                            (sendMessageViewModel as SendMessageToAdminViewModel).sendMessageToAdmin(messageText)
+                        }
                         messageText = ""
                     }
                 },
@@ -164,4 +195,8 @@ fun PantallaXat(navController: NavController) {
             }
         }
     }
+}
+
+fun iveSentIt(message: Message, imAdmin: Boolean, username: String): Boolean {
+    return (message.from != username && imAdmin) || (message.from != "Administrador" && !imAdmin)
 }

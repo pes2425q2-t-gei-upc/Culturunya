@@ -55,6 +55,10 @@ fun SettingsScreen(navController: NavController) {
     var expanded by remember { mutableStateOf(false) }
     var selectedOption by remember { mutableStateOf(if (currentLocale == "en") options[0] else options[1]) }
 
+    LaunchedEffect(Unit) {
+        getChatsViewModel.reset()
+    }
+
     LaunchedEffect(getChatsResponse, getChatsCode) {
         if (getChatsResponse != null) {
             navController.navigate(route = AppScreens.LlistaXats.route)

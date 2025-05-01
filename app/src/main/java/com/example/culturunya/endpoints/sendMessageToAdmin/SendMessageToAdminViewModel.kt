@@ -24,10 +24,8 @@ class SendMessageToAdminViewModel : ViewModel() {
             val result = repository.sendMessageToAdmin("Token $token", message)
 
             result.onSuccess {
-                Log.d("SendMessageToAdmin", "Mensaje enviado con éxito - Código 201")
                 _sendMessageToAdminStatus.value = 201
             }.onFailure { error ->
-                Log.e("SendMessageToAdmin", "Error al enviar mensaje: - ${error.message}")
                 _sendMessageToAdminStatus.value = when (error) {
                     is HttpException -> error.code()
                     else -> -1

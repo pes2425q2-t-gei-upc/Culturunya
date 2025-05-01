@@ -28,9 +28,11 @@ class GetChatsViewModel : ViewModel() {
         viewModelScope.launch {
             val token = CurrentSession.token
             val result = repository.getChats("Token $token")
+            Log.d("GetChats", "Llamando al endpoint de getchats")
             result.onSuccess { body ->
                 _getChatsResponse.value = body
                 _getChatsError.value = null
+                Log.d("GetChats", "Xats rebuts: ${body.size}")
             }.onFailure { error ->
                 _getChatsResponse.value = null
                 Log.e("GetChats", "Error: ${error.message}", error)
@@ -40,6 +42,11 @@ class GetChatsViewModel : ViewModel() {
                 }
             }
         }
+    }
+
+    fun reset() {
+        _getChatsResponse.value = null
+        _getChatsError.value = null
     }
 }
 

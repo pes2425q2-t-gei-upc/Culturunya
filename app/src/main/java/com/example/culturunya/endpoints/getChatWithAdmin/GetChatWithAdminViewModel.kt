@@ -24,16 +24,12 @@ class GetChatWithAdminViewModel : ViewModel(){
 
     fun getChatWithAdmin() {
         viewModelScope.launch {
-            Log.d("GetChatWithAdminVM", "Llamando al endpoint de chat con admin")
             val token = CurrentSession.token
-            Log.d("GetChatWithAdminVM", "Token: $token")
             val result = repository.getChatWithAdmin("Token $token")
             result.onSuccess { body ->
-                Log.d("GetChatWithAdminVM", "Mensajes recibidos: ${body.size}")
                 _getChatWithAdminResponse.value = body
                 _getChatWithAdminError.value = null
             }.onFailure { error ->
-                Log.e("GetChatWithAdminVM", "Error: ${error.message}")
                 _getChatWithAdminResponse.value = null
                 _getChatWithAdminError.value = when (error) {
                     is HttpException -> error.code()

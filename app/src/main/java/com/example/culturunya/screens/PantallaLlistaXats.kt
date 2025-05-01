@@ -1,4 +1,5 @@
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -30,12 +31,17 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.culturunya.endpoints.getChats.GetChatsViewModel
+import kotlinx.coroutines.delay
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 
 
 data class Chat(
-    val name: String,
+    val username: String,
     val lastMessage: String,
-    val avatar: Color,
+    val avatar: String?,
+    val lastMessageDate: String,
+    val userId: Int
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -44,8 +50,12 @@ fun PantallaLlistaXats(
     navController: NavController,
     getChatsViewModel: GetChatsViewModel = viewModel()
 ) {
-    val response by getChatsViewModel.getChatsResponse.collectAsState()
+    val response by getChatsViewModel.getChatsResponse.collectAsState(initial = null)
     val error by getChatsViewModel.getChatsError.collectAsState()
+
+    LaunchedEffect(Unit) {
+        getChatsViewModel.getChats()
+    }
 
     Column(
         modifier = Modifier
@@ -57,7 +67,10 @@ fun PantallaLlistaXats(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = { navController.popBackStack() }) {
+            IconButton(onClick = {
+                getChatsViewModel.reset()
+                navController.popBackStack()
+            }) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = "Back"
@@ -76,10 +89,15 @@ fun PantallaLlistaXats(
         when {
             response != null -> {
                 val chats = response!!.map {
+                    val parsedDate = ZonedDateTime.parse(it.last_message_date)
+                    val formattedDate = parsedDate.format(DateTimeFormatter.ofPattern("HH:mm dd/MM"))
+
                     Chat(
-                        name = it.username,
+                        username = it.username ?: "",
                         lastMessage = it.last_message_text ?: "",
-                        avatar = Morat // O puedes usar un generador de color aleatorio
+                        avatar = it.profile_pic,
+                        lastMessageDate = formattedDate,
+                        userId = it.user_id
                     )
                 }
 
@@ -116,7 +134,7 @@ fun ChatItem(chat: Chat, navController: NavController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { /*navegar al xat amb l'usuari*/ }
+            .clickable { navController.navigate(AppScreens.Xat.createRoute(userId = chat.userId, username = chat.username, imageUrl = chat.avatar)) }
             .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -125,13 +143,23 @@ fun ChatItem(chat: Chat, navController: NavController) {
                 .size(48.dp)
                 .clip(CircleShape)
                 .background(Color.Gray)
-                .background(color = chat.avatar)
+                .background(color = Morat)
         )
         Spacer(modifier = Modifier.width(12.dp))
-        Column(
-            modifier = Modifier.weight(1f)
-        ) {
-            Text(text = chat.name, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+        Column(modifier = Modifier.weight(1f)) {
+            Row(modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    text = chat.username,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp,
+                    modifier = Modifier.weight(1f)
+                )
+                Text(
+                    text = chat.lastMessageDate,
+                    color = Color.Gray,
+                    fontSize = 12.sp
+                )
+            }
             Text(
                 text = chat.lastMessage,
                 fontSize = 14.sp,
@@ -140,4 +168,5 @@ fun ChatItem(chat: Chat, navController: NavController) {
             )
         }
     }
+
 }

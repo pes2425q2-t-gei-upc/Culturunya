@@ -15,9 +15,11 @@ import com.example.culturunya.models.changePassword.ChangePasswordRequest
 import com.example.culturunya.models.changePassword.ChangePasswordResponse
 import com.example.culturunya.models.deleteAccount.DeleteAccountResponse
 import com.example.culturunya.models.getChats.ChatInfo
+import com.example.culturunya.models.getChats.GetChatWithUserRequest
 import com.example.culturunya.models.login.LoginRequest
 import com.example.culturunya.models.login.LoginResponse
-import com.example.culturunya.models.sendMessage.SendMessageRequest
+import com.example.culturunya.models.sendMessage.SendMessageToAdminRequest
+import com.example.culturunya.models.sendMessage.SendMessageToUserRequest
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -63,8 +65,14 @@ interface Api {
     @GET("chat/with_admin/")
     suspend fun getChatWithAdmin(@Header("Authorization") token: String): List<Message>
 
+    @GET("chat/with_user/{user_id}")
+    suspend fun getChatWithUser(@Header("Authorization") token: String, @Path("user_id") user_id: String): List<Message>
+
     @POST("chat/send_to_admin/")
-    suspend fun sendMessageToAdmin(@Header("Authorization") token: String, @Body sendMessageRequest: SendMessageRequest): Response<Unit>
+    suspend fun sendMessageToAdmin(@Header("Authorization") token: String, @Body sendMessageRequest: SendMessageToAdminRequest): Response<Unit>
+
+    @POST("chat/send_to_user/")
+    suspend fun sendMessageToUser(@Header("Authorization") token: String, @Body sendMessageRequest: SendMessageToUserRequest): Response<Unit>
 
     @GET("ratings/{event_id}/")
     suspend fun getRatingsForEvent(@Path("event_id") eventId: Long, @Header("Authorization") token: String? = null): List<Rating>

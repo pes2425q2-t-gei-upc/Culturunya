@@ -1,5 +1,6 @@
 package com.example.culturunya.endpoints.login
 
+import android.util.Log
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
@@ -33,6 +34,7 @@ class LoginViewModel : ViewModel() {
                 _loginResponse.value = response
                 CurrentSession.getInstance()
                 CurrentSession.setUserData(response.token, username, password)
+                Log.d("Token: ", "$response.token")
                 _loginError.value = null
             } catch (e: HttpException) {
                 _loginResponse.value = null

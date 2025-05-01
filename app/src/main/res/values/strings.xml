@@ -85,4 +85,7 @@
     <string name="to">"to"</string>
     <string name="saysComment">says</string>
     <string name="send">"Send"</string>
+
+    <!-- Pantalla Xat -->
+    <string name="administrator">"Administrator"</string>
 </resources>

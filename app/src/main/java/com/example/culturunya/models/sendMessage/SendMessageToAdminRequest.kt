@@ -1,5 +1,5 @@
 package com.example.culturunya.models.sendMessage
 
-data class SendMessageRequest(
+data class SendMessageToAdminRequest(
     val text: String
 )
