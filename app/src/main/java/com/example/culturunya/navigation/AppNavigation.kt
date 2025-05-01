@@ -1,4 +1,4 @@
-    package com.example.culturunya.navigation
+package com.example.culturunya.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.culturunya.endpoints.events.EventViewModel
+import com.example.culturunya.screens.*
 import com.example.culturunya.screens.ComposableIniciSessio
 import com.example.culturunya.screens.MainScreen
 import com.example.culturunya.screens.PantallaRegistre
@@ -32,6 +33,9 @@ fun AppNavigation() {
         }
         composable(route = AppScreens.CanviContrasenya.route) {
             PantallaCanviContrasenya(navController)
+        }
+        composable(route = "event_map_screen") {
+            EventMapScreen()
         }
     }
 }
