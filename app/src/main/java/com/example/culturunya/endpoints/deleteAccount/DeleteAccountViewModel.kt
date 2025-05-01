@@ -6,33 +6,31 @@ import com.example.culturunya.controllers.Api
 import com.example.culturunya.controllers.AuthRepository
 import com.example.culturunya.models.currentSession.CurrentSession
 import com.example.culturunya.models.deleteAccount.DeleteAccountRequest
-import com.example.culturunya.models.deleteAccount.DeleteAccountResponse
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 
 class DeleteAccountViewModel : ViewModel() {
-    private val _deleteAccountResponse = MutableStateFlow<DeleteAccountResponse?>(null)
-    val deleteAccountResponse: StateFlow<DeleteAccountResponse?> = _deleteAccountResponse
-
-    private val _deleteAccountError = MutableStateFlow<String?>(null)
-    val deleteAccountError: StateFlow<String?> = _deleteAccountError
+    private val _deleteAccountStatus = MutableStateFlow<Int?>(null)
+    val deleteAccountStatus: StateFlow<Int?> = _deleteAccountStatus
 
     private val api = Api.instance
     private val repository = AuthRepository(api)
 
     fun deleteAccount() {
         viewModelScope.launch {
-            try {
-                CurrentSession.getInstance()
-                val currentToken = CurrentSession.token
-                val currentUsername = CurrentSession.username
-                val response = repository.deleteAccount("Token $currentToken", DeleteAccountRequest(currentUsername))
-                _deleteAccountResponse.value = response
-                _deleteAccountError.value = null
-            } catch (e: Exception) {
-                _deleteAccountError.value = e.message ?: "Error desconocido"
-                _deleteAccountResponse.value = null
+            val token = CurrentSession.token
+            val username = CurrentSession.username
+            val result = repository.deleteAccount("Token $token", DeleteAccountRequest(username))
+
+            result.onSuccess {
+                _deleteAccountStatus.value = 204
+            }.onFailure { error ->
+                _deleteAccountStatus.value = when (error) {
+                    is HttpException -> error.code()
+                    else -> -1
+                }
             }
         }
     }

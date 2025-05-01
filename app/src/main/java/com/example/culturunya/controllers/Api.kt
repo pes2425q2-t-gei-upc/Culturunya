@@ -11,8 +11,7 @@ import com.example.culturunya.endpoints.ratings.RatingRequest
 import com.example.culturunya.endpoints.test.Test
 import com.example.culturunya.endpoints.users.UserSimpleInfo
 import com.example.culturunya.models.changePassword.ChangePasswordRequest
-import com.example.culturunya.models.changePassword.ChangePasswordResponse
-import com.example.culturunya.models.deleteAccount.DeleteAccountResponse
+import com.example.culturunya.models.events.Events
 import com.example.culturunya.models.login.LoginRequest
 import com.example.culturunya.models.login.LoginResponse
 import retrofit2.Response
@@ -49,10 +48,10 @@ interface Api {
     suspend fun login(@Body loginRequest: LoginRequest): LoginResponse
 
     @DELETE("delete_account/")
-    suspend fun deleteAccount(@Header("Authorization") token: String): DeleteAccountResponse
+    suspend fun deleteAccount(@Header("Authorization") token: String): Response<Unit>
 
     @PUT("user/change_password/")
-    suspend fun changePassword(@Header("Authorization") token: String, @Body newPassword: ChangePasswordRequest): ChangePasswordResponse
+    suspend fun changePassword(@Header("Authorization") token: String, @Body newPassword: ChangePasswordRequest): Response<Unit>
 
     @GET("ratings/{event_id}/")
     suspend fun getRatingsForEvent(@Path("event_id") eventId: Long, @Header("Authorization") token: String? = null): List<Rating>

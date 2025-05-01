@@ -53,7 +53,8 @@ fun ComposableIniciSessio(navController: NavController) {
     var token = ""
 
     val loginResponse = loginViewModel.loginResponse.collectAsState().value
-    var loginError = loginViewModel.loginError.collectAsState().value
+    var loginCode = loginViewModel.loginError.collectAsState().value
+    var loginError = ""
 
     LaunchedEffect(loginResponse) {
         if (loginResponse != null) {
@@ -137,12 +138,13 @@ fun ComposableIniciSessio(navController: NavController) {
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            if (loginError?.isNotEmpty() == true) {
-                if (loginError == "400") loginError = getString(context, R.string.errIncorrectUsernameAndPassword, currentLocale)
-                else if (loginError == "401") loginError = getString(context, R.string.notAuthorized, currentLocale)
-                else if (loginError == "500") loginError = getString(context, R.string.serverError, currentLocale)
+            if (loginCode != null) {
+                if (loginCode == 400) loginError = getString(context, R.string.errIncorrectUsernameAndPassword, currentLocale)
+                else if (loginCode == 401) loginError = getString(context, R.string.notAuthorized, currentLocale)
+                else if (loginCode == 500) loginError = getString(context, R.string.serverError, currentLocale)
+                else loginError = "Unknown error"
                 Text(
-                    text = loginError!!,
+                    text = loginError,
                     color = Color.Red,
                     fontSize = 14.sp
                 )
