@@ -654,7 +654,7 @@ junto con el último mensaje enviado/recibido, su fecha y si fue el admin quien 
                         "user_id": openapi.Schema(type=openapi.TYPE_INTEGER, description="ID del usuario"),
                         "username": openapi.Schema(type=openapi.TYPE_STRING, description="Nombre de usuario"),
                         "profile_pic": openapi.Schema(type=openapi.TYPE_STRING, format="uri", description="URL de la foto de perfil (puede ser null)"),
-                        "last_message_text, isAdmin?": openapi.Schema(type=openapi.TYPE_STRING, description="Texto del último mensaje"),
+                        "last_message_text": openapi.Schema(type=openapi.TYPE_STRING, description="Texto del último mensaje"),
                         "last_message_from_admin?": openapi.Schema(type=openapi.TYPE_BOOLEAN, description="Indica si el mensaje fue enviado por el admin"),
                         "last_message_date": openapi.Schema(type=openapi.TYPE_STRING, format="date-time", description="Fecha del último mensaje"),
                     }
@@ -692,7 +692,7 @@ def list_chats_admin(request):
                 "user_id": user_id,
                 "username": regular_user.username,
                 "profile_pic": regular_user.profile_pic if regular_user.profile_pic else None,
-                "last_message_text, isAdmin?": last_message.text,
+                "last_message_text": last_message.text,
                 "last_message_from_admin?": last_message.sender.is_admin,
                 "last_message_date": last_message.date_written
             })
