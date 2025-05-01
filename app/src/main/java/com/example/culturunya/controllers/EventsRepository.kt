@@ -41,4 +41,18 @@ class EventsRepository(private val api: Api) {
             dateEnd = dateEnd
         ).getOrThrow()
     }
+
+    suspend fun filterByDistanceAndDate(
+        dateStart: String,
+        dateEnd: String,
+        location: Pair<Double, Double>,
+        range: Int,
+    ): Result<List<Event>> = runCatching {
+        getFilteredEvents(
+            dateStart = dateStart,
+            dateEnd = dateEnd,
+            location = location,
+            range = range,
+        ).getOrThrow()
+    }
 }

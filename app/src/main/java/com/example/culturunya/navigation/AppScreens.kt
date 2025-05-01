@@ -23,4 +23,5 @@ sealed class AppScreens(val route: String) {
         }
     }
     object LlistaXats: AppScreens("chatList_screen")
+    object EventMapScreen: AppScreens("event_map_screen")
 }

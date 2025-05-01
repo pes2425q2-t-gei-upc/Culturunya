@@ -6,9 +6,9 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import com.example.culturunya.endpoints.events.*
+//import com.example.culturunya.models.test.Test
 import com.example.culturunya.endpoints.ratings.Rating
 import com.example.culturunya.endpoints.ratings.RatingRequest
-import com.example.culturunya.endpoints.test.Test
 import com.example.culturunya.endpoints.users.UserSimpleInfo
 import com.example.culturunya.models.Message
 import com.example.culturunya.models.changePassword.ChangePasswordRequest
@@ -46,8 +46,8 @@ interface Api {
     @POST("create_user/")
     suspend fun registerUser(@Body user: RegisterRequest): Response<RegisterResponse>
 
-    @GET("test/")
-    suspend fun getokay(): Test
+    //@GET("test/")
+    //suspend fun getokay(): Test
 
     @POST("login/")
     suspend fun login(@Body loginRequest: LoginRequest): LoginResponse

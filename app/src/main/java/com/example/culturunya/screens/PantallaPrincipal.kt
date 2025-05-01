@@ -1,6 +1,7 @@
 package com.example.culturunya.screens
 
 import android.annotation.SuppressLint
+import android.os.Build
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,7 +12,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 
@@ -23,7 +23,16 @@ import androidx.navigation.NavController
 import com.example.culturunya.R
 import com.example.culturunya.ui.theme.*
 
+import com.example.culturunya.controllers.*
+//import com.example.culturunya.models.events.Event
 import com.example.culturunya.endpoints.events.EventViewModel
+import androidx.compose.ui.viewinterop.AndroidView
+import android.os.Bundle
+import androidx.annotation.RequiresApi
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.example.culturunya.screens.*
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -35,6 +44,7 @@ fun Pantalla() {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MainScreen(navController: NavController, viewModel: EventViewModel) {
     // Estat per a la pantalla principal
@@ -43,7 +53,9 @@ fun MainScreen(navController: NavController, viewModel: EventViewModel) {
     // Només s'usa si la pantalla principal seleccionada és "Events".
     var currentEventsSubScreen by remember { mutableStateOf("Map") }
 
-    Column(modifier = Modifier.fillMaxSize().background(color = Color.White)) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .background(color = Color.White)) {
         // HEADER
         Text(
             text = "Culturunya",
@@ -109,6 +121,7 @@ fun MainScreen(navController: NavController, viewModel: EventViewModel) {
                         "List" -> EventListScreen(viewModel)
                     }
                 }
+
                 "Quiz" -> QuizScreen()
                 "Leaderboard" -> LeaderboardScreen()
                 "Settings" -> SettingsScreen(navController)
@@ -235,21 +248,20 @@ fun BottomButtonItem(
 }
 
 /** PANTALLES D’ESDEVENIMENTS (SUB-SCREENS) */
-@Composable
-fun EventMapScreen() {
-    Text("Això és la pantalla Map d'Events")
-}
 
+
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun EventCalendarScreen(viewModel: EventViewModel) {
     CalendarScreen(viewModel)
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun EventListScreen(viewModel: EventViewModel) {
     com.example.culturunya.screens.events.EventListScreen(
         viewModel = viewModel,
-        onEventSelected = { event ->}
+        onEventSelected = { event -> }
     )
 }
 
