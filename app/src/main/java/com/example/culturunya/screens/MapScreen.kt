@@ -3,8 +3,10 @@ package com.example.culturunya.screens
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
+import android.net.Uri
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -15,6 +17,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Map
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -51,6 +54,23 @@ suspend fun getLastKnownLocation(
     } catch (e: Exception) {
         e.printStackTrace()
         null
+    }
+}
+
+// Función para abrir Google Maps con una ubicación específica
+fun openGoogleMaps(context: Context, latitude: Double, longitude: Double, label: String) {
+    val gmmIntentUri = Uri.parse("geo:$latitude,$longitude?q=$latitude,$longitude($label)")
+    val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+    mapIntent.setPackage("com.google.android.apps.maps")
+
+    // Verificar si Google Maps está instalado
+    if (mapIntent.resolveActivity(context.packageManager) != null) {
+        context.startActivity(mapIntent)
+    } else {
+        // Si Google Maps no está instalado, abrimos en el navegador
+        val browserUri = Uri.parse("https://www.google.com/maps/search/?api=1&query=$latitude,$longitude")
+        val browserIntent = Intent(Intent.ACTION_VIEW, browserUri)
+        context.startActivity(browserIntent)
     }
 }
 
@@ -367,21 +387,62 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                 )
             }
 
-            // Botón para ver detalles del evento (solo visible si hay un evento seleccionado)
+            // Botones para ver detalles y abrir en Google Maps (solo visibles si hay un evento seleccionado)
             if (selectedEvent != null) {
-                Button(
-                    onClick = { showEventDetails = true },
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp)
-                        .height(56.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = Purple40)
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    Text(
-                        text = "Ver detalles de ${selectedEvent!!.name}",
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    )
+                    // Botón para ver detalles del evento
+                    Button(
+                        onClick = { showEventDetails = true },
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(56.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = Purple40)
+                    ) {
+                        Text(
+                            text = "Ver detalles",
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White
+                        )
+                    }
+
+                    // Botón para abrir en Google Maps
+                    Button(
+                        onClick = {
+                            selectedEvent?.let {
+                                openGoogleMaps(
+                                    context,
+                                    it.location.latitude,
+                                    it.location.longitude,
+                                    it.name
+                                )
+                            }
+                        },
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(56.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4285F4)) // Color de Google
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Icon(
+                                Icons.Default.Map,
+                                contentDescription = "Abrir en Maps",
+                                modifier = Modifier.padding(end = 8.dp)
+                            )
+                            Text(
+                                text = "Abrir Maps",
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White
+                            )
+                        }
+                    }
                 }
             }
         }
