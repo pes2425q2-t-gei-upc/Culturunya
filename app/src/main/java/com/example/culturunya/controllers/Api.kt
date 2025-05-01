@@ -65,5 +65,6 @@ interface Api {
     @GET("user/profile_info")
     suspend fun getProfileInfo(@Header("Authorization") token: String): UserSimpleInfo
 
-
+    @POST("auth/google/")
+    suspend fun loginGoogle(@Body idToken: String): LoginResponse
 }

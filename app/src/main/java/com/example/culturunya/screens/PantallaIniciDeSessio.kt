@@ -20,7 +20,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import java.util.Locale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -30,32 +29,31 @@ import com.example.culturunya.navigation.AppScreens
 import com.example.culturunya.ui.theme.Morat
 import com.example.culturunya.endpoints.login.LoginViewModel
 import com.example.culturunya.models.currentSession.CurrentSession
-
-fun getString(context: Context, id: Int, langCode: String): String {
-    val config = context.resources.configuration
-    val locale = Locale(langCode)
-    val localizedContext = context.createConfigurationContext(config.apply { setLocale(locale) })
-    return localizedContext.resources.getString(id)
-}
-
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ComposableIniciSessio(navController: NavController) {
     var usuari by remember { mutableStateOf("") }
     var contrasenya by remember { mutableStateOf("") }
-    var missatgeError by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
+    var missatgeError by remember { mutableStateOf("") }
     val context = LocalContext.current
     CurrentSession.getInstance()
     val currentLocale = CurrentSession.language
     val loginViewModel: LoginViewModel = viewModel()
-    var token = ""
 
-    val loginResponse = loginViewModel.loginResponse.collectAsState().value
-    var loginCode = loginViewModel.loginError.collectAsState().value
-    var loginError = ""
+    // Inicializa el ViewModel con el contexto
+    LaunchedEffect(Unit) {
+        loginViewModel.initialize(context)
+    }
 
+    // Estados del ViewModel
+    val loginError by loginViewModel.loginError.collectAsState()
+    val googleLoginError by loginViewModel.googleLoginError.collectAsState()
+    val loginResponse by loginViewModel.loginResponse.collectAsState()
+
+    // Navegar al MainScreen cuando el login es exitoso
     LaunchedEffect(loginResponse) {
         if (loginResponse != null) {
             navController.navigate(route = AppScreens.MainScreen.route) {
@@ -79,7 +77,7 @@ fun ComposableIniciSessio(navController: NavController) {
         ) {
             Image(
                 painter = painterResource(id = R.drawable.logo_retallat),
-                contentDescription = "Logo retallat"
+                contentDescription = "Logo de la aplicación"
             )
 
             Spacer(modifier = Modifier.height(40.dp))
@@ -138,13 +136,24 @@ fun ComposableIniciSessio(navController: NavController) {
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            if (loginCode != null) {
-                if (loginCode == 400) loginError = getString(context, R.string.errIncorrectUsernameAndPassword, currentLocale)
-                else if (loginCode == 401) loginError = getString(context, R.string.notAuthorized, currentLocale)
-                else if (loginCode == 500) loginError = getString(context, R.string.serverError, currentLocale)
-                else loginError = "Unknown error"
+            if (loginError != null) {
+                val errorMessage = when (loginError) {
+                    400 -> getString(context, R.string.errIncorrectUsernameAndPassword, currentLocale)
+                    401 -> getString(context, R.string.notAuthorized, currentLocale)
+                    500 -> getString(context, R.string.serverError, currentLocale)
+                    else -> "Unknown error"
+                }
                 Text(
-                    text = loginError,
+                    text = errorMessage,
+                    color = Color.Red,
+                    fontSize = 14.sp
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+            }
+
+            googleLoginError?.let { error ->
+                Text(
+                    text = error,
                     color = Color.Red,
                     fontSize = 14.sp
                 )
@@ -169,12 +178,20 @@ fun ComposableIniciSessio(navController: NavController) {
 
             OutlinedButton(
                 onClick = {
+                    loginViewModel.signInWithGoogle(context)
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Color.White),
-                modifier = Modifier.padding(16.dp)) {
-                Image(painter = painterResource(id = R.drawable.logo_google), contentDescription = "logo de google")
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.logo_google),
+                    contentDescription = "Logo de Google"
+                )
                 Spacer(modifier = Modifier.width(10.dp))
-                Text(text = getString(context, R.string.enterWithGoogle, currentLocale), color = Color.Black)
+                Text(
+                    text = getString(context, R.string.enterWithGoogle, currentLocale),
+                    color = Color.Black
+                )
             }
 
             Divider(
@@ -183,9 +200,7 @@ fun ComposableIniciSessio(navController: NavController) {
                 modifier = Modifier.padding(vertical = 25.dp)
             )
 
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     text = getString(context, R.string.noAccountYet, currentLocale),
                     fontSize = 14.sp,
@@ -193,10 +208,8 @@ fun ComposableIniciSessio(navController: NavController) {
                 )
                 Button(
                     onClick = {
-                        //User.getInstance()
-                        //User.setUserData(token, usuari)
                         navController.navigate(route = AppScreens.PantallaRegistre.route)
-                              },
+                    },
                     colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
                     contentPadding = PaddingValues(0.dp),
                     elevation = null
@@ -212,3 +225,10 @@ fun ComposableIniciSessio(navController: NavController) {
     }
 }
 
+// Función auxiliar para obtener strings localizados
+fun getString(context: Context, id: Int, langCode: String): String {
+    val config = context.resources.configuration
+    val locale = Locale(langCode)
+    val localizedContext = context.createConfigurationContext(config.apply { setLocale(locale) })
+    return localizedContext.resources.getString(id)
+}

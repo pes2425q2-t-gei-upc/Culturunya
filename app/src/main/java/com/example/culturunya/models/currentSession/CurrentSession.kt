@@ -9,11 +9,9 @@ class CurrentSession private constructor() {
         private var instance: CurrentSession? = null
 
         var token: String = ""
-
+        var googleAccessToken: String = ""
         var username: String = ""
-
         var password: String = ""
-
         var language: String = Locale.getDefault().language
 
         fun getInstance() =
@@ -27,11 +25,17 @@ class CurrentSession private constructor() {
             this.password = password
         }
 
+        fun setGoogleToken(accesToken: String) {
+            this.googleAccessToken = accesToken
+        }
+
+        fun getGoogleToken(): String = googleAccessToken
+
+
         fun changeLanguage(lang: String) {
             language = lang
         }
 
         fun getAuthHeader(): String = "Token $token"
-
     }
 }
