@@ -24,7 +24,7 @@ import com.example.culturunya.R
 import com.example.culturunya.ui.theme.*
 
 import com.example.culturunya.controllers.*
-import com.example.culturunya.models.events.Event
+//import com.example.culturunya.models.events.Event
 import com.example.culturunya.endpoints.events.EventViewModel
 import androidx.compose.ui.viewinterop.AndroidView
 import android.os.Bundle
@@ -33,7 +33,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.example.culturunya.screens.*
-
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -54,7 +53,9 @@ fun MainScreen(navController: NavController, viewModel: EventViewModel) {
     // Només s'usa si la pantalla principal seleccionada és "Events".
     var currentEventsSubScreen by remember { mutableStateOf("Map") }
 
-    Column(modifier = Modifier.fillMaxSize().background(color = Color.White)) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .background(color = Color.White)) {
         // HEADER
         Text(
             text = "Culturunya",
@@ -120,6 +121,7 @@ fun MainScreen(navController: NavController, viewModel: EventViewModel) {
                         "List" -> EventListScreen(viewModel)
                     }
                 }
+
                 "Quiz" -> QuizScreen()
                 "Leaderboard" -> LeaderboardScreen()
                 "Settings" -> SettingsScreen(navController)
@@ -248,16 +250,18 @@ fun BottomButtonItem(
 /** PANTALLES D’ESDEVENIMENTS (SUB-SCREENS) */
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun EventCalendarScreen(viewModel: EventViewModel) {
     CalendarScreen(viewModel)
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun EventListScreen(viewModel: EventViewModel) {
     com.example.culturunya.screens.events.EventListScreen(
         viewModel = viewModel,
-        onEventSelected = { event ->}
+        onEventSelected = { event -> }
     )
 }
 
