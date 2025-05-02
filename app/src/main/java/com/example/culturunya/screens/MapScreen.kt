@@ -11,13 +11,18 @@ import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Map
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -35,6 +40,7 @@ import com.example.culturunya.screens.events.EventInfo
 import com.example.culturunya.ui.theme.Purple40
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
@@ -119,6 +125,9 @@ fun EventMapScreen() {
     var permissionChecked by remember { mutableStateOf(false) }
     var permissionGranted by remember { mutableStateOf(false) }
 
+    // Estado para controlar la visibilidad del banner de advertencia
+    var showPermissionBanner by remember { mutableStateOf(true) }
+
     // Estado para controlar la visibilidad del diálogo de confirmación
     var showPermissionDialog by remember { mutableStateOf(false) }
 
@@ -153,36 +162,59 @@ fun EventMapScreen() {
             MapContent(hasLocationPermission = true)
         } else {
             Column {
-                // Banner de advertencia convertido en botón
-                ElevatedCard(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp)
-                        .clickable { showPermissionDialog = true },
-                    colors = CardDefaults.elevatedCardColors(
-                        containerColor = Color(0xFFFFF3CD),
-                        contentColor = Color(0xFF856404)
-                    )
-                ) {
-                    Row(
-                        modifier = Modifier.padding(16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            Icons.Default.LocationOn,
-                            contentDescription = "Ubicación",
-                            modifier = Modifier.padding(end = 8.dp)
+                // Banner de advertencia con botón de cierre
+                if (showPermissionBanner) {
+                    ElevatedCard(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp),
+                        colors = CardDefaults.elevatedCardColors(
+                            containerColor = Color(0xFFFFF3CD),
+                            contentColor = Color(0xFF856404)
                         )
-                        Column {
-                            Text(
-                                text = "Sin permisos de ubicación",
-                                style = MaterialTheme.typography.bodyLarge,
-                                fontWeight = FontWeight.Bold
-                            )
-                            Text(
-                                text = "Los eventos mostrados pueden no estar cerca de ti. Haz clic aquí para otorgar permisos.",
-                                style = MaterialTheme.typography.bodyMedium
-                            )
+                    ) {
+                        Box(modifier = Modifier.fillMaxWidth()) {
+                            // Contenido del banner
+                            Row(
+                                modifier = Modifier
+                                    .padding(16.dp)
+                                    .clickable { showPermissionDialog = true },
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    Icons.Default.LocationOn,
+                                    contentDescription = "Ubicación",
+                                    modifier = Modifier.padding(end = 8.dp)
+                                )
+                                Column(
+                                    modifier = Modifier.weight(1f)
+                                ) {
+                                    Text(
+                                        text = "Sin permisos de ubicación",
+                                        style = MaterialTheme.typography.bodyLarge,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                    Text(
+                                        text = "Los eventos mostrados pueden no estar cerca de ti. Haz clic aquí para otorgar permisos.",
+                                        style = MaterialTheme.typography.bodyMedium
+                                    )
+                                }
+                            }
+
+                            // Botón de cierre (cruz) en la esquina superior derecha
+                            IconButton(
+                                onClick = { showPermissionBanner = false },
+                                modifier = Modifier
+                                    .align(Alignment.TopEnd)
+                                    .padding(4.dp)
+                                    .size(24.dp)
+                            ) {
+                                Icon(
+                                    Icons.Default.Close,
+                                    contentDescription = "Cerrar aviso",
+                                    tint = Color(0xFF856404)
+                                )
+                            }
                         }
                     }
                 }
@@ -245,7 +277,6 @@ fun MapContent(hasLocationPermission: Boolean = true) {
 
     // Estado para almacenar el evento seleccionado
     var selectedEvent by remember { mutableStateOf<Event?>(null) }
-
     // Estado para controlar si se muestra la pantalla de detalles del evento
     var showEventDetails by remember { mutableStateOf(false) }
 
@@ -349,23 +380,70 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                     modifier = Modifier.fillMaxSize(),
                     cameraPositionState = cameraPositionState,
                     properties = MapProperties(isMyLocationEnabled = hasLocationPermission),
-                    onMapClick = { selectedEvent = null } // Deseleccionar al hacer clic en el mapa
+                    onMapClick = {
+                        // Deseleccionar al hacer clic en el mapa
+                        selectedEvent = null
+                    }
                 ) {
+                    // Dibujamos todos los marcadores
                     filteredEvents.forEach { event ->
-                        val latitude = event.location.latitude
-                        val longitude = event.location.longitude
+                        val position = LatLng(event.location.latitude, event.location.longitude)
+                        val isSelected = selectedEvent == event
 
+                        // Para cada evento, dibujamos un marcador
                         Marker(
-                            state = MarkerState(position = LatLng(latitude, longitude)),
+                            state = MarkerState(position = position),
                             title = event.name,
                             snippet = event.description,
                             onClick = {
+                                // Al hacer clic, seleccionar este evento
                                 selectedEvent = event
-                                true // Para mantener el infoWindow visible
-                            }
+                                // Importante: devolver false para que el sistema muestre el InfoWindow
+                                false
+                            },
+                            icon = BitmapDescriptorFactory.defaultMarker(
+                                if (isSelected) BitmapDescriptorFactory.HUE_BLUE else BitmapDescriptorFactory.HUE_RED
+                            )
                         )
                     }
                 }
+
+                // Indicador de carga
+                if (isLoading) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color.Black.copy(alpha = 0.3f)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator(color = Purple40)
+                    }
+                }
+
+                // Mensaje de error - usando llamada segura para error que puede ser nulo
+                if (error?.isNotEmpty() == true) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Card(
+                            modifier = Modifier.padding(16.dp),
+                            colors = CardDefaults.cardColors(containerColor = Color(0xFFFFDAD5))
+                        ) {
+                            Text(
+                                text = error ?: "Error desconocido",
+                                color = Color.Red,
+                                modifier = Modifier.padding(16.dp),
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                    }
+                }
+
+                // El código para mostrar la etiqueta flotante en el centro de la pantalla se ha eliminado
+                // Mantenemos solo el InfoWindow nativo que se muestra directamente sobre el marcador
             }
 
             // Slider de Distancia
