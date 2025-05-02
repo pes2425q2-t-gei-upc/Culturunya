@@ -46,6 +46,7 @@ fun SettingsScreen(navController: NavController) {
     val getChatsViewModel: GetChatsViewModel = viewModel()
     val getChatsResponse = getChatsViewModel.getChatsResponse.collectAsState().value
     var getChatsCode = getChatsViewModel.getChatsError.collectAsState().value
+    var showGetChatsErrorDialog by remember { mutableStateOf(false) }
 
     val context = LocalContext.current
     CurrentSession.getInstance()
@@ -63,9 +64,21 @@ fun SettingsScreen(navController: NavController) {
     LaunchedEffect(getChatsResponse, getChatsCode) {
         if (getChatsResponse != null) {
             navController.navigate(route = AppScreens.LlistaXats.route)
+            getChatsViewModel.reset()
             CurrentSession.isAdmin()
         }
-        else if (getChatsCode == 403) navController.navigate(route = AppScreens.Xat.route)
+        else if (getChatsCode == 403) {
+            navController.navigate(route = AppScreens.Xat.route)
+            getChatsViewModel.reset()
+        }
+        else showGetChatsErrorDialog = true
+    }
+
+    if (showDeleteErrorDialog) {
+        var message = getString(context, R.string.unexpectedErrorLoadingChat, currentLocale)
+        popUpError(message, onClick = {
+            showGetChatsErrorDialog = false
+        })
     }
 
     // Contenidor principal

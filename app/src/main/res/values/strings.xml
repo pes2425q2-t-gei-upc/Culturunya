@@ -44,6 +44,7 @@
     <string name="changeUsername">"Change username"</string>
     <string name="deleteErrorNoAuth">"Error deleting account. Unauthenticated user"</string>
     <string name="deleteError">"Error deleting account."</string>
+    <string name="unexpectedErrorLoadingChat">"There was an unexpected error loading the assistance chat."</string>
 
     <!-- Pantalla Calendari -->
     <string name="monday">Monday</string>
@@ -92,4 +93,8 @@
 
     <!-- Pantalla Xat -->
     <string name="administrator">"Administrator"</string>
+    <string name="noAdminsAviable">"There are not enough administrators aviable to assist you."</string>
+    <string name="userChatNotFound">"We couldn't find the user you are chatting with"</string>
+    <string name="errorSendMsgNotAuth">"Error sending the message. You are not authenticated user"</string>
+    <string name="invalidTimeFormat">"Invalid time format"</string>
 </resources>

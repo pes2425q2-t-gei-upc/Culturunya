@@ -1,5 +1,6 @@
 package com.example.culturunya.screens
 
+import androidx.annotation.XmlRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -34,6 +35,7 @@ import com.example.culturunya.endpoints.sendMessageToAdmin.SendMessageToAdminVie
 import com.example.culturunya.endpoints.sendMessageToUser.SendMessageToUserViewModel
 import com.example.culturunya.models.Message
 import com.example.culturunya.models.currentSession.CurrentSession
+import com.example.culturunya.navigation.AppScreens
 import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.util.*
@@ -108,28 +110,35 @@ fun MessageWithDate(
     }
 }
 
-
+@Composable
 fun formatTimestamp(timestamp: String): String {
+    val context = LocalContext.current
+    CurrentSession.getInstance()
+    val currentLocale = CurrentSession.language
     return try {
         val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
         parser.timeZone = TimeZone.getTimeZone("UTC")
         val date = parser.parse(timestamp)
-        val formatter = SimpleDateFormat("HH:mm", Locale.getDefault()) // Solo la hora
+        val formatter = SimpleDateFormat("HH:mm", Locale.getDefault())
         formatter.format(date!!)
     } catch (e: Exception) {
-        "Hora inválida"
+        getString(context, R.string.invalidTimeFormat, currentLocale)
     }
 }
 
+@Composable
 fun formatDate(timestamp: String): String {
+    val context = LocalContext.current
+    CurrentSession.getInstance()
+    val currentLocale = CurrentSession.language
     return try {
         val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
         parser.timeZone = TimeZone.getTimeZone("UTC")
         val date = parser.parse(timestamp)
-        val formatter = SimpleDateFormat("dd MMM yyyy", Locale.getDefault()) // Solo la fecha
+        val formatter = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
         formatter.format(date!!)
     } catch (e: Exception) {
-        "Fecha inválida"
+        getString(context, R.string.invalidTimeFormat, currentLocale)
     }
 }
 
@@ -143,31 +152,67 @@ fun PantallaXat(navController: NavController, userId: Int?, username: String?, i
     if (userId != -1 && username != null) imAdmin = true
     var messageText by remember { mutableStateOf("") }
     val lazyListState = rememberLazyListState()
+    var showErrorDialog by remember { mutableStateOf(false) }
 
     val loadMessagesViewModel = if (imAdmin) {
         viewModel<GetChatWithUserViewModel>()
     } else {
         viewModel<GetChatWithAdminViewModel>()
     }
+    val loadMessageStatus by if (imAdmin) {
+        (loadMessagesViewModel as GetChatWithUserViewModel).getChatWithUserError.collectAsState()
+    } else {
+        (loadMessagesViewModel as GetChatWithAdminViewModel).getChatWithAdminError.collectAsState()
+    }
     val sendMessageViewModel = if (imAdmin) {
         viewModel<SendMessageToUserViewModel>()
     } else {
         viewModel<SendMessageToAdminViewModel>()
-    }
-    val messages by if (imAdmin) {
-        (loadMessagesViewModel as GetChatWithUserViewModel).getChatWithUserResponse.collectAsState(initial = emptyList())
-    } else {
-        (loadMessagesViewModel as GetChatWithAdminViewModel).getChatWithAdminResponse.collectAsState(initial = emptyList())
     }
     val sendMessageStatus by if (imAdmin) {
         (sendMessageViewModel as SendMessageToUserViewModel).sendMessageToUserStatus.collectAsState()
     } else {
         (sendMessageViewModel as SendMessageToAdminViewModel).sendMessageToAdminStatus.collectAsState()
     }
+    val messages by if (imAdmin) {
+        (loadMessagesViewModel as GetChatWithUserViewModel).getChatWithUserResponse.collectAsState(initial = emptyList())
+    } else {
+        (loadMessagesViewModel as GetChatWithAdminViewModel).getChatWithAdminResponse.collectAsState(initial = emptyList())
+    }
+
+    LaunchedEffect(loadMessageStatus) {
+        if (loadMessageStatus != 200 && loadMessageStatus != null) showErrorDialog = true
+    }
+
+    LaunchedEffect(sendMessageStatus) {
+        if (sendMessageStatus != 201 && sendMessageStatus != null) showErrorDialog = true
+    }
+
+    if (showErrorDialog) {
+        var message = ""
+        if (loadMessageStatus != 200) {
+            if (loadMessageStatus == 404) {
+                if (imAdmin) message = getString(context, R.string.userChatNotFound, currentLocale)
+                else message = getString(context, R.string.noAdminsAviable, currentLocale)
+            }
+            else message = getString(context, R.string.unexpectedErrorLoadingChat, currentLocale)
+        }
+        if (sendMessageStatus != 201) {
+            if (sendMessageStatus == 404) {
+                if (imAdmin) message = getString(context, R.string.userChatNotFound, currentLocale)
+                else message = getString(context, R.string.noAdminsAviable, currentLocale)
+            }
+            else if (sendMessageStatus == 401) getString(context, R.string.errorSendMsgNotAuth, currentLocale)
+            else message = getString(context, R.string.unexpectedErrorLoadingChat, currentLocale)
+        }
+        popUpError(message, onClick = {
+            showErrorDialog = false
+            navController.popBackStack()
+        })
+    }
 
     LaunchedEffect(messages) {
         if (messages?.isNotEmpty() == true) {
-            // Usa animateScrollToItem para un efecto suave
             lazyListState.animateScrollToItem(messages!!.size)
         }
     }
@@ -188,7 +233,6 @@ fun PantallaXat(navController: NavController, userId: Int?, username: String?, i
         .background(color = Color.White)
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
-            // Header
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -224,17 +268,14 @@ fun PantallaXat(navController: NavController, userId: Int?, username: String?, i
                 thickness = 1.dp,
             )
 
-            // Mensaje área - ahora ocupa solo el espacio disponible, no fuerza un tamaño fijo
             Box(
                 modifier = Modifier
-                    .weight(1f)  // Usa weight para permitir que se ajuste al espacio disponible
+                    .weight(1f)
                     .fillMaxWidth()
             ) {
-                // Usa MessageWithDate aquí
                 MessageWithDate(messages = messages.orEmpty(), imAdmin = imAdmin, username = username, lazyListState = lazyListState )
             }
 
-            // Input área - siempre visible en la parte inferior
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -245,7 +286,7 @@ fun PantallaXat(navController: NavController, userId: Int?, username: String?, i
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(8.dp)
-                        .imePadding(),  // Asegura que el teclado no oculte el input
+                        .imePadding(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     OutlinedTextField(

@@ -12,7 +12,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
-class GetChatWithAdminViewModel : ViewModel(){
+class GetChatWithAdminViewModel : ViewModel() {
+
     private val _getChatWithAdminResponse = MutableStateFlow<List<Message>?>(null)
     val getChatWithAdminResponse: StateFlow<List<Message>?> = _getChatWithAdminResponse
 
@@ -23,20 +24,29 @@ class GetChatWithAdminViewModel : ViewModel(){
     private val repository = AuthRepository(api)
 
     fun getChatWithAdmin() {
+        Log.d("GetChatWithAdmin", "Function called")
+
         viewModelScope.launch {
             val token = CurrentSession.token
+            Log.d("GetChatWithAdmin", "Using token: $token")
+
             val result = repository.getChatWithAdmin("Token $token")
+
             result.onSuccess { body ->
+                Log.d("GetChatWithAdmin", "Success: Received ${body.size} messages")
                 _getChatWithAdminResponse.value = body
                 _getChatWithAdminError.value = null
             }.onFailure { error ->
+                Log.e("GetChatWithAdmin", "Error fetching chat: ${error.message}")
                 _getChatWithAdminResponse.value = null
                 _getChatWithAdminError.value = when (error) {
-                    is HttpException -> error.code()
+                    is HttpException -> {
+                        Log.e("GetChatWithAdmin", "HTTP Error code: ${error.code()}")
+                        error.code()
+                    }
                     else -> -1
                 }
             }
         }
     }
-
 }

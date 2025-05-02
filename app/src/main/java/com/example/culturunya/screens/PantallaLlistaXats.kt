@@ -29,8 +29,12 @@ import com.example.culturunya.navigation.AppScreens
 import com.example.culturunya.ui.theme.Morat
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.culturunya.R
 import com.example.culturunya.endpoints.getChats.GetChatsViewModel
+import com.example.culturunya.models.currentSession.CurrentSession
+import com.example.culturunya.screens.getString
 import kotlinx.coroutines.delay
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
@@ -52,6 +56,9 @@ fun PantallaLlistaXats(
 ) {
     val response by getChatsViewModel.getChatsResponse.collectAsState(initial = null)
     val error by getChatsViewModel.getChatsError.collectAsState()
+    val context = LocalContext.current
+    CurrentSession.getInstance()
+    val currentLocale = CurrentSession.language
 
     LaunchedEffect(Unit) {
         getChatsViewModel.getChats()
@@ -68,7 +75,6 @@ fun PantallaLlistaXats(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = {
-                getChatsViewModel.reset()
                 navController.popBackStack()
             }) {
                 Icon(
@@ -115,7 +121,7 @@ fun PantallaLlistaXats(
 
             error != null -> {
                 Text(
-                    text = "Error al cargar los chats (código $error)",
+                    text = getString(context, R.string.unexpectedErrorLoadingChat, currentLocale),
                     color = Color.Red,
                     modifier = Modifier.padding(16.dp)
                 )
