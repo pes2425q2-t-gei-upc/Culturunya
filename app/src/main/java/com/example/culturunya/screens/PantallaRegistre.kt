@@ -28,6 +28,7 @@ import com.example.culturunya.navigation.AppScreens
 import com.example.culturunya.ui.theme.CulturunyaTheme
 import com.example.culturunya.ui.theme.Morat
 import com.example.culturunya.controllers.enviarDadesAlBackend
+import androidx.compose.ui.platform.LocalContext
 import com.example.culturunya.models.currentSession.CurrentSession
 
 
@@ -43,6 +44,11 @@ fun PantallaRegistre(navController: NavController) {
     val imageRes = if (passwordVisible) R.drawable.image_visible else R.drawable.image_hidden
     var showDialog by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf("") }
+
+    //variables relacionadas con el cambio de idioma
+    val context = LocalContext.current
+    CurrentSession.getInstance()
+    var currentLocale by remember { mutableStateOf(CurrentSession.language) }
 
 
     Box(
@@ -68,7 +74,7 @@ fun PantallaRegistre(navController: NavController) {
             )
 
             Text(
-                text = "Crea el teu compte",
+                text = getString(context, R.string.registerScreenTitle, currentLocale),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
@@ -78,7 +84,7 @@ fun PantallaRegistre(navController: NavController) {
             OutlinedTextField(
                 value = username,
                 onValueChange = { username = it },
-                label = { Text("Nom d'usuari") },
+                label = { getString(context, R.string.usernameBox, currentLocale) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 leadingIcon = {
@@ -97,7 +103,7 @@ fun PantallaRegistre(navController: NavController) {
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
-                label = { Text("Correu electronic") },
+                label = { getString(context, R.string.mailBox, currentLocale) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 leadingIcon = {
@@ -116,7 +122,7 @@ fun PantallaRegistre(navController: NavController) {
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
-                label = { Text("Contrasenya") },
+                label = { getString(context, R.string.password, currentLocale) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
@@ -143,7 +149,7 @@ fun PantallaRegistre(navController: NavController) {
             OutlinedTextField(
                 value = confirmPassword,
                 onValueChange = { confirmPassword = it },
-                label = { Text("Confirmar contrasenya") },
+                label = { getString(context, R.string.confirmPasswordBox, currentLocale)},
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
@@ -175,15 +181,15 @@ fun PantallaRegistre(navController: NavController) {
                 onClick = {
                     when {
                         username.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() -> {
-                            errorMessage = "Tots els camps són obligatoris."
+                            errorMessage = getString(context, R.string.allFieldsRequired, currentLocale)
                             showDialog = true
                         }
                         !isValidEmail(email) -> {
-                            errorMessage = "El correu electrònic no és vàlid."
+                            errorMessage = getString(context, R.string.invalidEmailError, currentLocale)
                             showDialog = true
                         }
                         password != confirmPassword -> {
-                            errorMessage = "Les contrasenyes no coincideixen."
+                            errorMessage = getString(context, R.string.unmatchingPasswordsError, currentLocale)
                             showDialog = true
                         }
                         else -> {
@@ -191,19 +197,19 @@ fun PantallaRegistre(navController: NavController) {
                             when (responseCode) {
                                 201 -> registreExit = true // Anar a la pantalla principal
                                 400 -> {
-                                    errorMessage = "Error: Dades incorrectes."
+                                    errorMessage = getString(context, R.string.invalidDataError, currentLocale)
                                     showDialog = true
                                 }
                                 500 -> {
-                                    errorMessage = "Error: Problema al servidor."
+                                    errorMessage = getString(context, R.string.serverError, currentLocale)
                                     showDialog = true
                                 }
                                 -1 -> {
-                                    errorMessage = "Error de xarxa. Torna a intentar-ho."
+                                    errorMessage = getString(context, R.string.networkError, currentLocale)
                                     showDialog = true
                                 }
                                 else -> {
-                                    errorMessage = "Error desconegut: $responseCode"
+                                    errorMessage = getString(context, R.string.unknownError, currentLocale) + "$responseCode"
                                     showDialog = true
                                 }
                             }
@@ -212,14 +218,16 @@ fun PantallaRegistre(navController: NavController) {
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Morat)
             ) {
-                Text("Registrar-se")
+                Text(
+                    text = getString(context, R.string.registerButton, currentLocale)
+                )
             }
 
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Ja tens compte? ",
+                    text = getString(context, R.string.alreadyRegisterded, currentLocale),
                     fontSize = 14.sp,
                     color = Color.Gray
                 )
@@ -232,7 +240,7 @@ fun PantallaRegistre(navController: NavController) {
                     elevation = null
                 ) {
                     Text(
-                        text = "Inicia sessió",
+                        text = getString(context, R.string.login, currentLocale),
                         fontSize = 14.sp,
                         color = Color.Blue
                     )
@@ -251,18 +259,20 @@ fun PantallaRegistre(navController: NavController) {
                             navController.navigate(route = AppScreens.IniciSessio.route)
                         }
                     ) {
-                        Text("D'acord")
+                        Text(
+                            text = getString(context, R.string.confirmationButton, currentLocale)
+                        )
                     }
                 },
-                title = { Text("Registre completat") },
-                text = { Text("T'has registrat correctament!") }
+                title = { getString(context, R.string.registrationCompleted, currentLocale) },
+                text = { getString(context, R.string.registrationConfirmation, currentLocale) },
             )
         }
 
         if (showDialog) {
             AlertDialog(
                 onDismissRequest = { showDialog = false },
-                title = { Text("Error en el registre") },
+                title = { getString(context, R.string.registrationGeneralError, currentLocale) },
                 text = { Text(errorMessage) },
                 confirmButton = {
                     Button(onClick = { showDialog = false }) {

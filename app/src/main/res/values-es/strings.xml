@@ -90,4 +90,32 @@
     <string name="to">"a"</string>
     <string name="saysComment">dice</string>
     <string name="send">"Enviar"</string>
+
+    <!--Pantalla Mapa -->
+    <string name = "bannerTitle">"Sin permisos de ubicación"</string>
+    <string name = "bannerContent">"Los eventos mostrados pueden no estar cerca de ti. Haz clic aquí para mas información."</string>
+    <string name = "alertDialogTitle">"Permisos de ubicación"</string>
+    <string name = "alertDialogContent">"Para mostrarte eventos cercanos a ti, necesitamos acceder a tu ubicación. Otorga los permisos des del menu Configuración -> Aplicaciones de tu dispositivo."</string>
+    <string name = "distanceLabel">"Distancia: "</string>
+    <string name = "kilometersLabel">" km"</string>
+    <string name = "eventDetails">"Ver detalles</string>
+    <string name = "mapsButton">"Abrir Maps"</string>
+
+    <!--pantalla registre-->
+    <string name = "registerScreenTitle">"Crea tu cuenta"</string>
+    <string name = "usernameBox">"Nombre de usuario"</string>
+    <string name = "mailBox">"Correo electrónico"</string>
+    <string name = "confirmPasswordBox">"Confirmar contraseña"</string>
+    <string name = "registerButton">"Registrarse"</string>
+    <string name = "alreadyRegisterded">"¿Ya tienes cuenta? "</string>
+    <string name = "confirmationButton">"De acuerdo"</string>
+    <string name = "registrationCompleted">"Registro completado"</string>
+    <string name = "registrationConfirmation">"¡Te has registrado correctamente!"</string>
+    <string name = "registrationGeneralError">"Error en el registro"</string>
+    <string name = "invalidEmailError">"El correo electrónico no es válido."</string>
+    <string name = "unmatchingPasswordsError">"Las contraseñas no coinciden."</string>
+    <string name = "invalidDataError">"Error: Datos incorrectos."</string>
+    <!-- <string name = "serverError">"Error: Problema en el servidor."</string> -->
+    <string name = "networkError">"Error de red. Vuelve a intentarlo."</string>
+    <string name = "unknownError">"Error desconocido: "</string>
 </resources>

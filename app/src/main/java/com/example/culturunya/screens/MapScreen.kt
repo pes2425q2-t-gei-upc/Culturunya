@@ -48,6 +48,11 @@ import kotlinx.coroutines.tasks.await
 import java.time.LocalDate
 import java.time.format.TextStyle
 import java.util.*
+//imports relacionados con el cambio de idioma
+import androidx.compose.ui.platform.LocalContext
+import com.example.culturunya.models.currentSession.CurrentSession
+import com.example.culturunya.R
+
 
 // Función para obtener la última localización conocida
 @SuppressLint("MissingPermission")
@@ -64,6 +69,7 @@ suspend fun getLastKnownLocation(
 }
 
 // Función para abrir Google Maps con una ubicación específica
+// si el dispositivo no dispone de google maps, se abre el navegador con una URL similar
 fun openGoogleMaps(context: Context, latitude: Double, longitude: Double, label: String) {
     val gmmIntentUri = Uri.parse("geo:$latitude,$longitude?q=$latitude,$longitude($label)")
     val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
@@ -122,6 +128,12 @@ fun RequestLocationPermission(
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun EventMapScreen() {
+    //variables relacionadas con el cambio de idioma
+    val context = LocalContext.current
+    CurrentSession.getInstance()
+    var currentLocale by remember { mutableStateOf(CurrentSession.language) }
+
+    //verificamos si ya disponemos de los permisos de ubicación
     var permissionChecked by remember { mutableStateOf(false) }
     var permissionGranted by remember { mutableStateOf(false) }
 
@@ -162,7 +174,10 @@ fun EventMapScreen() {
             MapContent(hasLocationPermission = true)
         } else {
             Column {
-                // Banner de advertencia con botón de cierre
+                /*
+                Banner de advertencia con dialog explicando los requisitos de
+                ubicación y botón de cierre del banner
+                 */
                 if (showPermissionBanner) {
                     ElevatedCard(
                         modifier = Modifier
@@ -190,12 +205,12 @@ fun EventMapScreen() {
                                     modifier = Modifier.weight(1f)
                                 ) {
                                     Text(
-                                        text = "Sin permisos de ubicación",
+                                        text = getString(context, R.string.bannerTitle, currentLocale),
                                         style = MaterialTheme.typography.bodyLarge,
                                         fontWeight = FontWeight.Bold
                                     )
                                     Text(
-                                        text = "Los eventos mostrados pueden no estar cerca de ti. Haz clic aquí para otorgar permisos.",
+                                        text = getString(context, R.string.bannerContent, currentLocale),
                                         style = MaterialTheme.typography.bodyMedium
                                     )
                                 }
@@ -229,27 +244,31 @@ fun EventMapScreen() {
     if (showPermissionDialog) {
         AlertDialog(
             onDismissRequest = { showPermissionDialog = false },
-            title = { Text("Permisos de ubicación") },
+            title = {getString(context, R.string.alertDialogTitle, currentLocale)},
             text = {
                 Text(
-                    "Para mostrarte eventos cercanos a tu ubicación actual, necesitamos acceder a tu ubicación. ¿Deseas otorgar este permiso?",
+                    text = getString(context, R.string.alertDialogContent, currentLocale),
                     textAlign = TextAlign.Center
                 )
             },
             confirmButton = {
-                Button(
-                    onClick = {
-                        showPermissionDialog = false
-                        permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-                    },
-                    colors = ButtonDefaults.buttonColors(containerColor = Purple40)
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 16.dp),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Text("Aceptar")
-                }
-            },
-            dismissButton = {
-                OutlinedButton(onClick = { showPermissionDialog = false }) {
-                    Text("Cancelar")
+                    Button(
+                        onClick = {
+                            showPermissionDialog = false
+                            permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+                        },
+                        colors = ButtonDefaults.buttonColors(containerColor = Purple40)
+                    ) {
+                        Text(
+                            text = getString(context, R.string.accept, currentLocale),
+                        )
+                    }
                 }
             }
         )
@@ -260,7 +279,18 @@ fun EventMapScreen() {
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MapContent(hasLocationPermission: Boolean = true) {
+    //variables relacionadas con el cambio de idioma
     val context = LocalContext.current
+    CurrentSession.getInstance()
+    var currentLocale by remember { mutableStateOf(CurrentSession.language) }
+
+    // Definir els recursos per als mesos
+    val monthResources = listOf(
+        R.string.january, R.string.february, R.string.march, R.string.april,
+        R.string.may, R.string.june, R.string.july, R.string.august,
+        R.string.september, R.string.october, R.string.november, R.string.december
+    )
+
     val fusedLocationClient = remember { LocationServices.getFusedLocationProviderClient(context) }
     val cameraPositionState = rememberCameraPositionState()
 
@@ -361,8 +391,7 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                     Icon(Icons.Default.KeyboardArrowLeft, contentDescription = "Mes anterior")
                 }
                 Text(
-                    text = "${currentDate.month.getDisplayName(TextStyle.FULL, Locale("es"))
-                        .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale("es")) else it.toString() }} ${currentDate.year}",
+                    text = "${getString(context, monthResources[currentDate.month.ordinal], currentLocale)} ${currentDate.year}",
                     style = MaterialTheme.typography.titleLarge
                 )
                 IconButton(onClick = { currentDate = currentDate.plusMonths(1) }) {
@@ -441,9 +470,6 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                         }
                     }
                 }
-
-                // El código para mostrar la etiqueta flotante en el centro de la pantalla se ha eliminado
-                // Mantenemos solo el InfoWindow nativo que se muestra directamente sobre el marcador
             }
 
             // Slider de Distancia
@@ -452,10 +478,21 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp)
             ) {
-                Text(
-                    text = "Distancia: ${distanceKm.toInt()} km",
-                    style = MaterialTheme.typography.bodyLarge
-                )
+
+                Row {
+                    Text(
+                        text = getString(context, R.string.distanceLabel, currentLocale),
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                    Text(
+                        text = distanceKm.toInt().toString(), // el número, sin traducción
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                    Text(
+                        text = getString(context, R.string.kilometersLabel, currentLocale), // " km"
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                }
                 Slider(
                     value = distanceKm,
                     onValueChange = { distanceKm = it },
@@ -482,7 +519,7 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                         colors = ButtonDefaults.buttonColors(containerColor = Purple40)
                     ) {
                         Text(
-                            text = "Ver detalles",
+                            text = getString(context, R.string.eventDetails, currentLocale),
                             fontWeight = FontWeight.Bold,
                             color = Color.White
                         )
@@ -515,7 +552,7 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                                 modifier = Modifier.padding(end = 8.dp)
                             )
                             Text(
-                                text = "Abrir Maps",
+                                text = getString(context, R.string.mapsButton, currentLocale),
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White
                             )
