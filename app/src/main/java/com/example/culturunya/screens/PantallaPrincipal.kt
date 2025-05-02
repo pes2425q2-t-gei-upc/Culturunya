@@ -31,7 +31,6 @@ import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.example.culturunya.screens.*
 
 
@@ -46,11 +45,12 @@ fun Pantalla() {
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun MainScreen(navController: NavController, viewModel: EventViewModel) {
+fun MainScreen(navController: NavController, viewModel: EventViewModel, initialScreen: String) {
     // Estat per a la pantalla principal
-    var currentScreen by remember { mutableStateOf("Events") }
     // Estat per als sub-botons d'Events (Map, Calendar, List)
     // Només s'usa si la pantalla principal seleccionada és "Events".
+    var currentScreen by remember { mutableStateOf(initialScreen) }
+    if (currentScreen != "Events" && currentScreen != "Quiz" && currentScreen != "Leaderboard" && currentScreen != "Settings") currentScreen = "Events"
     var currentEventsSubScreen by remember { mutableStateOf("Map") }
 
     Column(modifier = Modifier

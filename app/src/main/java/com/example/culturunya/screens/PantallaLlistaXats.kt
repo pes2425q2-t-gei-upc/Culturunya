@@ -75,7 +75,7 @@ fun PantallaLlistaXats(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = {
-                navController.popBackStack()
+                navController.navigate(AppScreens.MainScreen.createRoute("Settings"))
             }) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,

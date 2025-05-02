@@ -207,7 +207,7 @@ fun PantallaXat(navController: NavController, userId: Int?, username: String?, i
         }
         popUpError(message, onClick = {
             showErrorDialog = false
-            navController.popBackStack()
+            navController.navigate(AppScreens.MainScreen.createRoute("Settings"))
         })
     }
 
@@ -240,7 +240,7 @@ fun PantallaXat(navController: NavController, userId: Int?, username: String?, i
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(onClick = {
-                    navController.popBackStack()
+                    navController.navigate(AppScreens.MainScreen.createRoute("Settings"))
                 }) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,

@@ -59,24 +59,13 @@ fun PantallaCanviContrasenya(navController: NavController) {
             .fillMaxSize()
             .background(Color.White)
     ) {
-        Row(
-            modifier = Modifier
-                .align(Alignment.TopStart)
-                .clickable(enabled = !isLoading) {
-                    isLoading = true
-                    navController.popBackStack()
-                }
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+        IconButton(onClick = {
+            isLoading = true
+            navController.navigate(AppScreens.MainScreen.createRoute("Settings"))
+        }) {
             Icon(
                 imageVector = Icons.Default.ArrowBack,
-                contentDescription = "Fletxa a l'esquerra",
-                modifier = Modifier.size(24.dp)
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(
-                text = getString(context, R.string.back, currentLocale),
+                contentDescription = "Back"
             )
         }
         Column(
@@ -190,7 +179,7 @@ fun PantallaCanviContrasenya(navController: NavController) {
                         Button(
                             onClick = {
                                 haCanviat = false
-                                navController.popBackStack()
+                                navController.navigate(AppScreens.MainScreen.createRoute("settings"))
                             },
                             colors = ButtonDefaults.buttonColors(containerColor = Morat)
                         ) {

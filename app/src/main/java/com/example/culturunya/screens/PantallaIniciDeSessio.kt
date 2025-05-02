@@ -58,9 +58,7 @@ fun ComposableIniciSessio(navController: NavController) {
 
     LaunchedEffect(loginResponse) {
         if (loginResponse != null) {
-            navController.navigate(route = AppScreens.MainScreen.route) {
-                popUpTo(AppScreens.IniciSessio.route) { inclusive = true }
-            }
+            navController.navigate(AppScreens.MainScreen.createRoute("Events"))
         }
     }
 
