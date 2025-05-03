@@ -33,7 +33,7 @@ class LoginViewModel : ViewModel() {
     private val api = Api.instance
     private val repository = AuthRepository(api)
     private lateinit var credentialManager: CredentialManager
-    private val WEB_CLIENT_ID = "128086553198-dgd6f6ctoubddlmnvod4ib8ad10ubonc.apps.googleusercontent.com"
+    private val WEB_CLIENT_ID = "102065557294-a14162ejafi97l4a776ftomhrguon2rv.apps.googleusercontent.com"
 
     fun initialize(context: Context) {
         credentialManager = CredentialManager.create(context)
@@ -62,8 +62,8 @@ class LoginViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val googleIdOption = GetGoogleIdOption.Builder()
-                    .setServerClientId(WEB_CLIENT_ID)
                     .setFilterByAuthorizedAccounts(false)
+                    .setServerClientId(WEB_CLIENT_ID)
                     .build()
 
                 val request = GetCredentialRequest.Builder()
@@ -91,19 +91,30 @@ class LoginViewModel : ViewModel() {
                     val googleIdTokenCredential = GoogleIdTokenCredential
                         .createFrom(credential.data)
 
+                    // Obtener el ID token para enviarlo al backend
+                    val idToken = googleIdTokenCredential.idToken
+
+                    // Guardar el ID token en CurrentSession
                     CurrentSession.getInstance()
-                    CurrentSession.setGoogleToken(googleIdTokenCredential.idToken)
+                    CurrentSession.setGoogleToken(idToken)
 
-                    val backendResponse = AuthRepository.googleLogin(googleIdTokenCredential.idToken)
+                    // Llamar al método correcto del repositorio para autenticación con Google
+                    val loginResult = repository.googleLogin(idToken)
 
-                    _loginResponse.value = backendResponse
-                    _googleLoginError.value = null
+                    loginResult.onSuccess { response ->
+                        // Guardar la respuesta del backend y actualizar CurrentSession con el token de acceso
+                        _loginResponse.value = response
+                        CurrentSession.setUserData(response.token, googleIdTokenCredential.displayName ?: "", "")
+                        _googleLoginError.value = null
+                    }.onFailure { error ->
+                        _googleLoginError.value = when (error) {
+                            is HttpException -> "Server error: ${error.code()}"
+                            else -> "Error processing Google login: ${error.message}"
+                        }
+                    }
                 }
             } catch (e: Exception) {
-                _googleLoginError.value = when (e) {
-                    is HttpException -> "Server error: ${e.code()}"
-                    else -> "Error processing Google token: ${e.message}"
-                }
+                _googleLoginError.value = "Error processing Google token: ${e.message}"
             }
         }
     }
