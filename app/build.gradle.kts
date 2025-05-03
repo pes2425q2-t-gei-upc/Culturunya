@@ -78,4 +78,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
+
+    //Fotos
+    implementation("io.coil-kt:coil-compose:2.5.0")
 }

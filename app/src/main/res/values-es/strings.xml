@@ -90,4 +90,9 @@
     <string name="to">"a"</string>
     <string name="saysComment">dice</string>
     <string name="send">"Enviar"</string>
+    <string name="Fun">"Divertido</string>
+    <string name="Awesome">"Increíble</string>
+    <string name="Mediocre">"Mediocre</string>
+    <string name="Bad">"Malo</string>
+    <string name="KindaFun">"Bastante Divertido</string>
 </resources>
