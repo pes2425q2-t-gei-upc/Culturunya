@@ -918,7 +918,8 @@ def update_username(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def send_report(request):
-    return create_report(request.data, request.user)
+    status_msg, status_code = create_report(request.data, request.user)
+    return Response(status_msg, status=status_code)
 
 @swagger_auto_schema(
     method="get",
