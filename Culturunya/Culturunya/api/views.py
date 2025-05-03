@@ -121,7 +121,6 @@ def google_auth(request):
     id_token_str = serializer.validated_data["id_token"]
 
     try:
-
         idinfo = id_token.verify_oauth2_token(
             id_token_str,
             g_requests.Request(),
