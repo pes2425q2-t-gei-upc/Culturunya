@@ -170,6 +170,7 @@ def create_resolved_report(data, user, report_id):
         elif action == "Ban":
             reported_user = User.objects.get(id=report.reported_user.id)
             reported_user.is_banned = True
+            Rating.objects.filter(user=reported_user).delete()
             reported_user.save()
             create_message(user.id, reported_user.id, message)
             serializer.save(
