@@ -248,6 +248,7 @@ class Report(models.Model):
         help_text="Usuario que ha hecho el reporte",
         null = True
     )
+    comment = models.TextField(help_text="Comentario del usuario que se ha reportado", null=True)
     message = models.TextField(help_text="Descripción del motivo del reporte")
     date = models.DateTimeField(default=timezone.now)
     is_resolved = models.BooleanField(default=False)

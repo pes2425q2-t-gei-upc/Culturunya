@@ -29,7 +29,7 @@ from api.serializers import UserProfileSerializer, ChangePasswordSerializer, Rep
     ReportResolutionSerializer, RatingSerializer
 # Services
 from domain.users_service import get_all_events, filter_events, create_user_service, create_rating, create_message, \
-    get_messages, create_resolved_report, get_messages_admin
+    get_messages, create_resolved_report, get_messages_admin, create_report
 from persistence.models import User, Report, Rating, TypeRating
 from api.serializers import ProfilePicSerializer
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -902,9 +902,9 @@ def update_username(request):
     operation_summary="Crear un reporte sobre un usuario",
     request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT,
-        required=["reported_user", "message"],
+        required=["rating_id", "message"],
         properties={
-            "reported_user": openapi.Schema(type=openapi.TYPE_INTEGER, description="ID del usuario reportado"),
+            "rating_id": openapi.Schema(type=openapi.TYPE_INTEGER, description="ID del rating"),
             "message": openapi.Schema(type=openapi.TYPE_STRING, description="Motivo del reporte"),
         },
     ),
@@ -917,12 +917,8 @@ def update_username(request):
 )
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def create_report(request):
-    serializer = ReportSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save(reporter=request.user)
-        return Response({"message": "Reporte enviado correctamente"}, status=201)
-    return Response(serializer.errors, status=400)
+def send_report(request):
+    return create_report(request.data, request.user)
 
 @swagger_auto_schema(
     method="get",
