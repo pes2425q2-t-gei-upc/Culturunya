@@ -1,7 +1,6 @@
 package com.example.culturunya.controllers
 
 import com.example.culturunya.endpoints.events.Event
-import com.example.culturunya.models.events.*
 import com.example.culturunya.models.currentSession.CurrentSession
 
 class EventsRepository(private val api: Api) {

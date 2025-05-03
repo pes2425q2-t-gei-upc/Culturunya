@@ -1,4 +1,4 @@
-package com.example.culturunya.models
+package com.example.culturunya.models.register
 
 data class RegisterRequest(
     val username: String,

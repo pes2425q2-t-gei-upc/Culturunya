@@ -1,10 +1,10 @@
-package com.example.culturunya.endpoints.getChatWithUserViewModel
+package com.example.culturunya.endpoints.getChatWithUserVIewModel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.culturunya.controllers.Api
-import com.example.culturunya.controllers.AuthRepository
+import com.example.culturunya.controllers.ChatRepository
 import com.example.culturunya.models.Message
 import com.example.culturunya.models.currentSession.CurrentSession
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +21,7 @@ class GetChatWithUserViewModel : ViewModel() {
     val getChatWithUserError: StateFlow<Int?> = _getChatWithUserError
 
     private val api = Api.instance
-    private val repository = AuthRepository(api)
+    private val repository = ChatRepository(api)
 
     fun getChatWithUser(userId: String) {
         Log.d("GetChatWithUser", "Function called with userId: $userId")

@@ -10,7 +10,6 @@ import com.example.culturunya.controllers.RatingsRepository
 import kotlinx.coroutines.launch
 import java.util.Collections.emptyList
 import com.example.culturunya.endpoints.users.UserSimpleInfo
-import com.example.culturunya.models.currentSession.CurrentSession
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 

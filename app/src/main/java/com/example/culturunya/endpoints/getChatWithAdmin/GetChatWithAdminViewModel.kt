@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.culturunya.controllers.Api
-import com.example.culturunya.controllers.AuthRepository
+import com.example.culturunya.controllers.ChatRepository
 import com.example.culturunya.models.Message
 import com.example.culturunya.models.currentSession.CurrentSession
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +21,7 @@ class GetChatWithAdminViewModel : ViewModel() {
     val getChatWithAdminError: StateFlow<Int?> = _getChatWithAdminError
 
     private val api = Api.instance
-    private val repository = AuthRepository(api)
+    private val repository = ChatRepository(api)
 
     fun getChatWithAdmin() {
         Log.d("GetChatWithAdmin", "Function called")

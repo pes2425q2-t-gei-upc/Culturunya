@@ -1,13 +1,11 @@
 package com.example.culturunya.endpoints.changePassword
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.culturunya.controllers.Api
-import com.example.culturunya.controllers.AuthRepository
+import com.example.culturunya.controllers.UserRepository
 import com.example.culturunya.models.changePassword.ChangePasswordRequest
 import com.example.culturunya.models.currentSession.CurrentSession
-import com.example.culturunya.models.deleteAccount.DeleteAccountRequest
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -18,7 +16,7 @@ class ChangePasswordViewModel: ViewModel() {
     val changePasswordStatus: StateFlow<Int?> = _changePasswordStatus
 
     private val api = Api.instance
-    private val repository = AuthRepository(api)
+    private val repository = UserRepository(api)
 
     fun changePassword(oldPassword: String, newPassword: String) {
         viewModelScope.launch {

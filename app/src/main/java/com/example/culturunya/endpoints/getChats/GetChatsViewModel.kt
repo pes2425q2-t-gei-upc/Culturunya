@@ -4,11 +4,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.culturunya.controllers.Api
-import com.example.culturunya.controllers.AuthRepository
+import com.example.culturunya.controllers.ChatRepository
 import com.example.culturunya.models.currentSession.CurrentSession
 import com.example.culturunya.models.getChats.ChatInfo
-import com.example.culturunya.models.login.LoginRequest
-import com.example.culturunya.models.login.LoginResponse
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -22,7 +20,7 @@ class GetChatsViewModel : ViewModel() {
     val getChatsError: StateFlow<Int?> = _getChatsError
 
     private val api = Api.instance
-    private val repository = AuthRepository(api)
+    private val repository = ChatRepository(api)
 
     fun getChats() {
         viewModelScope.launch {

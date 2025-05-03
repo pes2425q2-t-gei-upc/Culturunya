@@ -1,14 +1,11 @@
-import android.os.Bundle
-import android.util.Log
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
+package com.example.culturunya.screens
+
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
@@ -17,14 +14,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
-import com.example.culturunya.navigation.AppNavigation
 import com.example.culturunya.navigation.AppScreens
 import com.example.culturunya.ui.theme.Morat
 import androidx.compose.foundation.lazy.LazyColumn
@@ -34,8 +27,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.culturunya.R
 import com.example.culturunya.endpoints.getChats.GetChatsViewModel
 import com.example.culturunya.models.currentSession.CurrentSession
-import com.example.culturunya.screens.getString
-import kotlinx.coroutines.delay
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
@@ -48,6 +39,7 @@ data class Chat(
     val userId: Int
 )
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PantallaLlistaXats(

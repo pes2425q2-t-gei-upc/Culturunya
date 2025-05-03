@@ -1,6 +1,5 @@
 package com.example.culturunya.screens
 
-import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -45,7 +44,7 @@ fun SettingsScreen(navController: NavController) {
 
     val getChatsViewModel: GetChatsViewModel = viewModel()
     val getChatsResponse = getChatsViewModel.getChatsResponse.collectAsState().value
-    var getChatsCode = getChatsViewModel.getChatsError.collectAsState().value
+    val getChatsCode = getChatsViewModel.getChatsError.collectAsState().value
     var showGetChatsErrorDialog by remember { mutableStateOf(false) }
 
     val context = LocalContext.current
@@ -75,7 +74,7 @@ fun SettingsScreen(navController: NavController) {
     }
 
     if (showDeleteErrorDialog) {
-        var message = getString(context, R.string.unexpectedErrorLoadingChat, currentLocale)
+        val message = getString(context, R.string.unexpectedErrorLoadingChat, currentLocale)
         popUpError(message, onClick = {
             showGetChatsErrorDialog = false
         })
@@ -238,9 +237,6 @@ fun SettingsScreen(navController: NavController) {
                     text = getString(context, R.string.helpNSupport, currentLocale),
                     onClick = {
                         getChatsViewModel.getChats()
-                        Log.d("Codi getChats:", "$getChatsCode")
-                        val token = CurrentSession.token
-                        Log.d("Token actual:", "$token")
                     }
                 )
             }
@@ -305,7 +301,7 @@ fun SettingsScreen(navController: NavController) {
     }
 
     if (showDeleteErrorDialog) {
-        var message = getString(context, R.string.deleteErrorNoAuth, currentLocale)
+        val message = getString(context, R.string.deleteErrorNoAuth, currentLocale)
         if (deleteCode != 401) getString(context, R.string.deleteError, currentLocale)
         popUpError(message, onClick = {
             showDeleteErrorDialog = false

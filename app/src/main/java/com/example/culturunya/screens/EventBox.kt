@@ -1,9 +1,7 @@
-package com.example.culturunya.screens.events
+package com.example.culturunya.screens
 
-import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -13,11 +11,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.VerticalAlignmentLine
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -28,14 +23,6 @@ import com.example.culturunya.ui.theme.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
-import kotlin.text.format
-
-fun getString(context: Context, id: Int, langCode: String): String {
-    val config = context.resources.configuration
-    val locale = java.util.Locale(langCode)
-    val localizedContext = context.createConfigurationContext(config.apply { setLocale(locale) })
-    return localizedContext.resources.getString(id)
-}
 
 //Funcion provisional para formatear la fecha
 @RequiresApi(Build.VERSION_CODES.O)

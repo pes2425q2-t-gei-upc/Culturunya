@@ -1,10 +1,9 @@
 package com.example.culturunya.endpoints.sendMessageToAdmin
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.culturunya.controllers.Api
-import com.example.culturunya.controllers.AuthRepository
+import com.example.culturunya.controllers.ChatRepository
 import com.example.culturunya.models.currentSession.CurrentSession
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,7 +15,7 @@ class SendMessageToAdminViewModel : ViewModel() {
     val sendMessageToAdminStatus: StateFlow<Int?> = _sendMessageToAdminStatus
 
     private val api = Api.instance
-    private val repository = AuthRepository(api)
+    private val repository = ChatRepository(api)
 
     fun sendMessageToAdmin(message: String) {
         viewModelScope.launch {

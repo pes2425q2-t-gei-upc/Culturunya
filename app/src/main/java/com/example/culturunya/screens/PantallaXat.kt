@@ -1,6 +1,5 @@
 package com.example.culturunya.screens
 
-import androidx.annotation.XmlRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -30,7 +29,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.culturunya.R
 import com.example.culturunya.endpoints.getChatWithAdmin.GetChatWithAdminViewModel
-import com.example.culturunya.endpoints.getChatWithUserViewModel.GetChatWithUserViewModel
+import com.example.culturunya.endpoints.getChatWithUserVIewModel.GetChatWithUserViewModel
 import com.example.culturunya.endpoints.sendMessageToAdmin.SendMessageToAdminViewModel
 import com.example.culturunya.endpoints.sendMessageToUser.SendMessageToUserViewModel
 import com.example.culturunya.models.Message

@@ -3,7 +3,7 @@ package com.example.culturunya.endpoints.deleteAccount
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.culturunya.controllers.Api
-import com.example.culturunya.controllers.AuthRepository
+import com.example.culturunya.controllers.UserRepository
 import com.example.culturunya.models.currentSession.CurrentSession
 import com.example.culturunya.models.deleteAccount.DeleteAccountRequest
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,13 +16,12 @@ class DeleteAccountViewModel : ViewModel() {
     val deleteAccountStatus: StateFlow<Int?> = _deleteAccountStatus
 
     private val api = Api.instance
-    private val repository = AuthRepository(api)
+    private val repository = UserRepository(api)
 
     fun deleteAccount() {
         viewModelScope.launch {
             val token = CurrentSession.token
-            val username = CurrentSession.username
-            val result = repository.deleteAccount("Token $token", DeleteAccountRequest(username))
+            val result = repository.deleteAccount("Token $token")
 
             result.onSuccess {
                 _deleteAccountStatus.value = 204

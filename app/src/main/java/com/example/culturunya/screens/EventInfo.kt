@@ -1,4 +1,4 @@
-package com.example.culturunya.screens.events
+package com.example.culturunya.screens
 
 import android.os.Build
 import androidx.annotation.DrawableRes
@@ -26,7 +26,6 @@ import com.example.culturunya.R
 import com.example.culturunya.endpoints.events.Event
 import com.example.culturunya.endpoints.ratings.RatingViewModel
 import com.example.culturunya.endpoints.users.UserViewModel
-import com.example.culturunya.screens.RatingListScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)

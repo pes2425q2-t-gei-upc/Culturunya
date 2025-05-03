@@ -1,6 +1,5 @@
 package com.example.culturunya.screens
 
-import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -20,7 +19,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import java.util.Locale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -30,14 +28,6 @@ import com.example.culturunya.navigation.AppScreens
 import com.example.culturunya.ui.theme.Morat
 import com.example.culturunya.endpoints.login.LoginViewModel
 import com.example.culturunya.models.currentSession.CurrentSession
-
-fun getString(context: Context, id: Int, langCode: String): String {
-    val config = context.resources.configuration
-    val locale = Locale(langCode)
-    val localizedContext = context.createConfigurationContext(config.apply { setLocale(locale) })
-    return localizedContext.resources.getString(id)
-}
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

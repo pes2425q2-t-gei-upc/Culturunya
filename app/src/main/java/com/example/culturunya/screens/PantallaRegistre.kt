@@ -1,13 +1,9 @@
 package com.example.culturunya.screens
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -25,11 +21,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.culturunya.R
 import com.example.culturunya.navigation.AppScreens
-import com.example.culturunya.ui.theme.CulturunyaTheme
 import com.example.culturunya.ui.theme.Morat
 import com.example.culturunya.controllers.enviarDadesAlBackend
-import com.example.culturunya.models.currentSession.CurrentSession
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

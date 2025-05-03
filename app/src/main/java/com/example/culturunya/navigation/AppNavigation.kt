@@ -1,6 +1,5 @@
 package com.example.culturunya.navigation
 
-import PantallaLlistaXats
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
@@ -17,7 +16,6 @@ import com.example.culturunya.screens.MainScreen
 import com.example.culturunya.screens.PantallaRegistre
 import com.example.culturunya.screens.PantallaCanviContrasenya
 import com.example.culturunya.screens.SettingsScreen
-import com.example.culturunya.screens.*
 
 
     @RequiresApi(Build.VERSION_CODES.O)

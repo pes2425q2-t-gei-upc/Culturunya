@@ -1,11 +1,10 @@
 package com.example.culturunya.controllers
 
-import com.example.culturunya.models.RegisterRequest
-import com.example.culturunya.models.RegisterResponse
+import com.example.culturunya.models.register.RegisterRequest
+import com.example.culturunya.models.register.RegisterResponse
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import com.example.culturunya.endpoints.events.*
 import com.example.culturunya.endpoints.ratings.Rating
 import com.example.culturunya.endpoints.ratings.RatingRequest
 import com.example.culturunya.endpoints.users.UserSimpleInfo
@@ -13,7 +12,6 @@ import com.example.culturunya.models.Message
 import com.example.culturunya.models.changePassword.ChangePasswordRequest
 import com.example.culturunya.models.events.Events
 import com.example.culturunya.models.getChats.ChatInfo
-import com.example.culturunya.models.getChats.GetChatWithUserRequest
 import com.example.culturunya.models.login.LoginRequest
 import com.example.culturunya.models.login.LoginResponse
 import com.example.culturunya.models.sendMessage.SendMessageToAdminRequest
@@ -23,7 +21,7 @@ import retrofit2.http.*
 
 interface Api {
     companion object{
-        val instance = Retrofit.Builder().baseUrl("http://nattech.fib.upc.edu:40369/api/")
+        val instance: Api = Retrofit.Builder().baseUrl("http://nattech.fib.upc.edu:40369/api/")
             .addConverterFactory(MoshiConverterFactory.create())
             .client(OkHttpClient.Builder().build()).build().create(Api::class.java)
     }

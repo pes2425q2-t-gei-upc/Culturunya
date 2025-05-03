@@ -3,7 +3,7 @@ package com.example.culturunya.endpoints.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.culturunya.controllers.Api
-import com.example.culturunya.controllers.AuthRepository
+import com.example.culturunya.controllers.UserRepository
 import com.example.culturunya.models.currentSession.CurrentSession
 import com.example.culturunya.models.login.LoginRequest
 import com.example.culturunya.models.login.LoginResponse
@@ -20,7 +20,7 @@ class LoginViewModel : ViewModel() {
     val loginError: StateFlow<Int?> = _loginError
 
     private val api = Api.instance
-    private val repository = AuthRepository(api)
+    private val repository = UserRepository(api)
 
     fun login(username: String, password: String) {
         viewModelScope.launch {
