@@ -135,7 +135,7 @@ def create_report(data, user):
     except ObjectDoesNotExist:
         raise ValueError("Valoración no encontrada")
     fields = {
-        "reported_user": rating.user,
+        "reported_user": rating.user.id,
         "comment": rating.comment,
         "message": data['message'],
     }
