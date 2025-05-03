@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
@@ -110,10 +112,15 @@ private fun EventListView(
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        Row(modifier = Modifier.fillMaxWidth()) {
+        Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 0.dp, vertical = 8.dp)) {
             ExposedDropdownMenuBox(
                 expanded = expanded,
                 onExpandedChange = { expanded = !expanded }
+                ,
+                modifier = Modifier
+                    .width(250.dp)
+                    .height(50.dp)
+                    .background(Purple40)
             ) {
                 TextField(
                     // We will modify the text to use a stringResource
@@ -168,7 +175,7 @@ private fun EventListView(
                 colors = ButtonDefaults.buttonColors(containerColor = Purple40)
             ) {
                 Text(
-                    text = "A/D",
+                    text = "↑/↓",
                     color = Color.White
                 )
             }

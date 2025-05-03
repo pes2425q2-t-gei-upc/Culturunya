@@ -8,10 +8,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -23,6 +24,13 @@ import com.example.culturunya.ui.theme.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
+
+fun getEventImageUrl(eventId: String): String {
+    // Assuming your base URL is something like "http://yourserver.com/media/"
+    val baseUrl = "http://nattech.fib.upc.edu:40369/media/"
+    println("${baseUrl}event_images/${eventId}.jpg")
+    return "${baseUrl}event_images/${eventId}.jpg"
+}
 
 //Funcion provisional para formatear la fecha
 @RequiresApi(Build.VERSION_CODES.O)
@@ -63,11 +71,17 @@ fun EventBox(
     ) {
         Row {
             //Sustituir por foto
-            Box(modifier = Modifier
-                .width(125.dp)
-                .fillMaxHeight(), contentAlignment = Alignment.Center){
-                Text("Foto evento")
-            }
+            AsyncImage(
+                model = getEventImageUrl(event.id),
+                contentDescription = "Event Image",
+                modifier = Modifier
+                    .width(150.dp)
+                    .height(150.dp)
+                    .background(com.example.culturunya.ui.theme.PurpleGrey80, RoundedCornerShape(8.dp)),
+                contentScale = ContentScale.Crop,
+                error = painterResource(R.drawable.logo_retallat),
+                placeholder = painterResource(R.drawable.logo_retallat)
+            )
             //
 
             Column(

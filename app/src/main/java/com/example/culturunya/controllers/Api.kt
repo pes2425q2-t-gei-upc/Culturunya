@@ -78,4 +78,6 @@ interface Api {
 
     @GET("user/profile_info")
     suspend fun getProfileInfo(@Header("Authorization") token: String): UserSimpleInfo
+
+
 }

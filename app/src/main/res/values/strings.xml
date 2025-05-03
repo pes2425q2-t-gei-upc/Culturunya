@@ -90,6 +90,12 @@
     <string name="to">"to"</string>
     <string name="saysComment">says</string>
     <string name="send">"Send"</string>
+    <string name="Fun">"Fun</string>
+    <string name="Awesome">"Awesome</string>
+    <string name="Mediocre">"Mediocre</string>
+    <string name="Bad">"Bad</string>
+    <string name="KindaFun">"KindaFun</string>
+
 
     <!-- Pantalla Xat -->
     <string name="administrator">"Administrator"</string>

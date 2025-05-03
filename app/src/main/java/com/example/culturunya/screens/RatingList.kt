@@ -17,7 +17,9 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -39,7 +41,13 @@ import com.example.culturunya.endpoints.ratings.Rating
 import com.example.culturunya.endpoints.users.UserSimpleInfo
 import com.example.culturunya.endpoints.users.UserViewModel
 import com.example.culturunya.models.currentSession.CurrentSession
+import com.example.culturunya.screens.events.SortCriteria
 import com.example.culturunya.ui.theme.*
+import androidx.compose.material3.ExposedDropdownMenuBoxScope
+import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.TextField
+import androidx.compose.ui.Alignment
+import com.example.culturunya.models.RatingType
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -61,6 +69,8 @@ fun RatingListScreen(
     val date = ""
     var rating_new by remember { mutableStateOf("") }
     var comment_new by remember { mutableStateOf("") }
+    var expanded by remember { mutableStateOf(false) }
+    var currentRatingType by remember { mutableStateOf(RatingType.Fun)}
     val context = LocalContext.current
     CurrentSession.getInstance()
     val currentLocale by remember { mutableStateOf(CurrentSession.language) }
@@ -83,7 +93,8 @@ fun RatingListScreen(
                         singleLine = true,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(8.dp),
+                            .padding(8.dp)
+                        ,
                         leadingIcon = {
                             Icon(imageVector = Icons.Default.Person, contentDescription = "Persona")
                         },
@@ -94,26 +105,91 @@ fun RatingListScreen(
                             unfocusedBorderColor = Color.LightGray
                         )
                     )
-                    Spacer(modifier = Modifier.padding(8.dp))
-                    OutlinedTextField(
-                        value = rating_new,
-                        onValueChange = { rating_new = it },
-                        label = { Text(getString(context, R.string.Rating, currentLocale)) },
-                        singleLine = true,
+                    ExposedDropdownMenuBox(
+                        expanded = expanded,
+                        onExpandedChange = { expanded = !expanded },
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp),
-                        leadingIcon = {
-                            Icon(imageVector = Icons.Default.Person, contentDescription = "Persona")
-                        },
-                        colors = TextFieldDefaults.outlinedTextFieldColors(
-                            textColor = Color.Black,
-                            cursorColor = Color.Black,
-                            focusedBorderColor = Color.Gray,
-                            unfocusedBorderColor = Color.LightGray
+                            .width(250.dp)
+                            .padding(8.dp)
+                            .align(Alignment.CenterHorizontally)
+                            .background(Purple40)
+                    ) {
+                        TextField(
+                            // We will modify the text to use a stringResource
+                            readOnly = true,
+                            value = when (currentRatingType) {
+                                RatingType.Fun -> getString(context, R.string.Fun, currentLocale)
+                                RatingType.Awesome -> getString(context, R.string.Awesome, currentLocale)
+                                RatingType.Mediocre -> getString(context, R.string.Mediocre, currentLocale)
+                                RatingType.Bad -> getString(context, R.string.Bad, currentLocale)
+                                RatingType.KindaFun -> getString(context, R.string.KindaFun, currentLocale)
+                            },
+                            onValueChange = {},
+                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                            modifier = Modifier
+                                .menuAnchor()
+                                .background(Purple40),
+                            colors = androidx . compose . material3 . TextFieldDefaults.textFieldColors(
+                                containerColor = Purple40,
+                                textColor = Color.White,
+                                focusedTrailingIconColor = Color.White,
+                                unfocusedTrailingIconColor = Color.White,
+                                disabledTrailingIconColor = Color.White,
+                                disabledTextColor = Color.White,
+                                unfocusedIndicatorColor = Color.Transparent,
+                                focusedIndicatorColor = Color.Transparent,
+                                disabledIndicatorColor = Color.Transparent,
+                            )
                         )
-                    )
-                    Spacer(modifier = Modifier.padding(8.dp))
+                        ExposedDropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false },
+                            modifier = Modifier
+                                .exposedDropdownSize()
+                                .background(Purple40)
+                        ) {
+                            DropdownMenuItem(
+                                text = { Text(getString(context, R.string.Awesome, currentLocale)) },
+                                onClick = {
+                                    currentRatingType = RatingType.Awesome
+                                    expanded = false
+                                    rating_new = "Awesome"
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text(getString(context, R.string.Fun, currentLocale)) },
+                                onClick = {
+                                    currentRatingType = RatingType.Fun
+                                    expanded = false
+                                    rating_new = "Fun"
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text(getString(context, R.string.KindaFun, currentLocale)) },
+                                onClick = {
+                                    currentRatingType = RatingType.KindaFun
+                                    expanded = false
+                                    rating_new = "KindaFun"
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text(getString(context, R.string.Mediocre, currentLocale)) },
+                                onClick = {
+                                    currentRatingType = RatingType.Mediocre
+                                    expanded = false
+                                    rating_new = "Mediocre"
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text(getString(context, R.string.Bad, currentLocale)) },
+                                onClick = {
+                                    currentRatingType = RatingType.Bad
+                                    expanded = false
+                                    rating_new = "Bad"
+                                }
+                            )
+                        }
+                    }
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center
@@ -161,3 +237,4 @@ fun RatingListScreen(
         }
     }
 }
+
