@@ -143,7 +143,7 @@ def create_report(data, user):
     if serializer.is_valid():
         serializer.save(reporter=user)
         return {"message": "Reporte enviado correctamente"}, 201
-    return {serializer.errors: serializer.errors}, 400
+    return {"error": serializer.errors}, 400
 
 def create_resolved_report(data, user, report_id):
     if not user.is_admin:
