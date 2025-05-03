@@ -47,8 +47,8 @@ class GoogleAuthSerializer(serializers.Serializer):
 class ReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Report
-        fields = ['id', 'reported_user', 'message', 'date', 'is_resolved']
-        read_only_fields = ['id', 'reporter', 'date', 'is_resolved']
+        fields = ['id', 'reported_user', 'comment', 'message', 'date', 'is_resolved']
+        read_only_fields = ['id', 'reporter', 'comment', 'date', 'is_resolved']
 
 class ReportResolutionSerializer(serializers.ModelSerializer):
     class Meta:

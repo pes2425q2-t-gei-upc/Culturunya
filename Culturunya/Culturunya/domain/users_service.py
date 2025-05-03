@@ -9,7 +9,7 @@ from math import radians, cos
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 
-from api.serializers import ReportResolutionSerializer
+from api.serializers import ReportResolutionSerializer, ReportSerializer
 from persistence.models import Event, PersonalCalendar, Rating, Message, Report
 
 
@@ -128,6 +128,22 @@ def get_messages_admin(admin):
     return Message.objects.filter(
         Q(sender=admin) | Q(receiver=admin)
     ).order_by("date_written")
+
+def create_report(data, user):
+    try:
+        rating = Rating.objects.get(id=data['rating_id'])
+    except ObjectDoesNotExist:
+        raise ValueError("Valoración no encontrada")
+    fields = {
+        "reported_user": rating.user,
+        "comment": rating.comment,
+        "message": data['message'],
+    }
+    serializer = ReportSerializer(data=fields)
+    if serializer.is_valid():
+        serializer.save(reporter=user)
+        return {"message": "Reporte enviado correctamente"}, 201
+    return {serializer.errors: serializer.errors}, 400
 
 def create_resolved_report(data, user, report_id):
     if not user.is_admin:
