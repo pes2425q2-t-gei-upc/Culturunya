@@ -30,7 +30,7 @@ class UserSimpleInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['username', 'email', 'profile_pic']
-    profile_pic = serializers.ImageField(read_only=True)
+    profile_pic = serializers.ImageField(read_only=True, use_url=True)
 
 class ProfilePicSerializer(serializers.ModelSerializer):
     class Meta:

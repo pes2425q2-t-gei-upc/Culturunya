@@ -737,7 +737,7 @@ def list_chats_admin(request):
             users_with_last_message.append({
                 "user_id": user_id,
                 "username": regular_user.username,
-                "profile_pic": regular_user.profile_pic if regular_user.profile_pic else None,
+                "profile_pic": regular_user.profile_pic.url if regular_user.profile_pic else None,
                 "last_message_text": last_message.text,
                 "last_message_from_admin?": last_message.sender.is_admin,
                 "last_message_date": last_message.date_written
