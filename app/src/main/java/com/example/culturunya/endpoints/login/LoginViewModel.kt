@@ -13,13 +13,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
-import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.exceptions.GetCredentialException
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import android.content.Context
+import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialResponse
+import com.example.culturunya.controllers.AuthRepository
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 
 class LoginViewModel : ViewModel() {
@@ -33,7 +34,6 @@ class LoginViewModel : ViewModel() {
     val googleLoginError: StateFlow<String?> = _googleLoginError
 
     private val api = Api.instance
-    private val repository = UserRepository(api)
     private val repository = AuthRepository(api)
     private lateinit var credentialManager: CredentialManager
     private val WEB_CLIENT_ID = "102065557294-a14162ejafi97l4a776ftomhrguon2rv.apps.googleusercontent.com"

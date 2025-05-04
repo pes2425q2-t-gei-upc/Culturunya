@@ -16,16 +16,6 @@ class UserRepository(private val api: Api) {
         }
     }
 
-    suspend fun login(request: LoginRequest): Result<LoginResponse> {
-        return try {
-            val response = api.login(request)
-            Result.success(response)
-        }
-        catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
-
     suspend fun deleteAccount(token: String): Result<Unit> {
         return try {
             val response = api.deleteAccount(token)

@@ -1,6 +1,7 @@
 package com.example.culturunya.controllers
 
 import com.example.culturunya.endpoints.login.GoogleTokenRequest
+import com.example.culturunya.models.login.LoginRequest
 import retrofit2.Response
 import com.example.culturunya.models.login.LoginResponse
 import com.example.culturunya.models.register.RegisterRequest
@@ -17,6 +18,16 @@ class AuthRepository(private val api: Api) {
             val response = api.loginGoogle(temp)
             Result.success(response)
         } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun login(request: LoginRequest): Result<LoginResponse> {
+        return try {
+            val response = api.login(request)
+            Result.success(response)
+        }
+        catch (e: Exception) {
             Result.failure(e)
         }
     }

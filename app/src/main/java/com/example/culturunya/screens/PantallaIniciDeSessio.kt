@@ -148,8 +148,6 @@ fun ComposableIniciSessio(navController: NavController) {
                 )
             )
 
-            Spacer(modifier = Modifier.height(10.dp))
-
             if (loginError != null) {
                 val errorMessage = when (loginError) {
                     400 -> getString(context, R.string.errIncorrectUsernameAndPassword, currentLocale)
@@ -157,14 +155,22 @@ fun ComposableIniciSessio(navController: NavController) {
                     500 -> getString(context, R.string.serverError, currentLocale)
                     else -> "Unknown error"
                 }
-                googleLoginError?.let { error ->
-                    Text(
-                        text = error,
-                        color = Color.Red,
-                        fontSize = 14.sp
-                    )
-                    Spacer(modifier = Modifier.height(10.dp))
-                }
+                Text(
+                    text = errorMessage,
+                    color = Color.Red,
+                    fontSize = 14.sp
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+            }
+
+            googleLoginError?.let { error ->
+                Text(
+                    text = error,
+                    color = Color.Red,
+                    fontSize = 14.sp
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+            }
 
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -231,5 +237,4 @@ fun ComposableIniciSessio(navController: NavController) {
             Spacer(modifier = Modifier.height(50.dp))
         }
     }
-}
 }
