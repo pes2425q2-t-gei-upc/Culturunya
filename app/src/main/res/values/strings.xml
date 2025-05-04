@@ -99,6 +99,7 @@
     <string name="kilometersLabel"> km</string>
     <string name = "eventDetails">"See details</string>
     <string name = "mapsButton">"Open Maps"</string>
+    <string name = "checkingPermissions">"Checking location permissions..."</string>
 
     <!--pantalla registre-->
     <string name = "registerScreenTitle">"Create your account"</string>

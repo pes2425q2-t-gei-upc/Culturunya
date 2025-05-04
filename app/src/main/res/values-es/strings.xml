@@ -100,6 +100,7 @@
     <string name = "kilometersLabel">" km"</string>
     <string name = "eventDetails">"Ver detalles</string>
     <string name = "mapsButton">"Abrir Maps"</string>
+    <string name = "checkingPermissions">"Verificando permisos de localización..."</string>
 
     <!--pantalla registre-->
     <string name = "registerScreenTitle">"Crea tu cuenta"</string>

@@ -32,15 +32,22 @@ import androidx.compose.ui.platform.LocalContext
 import com.example.culturunya.models.currentSession.CurrentSession
 
 
+/**
+ * Component principal per a la pantalla de registre d'usuaris.
+ * Permet als usuaris crear un nou compte amb nom d'usuari, correu electrònic i contrasenya.
+ *
+ * @param navController Controlador de navegació per moure's entre pantalles.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PantallaRegistre(navController: NavController) {
+    // Variables d'estat per emmagatzemar les dades d'entrada de l'usuari
     var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
     var registreExit by remember { mutableStateOf(false) } // Controla si mostrar la confirmacio
-    var passwordVisible by remember { mutableStateOf(false) }
+    var passwordVisible by remember { mutableStateOf(false) } // Controla si la contrasenya es mostra
     val imageRes = if (passwordVisible) R.drawable.image_visible else R.drawable.image_hidden
     var showDialog by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf("") }
@@ -65,6 +72,7 @@ fun PantallaRegistre(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
+            // imatge que muta en funció de la visibilitat de la contrassenya
             Image(
                 painter = painterResource(id = imageRes),
                 contentDescription = "Passwors visible/hidden picture",
@@ -73,6 +81,7 @@ fun PantallaRegistre(navController: NavController) {
                     .padding(top = 20.dp, bottom = 8.dp)
             )
 
+            //Títol de la pantalla de registre
             Text(
                 text = getString(context, R.string.registerScreenTitle, currentLocale),
                 fontSize = 20.sp,
@@ -81,10 +90,11 @@ fun PantallaRegistre(navController: NavController) {
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
+            //Camp de text per el username
             OutlinedTextField(
                 value = username,
                 onValueChange = { username = it },
-                label = { getString(context, R.string.usernameBox, currentLocale) },
+                label = { Text(getString(context, R.string.usernameBox, currentLocale)) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 leadingIcon = {
@@ -100,10 +110,11 @@ fun PantallaRegistre(navController: NavController) {
 
             Spacer(modifier = Modifier.height(10.dp))
 
+            //Camp de text per el correu
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
-                label = { getString(context, R.string.mailBox, currentLocale) },
+                label = { Text(getString(context, R.string.mailBox, currentLocale)) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 leadingIcon = {
@@ -119,10 +130,11 @@ fun PantallaRegistre(navController: NavController) {
 
             Spacer(modifier = Modifier.height(10.dp))
 
+            //Camp de text per la contrassenya (amb botó per amagar/mostrar)
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
-                label = { getString(context, R.string.password, currentLocale) },
+                label = { Text(getString(context, R.string.password, currentLocale)) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
@@ -146,10 +158,11 @@ fun PantallaRegistre(navController: NavController) {
 
             Spacer(modifier = Modifier.height(10.dp))
 
+            //Camp per tornar a inserir la contrassenya (per la confirmació)
             OutlinedTextField(
                 value = confirmPassword,
                 onValueChange = { confirmPassword = it },
-                label = { getString(context, R.string.confirmPasswordBox, currentLocale)},
+                label = { Text(getString(context, R.string.confirmPasswordBox, currentLocale))},
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
@@ -177,6 +190,13 @@ fun PantallaRegistre(navController: NavController) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            /*
+            * Botó per a dur a terme l'acció de registrar-se
+            * La funció verifica a nivell de front-end que:
+            *   --> L'usuari ha introduit totes les dades
+            *   --> El correu és vàlid (té l'estructura de string@string.string
+            *   --> Les contrassenyes coincideixen
+             */
             Button(
                 onClick = {
                     when {
@@ -223,6 +243,10 @@ fun PantallaRegistre(navController: NavController) {
                 )
             }
 
+            /*
+            * Línia que informa a l'usuari que si ja té un compte pot iniciar sessió
+            * a més conté un botó per anar a la pantalla de inici de sessió
+             */
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -249,6 +273,8 @@ fun PantallaRegistre(navController: NavController) {
         }
 
 
+        // PopUp que confirma a l'usuari que el registre s'ha completat amb èxit en la BD
+        // El botó de confirmació portà l'usuari a la pantalla principal de l'app (el mapa)
         if (registreExit) {
             AlertDialog(
                 onDismissRequest = { registreExit = false },
@@ -284,7 +310,7 @@ fun PantallaRegistre(navController: NavController) {
     }
 }
 
-
+// Funció per verificar que el correu té una estructura adequeada (amb el domini)
 fun isValidEmail(email: String): Boolean {
     return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
 }
