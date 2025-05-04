@@ -1,5 +1,6 @@
 package com.example.culturunya.screens
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -49,10 +50,17 @@ fun ComposableIniciSessio(navController: NavController) {
     var token = ""
     val scrollState = rememberScrollState()
 
-    val loginResponse = loginViewModel.loginResponse.collectAsState().value
-    var loginCode = loginViewModel.loginError.collectAsState().value
-    var loginError = ""
+    // Inicializa el ViewModel con el contexto
+    LaunchedEffect(Unit) {
+        loginViewModel.initialize(context)
+    }
 
+    // Estados del ViewModel
+    val loginError by loginViewModel.loginError.collectAsState()
+    val googleLoginError by loginViewModel.googleLoginError.collectAsState()
+    val loginResponse by loginViewModel.loginResponse.collectAsState()
+
+    // Navegar al MainScreen cuando el login es exitoso
     LaunchedEffect(loginResponse) {
         if (loginResponse != null) {
             navController.navigate(AppScreens.MainScreen.createRoute("Events"))
@@ -140,17 +148,23 @@ fun ComposableIniciSessio(navController: NavController) {
                 )
             )
 
-            if (loginCode != null) {
-                if (loginCode == 400) loginError = getString(context, R.string.errIncorrectUsernameAndPassword, currentLocale)
-                else if (loginCode == 401) loginError = getString(context, R.string.notAuthorized, currentLocale)
-                else if (loginCode == 500) loginError = getString(context, R.string.serverError, currentLocale)
-                else loginError = "Unknown error"
-                Text(
-                    text = loginError,
-                    color = Color.Red,
-                    fontSize = 14.sp
-                )
-            }
+            Spacer(modifier = Modifier.height(10.dp))
+
+            if (loginError != null) {
+                val errorMessage = when (loginError) {
+                    400 -> getString(context, R.string.errIncorrectUsernameAndPassword, currentLocale)
+                    401 -> getString(context, R.string.notAuthorized, currentLocale)
+                    500 -> getString(context, R.string.serverError, currentLocale)
+                    else -> "Unknown error"
+                }
+                googleLoginError?.let { error ->
+                    Text(
+                        text = error,
+                        color = Color.Red,
+                        fontSize = 14.sp
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                }
 
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -169,20 +183,20 @@ fun ComposableIniciSessio(navController: NavController) {
             }
 
             OutlinedButton(
-                onClick = { },
+                onClick = {
+                    loginViewModel.signInWithGoogle(context)
+                },
                 colors = ButtonDefaults.buttonColors(containerColor = Color.White),
-                modifier = Modifier.padding(vertical = 4.dp)
+                modifier = Modifier.padding(16.dp)
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.logo_google),
-                    contentDescription = "logo de google",
-                    modifier = Modifier.size(20.dp)
+                    contentDescription = "Logo de Google"
                 )
-                Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = Modifier.width(10.dp))
                 Text(
                     text = getString(context, R.string.enterWithGoogle, currentLocale),
-                    color = Color.Black,
-                    fontSize = 14.sp
+                    color = Color.Black
                 )
             }
 
@@ -192,9 +206,7 @@ fun ComposableIniciSessio(navController: NavController) {
                 modifier = Modifier.padding(vertical = 8.dp)
             )
 
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     text = getString(context, R.string.noAccountYet, currentLocale),
                     fontSize = 14.sp,
@@ -219,4 +231,5 @@ fun ComposableIniciSessio(navController: NavController) {
             Spacer(modifier = Modifier.height(50.dp))
         }
     }
+}
 }

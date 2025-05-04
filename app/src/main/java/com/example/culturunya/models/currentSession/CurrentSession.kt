@@ -10,6 +10,8 @@ class CurrentSession private constructor() {
 
         var token: String = ""
 
+        var googleIdToken: String = ""
+
         var username: String = ""
 
         var password: String = ""
@@ -29,6 +31,12 @@ class CurrentSession private constructor() {
             this.password = password
         }
 
+        fun setGoogleToken(idToken: String) {
+            this.googleIdToken = idToken
+        }
+
+        fun getGoogleToken(): String = googleIdToken
+
         fun isAdmin() {
             this.is_admin = true
         }
@@ -39,5 +47,15 @@ class CurrentSession private constructor() {
 
         fun getAuthHeader(): String = "Token $token"
 
+        fun clearSession() {
+            token = ""
+            googleIdToken = ""
+            username = ""
+            password = ""
+        }
+
+        fun hasActiveSession(): Boolean {
+            return token.isNotEmpty()
+        }
     }
 }

@@ -5,6 +5,8 @@ import com.example.culturunya.models.register.RegisterResponse
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import com.example.culturunya.endpoints.events.*
+import com.example.culturunya.endpoints.login.GoogleTokenRequest
 import com.example.culturunya.endpoints.ratings.Rating
 import com.example.culturunya.endpoints.ratings.RatingRequest
 import com.example.culturunya.endpoints.users.UserSimpleInfo
@@ -78,4 +80,7 @@ interface Api {
 
     @GET("user/profile_info")
     suspend fun getProfileInfo(@Header("Authorization") token: String): UserSimpleInfo
+
+    @POST("auth/google/")
+    suspend fun loginGoogle(@Body id_token: GoogleTokenRequest): LoginResponse
 }
