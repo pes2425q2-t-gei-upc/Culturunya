@@ -49,7 +49,7 @@ class LoginViewModel : ViewModel() {
             result.onSuccess { body ->
                 _loginResponse.value = body
                 CurrentSession.getInstance()
-                CurrentSession.setUserData(body.token, username, password)
+                CurrentSession.setTokenAndPassword(body.token, password)
                 _loginError.value = null
             }.onFailure { error ->
                 _loginResponse.value = null
@@ -107,7 +107,8 @@ class LoginViewModel : ViewModel() {
                     loginResult.onSuccess { response ->
                         // Guardar la respuesta del backend y actualizar CurrentSession con el token de acceso
                         _loginResponse.value = response
-                        CurrentSession.setUserData(response.token, googleIdTokenCredential.displayName ?: "", "")
+                        CurrentSession.setTokenAndPassword(response.token, "")
+                        CurrentSession.setUserData(googleIdTokenCredential.displayName ?: "", "", "")
                         _googleLoginError.value = null
                     }.onFailure { error ->
                         _googleLoginError.value = when (error) {

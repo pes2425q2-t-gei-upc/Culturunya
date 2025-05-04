@@ -23,9 +23,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.example.culturunya.R
 import com.example.culturunya.endpoints.deleteAccount.DeleteAccountViewModel
 import com.example.culturunya.endpoints.getChats.GetChatsViewModel
+import com.example.culturunya.endpoints.users.UserViewModel
 import com.example.culturunya.models.currentSession.CurrentSession
 import com.example.culturunya.navigation.AppScreens
 import com.example.culturunya.ui.theme.GrisMoltFluix
@@ -51,10 +53,14 @@ fun SettingsScreen(navController: NavController) {
     CurrentSession.getInstance()
     var currentLocale by remember { mutableStateOf(CurrentSession.language) }
     val username = CurrentSession.username
+    val email = CurrentSession.email
+    val imageUrl = CurrentSession.profile_pic
 
     val options = listOf("English", "Español")
     var expanded by remember { mutableStateOf(false) }
     var selectedOption by remember { mutableStateOf(if (currentLocale == "en") options[0] else options[1]) }
+
+    val userViewModel: UserViewModel = viewModel()
 
     LaunchedEffect(Unit) {
         getChatsViewModel.reset()
@@ -89,8 +95,8 @@ fun SettingsScreen(navController: NavController) {
         // SECTION: Perfil (Avatar, Nom, Correu)
         ProfileHeader(
             username = username,
-            email = "exampleaddress@gmail.com",
-            avatarRes = R.drawable.ic_launcher_foreground
+            email = email,
+            avatarRes = imageUrl
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -314,7 +320,7 @@ fun SettingsScreen(navController: NavController) {
 fun ProfileHeader(
     username: String,
     email: String,
-    avatarRes: Int
+    avatarRes: String
 ) {
     Row(
         modifier = Modifier
@@ -323,15 +329,28 @@ fun ProfileHeader(
         verticalAlignment = Alignment.CenterVertically
     ) {
         // Avatar rodó
-        Icon(
-            painter = painterResource(id = avatarRes),
-            contentDescription = "Avatar",
-            modifier = Modifier
-                .size(60.dp)
-                .clip(CircleShape)
-                .background(Color.LightGray),
-            tint = Color.White
-        )
+        if (avatarRes != null && avatarRes != "") {
+            val baseUrl = "http://nattech.fib.upc.edu:40369"
+            val urlFinal = baseUrl + avatarRes
+            AsyncImage(
+                model = urlFinal,
+                contentDescription = "Perfil Image",
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .size(60.dp),
+            )
+        }
+        else {
+            Icon(
+                imageVector = Icons.Default.AccountCircle,
+                contentDescription = "Perfil default",
+                tint = Morat,
+                modifier = Modifier
+                    .size(60.dp)
+                    .clip(CircleShape)
+                    .background(Color.White)
+            )
+        }
 
         Spacer(modifier = Modifier.width(16.dp))
 

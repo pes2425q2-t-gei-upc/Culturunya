@@ -38,7 +38,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.culturunya.R
 import com.example.culturunya.endpoints.ratings.RatingViewModel
 import com.example.culturunya.endpoints.ratings.Rating
-import com.example.culturunya.endpoints.users.UserSimpleInfo
+import com.example.culturunya.endpoints.users.UserInfo
 import com.example.culturunya.endpoints.users.UserViewModel
 import com.example.culturunya.models.currentSession.CurrentSession
 import com.example.culturunya.ui.theme.*
@@ -63,7 +63,7 @@ fun RatingListScreen(
     ratingViewModel.fetchRatingsForEvent(eventId)
     // Collect the ratings
     val ratings by ratingViewModel.ratings.collectAsState()
-    val user = UserSimpleInfo("test", "test@test.com", "")
+    val user = UserInfo("test", "test@test.com", "", "", "", "", "", "", "", "", "", 0, 0, 0, 0)
     val date = ""
     var rating_new by remember { mutableStateOf("") }
     var comment_new by remember { mutableStateOf("") }

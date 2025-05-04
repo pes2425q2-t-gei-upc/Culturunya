@@ -9,7 +9,7 @@ import com.example.culturunya.endpoints.events.*
 import com.example.culturunya.endpoints.login.GoogleTokenRequest
 import com.example.culturunya.endpoints.ratings.Rating
 import com.example.culturunya.endpoints.ratings.RatingRequest
-import com.example.culturunya.endpoints.users.UserSimpleInfo
+import com.example.culturunya.endpoints.users.UserInfo
 import com.example.culturunya.models.Message
 import com.example.culturunya.models.changePassword.ChangePasswordRequest
 import com.example.culturunya.models.events.Events
@@ -79,7 +79,7 @@ interface Api {
     suspend fun postRating(@Body rating: RatingRequest, @Header("Authorization") token: String): Rating
 
     @GET("user/profile_info")
-    suspend fun getProfileInfo(@Header("Authorization") token: String): UserSimpleInfo
+    suspend fun getProfileInfo(@Header("Authorization") token: String): UserInfo
 
     @POST("auth/google/")
     suspend fun loginGoogle(@Body id_token: GoogleTokenRequest): LoginResponse

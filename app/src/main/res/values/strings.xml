@@ -12,6 +12,7 @@
     <string name="register">" Register"</string>
     <string name="notAuthorized">"You are not authorized"</string>
     <string name="serverError">"Server error. Try again later."</string>
+    <string name="unknownErrorGetUserInfo">"Error desconocido obtenindo la información del usuario."</string>
 
     <!-- Pantalla Canvi de contrasenya -->
     <string name="back">"Back"</string>

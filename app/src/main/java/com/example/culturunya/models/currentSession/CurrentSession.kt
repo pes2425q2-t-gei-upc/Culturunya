@@ -20,15 +20,23 @@ class CurrentSession private constructor() {
 
         var is_admin: Boolean = false
 
+        var email: String = ""
+
+        var profile_pic: String = ""
+
         fun getInstance() =
             instance ?: synchronized(this) {
                 instance ?: CurrentSession().also { instance = it }
             }
 
-        fun setUserData(token: String, username: String, password: String) {
+        fun setTokenAndPassword(token: String, password: String) {
             this.token = token
+        }
+
+        fun setUserData(username: String, email: String, profile_pic: String) {
             this.username = username
-            this.password = password
+            this.email = email
+            this.profile_pic = profile_pic
         }
 
         fun setGoogleToken(idToken: String) {

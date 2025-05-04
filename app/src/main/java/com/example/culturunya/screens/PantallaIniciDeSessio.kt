@@ -34,6 +34,7 @@ import com.example.culturunya.R
 import com.example.culturunya.navigation.AppScreens
 import com.example.culturunya.ui.theme.Morat
 import com.example.culturunya.endpoints.login.LoginViewModel
+import com.example.culturunya.endpoints.users.UserViewModel
 import com.example.culturunya.models.currentSession.CurrentSession
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -47,7 +48,7 @@ fun ComposableIniciSessio(navController: NavController) {
     CurrentSession.getInstance()
     val currentLocale = CurrentSession.language
     val loginViewModel: LoginViewModel = viewModel()
-    var token = ""
+    val userViewModel: UserViewModel = viewModel()
     val scrollState = rememberScrollState()
 
     // Inicializa el ViewModel con el contexto
@@ -55,15 +56,27 @@ fun ComposableIniciSessio(navController: NavController) {
         loginViewModel.initialize(context)
     }
 
+    val justLoggedIn = remember { mutableStateOf(false) }
+
     // Estados del ViewModel
     val loginError by loginViewModel.loginError.collectAsState()
+    val getUserInfoError by userViewModel.getUserInfoError.collectAsState()
     val googleLoginError by loginViewModel.googleLoginError.collectAsState()
     val loginResponse by loginViewModel.loginResponse.collectAsState()
+    val getUserInfoResponse by userViewModel.getUserInfoResponse.collectAsState()
 
     // Navegar al MainScreen cuando el login es exitoso
     LaunchedEffect(loginResponse) {
         if (loginResponse != null) {
+            justLoggedIn.value = true
+            userViewModel.fetchProfileInfo()
+        }
+    }
+
+    LaunchedEffect(getUserInfoResponse, justLoggedIn.value) {
+        if (justLoggedIn.value && getUserInfoResponse != null) {
             navController.navigate(AppScreens.MainScreen.createRoute("Events"))
+            justLoggedIn.value = false
         }
     }
 
@@ -155,6 +168,16 @@ fun ComposableIniciSessio(navController: NavController) {
                     500 -> getString(context, R.string.serverError, currentLocale)
                     else -> "Unknown error"
                 }
+                Text(
+                    text = errorMessage,
+                    color = Color.Red,
+                    fontSize = 14.sp
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+            }
+
+            if (getUserInfoError != null && getUserInfoError != 200)  {
+                val errorMessage = getString(context, R.string.unknownErrorGetUserInfo, currentLocale)
                 Text(
                     text = errorMessage,
                     color = Color.Red,
