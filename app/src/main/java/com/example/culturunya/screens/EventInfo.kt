@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -22,6 +23,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
 import com.example.culturunya.R
 import com.example.culturunya.endpoints.events.Event
 import com.example.culturunya.endpoints.ratings.RatingViewModel
@@ -88,15 +90,18 @@ fun EventInfo(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp)
                     .background(purpleGradient),
                 contentAlignment = Alignment.Center
             ) {
-                Text(
-                    text = "Imagen del Evento",
-                    color = Color.White,
-                    fontSize = 22.sp,  // Tamaño aumentado
-                    fontWeight = FontWeight.Bold
+                AsyncImage(
+                    model = getEventImageUrl(event.id),
+                    contentDescription = "Event Image",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxSize(),
+                    contentScale = ContentScale.Crop,
+                    error = painterResource(R.drawable.logo_retallat),
+                    placeholder = painterResource(R.drawable.logo_retallat)
                 )
             }
 

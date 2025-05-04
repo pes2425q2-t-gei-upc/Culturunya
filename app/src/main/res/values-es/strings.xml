@@ -90,8 +90,13 @@
     <string name="to">"a"</string>
     <string name="saysComment">dice</string>
     <string name="send">"Enviar"</string>
-
-    <!--Pantalla Mapa -->
+    <string name="Fun">"Divertido</string>
+    <string name="Awesome">"Increíble</string>
+    <string name="Mediocre">"Mediocre</string>
+    <string name="Bad">"Malo</string>
+    <string name="KindaFun">"Bastante Divertido</string>
+    
+     <!--Pantalla Mapa -->
     <string name = "bannerTitle">"Sin permisos de ubicación"</string>
     <string name = "bannerContent">"Los eventos mostrados pueden no estar cerca de ti. Haz clic aquí para mas información."</string>
     <string name = "alertDialogTitle">"Permisos de ubicación"</string>

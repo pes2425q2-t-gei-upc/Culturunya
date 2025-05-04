@@ -22,7 +22,9 @@ import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Map
+
 import androidx.compose.material.icons.filled.Close
+
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -40,7 +42,9 @@ import com.example.culturunya.screens.events.EventInfo
 import com.example.culturunya.ui.theme.Purple40
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
+
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
@@ -71,6 +75,7 @@ suspend fun getLastKnownLocation(
     }
 }
 
+
 /**
  * Funció per obrir Google Maps amb una ubicació específica.
  * Si Google Maps no està instal·lat, obre la ubicació en el navegador web.
@@ -85,6 +90,7 @@ fun openGoogleMaps(context: Context, latitude: Double, longitude: Double, label:
     val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
     mapIntent.setPackage("com.google.android.apps.maps")
 
+
     // Verificar si Google Maps està instal·lat
     if (mapIntent.resolveActivity(context.packageManager) != null) {
         context.startActivity(mapIntent)
@@ -95,6 +101,7 @@ fun openGoogleMaps(context: Context, latitude: Double, longitude: Double, label:
         context.startActivity(browserIntent)
     }
 }
+
 
 /**
  * Component Composable que sol·licita permisos de localització a l'usuari.
@@ -116,6 +123,7 @@ fun RequestLocationPermission(
         )
     }
 
+
     // Si ja tenim el permís, notifiquem immediatament
     LaunchedEffect(permissionState.value) {
         if (permissionState.value) {
@@ -127,6 +135,7 @@ fun RequestLocationPermission(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
         permissionState.value = isGranted
+
         // Notifiquem el resultat, sigui quin sigui
         onPermissionResult(isGranted)
     }
@@ -138,6 +147,7 @@ fun RequestLocationPermission(
         }
     }
 }
+
 
 /**
  * Component principal que gestiona la pantalla del mapa d'esdeveniments.
@@ -169,6 +179,7 @@ fun EventMapScreen() {
         permissionGranted = isGranted
     }
 
+
     // Si el permís no ha estat verificat, el sol·licitem
     if (!permissionChecked) {
         Box(
@@ -187,11 +198,13 @@ fun EventMapScreen() {
             permissionGranted = isGranted
         }
     } else {
+
         // Un cop verificat el permís, mostrem el contingut apropiat
         if (permissionGranted) {
             MapContent(hasLocationPermission = true)
         } else {
             Column {
+
                 /*
                 Banner d'advertència amb dialog explicant els requisits d'ubicació
                 i botó de tancament del banner
@@ -258,6 +271,7 @@ fun EventMapScreen() {
         }
     }
 
+
     // Diàleg informatiu sobre els permisos d'ubicació
     if (showPermissionDialog) {
         AlertDialog(
@@ -266,10 +280,12 @@ fun EventMapScreen() {
             text = {
                 Text(
                     text = getString(context, R.string.alertDialogContent, currentLocale),
+
                     textAlign = TextAlign.Center
                 )
             },
             confirmButton = {
+
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -326,9 +342,11 @@ fun MapContent(hasLocationPermission: Boolean = true) {
     var distanceKm by remember { mutableStateOf(10f) }  // Distància en km per filtrar
 
     // Col·leccions reactives d'esdeveniments filtrats i estats de càrrega/error
+
     val filteredEvents by viewModel.filteredEventsByDistanceAndDate.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val error by viewModel.error.collectAsState()
+
 
     // Emmagatzemar l'ubicació actual de l'usuari
     var currentLocation by remember { mutableStateOf<Location?>(null) }
@@ -342,11 +360,13 @@ fun MapContent(hasLocationPermission: Boolean = true) {
     LaunchedEffect(Unit) {
         if (hasLocationPermission) {
             // Si tenim permís d'ubicació, obtenim la ubicació actual
+
             val location = getLastKnownLocation(context, fusedLocationClient)
             location?.let {
                 currentLocation = it
                 val userLatLng = LatLng(it.latitude, it.longitude)
                 cameraPositionState.position = CameraPosition.fromLatLngZoom(userLatLng, 15f)
+
 
                 // Filtrem esdeveniments per data i ubicació
                 val firstDayOfMonth = currentDate.withDayOfMonth(1).toString()
@@ -359,12 +379,14 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                 )
             }
         } else {
+
             // Ubicació predeterminada - Centre de Barcelona (Plaça Catalunya)
             val defaultLocation = LatLng(41.3874, 2.1686)
             cameraPositionState.position = CameraPosition.fromLatLngZoom(defaultLocation, 13f)
 
             val firstDayOfMonth = currentDate.withDayOfMonth(1).toString()
             val lastDayOfMonth = currentDate.withDayOfMonth(currentDate.lengthOfMonth()).toString()
+
             // Usar la ubicació predeterminada per filtrar esdeveniments
             viewModel.filterEventsByRangeAndDate(
                 firstDayOfMonth,
@@ -374,6 +396,7 @@ fun MapContent(hasLocationPermission: Boolean = true) {
             )
         }
     }
+
 
     // Efecte que s'executa quan canvia la data o la distància
     LaunchedEffect(currentDate, distanceKm) {
@@ -390,6 +413,7 @@ fun MapContent(hasLocationPermission: Boolean = true) {
         } else {
             val firstDayOfMonth = currentDate.withDayOfMonth(1).toString()
             val lastDayOfMonth = currentDate.withDayOfMonth(currentDate.lengthOfMonth()).toString()
+
             // Usar la ubicació predeterminada per filtrar esdeveniments
             viewModel.filterEventsByRangeAndDate(
                 firstDayOfMonth,
@@ -399,6 +423,7 @@ fun MapContent(hasLocationPermission: Boolean = true) {
             )
         }
     }
+
 
     // Si es mostra la pantalla de detalls, mostrar EventInfo
     if (showEventDetails && selectedEvent != null) {
@@ -411,6 +436,7 @@ fun MapContent(hasLocationPermission: Boolean = true) {
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
+
             // Capçalera Mes i Any - permet navegar entre mesos
             Row(
                 modifier = Modifier
@@ -423,6 +449,7 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                     Icon(Icons.Default.KeyboardArrowLeft, contentDescription = "Mes anterior")
                 }
                 Text(
+
                     text = "${
                         getString(
                             context,
@@ -447,6 +474,7 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                     modifier = Modifier.fillMaxSize(),
                     cameraPositionState = cameraPositionState,
                     properties = MapProperties(isMyLocationEnabled = hasLocationPermission),
+
                     onMapClick = {
                         // Deseleccionar en fer clic al mapa
                         selectedEvent = null
@@ -517,6 +545,7 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                     .padding(horizontal = 16.dp, vertical = 8.dp)
             ) {
 
+
                 Row {
                     Text(
                         text = getString(context, R.string.distanceLabel, currentLocale),
@@ -531,6 +560,7 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                         style = MaterialTheme.typography.bodyLarge
                     )
                 }
+
                 Slider(
                     value = distanceKm,
                     onValueChange = { distanceKm = it },
@@ -540,6 +570,7 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                 )
             }
 
+
             // Botons per veure detalls i obrir en Google Maps (només visibles si hi ha un esdeveniment seleccionat)
             if (selectedEvent != null) {
                 Row(
@@ -548,6 +579,7 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                         .padding(horizontal = 16.dp, vertical = 8.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
+
                     // Botó per veure detalls de l'esdeveniment
                     Button(
                         onClick = { showEventDetails = true },
@@ -562,6 +594,7 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                             color = Color.White
                         )
                     }
+
 
                     // Botó per obrir en Google Maps
                     Button(

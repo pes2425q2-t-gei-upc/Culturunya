@@ -9,7 +9,6 @@ import com.example.culturunya.endpoints.events.*
 //import com.example.culturunya.models.test.Test
 import com.example.culturunya.endpoints.ratings.Rating
 import com.example.culturunya.endpoints.ratings.RatingRequest
-//import com.example.culturunya.endpoints.test.Test
 import com.example.culturunya.endpoints.users.UserSimpleInfo
 import com.example.culturunya.models.changePassword.ChangePasswordRequest
 import com.example.culturunya.models.events.Events
@@ -65,4 +64,6 @@ interface Api {
 
     @GET("user/profile_info")
     suspend fun getProfileInfo(@Header("Authorization") token: String): UserSimpleInfo
+
+
 }

@@ -13,8 +13,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.VerticalAlignmentLine
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.intl.Locale
@@ -29,12 +31,20 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import kotlin.text.format
+import coil.compose.AsyncImage
 
 fun getString(context: Context, id: Int, langCode: String): String {
     val config = context.resources.configuration
     val locale = java.util.Locale(langCode)
     val localizedContext = context.createConfigurationContext(config.apply { setLocale(locale) })
     return localizedContext.resources.getString(id)
+}
+
+fun getEventImageUrl(eventId: String): String {
+    // Assuming your base URL is something like "http://yourserver.com/media/"
+    val baseUrl = "http://nattech.fib.upc.edu:40369/media/"
+    println("${baseUrl}event_images/${eventId}.jpg")
+    return "${baseUrl}event_images/${eventId}.jpg"
 }
 
 //Funcion provisional para formatear la fecha
@@ -76,11 +86,17 @@ fun EventBox(
     ) {
         Row {
             //Sustituir por foto
-            Box(modifier = Modifier
-                .width(125.dp)
-                .fillMaxHeight(), contentAlignment = Alignment.Center){
-                Text("Foto evento")
-            }
+            AsyncImage(
+                model = getEventImageUrl(event.id),
+                contentDescription = "Event Image",
+                modifier = Modifier
+                    .width(150.dp)
+                    .height(150.dp)
+                    .background(com.example.culturunya.ui.theme.PurpleGrey80, RoundedCornerShape(8.dp)),
+                contentScale = ContentScale.Crop,
+                error = painterResource(R.drawable.logo_retallat),
+                placeholder = painterResource(R.drawable.logo_retallat)
+            )
             //
 
             Column(
