@@ -75,7 +75,7 @@ fun PantallaRegistre(navController: NavController) {
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 leadingIcon = {
-                    Icon(imageVector = Icons.Default.Person, contentDescription = "Persona")
+                    Icon(imageVector = Icons.Default.Person, contentDescription = "Persona", tint = Color.Gray)
                 },
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     textColor = Color.Black,
@@ -94,7 +94,7 @@ fun PantallaRegistre(navController: NavController) {
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 leadingIcon = {
-                    Icon(imageVector = Icons.Default.Email, contentDescription = "Persona")
+                    Icon(imageVector = Icons.Default.Email, contentDescription = "Persona", tint = Color.Gray)
                 },
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     textColor = Color.Black,
@@ -114,12 +114,12 @@ fun PantallaRegistre(navController: NavController) {
                 modifier = Modifier.fillMaxWidth(),
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 leadingIcon = {
-                    Icon(imageVector = Icons.Default.Lock, contentDescription = "Pany")
+                    Icon(imageVector = Icons.Default.Lock, contentDescription = "Pany", tint = Color.Gray)
                 },
                 trailingIcon = {
                     val image = if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff
                     IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                        Icon(imageVector = image, contentDescription = "Mostrar/Amagar contrasenya")
+                        Icon(imageVector = image, contentDescription = "Mostrar/Amagar contrasenya", tint = Color.Gray)
                     }
                 },
 
@@ -141,12 +141,12 @@ fun PantallaRegistre(navController: NavController) {
                 modifier = Modifier.fillMaxWidth(),
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 leadingIcon = {
-                    Icon(imageVector = Icons.Default.Lock, contentDescription = "Pany")
+                    Icon(imageVector = Icons.Default.Lock, contentDescription = "Pany", tint = Color.Gray)
                 },
                 trailingIcon = {
                     val image = if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff
                     IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                        Icon(imageVector = image, contentDescription = "Mostrar/Amagar contrasenya")
+                        Icon(imageVector = image, contentDescription = "Mostrar/Amagar contrasenya", tint = Color.Gray)
                     }
                 },
 
@@ -205,7 +205,7 @@ fun PantallaRegistre(navController: NavController) {
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Morat)
             ) {
-                Text("Registrar-se")
+                Text(text = "Registrar-se", color = Color.White)
             }
 
             Row(

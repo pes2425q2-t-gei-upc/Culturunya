@@ -3,7 +3,9 @@ package com.example.culturunya.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
@@ -14,7 +16,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -41,6 +47,7 @@ fun ComposableIniciSessio(navController: NavController) {
     val currentLocale = CurrentSession.language
     val loginViewModel: LoginViewModel = viewModel()
     var token = ""
+    val scrollState = rememberScrollState()
 
     val loginResponse = loginViewModel.loginResponse.collectAsState().value
     var loginCode = loginViewModel.loginError.collectAsState().value
@@ -55,31 +62,40 @@ fun ComposableIniciSessio(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White),
-        contentAlignment = Alignment.Center
+            .background(Color.White)
+            .systemBarsPadding()
+            .windowInsetsPadding(WindowInsets.navigationBars)
+            .imePadding()
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth(0.85f)
+                .align(Alignment.Center)
                 .background(Color.White, shape = RoundedCornerShape(16.dp))
-                .padding(20.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .padding(16.dp)
+                .verticalScroll(scrollState),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Image(
                 painter = painterResource(id = R.drawable.logo_retallat),
-                contentDescription = "Logo retallat"
+                contentDescription = "Logo retallat",
+                modifier = Modifier
+                    .height(150.dp)
+                    .fillMaxWidth(),
+                contentScale = ContentScale.Fit
             )
 
-            Spacer(modifier = Modifier.height(40.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
             Text(
                 text = getString(context, R.string.login, currentLocale),
-                fontSize = 24.sp,
+                fontSize = 22.sp,
                 color = Color.Black,
                 fontWeight = FontWeight.Bold
             )
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
             OutlinedTextField(
                 value = usuari,
@@ -88,7 +104,7 @@ fun ComposableIniciSessio(navController: NavController) {
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 leadingIcon = {
-                    Icon(imageVector = Icons.Default.Person, contentDescription = "Persona")
+                    Icon(imageVector = Icons.Default.Person, contentDescription = "Persona", tint = Color.Gray)
                 },
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     textColor = Color.Black,
@@ -98,7 +114,7 @@ fun ComposableIniciSessio(navController: NavController) {
                 )
             )
 
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(4.dp))
 
             OutlinedTextField(
                 value = contrasenya,
@@ -110,11 +126,11 @@ fun ComposableIniciSessio(navController: NavController) {
                 trailingIcon = {
                     val image = if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff
                     IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                        Icon(imageVector = image, contentDescription = "Mostrar/Amagar contrasenya")
+                        Icon(imageVector = image, contentDescription = "Mostrar/Amagar contrasenya", tint = Color.Gray)
                     }
                 },
                 leadingIcon = {
-                    Icon(imageVector = Icons.Default.Lock, contentDescription = "Pany")
+                    Icon(imageVector = Icons.Default.Lock, contentDescription = "Pany", tint = Color.Gray)
                 },
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     textColor = Color.Black,
@@ -123,8 +139,6 @@ fun ComposableIniciSessio(navController: NavController) {
                     unfocusedBorderColor = Color.LightGray
                 )
             )
-
-            Spacer(modifier = Modifier.height(10.dp))
 
             if (loginCode != null) {
                 if (loginCode == 400) loginError = getString(context, R.string.errIncorrectUsernameAndPassword, currentLocale)
@@ -136,10 +150,9 @@ fun ComposableIniciSessio(navController: NavController) {
                     color = Color.Red,
                     fontSize = 14.sp
                 )
-                Spacer(modifier = Modifier.height(10.dp))
             }
 
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
             Button(
                 onClick = {
@@ -156,19 +169,27 @@ fun ComposableIniciSessio(navController: NavController) {
             }
 
             OutlinedButton(
-                onClick = {
-                },
+                onClick = { },
                 colors = ButtonDefaults.buttonColors(containerColor = Color.White),
-                modifier = Modifier.padding(16.dp)) {
-                Image(painter = painterResource(id = R.drawable.logo_google), contentDescription = "logo de google")
-                Spacer(modifier = Modifier.width(10.dp))
-                Text(text = getString(context, R.string.enterWithGoogle, currentLocale), color = Color.Black)
+                modifier = Modifier.padding(vertical = 4.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.logo_google),
+                    contentDescription = "logo de google",
+                    modifier = Modifier.size(20.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = getString(context, R.string.enterWithGoogle, currentLocale),
+                    color = Color.Black,
+                    fontSize = 14.sp
+                )
             }
 
             Divider(
                 color = Color.Gray,
                 thickness = 1.dp,
-                modifier = Modifier.padding(vertical = 25.dp)
+                modifier = Modifier.padding(vertical = 8.dp)
             )
 
             Row(
@@ -181,10 +202,8 @@ fun ComposableIniciSessio(navController: NavController) {
                 )
                 Button(
                     onClick = {
-                        //User.getInstance()
-                        //User.setUserData(token, usuari)
                         navController.navigate(route = AppScreens.PantallaRegistre.route)
-                              },
+                    },
                     colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
                     contentPadding = PaddingValues(0.dp),
                     elevation = null
@@ -196,7 +215,8 @@ fun ComposableIniciSessio(navController: NavController) {
                     )
                 }
             }
+
+            Spacer(modifier = Modifier.height(50.dp))
         }
     }
 }
-
