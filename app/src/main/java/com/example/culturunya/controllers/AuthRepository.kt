@@ -1,5 +1,6 @@
 package com.example.culturunya.controllers
 
+import com.example.culturunya.endpoints.login.GoogleTokenRequest
 import retrofit2.Response
 import com.example.culturunya.models.RegisterRequest
 import com.example.culturunya.models.RegisterResponse
@@ -7,6 +8,7 @@ import com.example.culturunya.models.changePassword.ChangePasswordRequest
 import com.example.culturunya.models.deleteAccount.DeleteAccountRequest
 import com.example.culturunya.models.login.LoginRequest
 import com.example.culturunya.models.login.LoginResponse
+import com.squareup.moshi.Json
 import retrofit2.HttpException
 
 class AuthRepository(private val api: Api) {
@@ -45,6 +47,16 @@ class AuthRepository(private val api: Api) {
             } else {
                 Result.failure(HttpException(response))
             }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun googleLogin(idToken: String): Result<LoginResponse> {
+        return try {
+            val temp = GoogleTokenRequest(idToken)
+            val response = api.loginGoogle(temp)
+            Result.success(response)
         } catch (e: Exception) {
             Result.failure(e)
         }
