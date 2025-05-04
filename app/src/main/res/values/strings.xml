@@ -94,5 +94,33 @@
     <string name="Mediocre">"Mediocre</string>
     <string name="Bad">"Bad</string>
     <string name="KindaFun">"KindaFun</string>
+  
+    <!--Pantalla Mapa -->
+    <string name = "bannerTitle">"No location permissions"</string>
+    <string name = "bannerContent">"The events shown may not be near you. Click here for more information."</string>
+    <string name = "alertDialogTitle">"Location Permissions"</string>
+    <string name = "alertDialogContent">"To show you events near you, we need access to your location. Grant permissions from your device's Settings -> Apps menu."</string>
+    <string name="distanceLabel">Distance: </string>
+    <string name="kilometersLabel"> km</string>
+    <string name = "eventDetails">"See details</string>
+    <string name = "mapsButton">"Open Maps"</string>
+    <string name = "checkingPermissions">"Checking location permissions..."</string>
 
+    <!--pantalla registre-->
+    <string name = "registerScreenTitle">"Create your account"</string>
+    <string name = "usernameBox">"Username"</string>
+    <string name = "mailBox">"Email"</string>
+    <string name = "confirmPasswordBox">"Confirm Password"</string>
+    <string name = "registerButton">"Register"</string>
+    <string name = "alreadyRegisterded">"Already have an account? "</string>
+    <string name = "confirmationButton">"OK"</string>
+    <string name = "registrationCompleted">"Registration completed"</string>
+    <string name = "registrationConfirmation">"You have successfully registered!"</string>
+    <string name = "registrationGeneralError">"Registration error"</string>
+    <string name = "invalidEmailError">"The email address is not valid."</string>
+    <string name = "unmatchingPasswordsError">"The passwords do not match."</string>
+    <string name = "invalidDataError">"Error: Incorrect data."</string>
+    <!-- <string name = "serverError">"Error: Problema en el servidor."</string> -->
+    <string name = "networkError">"Network error. Please try again."</string>
+    <string name = "unknownError">"Unknown error: "</string>
 </resources>
