@@ -1,10 +1,12 @@
 package com.example.culturunya.endpoints.login
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.culturunya.controllers.Api
 import com.example.culturunya.controllers.UserRepository
 import com.example.culturunya.models.currentSession.CurrentSession
+import com.example.culturunya.models.currentSession.CurrentSession.Companion.token
 import com.example.culturunya.models.login.LoginRequest
 import com.example.culturunya.models.login.LoginResponse
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,7 +27,6 @@ class LoginViewModel : ViewModel() {
     fun login(username: String, password: String) {
         viewModelScope.launch {
             val result = repository.login(LoginRequest(username, password))
-
             result.onSuccess { body ->
                 _loginResponse.value = body
                 CurrentSession.getInstance()

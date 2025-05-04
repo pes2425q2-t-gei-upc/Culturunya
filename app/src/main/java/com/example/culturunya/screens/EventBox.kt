@@ -17,6 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.example.culturunya.R
 import com.example.culturunya.endpoints.events.Event
 import com.example.culturunya.models.currentSession.CurrentSession

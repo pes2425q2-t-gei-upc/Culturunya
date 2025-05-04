@@ -1,6 +1,7 @@
 package com.example.culturunya.screens
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

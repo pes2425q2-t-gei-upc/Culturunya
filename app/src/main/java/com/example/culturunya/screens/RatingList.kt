@@ -41,9 +41,7 @@ import com.example.culturunya.endpoints.ratings.Rating
 import com.example.culturunya.endpoints.users.UserSimpleInfo
 import com.example.culturunya.endpoints.users.UserViewModel
 import com.example.culturunya.models.currentSession.CurrentSession
-import com.example.culturunya.screens.events.SortCriteria
 import com.example.culturunya.ui.theme.*
-import androidx.compose.material3.ExposedDropdownMenuBoxScope
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.TextField
 import androidx.compose.ui.Alignment

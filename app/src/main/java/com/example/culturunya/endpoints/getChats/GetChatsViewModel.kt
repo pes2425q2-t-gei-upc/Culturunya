@@ -27,6 +27,7 @@ class GetChatsViewModel : ViewModel() {
             val token = CurrentSession.token
             val result = repository.getChats("Token $token")
             Log.d("GetChats", "Llamando al endpoint de getchats")
+            Log.d("GetChats", "Token: $token")
             result.onSuccess { body ->
                 _getChatsResponse.value = body
                 _getChatsError.value = null

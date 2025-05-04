@@ -1,14 +1,14 @@
 package com.example.culturunya.screens
 
+import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -25,6 +25,7 @@ import com.example.culturunya.ui.theme.Morat
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.culturunya.R
@@ -38,6 +39,7 @@ import com.example.culturunya.navigation.AppScreens
 import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.util.*
+import coil.compose.AsyncImage
 
 @Composable
 fun MessageBubble(message: Message, imAdmin: Boolean, username: String) {
@@ -71,17 +73,19 @@ fun MessageWithDate(
     messages: List<Message>,
     imAdmin: Boolean,
     username: String?,
-    lazyListState: LazyListState  // Añade este parámetro
+    lazyListState: LazyListState
 ) {
     if (messages.isEmpty()) return
 
     val messagesByDate = messages.groupBy { formatDate(it.date) }
 
     LazyColumn(
-        state = lazyListState,  // Usa el estado proporcionado
+        state = lazyListState,
         modifier = Modifier
             .fillMaxSize()
             .padding(8.dp)
+            .imePadding()
+            .navigationBarsPadding()
     ) {
         messagesByDate.forEach { (date, messagesForDate) ->
             item {
@@ -231,7 +235,10 @@ fun PantallaXat(navController: NavController, userId: Int?, username: String?, i
         .fillMaxSize()
         .background(color = Color.White)
     ) {
-        Column(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier
+                .fillMaxSize()
+                .imePadding()
+        ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -239,26 +246,59 @@ fun PantallaXat(navController: NavController, userId: Int?, username: String?, i
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(onClick = {
-                    navController.navigate(AppScreens.MainScreen.createRoute("Settings"))
+                    if (imAdmin) navController.popBackStack()
+                    else navController.navigate(AppScreens.MainScreen.createRoute("Settings"))
                 }) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "Back"
+                        contentDescription = "Back",
+                        tint = Color.Black
                     )
                 }
 
-                Box(
-                    modifier = Modifier
-                        .size(40.dp)
-                        .clip(CircleShape)
-                        .background(Morat)
-                )
+                if (imAdmin) {
+                    Log.d("url imatge:", "$imageUrl")
+                    if (imageUrl == null) {
+                        Icon(
+                            imageVector = Icons.Default.AccountCircle,
+                            contentDescription = "Perfil default",
+                            tint = Morat,
+                            modifier = Modifier
+                                .size(48.dp)
+                                .clip(CircleShape)
+                                .background(Color.White)
+                        )
+                    }
+                    else {
+                        val baseUrl = "http://nattech.fib.upc.edu:40369"
+                        val urlFinal = baseUrl + imageUrl
+                        AsyncImage(
+                            model = urlFinal,
+                            contentDescription = "Perfil Image",
+                            modifier = Modifier
+                                .clip(CircleShape)
+                                .size(48.dp),
+                        )
+                    }
+                }
+                else {
+                    Icon(
+                        imageVector = Icons.Default.SupportAgent,
+                        contentDescription = "Support",
+                        tint = Morat,
+                        modifier = Modifier
+                            .background(Color.White)
+                            .border(2.dp, Morat, CircleShape)
+                            .padding(8.dp),
+                    )
+                }
 
                 Spacer(modifier = Modifier.width(12.dp))
 
                 Text(
                     text = if (imAdmin) username!! else getString(context, R.string.administrator, currentLocale),
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.titleMedium,
+                    color = Color.Black
                 )
             }
 
@@ -271,8 +311,14 @@ fun PantallaXat(navController: NavController, userId: Int?, username: String?, i
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxWidth()
+                    .imePadding()
             ) {
-                MessageWithDate(messages = messages.orEmpty(), imAdmin = imAdmin, username = username, lazyListState = lazyListState )
+                MessageWithDate(
+                    messages = messages.orEmpty(),
+                    imAdmin = imAdmin,
+                    username = username,
+                    lazyListState = lazyListState
+                )
             }
 
             Column(

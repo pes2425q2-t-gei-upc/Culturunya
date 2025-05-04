@@ -1,6 +1,7 @@
 package com.example.culturunya.screens
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,8 +23,11 @@ import com.example.culturunya.navigation.AppScreens
 import com.example.culturunya.ui.theme.Morat
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
 import com.example.culturunya.R
 import com.example.culturunya.endpoints.getChats.GetChatsViewModel
 import com.example.culturunya.models.currentSession.CurrentSession
@@ -71,14 +75,16 @@ fun PantallaLlistaXats(
             }) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
-                    contentDescription = "Back"
+                    contentDescription = "Back",
+                    tint = Color.Black
                 )
             }
             Text(
                 text = "Chats",
                 fontSize = 26.sp,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(horizontal = 16.dp)
+                modifier = Modifier.padding(horizontal = 16.dp),
+                color = Color.Black
             )
         }
 
@@ -136,13 +142,28 @@ fun ChatItem(chat: Chat, navController: NavController) {
             .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Box(
-            modifier = Modifier
-                .size(48.dp)
-                .clip(CircleShape)
-                .background(Color.Gray)
-                .background(color = Morat)
-        )
+        if (chat.avatar == null) {
+            Icon(
+                imageVector = Icons.Default.AccountCircle,
+                contentDescription = "Perfil default",
+                tint = Morat,
+                modifier = Modifier
+                    .size(48.dp)
+                    .clip(CircleShape)
+                    .background(Color.White)
+            )
+        }
+        else {
+            val baseUrl = "http://nattech.fib.upc.edu:40369"
+            val imageUrl = baseUrl + chat.avatar
+            AsyncImage(
+                model = imageUrl,
+                contentDescription = "Perfil Image",
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .size(48.dp),
+            )
+        }
         Spacer(modifier = Modifier.width(12.dp))
         Column(modifier = Modifier.weight(1f)) {
             Row(modifier = Modifier.fillMaxWidth()) {
@@ -150,7 +171,8 @@ fun ChatItem(chat: Chat, navController: NavController) {
                     text = chat.username,
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
+                    color = Color.Black
                 )
                 Text(
                     text = chat.lastMessageDate,
