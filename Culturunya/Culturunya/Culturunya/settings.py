@@ -105,7 +105,7 @@ DATABASES = {
     }
 }
 
-GOOGLE_CLIENT_ID = "128086553198-4tcm3pvi7mfk81qd97leugvm903hk22u.apps.googleusercontent.com"
+GOOGLE_CLIENT_ID = "102065557294-a14162ejafi97l4a776ftomhrguon2rv.apps.googleusercontent.com"
 
 
 MEDIA_URL  = '/media/'
