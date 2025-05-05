@@ -10,27 +10,126 @@
     <string name="enterWithGoogle">"Sign in with Google"</string>
     <string name="noAccountYet">"Don't have an account yet?"</string>
     <string name="register">" Register"</string>
+    <string name="notAuthorized">"You are not authorized"</string>
+    <string name="serverError">"Server error. Try again later."</string>
+    <string name="unknownErrorGetUserInfo">"Error desconocido obtenindo la información del usuario."</string>
 
     <!-- Pantalla Canvi de contrasenya -->
-    <string name="back">"Enrere"</string>
-    <string name="changePassword">"Canvi de Contrasenya"</string>
-    <string name="actualPassword">"Contrasenya actual"</string>
-    <string name="newPassword">"Nova contrasenya"</string>
-    <string name="confirmNewPassword">"Confirmar nova contrasenya"</string>
-    <string name="passwordChangedSuccesfully">"La contrasenya s'ha canviat correctament."</string>
-    <string name="allFieldsCompulsory">"Tots els camps són obligatoris."</string>
-    <string name="passwordsDontMatch">"Les noves contrasenyes no coincideixen."</string>
-    <string name="incorrectActualPassword">"La contrasenya actual és incorrecta."</string>
-    <string name="passwordsMustBeDifferent">"La nova contrasenya no pot ser igual que l'anterior."</string>
-    <string name="changeThePassword">"Canviar contrasenya"</string>
-    <string name="passwordChangeCompleted">"Canvi de contrasenya completat"</string>
-    <string name="ok">"D'acord"</string>
+    <string name="back">"Back"</string>
+    <string name="changePassword">"Password change"</string>
+    <string name="actualPassword">"Current password"</string>
+    <string name="newPassword">"New password"</string>
+    <string name="confirmNewPassword">"Confirm new password"</string>
+    <string name="passwordChangedSuccessfully">"Password changed successfully"</string>
+    <string name="allFieldsRequired">"All fields are required."</string>
+    <string name="passwordsDontMatch">"New passwords don't match."</string>
+    <string name="incorrectActualPassword">"The current password is incorrect."</string>
+    <string name="passwordsMustBeDifferent">"The new password cannot be the same as the previous one."</string>
+    <string name="changeThePassword">"Change Password"</string>
+    <string name="passwordChangeCompleted">"Password change completed"</string>
+    <string name="validationError">"Validation error"</string>
+    <string name="changePasswordErrorNoAuth">"Error changing password. Unauthenticated user"</string>
+    <string name="ok">"OK"</string>
 
     <!-- Pantalla Settings -->
-    <string name="logout">"Tancar sessió"</string>
-    <string name="sureLogout">"Segur que vols tancar sessió?"</string>
-    <string name="accept">"Acceptar"</string>
-    <string name="cancel">"Cancelar"</string>
-    <string name="deleteAccount">"Esborrar el compte"</string>
-    <string name="sureDeleteAccount">"Segur que vols eliminar el teu compte? Això és irreversible"</string>
+    <string name="logout">"Log out"</string>
+    <string name="sureLogout">"Are you sure you want to log out?"</string>
+    <string name="accept">"Accept"</string>
+    <string name="cancel">"Cancel"</string>
+    <string name="deleteAccount">"Delete account"</string>
+    <string name="sureDeleteAccount">"Are you sure you want to delete your account? This is irreversible"</string>
+    <string name="account">"ACCOUNT"</string>
+    <string name="settings">"SETTINGS"</string>
+    <string name="currentLanguage">"Current language"</string>
+    <string name="helpNSupport">"Help &amp; support"</string>
+    <string name="changeUsername">"Change username"</string>
+    <string name="deleteErrorNoAuth">"Error deleting account. Unauthenticated user"</string>
+    <string name="deleteError">"Error deleting account."</string>
+    <string name="unexpectedErrorLoadingChat">"There was an unexpected error loading the assistance chat."</string>
+
+    <!-- Pantalla Calendari -->
+    <string name="monday">Monday</string>
+    <string name="mondayShort">M</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="tuesdayShort">T</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="wednesdayShort">W</string>
+    <string name="thursday">Thursday</string>
+    <string name="thursdayShort">T</string>
+    <string name="friday">Friday</string>
+    <string name="fridayShort">F</string>
+    <string name="saturday">Saturday</string>
+    <string name="saturdayShort">S</string>
+    <string name="sunday">Sunday</string>
+    <string name="sundayShort">S</string>
+
+    <string name="january">January</string>
+    <string name="february">February</string>
+    <string name="march">March</string>
+    <string name="april">April</string>
+    <string name="may">May</string>
+    <string name="june">June</string>
+    <string name="july">July</string>
+    <string name="august">August</string>
+    <string name="september">September</string>
+    <string name="october">October</string>
+    <string name="november">November</string>
+    <string name="december">December</string>
+
+    <string name="ofconnector">of</string>
+
+    <!-- Pantalla EventList -->
+    <string name="orderByDate">"Order by date"</string>
+    <string name="orderByName">"Order by name"</string>
+    <string name="fromPrice">"From "</string>
+    <!-- Pantalla RatingList -->
+    <string name="Comment">"Comment"</string>
+    <string name="Rating">"Rating"</string>
+    <string name="Report">"Report"</string>
+    <string name="atDate">"at"</string>
+    <string name="from">"from"</string>
+    <string name="to">"to"</string>
+    <string name="saysComment">says</string>
+    <string name="send">"Send"</string>
+    <string name="Fun">"Fun</string>
+    <string name="Awesome">"Awesome</string>
+    <string name="Mediocre">"Mediocre</string>
+    <string name="Bad">"Bad</string>
+    <string name="KindaFun">"KindaFun</string>
+
+    <!--Pantalla Mapa -->
+    <string name = "bannerTitle">"No location permissions"</string>
+    <string name = "bannerContent">"The events shown may not be near you. Click here for more information."</string>
+    <string name = "alertDialogTitle">"Location Permissions"</string>
+    <string name = "alertDialogContent">"To show you events near you, we need access to your location. Grant permissions from your device's Settings -> Apps menu."</string>
+    <string name="distanceLabel">Distance: </string>
+    <string name="kilometersLabel"> km</string>
+    <string name = "eventDetails">"See details</string>
+    <string name = "mapsButton">"Open Maps"</string>
+    <string name = "checkingPermissions">"Checking location permissions..."</string>
+
+
+    <!-- Pantalla Xat -->
+    <string name="administrator">"Administrator"</string>
+    <string name="noAdminsAviable">"There are not enough administrators aviable to assist you."</string>
+    <string name="userChatNotFound">"We couldn't find the user you are chatting with"</string>
+    <string name="errorSendMsgNotAuth">"Error sending the message. You are not authenticated user"</string>
+    <string name="invalidTimeFormat">"Invalid time format"</string>
+    <!--pantalla registre-->
+    <string name = "registerScreenTitle">"Create your account"</string>
+    <string name = "usernameBox">"Username"</string>
+    <string name = "mailBox">"Email"</string>
+    <string name = "confirmPasswordBox">"Confirm Password"</string>
+    <string name = "registerButton">"Register"</string>
+    <string name = "alreadyRegisterded">"Already have an account? "</string>
+    <string name = "confirmationButton">"OK"</string>
+    <string name = "registrationCompleted">"Registration completed"</string>
+    <string name = "registrationConfirmation">"You have successfully registered!"</string>
+    <string name = "registrationGeneralError">"Registration error"</string>
+    <string name = "invalidEmailError">"The email address is not valid."</string>
+    <string name = "unmatchingPasswordsError">"The passwords do not match."</string>
+    <string name = "invalidDataError">"Error: Incorrect data."</string>
+    <!-- <string name = "serverError">"Error: Problema en el servidor."</string> -->
+    <string name = "networkError">"Network error. Please try again."</string>
+    <string name = "unknownError">"Unknown error: "</string>
 </resources>

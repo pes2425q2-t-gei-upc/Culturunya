@@ -1,4 +1,4 @@
-package com.example.culturunya.models
+package com.example.culturunya.models.register
 
 data class RegisterResponse(
     val message: String,  // Missatge retornat per l'API

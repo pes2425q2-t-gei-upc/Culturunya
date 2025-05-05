@@ -10,6 +10,9 @@
     <string name="enterWithGoogle">"Acceder con Google"</string>
     <string name="noAccountYet">"Aún no tienes cuenta?"</string>
     <string name="register">" Regístrate"</string>
+    <string name="notAuthorized">"No estás autorizado"</string>
+    <string name="serverError">"Error del servidor. Inténtalo más tarde."</string>
+    <string name="unknownErrorGetUserInfo">"Unknown error getting user info."</string>
 
     <!-- Pantalla Canvi de contrasenya -->
     <string name="back">"Atrás"</string>
@@ -17,13 +20,15 @@
     <string name="actualPassword">"Contraseña actual"</string>
     <string name="newPassword">"Nueva contraseña"</string>
     <string name="confirmNewPassword">"Confirmar nueva contraseña"</string>
-    <string name="passwordChangedSuccesfully">"La contraseña se ha cambiado correctamente."</string>
-    <string name="allFieldsCompulsory">"Todos los campos son obligatorios."</string>
+    <string name="passwordChangedSuccessfully">"La contraseña se ha cambiado correctamente."</string>
+    <string name="allFieldsRequired">"Todos los campos son obligatorios."</string>
     <string name="passwordsDontMatch">"Las nuevas contraseñas no coinciden."</string>
     <string name="incorrectActualPassword">"La contraseña actual es incorrecta."</string>
     <string name="passwordsMustBeDifferent">"La nueva contraseña no puede ser igual que la anterior."</string>
     <string name="changeThePassword">"Cambiar contraseña"</string>
     <string name="passwordChangeCompleted">"Cambio de contraseña completado"</string>
+    <string name="validationError">"Error de validación"</string>
+    <string name="changePasswordErrorNoAuth">"Error cambiando la contraseña. Usuario no autenticado"</string>
     <string name="ok">"De acuerdo"</string>
 
     <!-- Pantalla Settings -->
@@ -33,4 +38,99 @@
     <string name="cancel">"Cancelar"</string>
     <string name="deleteAccount">"Borrar la cuenta"</string>
     <string name="sureDeleteAccount">"Seguro que quieres eliminar tu cuenta? Esto es irreversible"</string>
+    <string name="account">"CUENTA"</string>
+    <string name="settings">"AJUSTES"</string>
+    <string name="currentLanguage">"Idioma actual"</string>
+    <string name="helpNSupport">"Ayuda y soporte"</string>
+    <string name="changeUsername">"Cambiar nombre de usuario"</string>
+    <string name="deleteErrorNoAuth">"Error eliminando la cuenta. Usuario no autenticado"</string>
+    <string name="deleteError">"Error eliminando la cuenta."</string>
+    <string name="unexpectedErrorLoadingChat">"Se ha producido un error inesperado al cargar el chat de asistencia."</string>
+
+    <!-- Pantalla Calendari -->
+    <string name="monday">Lunes</string>
+    <string name="mondayShort">L</string>
+    <string name="tuesday">Martes</string>
+    <string name="tuesdayShort">M</string>
+    <string name="wednesday">Miércoles</string>
+    <string name="wednesdayShort">X</string>
+    <string name="thursday">Jueves</string>
+    <string name="thursdayShort">J</string>
+    <string name="friday">Viernes</string>
+    <string name="fridayShort">V</string>
+    <string name="saturday">Sábado</string>
+    <string name="saturdayShort">S</string>
+    <string name="sunday">Domingo</string>
+    <string name="sundayShort">D</string>
+
+    <string name="january">Enero</string>
+    <string name="february">Febrero</string>
+    <string name="march">Marzo</string>
+    <string name="april">Abril</string>
+    <string name="may">Mayo</string>
+    <string name="june">Junio</string>
+    <string name="july">Julio</string>
+    <string name="august">Agosto</string>
+    <string name="september">Septiembre</string>
+    <string name="october">Octubre</string>
+    <string name="november">Noviembre</string>
+    <string name="december">Diciembre</string>
+
+    <string name="ofconnector">de</string>
+
+    <!-- Pantalla EventList -->
+    <string name="orderByDate">"Ordenar por fecha"</string>
+    <string name="orderByName">"Ordenar por nombre"</string>
+    <string name="fromPrice">"Desde "</string>
+
+    <!-- Pantalla RatingList -->
+    <string name="Comment">"Comentario"</string>
+    <string name="Rating">"Valoración"</string>
+    <string name="Report">"Reportar"</string>
+    <string name="atDate">"el"</string>
+    <string name="from">"de"</string>
+    <string name="to">"a"</string>
+    <string name="saysComment">dice</string>
+    <string name="send">"Enviar"</string>
+    <string name="Fun">"Divertido</string>
+    <string name="Awesome">"Increíble</string>
+    <string name="Mediocre">"Mediocre</string>
+    <string name="Bad">"Malo</string>
+    <string name="KindaFun">"Bastante Divertido</string>
+
+     <!--Pantalla Mapa -->
+    <string name = "bannerTitle">"Sin permisos de ubicación"</string>
+    <string name = "bannerContent">"Los eventos mostrados pueden no estar cerca de ti. Haz clic aquí para mas información."</string>
+    <string name = "alertDialogTitle">"Permisos de ubicación"</string>
+    <string name = "alertDialogContent">"Para mostrarte eventos cercanos a ti, necesitamos acceder a tu ubicación. Otorga los permisos des del menu Configuración -> Aplicaciones de tu dispositivo."</string>
+    <string name = "distanceLabel">"Distancia: "</string>
+    <string name = "kilometersLabel">" km"</string>
+    <string name = "eventDetails">"Ver detalles</string>
+    <string name = "mapsButton">"Abrir Maps"</string>
+    <string name = "checkingPermissions">"Verificando permisos de localización..."</string>
+
+    <!--pantalla registre-->
+    <string name = "registerScreenTitle">"Crea tu cuenta"</string>
+    <string name = "usernameBox">"Nombre de usuario"</string>
+    <string name = "mailBox">"Correo electrónico"</string>
+    <string name = "confirmPasswordBox">"Confirmar contraseña"</string>
+    <string name = "registerButton">"Registrarse"</string>
+    <string name = "alreadyRegisterded">"¿Ya tienes cuenta? "</string>
+    <string name = "confirmationButton">"De acuerdo"</string>
+    <string name = "registrationCompleted">"Registro completado"</string>
+    <string name = "registrationConfirmation">"¡Te has registrado correctamente!"</string>
+    <string name = "registrationGeneralError">"Error en el registro"</string>
+    <string name = "invalidEmailError">"El correo electrónico no es válido."</string>
+    <string name = "unmatchingPasswordsError">"Las contraseñas no coinciden."</string>
+    <string name = "invalidDataError">"Error: Datos incorrectos."</string>
+    <!-- <string name = "serverError">"Error: Problema en el servidor."</string> -->
+    <string name = "networkError">"Error de red. Vuelve a intentarlo."</string>
+    <string name = "unknownError">"Error desconocido: "</string>
+
+    <!-- Pantalla Xat -->
+    <string name="administrator">"Administrador"</string>
+    <string name="noAdminsAviable">"No hay suficientes administradores disponibles para ayudarle."</string>
+    <string name="userChatNotFound">"No hemos podido encontrar al usuario con el que estás chateando"</string>
+    <string name="errorSendMsgNotAuth">"Error al enviar el mensaje. No estás autenticado"</string>
+    <string name="invalidTimeFormat">"Formato de tiempo inválido"</string>
 </resources>

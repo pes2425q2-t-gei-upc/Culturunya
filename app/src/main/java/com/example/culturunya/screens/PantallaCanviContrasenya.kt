@@ -1,9 +1,8 @@
 package com.example.culturunya.screens
 
-import android.content.Context
-import android.content.res.Configuration
+import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -17,18 +16,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.culturunya.R
-import com.example.culturunya.controllers.getContrasenyaUsuariActual
+import com.example.culturunya.endpoints.changePassword.ChangePasswordViewModel
+import com.example.culturunya.models.currentSession.CurrentSession
 import com.example.culturunya.navigation.AppScreens
 import com.example.culturunya.ui.theme.Morat
-import com.example.culturunya.ui.theme.VerdFosc
-import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,31 +43,26 @@ fun PantallaCanviContrasenya(navController: NavController) {
     var confirmNewPasswordVisible by remember { mutableStateOf(false) }
     var isLoading by remember { mutableStateOf(false) }
     val context = LocalContext.current
-    var currentLocale by remember { mutableStateOf(Locale.getDefault().language) }
+    CurrentSession.getInstance()
+    val currentLocale = CurrentSession.language
+
+    val changePasswordViewModel: ChangePasswordViewModel = viewModel()
+    val changePasswordCode by changePasswordViewModel.changePasswordStatus.collectAsState()
+    var showErrorDialog by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
     ) {
-        Row(
-            modifier = Modifier
-                .align(Alignment.TopStart)
-                .clickable(enabled = !isLoading) {
-                    isLoading = true
-                    navController.popBackStack()
-                }
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+        IconButton(onClick = {
+            isLoading = true
+            navController.navigate(AppScreens.MainScreen.createRoute("Settings"))
+        }) {
             Icon(
                 imageVector = Icons.Default.ArrowBack,
-                contentDescription = "Fletxa a l'esquerra",
-                modifier = Modifier.size(24.dp)
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(
-                text = getString(context, R.string.back, currentLocale),
+                contentDescription = "Back",
+                tint = Color.Black
             )
         }
         Column(
@@ -78,10 +73,13 @@ fun PantallaCanviContrasenya(navController: NavController) {
                 .padding(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Icon(
-                imageVector = Icons.Default.Lock,
+
+            Image(
+                painter = painterResource(id = R.drawable.pany),
                 contentDescription = "Pany",
-                modifier = Modifier.size(100.dp)
+                modifier = Modifier
+                    .size(140.dp)
+                    .padding(top = 20.dp, bottom = 8.dp)
             )
 
             Spacer(modifier = Modifier.height(40.dp))
@@ -104,7 +102,7 @@ fun PantallaCanviContrasenya(navController: NavController) {
                 trailingIcon = {
                     val image = if (currentPasswordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff
                     IconButton(onClick = { currentPasswordVisible = !currentPasswordVisible }) {
-                        Icon(imageVector = image, contentDescription = "Mostrar/Amagar contrasenya")
+                        Icon(imageVector = image, contentDescription = "Mostrar/Amagar contrasenya", tint = Color.Gray)
                     }
                 },
                 colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -127,7 +125,7 @@ fun PantallaCanviContrasenya(navController: NavController) {
                 trailingIcon = {
                     val image = if (newPasswordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff
                     IconButton(onClick = { newPasswordVisible = !newPasswordVisible }) {
-                        Icon(imageVector = image, contentDescription = "Mostrar/Amagar contrasenya")
+                        Icon(imageVector = image, contentDescription = "Mostrar/Amagar contrasenya", tint = Color.Gray)
                     }
                 },
                 colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -150,7 +148,7 @@ fun PantallaCanviContrasenya(navController: NavController) {
                 trailingIcon = {
                     val image = if (confirmNewPasswordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff
                     IconButton(onClick = { confirmNewPasswordVisible = !confirmNewPasswordVisible }) {
-                        Icon(imageVector = image, contentDescription = "Mostrar/Amagar contrasenya")
+                        Icon(imageVector = image, contentDescription = "Mostrar/Amagar contrasenya", tint = Color.Gray)
                     }
                 },
                 colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -173,7 +171,7 @@ fun PantallaCanviContrasenya(navController: NavController) {
             }
 
             Spacer(modifier = Modifier.height(10.dp))
-
+            Log.d("Codi change password:", "$changePasswordCode")
             if (haCanviat) {
                 AlertDialog(
                     onDismissRequest = { haCanviat = false },
@@ -181,7 +179,7 @@ fun PantallaCanviContrasenya(navController: NavController) {
                         Button(
                             onClick = {
                                 haCanviat = false
-                                navController.popBackStack()
+                                navController.navigate(AppScreens.MainScreen.createRoute("settings"))
                             },
                             colors = ButtonDefaults.buttonColors(containerColor = Morat)
                         ) {
@@ -189,18 +187,19 @@ fun PantallaCanviContrasenya(navController: NavController) {
                         }
                     },
                     title = { Text(getString(context, R.string.passwordChangeCompleted, currentLocale)) },
-                    text = { Text(getString(context, R.string.passwordChangedSuccesfully, currentLocale)) },
+                    text = { Text(getString(context, R.string.passwordChangedSuccessfully, currentLocale)) },
                     containerColor = Color.White
                 )
             }
 
             Button(
                 onClick = {
-                    val contrasenyaCorrecta = getContrasenyaUsuariActual()
+                    CurrentSession.getInstance()
+                    val contrasenyaCorrecta = CurrentSession.password
+                    Log.d("Contra actual", "$contrasenyaCorrecta")
                     when {
-                        haCanviat -> true //Si ja s'ha fet el canvi, ignora que tornis a apretar
                         contrasenyaActual.isEmpty() || novaContrasenya.isEmpty() || confirmaNovaContrasenya.isEmpty() ->
-                            missatgeError = getString(context, R.string.allFieldsCompulsory, currentLocale)
+                            missatgeError = getString(context, R.string.allFieldsRequired, currentLocale)
 
                         novaContrasenya != confirmaNovaContrasenya ->
                             missatgeError = getString(context, R.string.passwordsDontMatch, currentLocale)
@@ -210,17 +209,40 @@ fun PantallaCanviContrasenya(navController: NavController) {
 
                         contrasenyaActual == novaContrasenya ->
                             missatgeError = getString(context, R.string.passwordsMustBeDifferent, currentLocale)
+
                         else -> {
                             missatgeError = ""
-                            haCanviat = true
+                            changePasswordViewModel.changePassword(contrasenyaActual, novaContrasenya)
                         }
                     }
                 },
                 modifier = Modifier.width(250.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Morat)
             ) {
-                Text(text = getString(context, R.string.changeThePassword, currentLocale), color = Color.White)
+                Text(
+                    text = getString(context, R.string.changeThePassword, currentLocale),
+                    color = Color.White
+                )
             }
+
+
+            LaunchedEffect(changePasswordCode) {
+                when (changePasswordCode) {
+                    200 -> navController.navigate(AppScreens.IniciSessio.route)
+                    else -> if (changePasswordCode != null) showErrorDialog = true
+                }
+            }
+
+            if (showErrorDialog) {
+                var message = getString(context, R.string.changePasswordErrorNoAuth, currentLocale)
+                if (changePasswordCode == 400) {
+                    message = getString(context, R.string.validationError, currentLocale)
+                }
+                popUpError(message, onClick = {
+                    showErrorDialog = false
+                })
+            }
+
         }
     }
 }
