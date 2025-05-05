@@ -1,13 +1,9 @@
 package com.example.culturunya.screens
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -25,7 +21,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.culturunya.R
 import com.example.culturunya.navigation.AppScreens
-import com.example.culturunya.ui.theme.CulturunyaTheme
 import com.example.culturunya.ui.theme.Morat
 import com.example.culturunya.controllers.enviarDadesAlBackend
 import androidx.compose.ui.platform.LocalContext
@@ -47,7 +42,7 @@ fun PantallaRegistre(navController: NavController) {
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
     var registreExit by remember { mutableStateOf(false) } // Controla si mostrar la confirmacio
-    var passwordVisible by remember { mutableStateOf(false) } // Controla si la contrasenya es mostra
+    var passwordVisible by remember { mutableStateOf(false) }
     val imageRes = if (passwordVisible) R.drawable.image_visible else R.drawable.image_hidden
     var showDialog by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf("") }
@@ -98,7 +93,7 @@ fun PantallaRegistre(navController: NavController) {
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 leadingIcon = {
-                    Icon(imageVector = Icons.Default.Person, contentDescription = "Persona")
+                    Icon(imageVector = Icons.Default.Person, contentDescription = "Persona", tint = Color.Gray)
                 },
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     textColor = Color.Black,
@@ -118,7 +113,7 @@ fun PantallaRegistre(navController: NavController) {
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 leadingIcon = {
-                    Icon(imageVector = Icons.Default.Email, contentDescription = "Persona")
+                    Icon(imageVector = Icons.Default.Email, contentDescription = "Persona", tint = Color.Gray)
                 },
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     textColor = Color.Black,
@@ -139,12 +134,12 @@ fun PantallaRegistre(navController: NavController) {
                 modifier = Modifier.fillMaxWidth(),
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 leadingIcon = {
-                    Icon(imageVector = Icons.Default.Lock, contentDescription = "Pany")
+                    Icon(imageVector = Icons.Default.Lock, contentDescription = "Pany", tint = Color.Gray)
                 },
                 trailingIcon = {
                     val image = if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff
                     IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                        Icon(imageVector = image, contentDescription = "Mostrar/Amagar contrasenya")
+                        Icon(imageVector = image, contentDescription = "Mostrar/Amagar contrasenya", tint = Color.Gray)
                     }
                 },
 
@@ -167,12 +162,12 @@ fun PantallaRegistre(navController: NavController) {
                 modifier = Modifier.fillMaxWidth(),
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 leadingIcon = {
-                    Icon(imageVector = Icons.Default.Lock, contentDescription = "Pany")
+                    Icon(imageVector = Icons.Default.Lock, contentDescription = "Pany", tint = Color.Gray)
                 },
                 trailingIcon = {
                     val image = if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff
                     IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                        Icon(imageVector = image, contentDescription = "Mostrar/Amagar contrasenya")
+                        Icon(imageVector = image, contentDescription = "Mostrar/Amagar contrasenya", tint = Color.Gray)
                     }
                 },
 
@@ -239,7 +234,8 @@ fun PantallaRegistre(navController: NavController) {
                 colors = ButtonDefaults.buttonColors(containerColor = Morat)
             ) {
                 Text(
-                    text = getString(context, R.string.registerButton, currentLocale)
+                    text = getString(context, R.string.registerButton, currentLocale),
+                    color = Color.White
                 )
             }
 
@@ -273,8 +269,6 @@ fun PantallaRegistre(navController: NavController) {
         }
 
 
-        // PopUp que confirma a l'usuari que el registre s'ha completat amb èxit en la BD
-        // El botó de confirmació portà l'usuari a la pantalla principal de l'app (el mapa)
         if (registreExit) {
             AlertDialog(
                 onDismissRequest = { registreExit = false },

@@ -12,6 +12,7 @@
     <string name="register">" Regístrate"</string>
     <string name="notAuthorized">"No estás autorizado"</string>
     <string name="serverError">"Error del servidor. Inténtalo más tarde."</string>
+    <string name="unknownErrorGetUserInfo">"Unknown error getting user info."</string>
 
     <!-- Pantalla Canvi de contrasenya -->
     <string name="back">"Atrás"</string>
@@ -44,6 +45,7 @@
     <string name="changeUsername">"Cambiar nombre de usuario"</string>
     <string name="deleteErrorNoAuth">"Error eliminando la cuenta. Usuario no autenticado"</string>
     <string name="deleteError">"Error eliminando la cuenta."</string>
+    <string name="unexpectedErrorLoadingChat">"Se ha producido un error inesperado al cargar el chat de asistencia."</string>
 
     <!-- Pantalla Calendari -->
     <string name="monday">Lunes</string>
@@ -95,7 +97,7 @@
     <string name="Mediocre">"Mediocre</string>
     <string name="Bad">"Malo</string>
     <string name="KindaFun">"Bastante Divertido</string>
-    
+
      <!--Pantalla Mapa -->
     <string name = "bannerTitle">"Sin permisos de ubicación"</string>
     <string name = "bannerContent">"Los eventos mostrados pueden no estar cerca de ti. Haz clic aquí para mas información."</string>
@@ -124,4 +126,11 @@
     <!-- <string name = "serverError">"Error: Problema en el servidor."</string> -->
     <string name = "networkError">"Error de red. Vuelve a intentarlo."</string>
     <string name = "unknownError">"Error desconocido: "</string>
+
+    <!-- Pantalla Xat -->
+    <string name="administrator">"Administrador"</string>
+    <string name="noAdminsAviable">"No hay suficientes administradores disponibles para ayudarle."</string>
+    <string name="userChatNotFound">"No hemos podido encontrar al usuario con el que estás chateando"</string>
+    <string name="errorSendMsgNotAuth">"Error al enviar el mensaje. No estás autenticado"</string>
+    <string name="invalidTimeFormat">"Formato de tiempo inválido"</string>
 </resources>

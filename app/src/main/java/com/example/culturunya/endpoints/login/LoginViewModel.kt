@@ -1,9 +1,10 @@
 package com.example.culturunya.endpoints.login
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.culturunya.controllers.Api
-import com.example.culturunya.controllers.AuthRepository
+import com.example.culturunya.controllers.UserRepository
 import com.example.culturunya.models.currentSession.CurrentSession
 import com.example.culturunya.models.login.LoginRequest
 import com.example.culturunya.models.login.LoginResponse
@@ -11,13 +12,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
-import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.exceptions.GetCredentialException
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import android.content.Context
+import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialResponse
+import com.example.culturunya.controllers.AuthRepository
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 
 class LoginViewModel : ViewModel() {
@@ -36,29 +38,41 @@ class LoginViewModel : ViewModel() {
     private val WEB_CLIENT_ID = "102065557294-a14162ejafi97l4a776ftomhrguon2rv.apps.googleusercontent.com"
 
     fun initialize(context: Context) {
+        Log.d("LoginViewModel", "Inicializando CredentialManager")
         credentialManager = CredentialManager.create(context)
     }
 
     fun login(username: String, password: String) {
+        Log.d("LoginViewModel", "Intentando iniciar sesión con usuario: $username")
         viewModelScope.launch {
             val result = repository.login(LoginRequest(username, password))
 
             result.onSuccess { body ->
+                Log.d("LoginViewModel", "Inicio de sesión exitoso. Token recibido: ${body.token}")
+                Log.d("LoginViewModel", "Inicio de sesión exitoso. Password recibido: $password")
                 _loginResponse.value = body
                 CurrentSession.getInstance()
-                CurrentSession.setUserData(body.token, username, password)
+                CurrentSession.setTokenAndPassword(body.token, password)
                 _loginError.value = null
             }.onFailure { error ->
+                Log.e("LoginViewModel", "Error en login: ${error.message}")
                 _loginResponse.value = null
                 _loginError.value = when (error) {
-                    is HttpException -> error.code()
-                    else -> -1
+                    is HttpException -> {
+                        Log.e("LoginViewModel", "HttpException: código ${error.code()}")
+                        error.code()
+                    }
+                    else -> {
+                        Log.e("LoginViewModel", "Error desconocido")
+                        -1
+                    }
                 }
             }
         }
     }
 
     fun signInWithGoogle(context: Context) {
+        Log.d("LoginViewModel", "Iniciando login con Google")
         viewModelScope.launch {
             try {
                 val googleIdOption = GetGoogleIdOption.Builder()
@@ -74,14 +88,17 @@ class LoginViewModel : ViewModel() {
                     context = context,
                     request = request
                 )
+                Log.d("LoginViewModel", "Credenciales de Google obtenidas")
                 handleGoogleSignIn(result)
             } catch (e: GetCredentialException) {
+                Log.e("LoginViewModel", "Error obteniendo credenciales de Google: ${e.message}")
                 _googleLoginError.value = "Google Sign-In failed: ${e.message}"
             }
         }
     }
 
     private fun handleGoogleSignIn(result: GetCredentialResponse) {
+        Log.d("LoginViewModel", "Procesando credenciales de Google")
         viewModelScope.launch {
             try {
                 val credential = result.credential
@@ -91,29 +108,32 @@ class LoginViewModel : ViewModel() {
                     val googleIdTokenCredential = GoogleIdTokenCredential
                         .createFrom(credential.data)
 
-                    // Obtener el ID token para enviarlo al backend
                     val idToken = googleIdTokenCredential.idToken
+                    Log.d("LoginViewModel", "ID Token de Google obtenido: $idToken")
 
-                    // Guardar el ID token en CurrentSession
                     CurrentSession.getInstance()
                     CurrentSession.setGoogleToken(idToken)
 
-                    // Llamar al método correcto del repositorio para autenticación con Google
                     val loginResult = repository.googleLogin(idToken)
 
                     loginResult.onSuccess { response ->
-                        // Guardar la respuesta del backend y actualizar CurrentSession con el token de acceso
+                        Log.d("LoginViewModel", "Login con Google exitoso. Token: ${response.token}")
                         _loginResponse.value = response
-                        CurrentSession.setUserData(response.token, googleIdTokenCredential.displayName ?: "", "")
+                        CurrentSession.setTokenAndPassword(response.token, "")
+                        CurrentSession.setUserData(googleIdTokenCredential.displayName ?: "", "", "")
                         _googleLoginError.value = null
                     }.onFailure { error ->
+                        Log.e("LoginViewModel", "Error en login con Google: ${error.message}")
                         _googleLoginError.value = when (error) {
                             is HttpException -> "Server error: ${error.code()}"
                             else -> "Error processing Google login: ${error.message}"
                         }
                     }
+                } else {
+                    Log.e("LoginViewModel", "Credencial recibida no es del tipo esperado")
                 }
             } catch (e: Exception) {
+                Log.e("LoginViewModel", "Excepción al procesar token de Google: ${e.message}")
                 _googleLoginError.value = "Error processing Google token: ${e.message}"
             }
         }

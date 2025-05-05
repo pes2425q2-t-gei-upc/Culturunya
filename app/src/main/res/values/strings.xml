@@ -12,6 +12,7 @@
     <string name="register">" Register"</string>
     <string name="notAuthorized">"You are not authorized"</string>
     <string name="serverError">"Server error. Try again later."</string>
+    <string name="unknownErrorGetUserInfo">"Error desconocido obtenindo la información del usuario."</string>
 
     <!-- Pantalla Canvi de contrasenya -->
     <string name="back">"Back"</string>
@@ -44,6 +45,7 @@
     <string name="changeUsername">"Change username"</string>
     <string name="deleteErrorNoAuth">"Error deleting account. Unauthenticated user"</string>
     <string name="deleteError">"Error deleting account."</string>
+    <string name="unexpectedErrorLoadingChat">"There was an unexpected error loading the assistance chat."</string>
 
     <!-- Pantalla Calendari -->
     <string name="monday">Monday</string>
@@ -94,7 +96,7 @@
     <string name="Mediocre">"Mediocre</string>
     <string name="Bad">"Bad</string>
     <string name="KindaFun">"KindaFun</string>
-  
+
     <!--Pantalla Mapa -->
     <string name = "bannerTitle">"No location permissions"</string>
     <string name = "bannerContent">"The events shown may not be near you. Click here for more information."</string>
@@ -106,6 +108,13 @@
     <string name = "mapsButton">"Open Maps"</string>
     <string name = "checkingPermissions">"Checking location permissions..."</string>
 
+
+    <!-- Pantalla Xat -->
+    <string name="administrator">"Administrator"</string>
+    <string name="noAdminsAviable">"There are not enough administrators aviable to assist you."</string>
+    <string name="userChatNotFound">"We couldn't find the user you are chatting with"</string>
+    <string name="errorSendMsgNotAuth">"Error sending the message. You are not authenticated user"</string>
+    <string name="invalidTimeFormat">"Invalid time format"</string>
     <!--pantalla registre-->
     <string name = "registerScreenTitle">"Create your account"</string>
     <string name = "usernameBox">"Username"</string>

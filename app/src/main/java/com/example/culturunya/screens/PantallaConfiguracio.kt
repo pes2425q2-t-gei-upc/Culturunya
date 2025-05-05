@@ -1,6 +1,5 @@
 package com.example.culturunya.screens
 
-import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -24,13 +23,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.example.culturunya.R
 import com.example.culturunya.endpoints.deleteAccount.DeleteAccountViewModel
+import com.example.culturunya.endpoints.getChats.GetChatsViewModel
+import com.example.culturunya.endpoints.users.UserViewModel
 import com.example.culturunya.models.currentSession.CurrentSession
 import com.example.culturunya.navigation.AppScreens
 import com.example.culturunya.ui.theme.GrisMoltFluix
 import com.example.culturunya.ui.theme.Morat
-import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,14 +44,47 @@ fun SettingsScreen(navController: NavController) {
     val deleteCode by deleteAccountViewModel.deleteAccountStatus.collectAsState()
     var showDeleteErrorDialog by remember { mutableStateOf(false) }
 
+    val getChatsViewModel: GetChatsViewModel = viewModel()
+    val getChatsResponse = getChatsViewModel.getChatsResponse.collectAsState().value
+    val getChatsCode = getChatsViewModel.getChatsError.collectAsState().value
+    var showGetChatsErrorDialog by remember { mutableStateOf(false) }
+
     val context = LocalContext.current
     CurrentSession.getInstance()
     var currentLocale by remember { mutableStateOf(CurrentSession.language) }
     val username = CurrentSession.username
+    val email = CurrentSession.email
+    val imageUrl = CurrentSession.profile_pic
 
     val options = listOf("English", "Español")
     var expanded by remember { mutableStateOf(false) }
     var selectedOption by remember { mutableStateOf(if (currentLocale == "en") options[0] else options[1]) }
+
+    val userViewModel: UserViewModel = viewModel()
+
+    LaunchedEffect(Unit) {
+        getChatsViewModel.reset()
+    }
+
+    LaunchedEffect(getChatsResponse, getChatsCode) {
+        if (getChatsResponse != null) {
+            navController.navigate(route = AppScreens.LlistaXats.route)
+            getChatsViewModel.reset()
+            CurrentSession.isAdmin()
+        }
+        else if (getChatsCode == 403) {
+            navController.navigate(route = AppScreens.Xat.route)
+            getChatsViewModel.reset()
+        }
+        else showGetChatsErrorDialog = true
+    }
+
+    if (showDeleteErrorDialog) {
+        val message = getString(context, R.string.unexpectedErrorLoadingChat, currentLocale)
+        popUpError(message, onClick = {
+            showGetChatsErrorDialog = false
+        })
+    }
 
     // Contenidor principal
     Column(
@@ -61,8 +95,8 @@ fun SettingsScreen(navController: NavController) {
         // SECTION: Perfil (Avatar, Nom, Correu)
         ProfileHeader(
             username = username,
-            email = "exampleaddress@gmail.com",
-            avatarRes = R.drawable.ic_launcher_foreground
+            email = email,
+            avatarRes = imageUrl
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -208,7 +242,7 @@ fun SettingsScreen(navController: NavController) {
                     icon = Icons.Default.Help,
                     text = getString(context, R.string.helpNSupport, currentLocale),
                     onClick = {
-                        // Navega a la secció d'ajuda
+                        getChatsViewModel.getChats()
                     }
                 )
             }
@@ -273,7 +307,7 @@ fun SettingsScreen(navController: NavController) {
     }
 
     if (showDeleteErrorDialog) {
-        var message = getString(context, R.string.deleteErrorNoAuth, currentLocale)
+        val message = getString(context, R.string.deleteErrorNoAuth, currentLocale)
         if (deleteCode != 401) getString(context, R.string.deleteError, currentLocale)
         popUpError(message, onClick = {
             showDeleteErrorDialog = false
@@ -286,7 +320,7 @@ fun SettingsScreen(navController: NavController) {
 fun ProfileHeader(
     username: String,
     email: String,
-    avatarRes: Int
+    avatarRes: String
 ) {
     Row(
         modifier = Modifier
@@ -295,15 +329,28 @@ fun ProfileHeader(
         verticalAlignment = Alignment.CenterVertically
     ) {
         // Avatar rodó
-        Icon(
-            painter = painterResource(id = avatarRes),
-            contentDescription = "Avatar",
-            modifier = Modifier
-                .size(60.dp)
-                .clip(CircleShape)
-                .background(Color.LightGray),
-            tint = Color.White
-        )
+        if (avatarRes != null && avatarRes != "") {
+            val baseUrl = "http://nattech.fib.upc.edu:40369"
+            val urlFinal = baseUrl + avatarRes
+            AsyncImage(
+                model = urlFinal,
+                contentDescription = "Perfil Image",
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .size(60.dp),
+            )
+        }
+        else {
+            Icon(
+                imageVector = Icons.Default.AccountCircle,
+                contentDescription = "Perfil default",
+                tint = Morat,
+                modifier = Modifier
+                    .size(60.dp)
+                    .clip(CircleShape)
+                    .background(Color.White)
+            )
+        }
 
         Spacer(modifier = Modifier.width(16.dp))
 

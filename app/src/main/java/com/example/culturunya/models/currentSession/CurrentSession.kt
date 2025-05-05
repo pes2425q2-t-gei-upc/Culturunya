@@ -9,20 +9,35 @@ class CurrentSession private constructor() {
         private var instance: CurrentSession? = null
 
         var token: String = ""
+
         var googleIdToken: String = ""
+
         var username: String = ""
+
         var password: String = ""
+
         var language: String = Locale.getDefault().language
+
+        var is_admin: Boolean = false
+
+        var email: String = ""
+
+        var profile_pic: String = ""
 
         fun getInstance() =
             instance ?: synchronized(this) {
                 instance ?: CurrentSession().also { instance = it }
             }
 
-        fun setUserData(token: String, username: String, password: String) {
+        fun setTokenAndPassword(token: String, password: String) {
             this.token = token
-            this.username = username
             this.password = password
+        }
+
+        fun setUserData(username: String, email: String, profile_pic: String) {
+            this.username = username
+            this.email = email
+            this.profile_pic = profile_pic
         }
 
         fun setGoogleToken(idToken: String) {
@@ -30,6 +45,10 @@ class CurrentSession private constructor() {
         }
 
         fun getGoogleToken(): String = googleIdToken
+
+        fun isAdmin() {
+            this.is_admin = true
+        }
 
         fun changeLanguage(lang: String) {
             language = lang

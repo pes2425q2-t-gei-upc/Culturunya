@@ -1,4 +1,4 @@
-package com.example.culturunya.screens.events
+package com.example.culturunya.screens
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -30,17 +30,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.culturunya.R
 import com.example.culturunya.endpoints.events.Event
 import com.example.culturunya.endpoints.events.EventViewModel
 import com.example.culturunya.models.currentSession.CurrentSession
-import com.example.culturunya.screens.getString
 import java.text.Collator
 import java.util.Locale
-import androidx.compose.foundation.lazy.items
-import com.example.culturunya.ui.theme.Morat
 import com.example.culturunya.ui.theme.Purple40
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -158,14 +154,14 @@ private fun EventListView(
                         .background(Purple40)
                 ) {
                     DropdownMenuItem(
-                        text = { Text(getString(context, R.string.orderByName, currentLocale)) },
+                        text = { Text(text = getString(context, R.string.orderByName, currentLocale), color = Color.White) },
                         onClick = {
                             currentSortCriteria = SortCriteria.NAME
                             expanded = false
                         }
                     )
                     DropdownMenuItem(
-                        text = { Text(getString(context, R.string.orderByDate, currentLocale)) },
+                        text = { Text(text = getString(context, R.string.orderByDate, currentLocale), color = Color.White) },
                         onClick = {
                             currentSortCriteria = SortCriteria.DATE
                             expanded = false

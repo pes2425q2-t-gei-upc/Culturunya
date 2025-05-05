@@ -1,32 +1,31 @@
-package com.example.culturunya.endpoints.deleteAccount
+package com.example.culturunya.endpoints.sendMessageToAdmin
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.culturunya.controllers.Api
-import com.example.culturunya.controllers.UserRepository
+import com.example.culturunya.controllers.ChatRepository
 import com.example.culturunya.models.currentSession.CurrentSession
-import com.example.culturunya.models.deleteAccount.DeleteAccountRequest
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
-class DeleteAccountViewModel : ViewModel() {
-    private val _deleteAccountStatus = MutableStateFlow<Int?>(null)
-    val deleteAccountStatus: StateFlow<Int?> = _deleteAccountStatus
+class SendMessageToAdminViewModel : ViewModel() {
+    private val _sendMessageToAdminStatus = MutableStateFlow<Int?>(null)
+    val sendMessageToAdminStatus: StateFlow<Int?> = _sendMessageToAdminStatus
 
     private val api = Api.instance
-    private val repository = UserRepository(api)
+    private val repository = ChatRepository(api)
 
-    fun deleteAccount() {
+    fun sendMessageToAdmin(message: String) {
         viewModelScope.launch {
             val token = CurrentSession.token
-            val result = repository.deleteAccount("Token $token")
+            val result = repository.sendMessageToAdmin("Token $token", message)
 
             result.onSuccess {
-                _deleteAccountStatus.value = 204
+                _sendMessageToAdminStatus.value = 201
             }.onFailure { error ->
-                _deleteAccountStatus.value = when (error) {
+                _sendMessageToAdminStatus.value = when (error) {
                     is HttpException -> error.code()
                     else -> -1
                 }

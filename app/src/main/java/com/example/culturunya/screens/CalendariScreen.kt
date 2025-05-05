@@ -26,8 +26,6 @@ import com.example.culturunya.R
 import com.example.culturunya.endpoints.events.Event
 import com.example.culturunya.endpoints.events.EventViewModel
 import com.example.culturunya.models.currentSession.CurrentSession
-import com.example.culturunya.screens.events.EventBox
-import com.example.culturunya.screens.events.EventInfo
 import java.time.format.DateTimeFormatter
 
 

@@ -1,20 +1,15 @@
 package com.example.culturunya.screens
 
-import android.annotation.SuppressLint
 import android.os.Build
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -22,35 +17,19 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.culturunya.R
 import com.example.culturunya.ui.theme.*
-
-import com.example.culturunya.controllers.*
-//import com.example.culturunya.models.events.Event
 import com.example.culturunya.endpoints.events.EventViewModel
-import androidx.compose.ui.viewinterop.AndroidView
-import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.example.culturunya.screens.*
-
-
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun Pantalla() {
-    Scaffold {
-        //MainScreen()
-    }
-}
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun MainScreen(navController: NavController, viewModel: EventViewModel) {
+fun MainScreen(navController: NavController, viewModel: EventViewModel, initialScreen: String) {
     // Estat per a la pantalla principal
-    var currentScreen by remember { mutableStateOf("Events") }
     // Estat per als sub-botons d'Events (Map, Calendar, List)
     // Només s'usa si la pantalla principal seleccionada és "Events".
+    var currentScreen by remember { mutableStateOf(initialScreen) }
+    if (currentScreen != "Events" && currentScreen != "Quiz" && currentScreen != "Leaderboard" && currentScreen != "Settings") currentScreen = "Events"
     var currentEventsSubScreen by remember { mutableStateOf("Map") }
 
     Column(modifier = Modifier
@@ -259,7 +238,7 @@ fun EventCalendarScreen(viewModel: EventViewModel) {
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun EventListScreen(viewModel: EventViewModel) {
-    com.example.culturunya.screens.events.EventListScreen(
+    EventListScreen(
         viewModel = viewModel,
         onEventSelected = { event -> }
     )
