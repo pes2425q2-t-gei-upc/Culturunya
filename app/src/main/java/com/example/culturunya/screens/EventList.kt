@@ -154,14 +154,14 @@ private fun EventListView(
                         .background(Purple40)
                 ) {
                     DropdownMenuItem(
-                        text = { Text(getString(context, R.string.orderByName, currentLocale)) },
+                        text = { Text(text = getString(context, R.string.orderByName, currentLocale), color = Color.White) },
                         onClick = {
                             currentSortCriteria = SortCriteria.NAME
                             expanded = false
                         }
                     )
                     DropdownMenuItem(
-                        text = { Text(getString(context, R.string.orderByDate, currentLocale)) },
+                        text = { Text(text = getString(context, R.string.orderByDate, currentLocale), color = Color.White) },
                         onClick = {
                             currentSortCriteria = SortCriteria.DATE
                             expanded = false
