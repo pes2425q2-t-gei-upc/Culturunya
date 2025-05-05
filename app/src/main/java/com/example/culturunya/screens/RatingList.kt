@@ -32,14 +32,15 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.culturunya.R
 import com.example.culturunya.endpoints.ratings.RatingViewModel
 import com.example.culturunya.endpoints.ratings.Rating
-import com.example.culturunya.endpoints.users.UserInfo
 import com.example.culturunya.endpoints.users.UserViewModel
 import com.example.culturunya.models.currentSession.CurrentSession
 import com.example.culturunya.ui.theme.*
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.TextField
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import com.example.culturunya.endpoints.users.UserInfo
 import com.example.culturunya.models.RatingType
 
 
@@ -60,6 +61,7 @@ fun RatingListScreen(
     }
     // Collect the ratings
     val ratings by ratingViewModel.ratings.collectAsState()
+    val ratingCreated by ratingViewModel.ratingCreated.collectAsState()
     val user = UserInfo("test", "test@test.com", "", "", "", "", "", "", "", "", "", 0, 0, 0, 0)
     val date = ""
     var rating_new by remember { mutableStateOf("") }
@@ -69,6 +71,23 @@ fun RatingListScreen(
     val context = LocalContext.current
     CurrentSession.getInstance()
     val currentLocale by remember { mutableStateOf(CurrentSession.language) }
+    val sortedRatings = ratings.sortedByDescending { it.date }
+
+    LaunchedEffect(currentRatingType) {
+        rating_new = when (currentRatingType) {
+            RatingType.Fun -> "Fun"
+            RatingType.Awesome -> "Awesome"
+            RatingType.Mediocre -> "Mediocre"
+            RatingType.Bad -> "Bad"
+            RatingType.KindaFun -> "KindaFun"
+        }
+    }
+
+    LaunchedEffect(ratingCreated) {
+        if (ratingCreated) {
+            ratingViewModel.refreshRatingsForEvent(eventId)
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -110,7 +129,6 @@ fun RatingListScreen(
                             .background(Purple40)
                     ) {
                         TextField(
-                            // We will modify the text to use a stringResource
                             readOnly = true,
                             value = when (currentRatingType) {
                                 RatingType.Fun -> getString(context, R.string.Fun, currentLocale)
@@ -203,8 +221,6 @@ fun RatingListScreen(
                                     rating_new,
                                     comment_new
                                 )
-                                // Refresh the list
-
                             }
                         ) {
                             Text(
@@ -222,10 +238,10 @@ fun RatingListScreen(
                 Text(text = errorMessage, Modifier.padding(4.dp), color = Color.Red)
             }
             //Spacer(modifier = Modifier.padding(5.dp))
-            if (ratings.isEmpty() && error == null) {
+            if (sortedRatings.isEmpty() && error == null) {
                     Text("No ratings yet", color = Purple40, modifier = Modifier.padding(8.dp))
             } else {
-                ratings.forEach { rating ->
+                sortedRatings.forEach { rating ->
                     RatingBox(rating = rating, onRatingClick = { onRatingSelected(rating) })
                 }
             }
