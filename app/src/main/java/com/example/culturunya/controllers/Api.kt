@@ -83,4 +83,7 @@ interface Api {
 
     @POST("auth/google/")
     suspend fun loginGoogle(@Body id_token: GoogleTokenRequest): LoginResponse
+
+    @POST("logout/")
+    suspend fun logout(@Header("Authorization") token: String): Response<Unit>
 }

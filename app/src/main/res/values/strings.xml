@@ -46,6 +46,8 @@
     <string name="deleteErrorNoAuth">"Error deleting account. Unauthenticated user"</string>
     <string name="deleteError">"Error deleting account."</string>
     <string name="unexpectedErrorLoadingChat">"There was an unexpected error loading the assistance chat."</string>
+    <string name="logoutErrorCurrentSession">"Error during logout. The current session does not exist."</string>
+    <string name="logoutUnexpectedError">"Unexpected error during logout."</string>
 
     <!-- Pantalla Calendari -->
     <string name="monday">Monday</string>

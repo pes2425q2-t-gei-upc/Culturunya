@@ -16,6 +16,19 @@ class UserRepository(private val api: Api) {
         }
     }
 
+    suspend fun logout(token: String): Result<Unit> {
+        return try {
+            val response = api.logout(token)
+            if (response.isSuccessful) {
+                Result.success(Unit)
+            } else {
+                Result.failure(HttpException(response))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
     suspend fun deleteAccount(token: String): Result<Unit> {
         return try {
             val response = api.deleteAccount(token)
