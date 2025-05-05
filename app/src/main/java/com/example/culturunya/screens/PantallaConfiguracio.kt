@@ -27,6 +27,7 @@ import coil.compose.AsyncImage
 import com.example.culturunya.R
 import com.example.culturunya.endpoints.deleteAccount.DeleteAccountViewModel
 import com.example.culturunya.endpoints.getChats.GetChatsViewModel
+import com.example.culturunya.endpoints.logout.LogoutViewModel
 import com.example.culturunya.endpoints.users.UserViewModel
 import com.example.culturunya.models.currentSession.CurrentSession
 import com.example.culturunya.navigation.AppScreens
@@ -43,6 +44,10 @@ fun SettingsScreen(navController: NavController) {
     val deleteAccountViewModel: DeleteAccountViewModel = viewModel()
     val deleteCode by deleteAccountViewModel.deleteAccountStatus.collectAsState()
     var showDeleteErrorDialog by remember { mutableStateOf(false) }
+
+    val logoutViewModel: LogoutViewModel = viewModel()
+    val logoutCode by logoutViewModel.logoutStatus.collectAsState()
+    var showLogoutErrorDialog by remember { mutableStateOf(false) }
 
     val getChatsViewModel: GetChatsViewModel = viewModel()
     val getChatsResponse = getChatsViewModel.getChatsResponse.collectAsState().value
@@ -280,7 +285,7 @@ fun SettingsScreen(navController: NavController) {
     if (showLogoutDialog) {
         popUpDialog(
             getString(context, R.string.sureLogout, currentLocale),
-            onConfirm = {navController.navigate(AppScreens.IniciSessio.route)},
+            onConfirm = {logoutViewModel.logout()},
             onDismiss = {showLogoutDialog = false}
         )
     }
@@ -291,6 +296,15 @@ fun SettingsScreen(navController: NavController) {
         }
         else if (deleteCode != null) {
             showDeleteErrorDialog = true
+        }
+    }
+
+    LaunchedEffect(logoutCode) {
+        if (logoutCode == 200) {
+            navController.navigate(AppScreens.IniciSessio.route)
+        }
+        else if (logoutCode != null) {
+            showLogoutErrorDialog = true
         }
     }
 
@@ -311,6 +325,14 @@ fun SettingsScreen(navController: NavController) {
         if (deleteCode != 401) getString(context, R.string.deleteError, currentLocale)
         popUpError(message, onClick = {
             showDeleteErrorDialog = false
+        })
+    }
+
+    if (showLogoutErrorDialog) {
+        val message = getString(context, R.string.logoutUnexpectedError, currentLocale)
+        if (logoutCode == 400) getString(context, R.string.logoutUnexpectedError, currentLocale)
+        popUpError(message, onClick = {
+            showLogoutErrorDialog = false
         })
     }
 }
