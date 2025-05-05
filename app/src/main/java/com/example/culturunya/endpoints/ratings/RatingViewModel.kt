@@ -26,6 +26,9 @@ class RatingViewModel : ViewModel() {
     private val _error = MutableStateFlow<String?>(null)
     val error: StateFlow<String?> = _error
 
+    private val _ratingCreated = MutableStateFlow<Boolean>(false)
+    val ratingCreated: StateFlow<Boolean> = _ratingCreated
+
     fun fetchRatingsForEvent(eventId: Long) {
         viewModelScope.launch {
             ratingsRepository.getRatingsForEvent(eventId).onSuccess {
@@ -54,6 +57,18 @@ class RatingViewModel : ViewModel() {
         viewModelScope.launch {
             ratingsRepository.createRating(newRating).onSuccess {
                 _rating.value = it
+                _ratingCreated.value = true
+            }.onFailure {
+                _error.value = "Error: ${it.message}"
+
+            }
+        }
+    }
+    fun refreshRatingsForEvent(eventId: Long) {
+        viewModelScope.launch {
+            ratingsRepository.getRatingsForEvent(eventId).onSuccess {
+                _ratings.value = it
+                _error.value = null
             }.onFailure {
                 _error.value = "Error: ${it.message}"
 
