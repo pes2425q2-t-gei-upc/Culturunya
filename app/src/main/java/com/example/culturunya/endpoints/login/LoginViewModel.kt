@@ -62,8 +62,9 @@ class LoginViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val googleIdOption = GetGoogleIdOption.Builder()
-                    .setFilterByAuthorizedAccounts(false)
+                    .setFilterByAuthorizedAccounts(true)
                     .setServerClientId(WEB_CLIENT_ID)
+                    .setAutoSelectEnabled(true)
                     .build()
 
                 val request = GetCredentialRequest.Builder()
