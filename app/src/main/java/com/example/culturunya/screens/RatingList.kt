@@ -24,12 +24,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -44,6 +38,7 @@ import com.example.culturunya.models.currentSession.CurrentSession
 import com.example.culturunya.ui.theme.*
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.TextField
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import com.example.culturunya.models.RatingType
 
@@ -60,7 +55,9 @@ fun RatingListScreen(
     // Collect the error
     val error by ratingViewModel.error.collectAsState()
     // Fetch ratings for the specific event ID
-    ratingViewModel.fetchRatingsForEvent(eventId)
+    LaunchedEffect(eventId) {
+        ratingViewModel.fetchRatingsForEvent(eventId)
+    }
     // Collect the ratings
     val ratings by ratingViewModel.ratings.collectAsState()
     val user = UserInfo("test", "test@test.com", "", "", "", "", "", "", "", "", "", 0, 0, 0, 0)
@@ -147,7 +144,7 @@ fun RatingListScreen(
                                 .background(Purple40)
                         ) {
                             DropdownMenuItem(
-                                text = { Text(getString(context, R.string.Awesome, currentLocale)) },
+                                text = { Text(text = getString(context, R.string.Awesome, currentLocale), color = Color.White) },
                                 onClick = {
                                     currentRatingType = RatingType.Awesome
                                     expanded = false
@@ -155,7 +152,7 @@ fun RatingListScreen(
                                 }
                             )
                             DropdownMenuItem(
-                                text = { Text(getString(context, R.string.Fun, currentLocale)) },
+                                text = { Text(text = getString(context, R.string.Fun, currentLocale), color = Color.White) },
                                 onClick = {
                                     currentRatingType = RatingType.Fun
                                     expanded = false
@@ -163,7 +160,7 @@ fun RatingListScreen(
                                 }
                             )
                             DropdownMenuItem(
-                                text = { Text(getString(context, R.string.KindaFun, currentLocale)) },
+                                text = { Text(text = getString(context, R.string.KindaFun, currentLocale), color = Color.White) },
                                 onClick = {
                                     currentRatingType = RatingType.KindaFun
                                     expanded = false
@@ -171,7 +168,7 @@ fun RatingListScreen(
                                 }
                             )
                             DropdownMenuItem(
-                                text = { Text(getString(context, R.string.Mediocre, currentLocale)) },
+                                text = { Text(text = getString(context, R.string.Mediocre, currentLocale), color = Color.White) },
                                 onClick = {
                                     currentRatingType = RatingType.Mediocre
                                     expanded = false
@@ -179,7 +176,7 @@ fun RatingListScreen(
                                 }
                             )
                             DropdownMenuItem(
-                                text = { Text(getString(context, R.string.Bad, currentLocale)) },
+                                text = { Text(text = getString(context, R.string.Bad, currentLocale), color = Color.White) },
                                 onClick = {
                                     currentRatingType = RatingType.Bad
                                     expanded = false

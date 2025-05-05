@@ -196,6 +196,7 @@ fun PantallaCanviContrasenya(navController: NavController) {
                 onClick = {
                     CurrentSession.getInstance()
                     val contrasenyaCorrecta = CurrentSession.password
+                    Log.d("Contra actual", "$contrasenyaCorrecta")
                     when {
                         contrasenyaActual.isEmpty() || novaContrasenya.isEmpty() || confirmaNovaContrasenya.isEmpty() ->
                             missatgeError = getString(context, R.string.allFieldsRequired, currentLocale)

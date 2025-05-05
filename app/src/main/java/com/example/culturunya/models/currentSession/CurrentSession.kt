@@ -31,6 +31,7 @@ class CurrentSession private constructor() {
 
         fun setTokenAndPassword(token: String, password: String) {
             this.token = token
+            this.password = password
         }
 
         fun setUserData(username: String, email: String, profile_pic: String) {
