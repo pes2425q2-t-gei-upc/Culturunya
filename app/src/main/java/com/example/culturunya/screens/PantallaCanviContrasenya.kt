@@ -40,7 +40,6 @@ fun PantallaCanviContrasenya(navController: NavController) {
     var haCanviat by remember { mutableStateOf(false) }
     var currentPasswordVisible by remember { mutableStateOf(false) }
     var newPasswordVisible by remember { mutableStateOf(false) }
-    var confirmNewPasswordVisible by remember { mutableStateOf(false) }
     var isLoading by remember { mutableStateOf(false) }
     val context = LocalContext.current
     CurrentSession.getInstance()
@@ -144,10 +143,10 @@ fun PantallaCanviContrasenya(navController: NavController) {
                 label = { Text(getString(context, R.string.confirmNewPassword, currentLocale)) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
-                visualTransformation = if (confirmNewPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                visualTransformation = if (newPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = {
-                    val image = if (confirmNewPasswordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff
-                    IconButton(onClick = { confirmNewPasswordVisible = !confirmNewPasswordVisible }) {
+                    val image = if (newPasswordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff
+                    IconButton(onClick = { newPasswordVisible = !newPasswordVisible }) {
                         Icon(imageVector = image, contentDescription = "Mostrar/Amagar contrasenya", tint = Color.Gray)
                     }
                 },
@@ -179,7 +178,7 @@ fun PantallaCanviContrasenya(navController: NavController) {
                         Button(
                             onClick = {
                                 haCanviat = false
-                                navController.navigate(AppScreens.MainScreen.createRoute("settings"))
+                                navController.navigate(AppScreens.MainScreen.createRoute("Settings"))
                             },
                             colors = ButtonDefaults.buttonColors(containerColor = Morat)
                         ) {
@@ -228,7 +227,7 @@ fun PantallaCanviContrasenya(navController: NavController) {
 
             LaunchedEffect(changePasswordCode) {
                 when (changePasswordCode) {
-                    200 -> navController.navigate(AppScreens.IniciSessio.route)
+                    200 -> haCanviat = true
                     else -> if (changePasswordCode != null) showErrorDialog = true
                 }
             }
@@ -242,7 +241,6 @@ fun PantallaCanviContrasenya(navController: NavController) {
                     showErrorDialog = false
                 })
             }
-
         }
     }
 }
