@@ -1,6 +1,8 @@
 package com.example.culturunya.controllers
 
 import android.util.Log
+import com.example.culturunya.Api
+import com.example.culturunya.repositories.AuthRepository
 import kotlinx.coroutines.runBlocking
 
 fun enviarDadesAlBackend(username: String, email: String, password: String): Int {

@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.example.culturunya.navigation.AppNavigation
+import com.example.culturunya.controllers.AppNavigation
 import com.example.culturunya.ui.theme.CulturunyaTheme
 
 
