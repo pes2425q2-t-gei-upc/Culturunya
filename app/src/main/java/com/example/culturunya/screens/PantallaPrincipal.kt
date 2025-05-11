@@ -1,7 +1,6 @@
 package com.example.culturunya.screens
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -19,8 +18,13 @@ import com.example.culturunya.R
 import com.example.culturunya.ui.theme.*
 import com.example.culturunya.endpoints.events.EventViewModel
 import androidx.annotation.RequiresApi
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CalendarMonth
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Map
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -58,7 +62,7 @@ fun MainScreen(navController: NavController, viewModel: EventViewModel, initialS
                 // Botó MAP
                 TopButtonItem(
                     subScreenName = "Map",
-                    iconRes = R.drawable.ic_map,
+                    icon = Icons.Default.Map,
                     isSelected = (currentEventsSubScreen == "Map")
                 ) {
                     currentEventsSubScreen = "Map"
@@ -67,7 +71,7 @@ fun MainScreen(navController: NavController, viewModel: EventViewModel, initialS
                 // Botó CALENDAR
                 TopButtonItem(
                     subScreenName = "Calendar",
-                    iconRes = R.drawable.ic_calendar,
+                    icon = Icons.Default.CalendarMonth,
                     isSelected = (currentEventsSubScreen == "Calendar")
                 ) {
                     currentEventsSubScreen = "Calendar"
@@ -76,7 +80,7 @@ fun MainScreen(navController: NavController, viewModel: EventViewModel, initialS
                 // Botó LIST
                 TopButtonItem(
                     subScreenName = "List",
-                    iconRes = R.drawable.ic_list,
+                    icon = Icons.Default.List,
                     isSelected = (currentEventsSubScreen == "List")
                 ) {
                     currentEventsSubScreen = "List"
@@ -158,7 +162,7 @@ fun MainScreen(navController: NavController, viewModel: EventViewModel, initialS
 @Composable
 fun TopButtonItem(
     subScreenName: String,
-    @DrawableRes iconRes: Int,
+    icon: ImageVector,
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
@@ -181,7 +185,7 @@ fun TopButtonItem(
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Icon(
-                painter = painterResource(id = iconRes),
+                imageVector = icon,
                 contentDescription = subScreenName
             )
             Spacer(modifier = Modifier.height(4.dp))
@@ -249,9 +253,4 @@ fun EventListScreen(viewModel: EventViewModel) {
 @Composable
 fun QuizScreen() {
     Text(text = "Aquesta serà la pantalla de Quiz")
-}
-
-@Composable
-fun LeaderboardScreen() {
-    Text(text = "Aquesta serà la pantalla de Leaderboard")
 }
