@@ -280,12 +280,23 @@ fun PantallaRegistre(navController: NavController) {
                         }
                     ) {
                         Text(
-                            text = getString(context, R.string.confirmationButton, currentLocale)
+                            text = getString(context, R.string.confirmationButton, currentLocale),
+                            color = Color.Black
                         )
                     }
                 },
-                title = { getString(context, R.string.registrationCompleted, currentLocale) },
-                text = { getString(context, R.string.registrationConfirmation, currentLocale) },
+                title = {
+                    Text(
+                        text = getString(context, R.string.registrationCompleted, currentLocale),
+                        color = Color.Black
+                    )
+                },
+                text = {
+                    Text(
+                        text = getString(context, R.string.registrationConfirmation, currentLocale),
+                        color = Color.Black
+                    )
+                }
             )
         }
 
