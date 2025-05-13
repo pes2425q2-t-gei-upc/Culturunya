@@ -7,6 +7,7 @@ import com.example.culturunya.models.deleteAccount.DeleteAccountRequest
 import com.example.culturunya.models.login.LoginRequest
 import com.example.culturunya.models.login.LoginResponse
 import retrofit2.HttpException
+import okhttp3.MultipartBody
 
 class UserRepository(private val api: Api) {
     suspend fun getProfileInfo(token: String): UserInfo {
@@ -59,6 +60,19 @@ class UserRepository(private val api: Api) {
     suspend fun changeUsername(token: String, request: ChangeUsernameRequest): Result<Unit> {
         return try {
             val response = api.changeUsername(token, request)
+            if (response.isSuccessful) {
+                Result.success(Unit)
+            } else {
+                Result.failure(HttpException(response))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun uploadProfilePic(token: String, profilePic: MultipartBody.Part): Result<Unit> {
+        return try {
+            val response = api.uploadProfilePic(token, profilePic)
             if (response.isSuccessful) {
                 Result.success(Unit)
             } else {

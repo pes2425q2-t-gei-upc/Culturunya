@@ -22,6 +22,7 @@ import com.example.culturunya.models.sendMessage.SendMessageToAdminRequest
 import com.example.culturunya.models.sendMessage.SendMessageToUserRequest
 import retrofit2.Response
 import retrofit2.http.*
+import okhttp3.MultipartBody
 
 interface Api {
     companion object{
@@ -93,5 +94,12 @@ interface Api {
     suspend fun changeUsername(
         @Header("Authorization") token: String,
         @Body request: ChangeUsernameRequest
+    ): Response<Unit>
+
+    @Multipart
+    @POST("user/profile_pic/")
+    suspend fun uploadProfilePic(
+        @Header("Authorization") token: String,
+        @Part profilePic: MultipartBody.Part
     ): Response<Unit>
 }

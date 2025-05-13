@@ -139,4 +139,11 @@
     <string name="usernameChangedSuccessfully">"Username changed successfully"</string>
     <string name="sameUsernameError">"The new username cannot be the same as the current one"</string>
     <string name="saveChanges">"Save changes"</string>
+
+    <string name="changeProfilePic">Change Profile Picture</string>
+    <string name="selectImage">Select Image</string>
+    <string name="profilePicUpdated">Profile picture updated successfully</string>
+    <string name="invalidData">"Invalid data"</string>
+    <string name="notAuthenticated">"Not authenticated"</string>
+    <string name="errorUpdatingPic">"Error updating profile picture"</string>
 </resources>
