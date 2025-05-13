@@ -281,7 +281,7 @@ fun PantallaRegistre(navController: NavController) {
                     ) {
                         Text(
                             text = getString(context, R.string.confirmationButton, currentLocale),
-                            color = Color.Black
+                            color = Color.White
                         )
                     }
                 },
@@ -307,7 +307,10 @@ fun PantallaRegistre(navController: NavController) {
                 text = { Text(errorMessage) },
                 confirmButton = {
                     Button(onClick = { showDialog = false }) {
-                        Text("OK")
+                        Text(
+                            text = getString(context, R.string.confirmationButton, currentLocale),
+                            color = Color.White
+                        )
                     }
                 }
             )
