@@ -134,4 +134,9 @@
     <!-- <string name = "serverError">"Error: Problema en el servidor."</string> -->
     <string name = "networkError">"Network error. Please try again."</string>
     <string name = "unknownError">"Unknown error: "</string>
+
+    <string name="newUsername">"New username"</string>
+    <string name="usernameChangedSuccessfully">"Username changed successfully"</string>
+    <string name="sameUsernameError">"The new username cannot be the same as the current one"</string>
+    <string name="saveChanges">"Save changes"</string>
 </resources>

@@ -132,7 +132,7 @@ fun SettingsScreen(navController: NavController) {
                     icon = Icons.Default.Person,
                     text = getString(context, R.string.changeUsername, currentLocale),
                     onClick = {
-                        // Pantalla Canvi de username
+                        navController.navigate(AppScreens.ChangeUsername.route)
                     }
                 )
                 Divider(color = Color.LightGray)
