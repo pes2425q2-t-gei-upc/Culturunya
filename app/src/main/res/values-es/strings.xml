@@ -149,4 +149,11 @@
     <string name="invalidData">"Dato inválido"</string>
     <string name="notAuthenticated">"No autenticado"</string>
     <string name="errorUpdatingPic">"Error al actualizar la foto de perfil"</string>
+
+    <!-- Quiz strings -->
+    <string name="quizScore">Puntuación: %1$d</string>
+    <string name="quizCorrect">¡Correcto!</string>
+    <string name="quizIncorrect">¡Incorrecto!</string>
+    <string name="quizLoading">Cargando pregunta...</string>
+    <string name="quizError">Error: %1$s</string>
 </resources>

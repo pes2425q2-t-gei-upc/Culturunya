@@ -24,6 +24,8 @@ class CurrentSession private constructor() {
 
         var profile_pic: String = ""
 
+        var current_quiz_points: Int = 0
+
         fun getInstance() =
             instance ?: synchronized(this) {
                 instance ?: CurrentSession().also { instance = it }

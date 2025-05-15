@@ -30,5 +30,10 @@ sealed class AppScreens(val route: String) {
     }
     object LlistaXats: AppScreens("chatList_screen")
     object EventMapScreen: AppScreens("event_map_screen")
-    object ChangeProfilePic : AppScreens("changeProfilePic_screen")
+    object ChangeProfilePic : AppScreens("changeProfilePic") {
+        override fun createRoute() = "changeProfilePic"
+    }
+    object Quiz : AppScreens("quiz") {
+        override fun createRoute() = "quiz"
+    }
 }

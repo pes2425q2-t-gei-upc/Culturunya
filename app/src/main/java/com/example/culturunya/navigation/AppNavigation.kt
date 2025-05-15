@@ -55,6 +55,9 @@ fun AppNavigation() {
         composable(route = AppScreens.ChangeProfilePic.route) {
             PantallaCanviFotoPerfil(navController)
         }
+        composable(route = AppScreens.Quiz.route) {
+            PantallaQuiz(navController)
+        }
         composable(route = "event_map_screen") {
             EventMapScreen()
         }
