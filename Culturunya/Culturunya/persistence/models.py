@@ -193,13 +193,23 @@ class Quiz(models.Model):
 
 # Question Model
 class Question(models.Model):
-    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name="questions")
-    question = models.TextField()
-    answer = models.JSONField()
+    code = models.CharField(max_length=100, unique=True)
     points = models.IntegerField()
+    image = models.ImageField(upload_to="questions/", blank=True, null=True)
 
     def __str__(self):
-        return self.question
+        return self.code
+
+class QuestionTranslation(models.Model):
+    question = models.ForeignKey(Question, related_name="translations", on_delete=models.CASCADE)
+    language = models.CharField(max_length=10, choices=[("ES", "Español"), ("EN", "English")])
+    text = models.TextField()
+
+    class Meta:
+        unique_together = ("question", "language")
+
+    def __str__(self):
+        return f"{self.language}: {self.text[:30]}"
 
 # Participation Model
 class Participation(models.Model):
