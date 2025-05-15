@@ -118,7 +118,7 @@
     <string name = "confirmPasswordBox">"Confirmar contraseña"</string>
     <string name = "registerButton">"Registrarse"</string>
     <string name = "alreadyRegisterded">"¿Ya tienes cuenta? "</string>
-    <string name = "confirmationButton">"De acuerdo"</string>
+    <string name = "confirmationButton">"OK"</string>
     <string name = "registrationCompleted">"Registro completado"</string>
     <string name = "registrationConfirmation">"¡Te has registrado correctamente!"</string>
     <string name = "registrationGeneralError">"Error en el registro"</string>

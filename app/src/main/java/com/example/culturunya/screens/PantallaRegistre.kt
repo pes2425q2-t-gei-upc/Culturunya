@@ -24,7 +24,10 @@ import com.example.culturunya.navigation.AppScreens
 import com.example.culturunya.ui.theme.Morat
 import com.example.culturunya.controllers.enviarDadesAlBackend
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.culturunya.models.currentSession.CurrentSession
+import com.example.culturunya.endpoints.login.LoginViewModel
+
 
 
 /**
@@ -51,6 +54,14 @@ fun PantallaRegistre(navController: NavController) {
     val context = LocalContext.current
     CurrentSession.getInstance()
     var currentLocale by remember { mutableStateOf(CurrentSession.language) }
+
+    //variable per executar un login quan el usuari termini el registre
+    val loginViewModel: LoginViewModel = viewModel()
+    CurrentSession.getInstance()
+    // Inicializa el ViewModel con el contexto
+    LaunchedEffect(Unit) {
+        loginViewModel.initialize(context)
+    }
 
 
     Box(
@@ -276,16 +287,29 @@ fun PantallaRegistre(navController: NavController) {
                     Button(
                         onClick = {
                             registreExit = false
-                            navController.navigate(route = AppScreens.IniciSessio.route)
+                            CurrentSession.addRegisterData(username, password, email)
+                            loginViewModel.login(username, password)
+                            navController.navigate(route = AppScreens.MainScreen.createRoute("Events"))
                         }
                     ) {
                         Text(
-                            text = getString(context, R.string.confirmationButton, currentLocale)
+                            text = getString(context, R.string.confirmationButton, currentLocale),
+                            color = Color.White
                         )
                     }
                 },
-                title = { getString(context, R.string.registrationCompleted, currentLocale) },
-                text = { getString(context, R.string.registrationConfirmation, currentLocale) },
+                title = {
+                    Text(
+                        text = getString(context, R.string.registrationCompleted, currentLocale),
+                        color = Color.Black
+                    )
+                },
+                text = {
+                    Text(
+                        text = getString(context, R.string.registrationConfirmation, currentLocale),
+                        color = Color.Black
+                    )
+                }
             )
         }
 
@@ -296,7 +320,10 @@ fun PantallaRegistre(navController: NavController) {
                 text = { Text(errorMessage) },
                 confirmButton = {
                     Button(onClick = { showDialog = false }) {
-                        Text("OK")
+                        Text(
+                            text = getString(context, R.string.confirmationButton, currentLocale),
+                            color = Color.White
+                        )
                     }
                 }
             )

@@ -68,5 +68,11 @@ class CurrentSession private constructor() {
         fun hasActiveSession(): Boolean {
             return token.isNotEmpty()
         }
+
+        fun addRegisterData(userName: String, newPassword: String, mail: String) {
+            username = userName
+            password = newPassword
+            email = mail
+        }
     }
 }
