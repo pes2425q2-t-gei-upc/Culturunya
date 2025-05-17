@@ -30,7 +30,7 @@ from api.serializers import UserProfileSerializer, ChangePasswordSerializer, Rep
 # Services
 from domain.users_service import get_all_events, filter_events, create_user_service, create_rating, create_message, \
     get_messages, create_resolved_report, get_messages_admin, create_report
-from persistence.models import User, Report, Rating, TypeRating
+from persistence.models import User, Report, Rating, TypeRating, QuestionTranslation
 from api.serializers import ProfilePicSerializer
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.decorators import parser_classes
@@ -983,3 +983,31 @@ def resolve_report(request, report_id):
     user = User.objects.get(id=request.user.id)
     status_msg, status_code = create_resolved_report(request.data, user, report_id)
     return Response(status_msg, status=status_code)
+
+@swagger_auto_schema(
+    method="get",
+    operation_summary="Obtener una pregunta del quiz",
+    manual_parameters=[
+        openapi.Parameter(
+            name='question_id',
+            in_=openapi.IN_PATH,
+            type=openapi.TYPE_INTEGER,
+            description="ID de la pregunta que se desea obtener",
+            required=True
+        )
+    ],
+    responses={
+        200: openapi.Response(description="Pregunta obtenida"),
+        404: openapi.Response(description="Pregunta no encontrada"),
+    }
+)
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_question(request, question_id):
+    user = User.objects.get(id=request.user.id)
+    language = user.language
+    try:
+        question = QuestionTranslation.objects.get(question_id=question_id, language=language)
+    except QuestionTranslation.DoesNotExist:
+        return Response({"Error": "pregunta no encontrada"}, status=404)
+    return Response(question, status=200)
