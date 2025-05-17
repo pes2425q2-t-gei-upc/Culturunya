@@ -184,26 +184,20 @@ class Message(models.Model):
     def __str__(self):
         return f"{self.sender.username} -> {self.receiver.username}: {self.text[:30]}"
 
-# Quiz Model
-class Quiz(models.Model):
-    points = models.IntegerField()
-
-    def __str__(self):
-        return f"Quiz with {self.points} points"
 
 # Question Model
 class Question(models.Model):
-    code = models.CharField(max_length=100, unique=True)
-    points = models.IntegerField()
+    question_es = models.TextField(null=True)
     image = models.ImageField(upload_to="questions/", blank=True, null=True)
 
     def __str__(self):
-        return self.code
+        return f"{self.id}: {self.question_es}"
 
 class QuestionTranslation(models.Model):
     question = models.ForeignKey(Question, related_name="translations", on_delete=models.CASCADE)
     language = models.CharField(max_length=10, choices=[("ES", "Español"), ("EN", "English")])
-    text = models.TextField()
+    text = models.TextField(help_text="Pregunta en sí en el idioma correspondiente")
+    options = models.JSONField(help_text="lista de opciones disponibles en el idioma correspondiente")
 
     class Meta:
         unique_together = ("question", "language")
