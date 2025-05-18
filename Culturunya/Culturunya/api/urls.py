@@ -6,7 +6,7 @@ from .views import (
     CustomObtainAuthToken, delete_own_account, ChangePasswordView, UserProfileView, get_conversation_with_admin,
     get_conversation_with_user, send_message_user_to_admin, send_message_admin_to_user, update_language,
     update_username, logout_view, resolve_report, list_reports, send_report, get_event_comments, list_chats_admin,
-    upload_profile_pic, google_auth
+    upload_profile_pic, google_auth, get_question
 )
 from .views import data_test
 from .views import delete_test
