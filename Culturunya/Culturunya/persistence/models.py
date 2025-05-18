@@ -110,6 +110,8 @@ class User(AbstractUser):
     language = models.CharField(max_length=20, choices=[("ES", "Español"), ("EN", "English")], default=("ES", "Español"))
     rank_event = models.CharField(max_length=20, choices=TypeRank.choices, default=TypeRank.UNRANKED)
     rank_quiz = models.CharField(max_length=20, choices=TypeRating.choices, default=TypeRating.BAD)
+    total_event_points = models.IntegerField(default=0, null=True)
+    total_quiz_points = models.IntegerField(default=0, null=True)
     current_event_points = models.IntegerField(default=0)
     current_quiz_points = models.IntegerField(default=0)
     points_to_next_rank_event = models.IntegerField(default=POINTS_TO_NEXT_RANK[TypeRank.UNRANKED])

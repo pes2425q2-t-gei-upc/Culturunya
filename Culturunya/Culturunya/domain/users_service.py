@@ -1,6 +1,6 @@
 from typing import List
 
-from django.db.models import Q
+from django.db.models import Q, QuerySet
 from django.http import JsonResponse
 from django.core import serializers
 from datetime import datetime
@@ -10,7 +10,7 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 
 from api.serializers import ReportResolutionSerializer, ReportSerializer
-from persistence.models import Event, PersonalCalendar, Rating, Message, Report
+from persistence.models import Event, PersonalCalendar, Rating, Message, Report, TypeRank
 
 
 def get_all_events():
@@ -184,3 +184,29 @@ def create_resolved_report(data, user, report_id):
         return {"message": "Report resuelto correctamente"}, 200
 
     return {"error": serializer.errors}, 400
+
+def get_events_ranking_leaderboard():
+    best_users = User.objects.order_by("-total_event_points")[:10]
+    best_users_serializer = []
+    for user in best_users:
+        user_info = {
+            "username": user.username,
+            "profile_picture": user.profile_pic.url if user.profile_pic else None,
+            "rank": user.rank_event,
+            "points": user.current_event_points,
+        }
+        best_users_serializer.append(user_info)
+    return best_users_serializer
+
+def get_quiz_ranking_leaderboard():
+    best_users = User.objects.order_by("-total_quiz_points")[:10]
+    best_users_serializer = []
+    for user in best_users:
+        user_info = {
+            "username": user.username,
+            "profile_picture": user.profile_pic.url if user.profile_pic else None,
+            "rank": user.rank_quiz,
+            "points": user.current_quiz_points,
+        }
+        best_users_serializer.append(user_info)
+    return best_users_serializer
