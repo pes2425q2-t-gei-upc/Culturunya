@@ -30,7 +30,7 @@ from api.serializers import UserProfileSerializer, ChangePasswordSerializer, Rep
 # Services
 from domain.users_service import get_all_events, filter_events, create_user_service, create_rating, create_message, \
     get_messages, create_resolved_report, get_messages_admin, create_report
-from persistence.models import User, Report, Rating, TypeRating, QuestionTranslation
+from persistence.models import User, Report, Rating, TypeRating, QuestionTranslation, TypeRank, POINTS_TO_NEXT_RANK
 from api.serializers import ProfilePicSerializer
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.decorators import parser_classes
@@ -1011,3 +1011,65 @@ def get_question(request, question_id):
     except QuestionTranslation.DoesNotExist:
         return Response({"Error": "pregunta no encontrada"}, status=404)
     return Response(question, status=200)
+
+@swagger_auto_schema(
+    method="put",
+    operation_summary="Sumar puntos al ranking de asistir a eventos de un usuario",
+    responses={
+        200: openapi.Response(description="Puntos obtenidos o subir de nivel"),
+    }
+)
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def obtain_location_points(request):
+    user = User.objects.get(id=request.user.id)
+    event_points = user.current_event_points + 20
+    points_to_next_rank = user.points_to_next_rank_event
+    rank = user.rank_event
+    if event_points >= points_to_next_rank:
+        if rank == TypeRank.UNRANKED:
+            rank = TypeRank.BRONZE
+        elif rank == TypeRank.BRONZE:
+            rank = TypeRank.SILVER
+        elif rank == TypeRank.SILVER:
+            rank = TypeRank.GOLD
+        elif rank == TypeRank.GOLD:
+            rank = TypeRank.RAMON_LLULL
+        user.current_event_points = 0
+        user.points_to_next_rank_event = POINTS_TO_NEXT_RANK[rank]
+        user.rank_event = rank
+        return Response({"message": "¡Has subido de nivel!"}, status=200)
+    else:
+        user.current_event_points = event_points
+        return Response({"message": "Puntos obtenidos"}, status=200)
+
+@swagger_auto_schema(
+    method="put",
+    operation_summary="Sumar puntos al ranking de preguntas de un usuario",
+    responses={
+        200: openapi.Response(description="Puntos obtenidos o subir de nivel"),
+    }
+)
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def obtain_quiz_points(request):
+    user = User.objects.get(id=request.user.id)
+    event_points = user.current_quiz_points + 5
+    points_to_next_rank = user.points_to_next_quiz_points
+    rank = user.rank_quiz
+    if event_points >= points_to_next_rank:
+        if rank == TypeRank.UNRANKED:
+            rank = TypeRank.BRONZE
+        elif rank == TypeRank.BRONZE:
+            rank = TypeRank.SILVER
+        elif rank == TypeRank.SILVER:
+            rank = TypeRank.GOLD
+        elif rank == TypeRank.GOLD:
+            rank = TypeRank.RAMON_LLULL
+        user.current_quiz_points = 0
+        user.points_to_next_quiz_points = POINTS_TO_NEXT_RANK[rank]
+        user.rank_quiz = rank
+        return Response({"message": "¡Has subido de nivel!"}, status=200)
+    else:
+        user.current_event_points = event_points
+        return Response({"message": "Puntos obtenidos"}, status=200)
