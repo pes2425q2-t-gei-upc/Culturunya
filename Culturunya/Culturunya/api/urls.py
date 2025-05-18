@@ -6,7 +6,7 @@ from .views import (
     CustomObtainAuthToken, delete_own_account, ChangePasswordView, UserProfileView, get_conversation_with_admin,
     get_conversation_with_user, send_message_user_to_admin, send_message_admin_to_user, update_language,
     update_username, logout_view, resolve_report, list_reports, send_report, get_event_comments, list_chats_admin,
-    upload_profile_pic, google_auth, get_question
+    upload_profile_pic, google_auth, get_question, obtain_location_points, obtain_quiz_points
 )
 from .views import data_test
 from .views import delete_test
@@ -37,6 +37,8 @@ urlpatterns = [#se concatena con el path de url del proyecto
     path('user/change_password/', ChangePasswordView.as_view(), name='change_password'),
     path('user/update_language/', update_language, name='update_language'),
     path('user/update_username/', update_username, name='update_username'),
+    path('user/get_points_event/', obtain_location_points, name='obtain_location_points'),
+    path('user/get_points_quiz/', obtain_quiz_points, name='obtain_quiz_points'),
     path('reports/create/', send_report, name='create_report'),
     path('reports/', list_reports, name='list_reports'),
     path('reports/<int:report_id>/resolve/', resolve_report, name='resolve_report'),
