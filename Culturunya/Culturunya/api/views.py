@@ -1,4 +1,5 @@
 import json
+from http.client import responses
 
 from django.http import JsonResponse
 
@@ -29,7 +30,8 @@ from api.serializers import UserProfileSerializer, ChangePasswordSerializer, Rep
     ReportResolutionSerializer, RatingSerializer
 # Services
 from domain.users_service import get_all_events, filter_events, create_user_service, create_rating, create_message, \
-    get_messages, create_resolved_report, get_messages_admin, create_report
+    get_messages, create_resolved_report, get_messages_admin, create_report, get_quiz_ranking_leaderboard, \
+    get_events_ranking_leaderboard
 from persistence.models import User, Report, Rating, TypeRating, QuestionTranslation, TypeRank, POINTS_TO_NEXT_RANK
 from api.serializers import ProfilePicSerializer
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -1023,6 +1025,7 @@ def get_question(request, question_id):
 @permission_classes([IsAuthenticated])
 def obtain_location_points(request):
     user = User.objects.get(id=request.user.id)
+    user.total_event_points += 20
     event_points = user.current_event_points + 20
     points_to_next_rank = user.points_to_next_rank_event
     rank = user.rank_event
@@ -1054,6 +1057,7 @@ def obtain_location_points(request):
 @permission_classes([IsAuthenticated])
 def obtain_quiz_points(request):
     user = User.objects.get(id=request.user.id)
+    user.total_quiz_points += 5
     event_points = user.current_quiz_points + 5
     points_to_next_rank = user.points_to_next_quiz_points
     rank = user.rank_quiz
@@ -1073,3 +1077,27 @@ def obtain_quiz_points(request):
     else:
         user.current_event_points = event_points
         return Response({"message": "Puntos obtenidos"}, status=200)
+
+@swagger_auto_schema(
+    method="get",
+    operation_summary="obtener leaderboard de los usuarios asistentes a eventos",
+    responses={
+        200: openapi.Response(description="Ok"),
+    }
+)
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_quiz_ranking():
+    return Response(get_quiz_ranking_leaderboard(), status=200)
+
+@swagger_auto_schema(
+    method="get",
+    operation_summary="obtener leaderboard de los usuarios que responden preguntas",
+    responses={
+        200: openapi.Response(description="Ok"),
+    }
+)
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_event_assistance_ranking():
+    return Response(get_events_ranking_leaderboard(), status=200)
