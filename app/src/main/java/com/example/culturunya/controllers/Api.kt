@@ -20,6 +20,7 @@ import com.example.culturunya.models.login.LoginRequest
 import com.example.culturunya.models.login.LoginResponse
 import com.example.culturunya.models.sendMessage.SendMessageToAdminRequest
 import com.example.culturunya.models.sendMessage.SendMessageToUserRequest
+import com.example.culturunya.models.updateLanguage.UpdateLanguageRequest
 import retrofit2.Response
 import retrofit2.http.*
 import okhttp3.MultipartBody
@@ -102,4 +103,7 @@ interface Api {
         @Header("Authorization") token: String,
         @Part profilePic: MultipartBody.Part
     ): Response<Unit>
+
+    @PUT("user/update_language/")
+    suspend fun updateLanguage(@Header("Authorization") token: String, @Body updateLanguageRequest: UpdateLanguageRequest): Response<Unit>
 }

@@ -29,6 +29,7 @@ import com.example.culturunya.R
 import com.example.culturunya.endpoints.deleteAccount.DeleteAccountViewModel
 import com.example.culturunya.endpoints.getChats.GetChatsViewModel
 import com.example.culturunya.endpoints.logout.LogoutViewModel
+import com.example.culturunya.endpoints.updateLanguage.UpdateLanguageViewModel
 import com.example.culturunya.endpoints.users.UserViewModel
 import com.example.culturunya.models.currentSession.CurrentSession
 import com.example.culturunya.navigation.AppScreens
@@ -45,6 +46,10 @@ fun SettingsScreen(navController: NavController) {
     val deleteAccountViewModel: DeleteAccountViewModel = viewModel()
     val deleteCode by deleteAccountViewModel.deleteAccountStatus.collectAsState()
     var showDeleteErrorDialog by remember { mutableStateOf(false) }
+
+    val updateLanguageViewModel: UpdateLanguageViewModel = viewModel()
+    val updateLanguageCode by updateLanguageViewModel.updateLanguageStatus.collectAsState()
+    var showUpdateLanguageErrorDialog by remember { mutableStateOf(false) }
 
     val logoutViewModel: LogoutViewModel = viewModel()
     val logoutCode by logoutViewModel.logoutStatus.collectAsState()
@@ -64,7 +69,7 @@ fun SettingsScreen(navController: NavController) {
 
     val options = listOf("English", "Español")
     var expanded by remember { mutableStateOf(false) }
-    var selectedOption by remember { mutableStateOf(if (currentLocale == "en") options[0] else options[1]) }
+    var selectedOption by remember { mutableStateOf(if (currentLocale == "en" || currentLocale == "EN") options[0] else options[1]) }
 
     val userViewModel: UserViewModel = viewModel()
 
@@ -89,6 +94,16 @@ fun SettingsScreen(navController: NavController) {
         val message = getString(context, R.string.unexpectedErrorLoadingChat, currentLocale)
         popUpError(message, onClick = {
             showGetChatsErrorDialog = false
+        })
+    }
+
+    if (showUpdateLanguageErrorDialog) {
+        var message = getString(context, R.string.unexpectedErrorLanguage, currentLocale)
+        if (updateLanguageCode == 400) message = getString(context, R.string.notAValidLanguage, currentLocale)
+        else if (updateLanguageCode == 401) message = getString(context, R.string.unauthenticated, currentLocale)
+        else if (updateLanguageCode == 500) getString(context, R.string.serverError, currentLocale)
+        popUpError(message, onClick = {
+            showUpdateLanguageErrorDialog = false
         })
     }
 
@@ -234,9 +249,7 @@ fun SettingsScreen(navController: NavController) {
                                     onClick = {
                                         selectedOption = selectionOption
                                         expanded = false
-                                        if (selectionOption == "English") CurrentSession.changeLanguage("en") else CurrentSession.changeLanguage("es")
-                                        CurrentSession.getInstance()
-                                        currentLocale = CurrentSession.language
+                                        updateLanguageViewModel.updateLanguage(if (selectedOption == "Español") "ES" else "EN")
                                     },
                                     modifier = Modifier.background(GrisMoltFluix)
                                 )
@@ -299,6 +312,16 @@ fun SettingsScreen(navController: NavController) {
         else if (deleteCode != null) {
             showDeleteErrorDialog = true
         }
+    }
+
+    LaunchedEffect(updateLanguageCode) {
+        if (updateLanguageCode == 200) {
+            if (selectedOption == "English") CurrentSession.changeLanguage("en")
+            else CurrentSession.changeLanguage("es")
+            CurrentSession.getInstance()
+            currentLocale = CurrentSession.language
+        }
+        else if (updateLanguageCode != null) showUpdateLanguageErrorDialog = true
     }
 
     LaunchedEffect(logoutCode) {
