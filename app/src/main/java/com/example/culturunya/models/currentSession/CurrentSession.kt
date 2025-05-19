@@ -24,6 +24,8 @@ class CurrentSession private constructor() {
 
         var profile_pic: String = ""
 
+        var current_quiz_points: Int = 0
+
         fun getInstance() =
             instance ?: synchronized(this) {
                 instance ?: CurrentSession().also { instance = it }
@@ -65,6 +67,12 @@ class CurrentSession private constructor() {
 
         fun hasActiveSession(): Boolean {
             return token.isNotEmpty()
+        }
+
+        fun addRegisterData(userName: String, newPassword: String, mail: String) {
+            username = userName
+            password = newPassword
+            email = mail
         }
     }
 }

@@ -12,6 +12,8 @@ import com.example.culturunya.endpoints.ratings.RatingRequest
 import com.example.culturunya.endpoints.users.UserInfo
 import com.example.culturunya.models.Message
 import com.example.culturunya.models.changePassword.ChangePasswordRequest
+import com.example.culturunya.models.changeUsername.ChangeUsernameRequest
+import com.example.culturunya.models.deleteAccount.DeleteAccountRequest
 import com.example.culturunya.models.events.Events
 import com.example.culturunya.models.getChats.ChatInfo
 import com.example.culturunya.models.login.LoginRequest
@@ -20,6 +22,7 @@ import com.example.culturunya.models.sendMessage.SendMessageToAdminRequest
 import com.example.culturunya.models.sendMessage.SendMessageToUserRequest
 import retrofit2.Response
 import retrofit2.http.*
+import okhttp3.MultipartBody
 
 interface Api {
     companion object{
@@ -86,4 +89,17 @@ interface Api {
 
     @POST("logout/")
     suspend fun logout(@Header("Authorization") token: String): Response<Unit>
+
+    @PUT("user/update_username/")
+    suspend fun changeUsername(
+        @Header("Authorization") token: String,
+        @Body request: ChangeUsernameRequest
+    ): Response<Unit>
+
+    @Multipart
+    @POST("user/profile_pic/")
+    suspend fun uploadProfilePic(
+        @Header("Authorization") token: String,
+        @Part profilePic: MultipartBody.Part
+    ): Response<Unit>
 }

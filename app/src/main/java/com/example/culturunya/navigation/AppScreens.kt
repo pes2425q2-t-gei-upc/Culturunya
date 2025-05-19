@@ -1,6 +1,7 @@
 package com.example.culturunya.navigation
 
 sealed class AppScreens(val route: String) {
+    open fun createRoute() = route
     object PantallaRegistre: AppScreens("register_screen")
     object IniciSessio: AppScreens("inici_sessio")
     object MainScreen : AppScreens("main_screen/{initialScreen}") {
@@ -10,6 +11,7 @@ sealed class AppScreens(val route: String) {
     }
     object SettingsScreen: AppScreens("settings_screen")
     object CanviContrasenya: AppScreens("changePassword_screen")
+    object ChangeUsername : AppScreens("change_username")
     object Xat : AppScreens(
         "chat_screen?userId={userId}&username={username}&imageUrl={imageUrl}"
     ) {
@@ -28,4 +30,10 @@ sealed class AppScreens(val route: String) {
     }
     object LlistaXats: AppScreens("chatList_screen")
     object EventMapScreen: AppScreens("event_map_screen")
+    object ChangeProfilePic : AppScreens("changeProfilePic") {
+        override fun createRoute() = "changeProfilePic"
+    }
+    object Quiz : AppScreens("quiz") {
+        override fun createRoute() = "quiz"
+    }
 }

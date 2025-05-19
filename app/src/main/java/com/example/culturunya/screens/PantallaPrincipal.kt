@@ -21,6 +21,7 @@ import com.example.culturunya.endpoints.events.EventViewModel
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.example.culturunya.navigation.AppScreens
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -101,7 +102,7 @@ fun MainScreen(navController: NavController, viewModel: EventViewModel, initialS
                     }
                 }
 
-                "Quiz" -> QuizScreen()
+                "Quiz" -> QuizScreen(navController)
                 "Leaderboard" -> LeaderboardScreen()
                 "Settings" -> SettingsScreen(navController)
             }
@@ -226,7 +227,7 @@ fun BottomButtonItem(
     }
 }
 
-/** PANTALLES D’ESDEVENIMENTS (SUB-SCREENS) */
+/** PANTALLES D'ESDEVENIMENTS (SUB-SCREENS) */
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -247,8 +248,8 @@ fun EventListScreen(viewModel: EventViewModel) {
 
 /** ALTRES PANTALLES PRINCIPALS */
 @Composable
-fun QuizScreen() {
-    Text(text = "Aquesta serà la pantalla de Quiz")
+fun QuizScreen(navController: NavController) {
+    PantallaQuiz(navController)
 }
 
 @Composable

@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -101,7 +102,8 @@ fun SettingsScreen(navController: NavController) {
         ProfileHeader(
             username = username,
             email = email,
-            avatarRes = imageUrl
+            avatarRes = imageUrl,
+            navController = navController
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -132,7 +134,7 @@ fun SettingsScreen(navController: NavController) {
                     icon = Icons.Default.Person,
                     text = getString(context, R.string.changeUsername, currentLocale),
                     onClick = {
-                        // Pantalla Canvi de username
+                        navController.navigate(AppScreens.ChangeUsername.route)
                     }
                 )
                 Divider(color = Color.LightGray)
@@ -342,7 +344,8 @@ fun SettingsScreen(navController: NavController) {
 fun ProfileHeader(
     username: String,
     email: String,
-    avatarRes: String
+    avatarRes: String,
+    navController: NavController
 ) {
     Row(
         modifier = Modifier
@@ -359,7 +362,8 @@ fun ProfileHeader(
                 contentDescription = "Perfil Image",
                 modifier = Modifier
                     .clip(CircleShape)
-                    .size(60.dp),
+                    .size(60.dp)
+                    .clickable { navController.navigate(AppScreens.ChangeProfilePic.route) },
             )
         }
         else {
@@ -371,6 +375,7 @@ fun ProfileHeader(
                     .size(60.dp)
                     .clip(CircleShape)
                     .background(Color.White)
+                    .clickable { navController.navigate(AppScreens.ChangeProfilePic.route) }
             )
         }
 
