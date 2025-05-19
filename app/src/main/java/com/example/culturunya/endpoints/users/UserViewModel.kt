@@ -31,9 +31,9 @@ class UserViewModel: ViewModel() {
                 CurrentSession.getInstance()
                 val user = _getUserInfoResponse.value
                 if (user != null) {
-                    Log.d("UserViewModel", "Setting user data with: ${user.username}, ${user.email}")
-                    if (user.profile_pic != null) CurrentSession.setUserData(user.username, user.email, user.profile_pic)
-                    else CurrentSession.setUserData(user.username, user.email, "")
+                    Log.d("UserViewModel", "Setting user data with: ${user.username}, ${user.email}, ${user.language}")
+                    if (user.profile_pic != null) CurrentSession.setUserData(user.username, user.email, user.profile_pic, user.language)
+                    else CurrentSession.setUserData(user.username, user.email, "", user.language)
                 }
             }
             catch (e: Exception){

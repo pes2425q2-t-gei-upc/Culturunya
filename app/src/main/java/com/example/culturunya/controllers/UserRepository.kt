@@ -6,6 +6,7 @@ import com.example.culturunya.models.changeUsername.ChangeUsernameRequest
 import com.example.culturunya.models.deleteAccount.DeleteAccountRequest
 import com.example.culturunya.models.login.LoginRequest
 import com.example.culturunya.models.login.LoginResponse
+import com.example.culturunya.models.updateLanguage.UpdateLanguageRequest
 import retrofit2.HttpException
 import okhttp3.MultipartBody
 
@@ -73,6 +74,19 @@ class UserRepository(private val api: Api) {
     suspend fun uploadProfilePic(token: String, profilePic: MultipartBody.Part): Result<Unit> {
         return try {
             val response = api.uploadProfilePic(token, profilePic)
+            if (response.isSuccessful) {
+                Result.success(Unit)
+            } else {
+                Result.failure(HttpException(response))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun updateLangugage(token: String, language: String): Result<Unit> {
+        return try {
+            val response = api.updateLanguage(token, UpdateLanguageRequest(language))
             if (response.isSuccessful) {
                 Result.success(Unit)
             } else {

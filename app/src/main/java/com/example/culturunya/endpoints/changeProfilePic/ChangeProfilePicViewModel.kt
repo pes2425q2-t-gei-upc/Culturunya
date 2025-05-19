@@ -76,7 +76,7 @@ class ChangeProfilePicViewModel : ViewModel() {
                     try {
                         val userInfo = repository.getProfileInfo("Token $currentToken")
                         if (userInfo.profile_pic != null) {
-                            CurrentSession.setUserData(userInfo.username, userInfo.email, userInfo.profile_pic)
+                            CurrentSession.setUserData(userInfo.username, userInfo.email, userInfo.profile_pic, userInfo.language)
                         }
                         _state.value = _state.value.copy(isLoading = false, success = true)
                     } catch (e: Exception) {

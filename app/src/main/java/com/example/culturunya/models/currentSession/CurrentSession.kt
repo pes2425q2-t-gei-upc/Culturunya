@@ -36,10 +36,11 @@ class CurrentSession private constructor() {
             this.password = password
         }
 
-        fun setUserData(username: String, email: String, profile_pic: String) {
+        fun setUserData(username: String, email: String, profile_pic: String, language: String) {
             this.username = username
             this.email = email
             this.profile_pic = profile_pic
+            this.language = language
         }
 
         fun setGoogleToken(idToken: String) {
