@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.net.Uri
 import android.os.Build
+import android.os.Looper
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -22,9 +23,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Map
-
 import androidx.compose.material.icons.filled.Close
-
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -38,11 +37,8 @@ import androidx.core.content.ContextCompat
 import com.example.culturunya.endpoints.events.Event
 import com.example.culturunya.endpoints.events.EventViewModel
 import com.example.culturunya.ui.theme.Purple40
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
-
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
@@ -54,6 +50,9 @@ import java.util.*
 import androidx.compose.ui.platform.LocalContext
 import com.example.culturunya.models.currentSession.CurrentSession
 import com.example.culturunya.R
+import com.google.android.gms.location.Priority
+import kotlinx.coroutines.delay
+import androidx.compose.runtime.LaunchedEffect
 
 
 /**
@@ -277,7 +276,7 @@ fun EventMapScreen() {
     if (showPermissionDialog) {
         AlertDialog(
             onDismissRequest = { showPermissionDialog = false },
-            title = {getString(context, R.string.alertDialogTitle, currentLocale)},
+            title = {Text(getString(context, R.string.alertDialogTitle, currentLocale))},
             text = {
                 Text(
                     text = getString(context, R.string.alertDialogContent, currentLocale),
@@ -344,31 +343,68 @@ fun MapContent(hasLocationPermission: Boolean = true) {
     var distanceKm by remember { mutableStateOf(10f) }  // Distància en km per filtrar
 
     // Col·leccions reactives d'esdeveniments filtrats i estats de càrrega/error
-
     val filteredEvents by viewModel.filteredEventsByDistanceAndDate.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val error by viewModel.error.collectAsState()
 
-
-    // Emmagatzemar l'ubicació actual de l'usuari
+    // Emmagatzemar l'ubicació actual de l'usuari amb estat observable
     var currentLocation by remember { mutableStateOf<Location?>(null) }
+
+    // Variable per controlar la freqüència d'actualització del cercle (en mil·lisegons)
+    val circleUpdateInterval = 100L // Actualitzar cada 100ms
+
+    // Variable per forçar la recomposició del cercle
+    var circleUpdateTrigger by remember { mutableStateOf(0) }
 
     // Estat per emmagatzemar l'esdeveniment seleccionat
     var selectedEvent by remember { mutableStateOf<Event?>(null) }
     // Estat per controlar si es mostra la pantalla de detalls de l'esdeveniment
     var showEventDetails by remember { mutableStateOf(false) }
 
+    // Variable per controlar si se está siguiendo al usuario
+    var isFollowingUser by remember { mutableStateOf(true) }
+
+    // Crear un objeto LocationCallback para recibir actualizaciones de ubicación
+    val locationCallback = remember {
+        object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                locationResult.lastLocation?.let { location ->
+                    currentLocation = location
+
+                    // Actualizar la posición de la cámara solo si estamos siguiendo al usuario
+                    if (isFollowingUser) {
+                        val userLatLng = LatLng(location.latitude, location.longitude)
+                        // Mantener el nivel de zoom actual cuando actualizamos la posición
+                        val currentZoom = cameraPositionState.position.zoom
+                        cameraPositionState.position = CameraPosition.Builder()
+                            .target(userLatLng)
+                            .zoom(currentZoom) // Mantener el zoom que tenía el usuario
+                            .build()
+                    }
+                }
+            }
+        }
+    }
+
+    // LaunchedEffect per actualitzar el cercle amb alta freqüència
+    LaunchedEffect(Unit) {
+        while (true) {
+            delay(circleUpdateInterval)
+            circleUpdateTrigger += 1  // Incrementar per forçar recomposició
+        }
+    }
+
     // Efecte que s'executa quan es carrega el component per primera vegada
     LaunchedEffect(Unit) {
         if (hasLocationPermission) {
-            // Si tenim permís d'ubicació, obtenim la ubicació actual
+            // Si tenim permís d'ubicació, obtenim la ubicació actual i configurem actualizacions
 
+            // Primero obtenemos la ubicación inicial
             val location = getLastKnownLocation(context, fusedLocationClient)
             location?.let {
                 currentLocation = it
                 val userLatLng = LatLng(it.latitude, it.longitude)
                 cameraPositionState.position = CameraPosition.fromLatLngZoom(userLatLng, 15f)
-
 
                 // Filtrem esdeveniments per data i ubicació
                 val firstDayOfMonth = currentDate.withDayOfMonth(1).toString()
@@ -380,8 +416,29 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                     distanceKm.toInt()
                 )
             }
-        } else {
 
+            // Configuramos las actualizaciones de ubicación en tiempo real - Augmentem la freqüència per a més fluidesa
+            val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 1000)
+                .setMinUpdateIntervalMillis(500)  // Augmentem la freqüència a 500ms
+                .setWaitForAccurateLocation(false)
+                .build()
+
+            // Iniciar las actualizaciones de ubicación
+            if (hasLocationPermission) {
+                // Double-check permission programmatically before requesting location updates
+                if (ContextCompat.checkSelfPermission(
+                        context,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
+                    fusedLocationClient.requestLocationUpdates(
+                        locationRequest,
+                        locationCallback,
+                        Looper.getMainLooper()
+                    )
+                }
+            }
+        } else {
             // Ubicació predeterminada - Centre de Barcelona (Plaça Catalunya)
             val defaultLocation = LatLng(41.3874, 2.1686)
             cameraPositionState.position = CameraPosition.fromLatLngZoom(defaultLocation, 13f)
@@ -399,6 +456,13 @@ fun MapContent(hasLocationPermission: Boolean = true) {
         }
     }
 
+    // Efecte que s'executa per aturar les actualitzacions quan el component es desmunta
+    DisposableEffect(Unit) {
+        onDispose {
+            // Detener las actualizaciones de ubicación cuando el componente se desmonta
+            fusedLocationClient.removeLocationUpdates(locationCallback)
+        }
+    }
 
     // Efecte que s'executa quan canvia la data o la distància
     LaunchedEffect(currentDate, distanceKm) {
@@ -426,7 +490,6 @@ fun MapContent(hasLocationPermission: Boolean = true) {
         }
     }
 
-
     // Si es mostra la pantalla de detalls, mostrar EventInfo
     if (showEventDetails && selectedEvent != null) {
         EventInfo(
@@ -451,7 +514,6 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                     Icon(Icons.Default.KeyboardArrowLeft, contentDescription = "Mes anterior", tint = Color.Black)
                 }
                 Text(
-
                     text = "${
                         getString(
                             context,
@@ -477,18 +539,29 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                     modifier = Modifier.fillMaxSize(),
                     cameraPositionState = cameraPositionState,
                     properties = MapProperties(isMyLocationEnabled = hasLocationPermission),
-
                     onMapClick = {
                         // Deseleccionar en fer clic al mapa
                         selectedEvent = null
+                        // Desactivar el seguimiento automático cuando el usuario interactúa con el mapa
+                        isFollowingUser = false
+                    },
+                    onMapLongClick = {
+                        // Reactivamos el seguimiento al usuario con un clic largo
+                        if (hasLocationPermission && currentLocation != null) {
+                            isFollowingUser = true
+                            val userLatLng = LatLng(currentLocation!!.latitude, currentLocation!!.longitude)
+                            cameraPositionState.position = CameraPosition.fromLatLngZoom(userLatLng, 15f)
+                        }
                     }
                 ) {
-                    // Afegir un cercle transparent de 150 metres al voltant de la ubicació de l'usuari
+                    // Afegir el cercle transparent al voltant de la ubicació de l'usuari, que es recomposa amb alta freqüència
                     if (hasLocationPermission && currentLocation != null) {
+                        // Utilitzem la variable trigger per forçar recomposició
+                        val valorInutilizado = circleUpdateTrigger
                         val userLatLng = LatLng(currentLocation!!.latitude, currentLocation!!.longitude)
                         Circle(
                             center = userLatLng,
-                            radius = 75.0, // 150 metres
+                            radius = 75.0, // 150 metres de diàmetre (75 de radi)
                             strokeColor = Color.Blue.copy(alpha = 0.3f),
                             fillColor = Color.Blue.copy(alpha = 0.1f)
                         )
@@ -507,6 +580,8 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                             onClick = {
                                 // En fer clic, seleccionar aquest esdeveniment
                                 selectedEvent = event
+                                // Desactivamos el seguimiento automático cuando se selecciona un marcador
+                                isFollowingUser = false
                                 // retornar false perquè el sistema mostri l'InfoWindow
                                 false
                             },
@@ -550,6 +625,33 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                         }
                     }
                 }
+
+                // Botón para reactivar el seguimiento automático
+                if (!isFollowingUser && hasLocationPermission) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(bottom = 16.dp, end = 16.dp),
+                        contentAlignment = Alignment.BottomEnd
+                    ) {
+                        FloatingActionButton(
+                            onClick = {
+                                if (currentLocation != null) {
+                                    isFollowingUser = true
+                                    val userLatLng = LatLng(currentLocation!!.latitude, currentLocation!!.longitude)
+                                    cameraPositionState.position = CameraPosition.fromLatLngZoom(userLatLng, 15f)
+                                }
+                            },
+                            containerColor = Purple40
+                        ) {
+                            Icon(
+                                Icons.Filled.LocationOn,
+                                contentDescription = "Centrar al meu lloc",
+                                tint = Color.White
+                            )
+                        }
+                    }
+                }
             }
 
             // Slider de Distància per ajustar el radi de cerca
@@ -558,8 +660,6 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp)
             ) {
-
-
                 Row {
                     Text(
                         text = getString(context, R.string.distanceLabel, currentLocale),
@@ -585,15 +685,14 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                     steps = 9,
                     modifier = Modifier.fillMaxWidth(),
                     colors = SliderDefaults.colors(
-                            activeTrackColor = MaterialTheme.colorScheme.primary,
-                            inactiveTrackColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f), // más claro
-                            thumbColor = MaterialTheme.colorScheme.primary,
-                            activeTickColor = MaterialTheme.colorScheme.primary,
-                            inactiveTickColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
+                        activeTrackColor = MaterialTheme.colorScheme.primary,
+                        inactiveTrackColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f), // más claro
+                        thumbColor = MaterialTheme.colorScheme.primary,
+                        activeTickColor = MaterialTheme.colorScheme.primary,
+                        inactiveTickColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
                     )
                 )
             }
-
 
             // Botons per veure detalls i obrir en Google Maps (només visibles si hi ha un esdeveniment seleccionat)
             if (selectedEvent != null) {
@@ -618,7 +717,6 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                             color = Color.White
                         )
                     }
-
 
                     // Botó per obrir en Google Maps
                     Button(
