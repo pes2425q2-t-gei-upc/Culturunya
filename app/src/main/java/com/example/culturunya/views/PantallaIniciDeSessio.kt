@@ -1,5 +1,6 @@
 package com.example.culturunya.views
 
+import android.os.Build
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -32,8 +33,12 @@ import com.example.culturunya.ui.theme.Morat
 import com.example.culturunya.viewmodels.LoginViewModel
 import com.example.culturunya.viewmodels.UserViewModel
 import com.example.culturunya.CurrentSession
+import com.example.culturunya.notifications.NotificationService
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
 fun ComposableIniciSessio(navController: NavController) {
     var usuari by remember { mutableStateOf("") }
@@ -46,6 +51,18 @@ fun ComposableIniciSessio(navController: NavController) {
     val loginViewModel: LoginViewModel = viewModel()
     val userViewModel: UserViewModel = viewModel()
     val scrollState = rememberScrollState()
+
+    val notificationService = NotificationService(context)
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        val permissionState = rememberPermissionState(
+            permission = android.Manifest.permission.POST_NOTIFICATIONS
+        )
+        LaunchedEffect(Unit) {
+            if (!permissionState.status.isGranted) {
+                permissionState.launchPermissionRequest()
+            }
+        }
+    }
 
     // Inicializa el ViewModel con el contexto
     LaunchedEffect(Unit) {
@@ -142,7 +159,10 @@ fun ComposableIniciSessio(navController: NavController) {
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = {
                     val image = if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff
-                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                    IconButton(onClick = {
+                        passwordVisible = !passwordVisible
+                        notificationService.showNotification()
+                    }) {
                         Icon(imageVector = image, contentDescription = "Mostrar/Amagar contrasenya", tint = Color.Gray)
                     }
                 },
