@@ -12,7 +12,7 @@
     <string name="register">" Regístrate"</string>
     <string name="notAuthorized">"No estás autorizado"</string>
     <string name="serverError">"Error del servidor. Inténtalo más tarde."</string>
-    <string name="unknownErrorGetUserInfo">"Unknown error getting user info."</string>
+    <string name="unknownErrorGetUserInfo">"Error desconocido obtenindo la información del usuario."</string>
 
     <!-- Pantalla Canvi de contrasenya -->
     <string name="back">"Atrás"</string>
@@ -159,4 +159,10 @@
     <string name="quizIncorrect">¡Incorrecto!</string>
     <string name="quizLoading">Cargando pregunta...</string>
     <string name="quizError">Error: %1$s</string>
+
+    <!-- Pantalla Leaderboard -->
+    <string name="monthlyRanking">Clasificación Mensual</string>
+    <string name="quiz">Questionario</string>
+    <string name="geolocalization">Geolocalización</string>
+    <string name="unknownErrorRanking">Error desconocido cargando la clasificación.</string>
 </resources>

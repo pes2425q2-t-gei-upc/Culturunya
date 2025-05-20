@@ -4,8 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,28 +17,70 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.runtime.*
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import coil.compose.AsyncImage
+import com.example.culturunya.CurrentSession
 import com.example.culturunya.ui.theme.Morat
+import com.example.culturunya.views.TopButtonItem
+import com.example.culturunya.views.getString
+import com.example.culturunya.R
+import com.example.culturunya.navigation.AppScreens
+import com.example.culturunya.viewmodels.GetChatWithAdminViewModel
+import com.example.culturunya.viewmodels.GetChatWithUserViewModel
+import com.example.culturunya.viewmodels.GetLeaderboardQuizViewModel
+import com.example.culturunya.views.popUpError
+import kotlinx.coroutines.delay
 
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LeaderboardScreen() {
-    val leaderboard = listOf(
-        Triple(1, "Username", 1470),
-        Triple(2, "Username", 1470),
-        Triple(3, "Username", 1470),
-        Triple(4, "Username", 1470),
-        Triple(5, "Username", 1470),
-        Triple(6, "Username", 1470),
-        Triple(7, "Username", 1460),
-        Triple(8, "Username", 1001),
-        Triple(9, "You", 969),
-        Triple(10, "Username", 600),
-        Triple(11, "Username", 515),
-        Triple(12, "Username", 470)
-    )
-
+fun LeaderboardScreen(navController: NavController) {
     var currentSubScreen = "Quizz"
+
+    val context = LocalContext.current
+    CurrentSession.getInstance()
+    val currentLocale = CurrentSession.language
+
+    val getLeaderboardViewModel = if (currentSubScreen == "Quizz") {
+        viewModel<GetLeaderboardQuizViewModel>()
+    } else {
+
+    }
+
+    val getLeaderboardStatus by if (currentSubScreen == "Quizz") {
+        (getLeaderboardViewModel as GetLeaderboardQuizViewModel).getLeaderboardQuizError.collectAsState()
+    } else {
+        (getLeaderboardViewModel as GetLeaderboardQuizViewModel).getLeaderboardQuizError.collectAsState() //canviar
+    }
+
+    val leaderboard by if (currentSubScreen == "Quizz") {
+        (getLeaderboardViewModel as GetLeaderboardQuizViewModel).getLeaderboardQuizResponse.collectAsState(initial = emptyList())
+    } else {
+        (getLeaderboardViewModel as GetLeaderboardQuizViewModel).getLeaderboardQuizResponse.collectAsState(initial = emptyList())
+    }
+
+    var showErrorDialog by remember { mutableStateOf(false) }
+
+    LaunchedEffect(getLeaderboardStatus) {
+        if (getLeaderboardStatus != 200 && getLeaderboardStatus != null) showErrorDialog = true
+    }
+
+    if (showErrorDialog) {
+        popUpError(getString(context, R.string.unknownErrorRanking, currentLocale), onClick = {
+            showErrorDialog = false
+            navController.navigate(AppScreens.MainScreen.createRoute("Events"))
+        })
+    }
+
+    LaunchedEffect(Unit) {
+        if (currentSubScreen == "Quizz") {
+            (getLeaderboardViewModel as GetLeaderboardQuizViewModel).getLeaderboardQuiz()
+        } else {
+
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -53,14 +95,14 @@ fun LeaderboardScreen() {
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             TopButtonItem(
-                subScreenName = "Quizz",
+                subScreenName = getString(context, R.string.quiz, currentLocale),
                 icon = Icons.Default.CheckCircle,
                 isSelected = (currentSubScreen == "Quizz"),
                 onClick = { currentSubScreen = "Quizz" }
             )
 
             TopButtonItem(
-                subScreenName = "Geolocalization",
+                subScreenName = getString(context, R.string.geolocalization, currentLocale),
                 icon = Icons.Default.LocationOn,
                 isSelected = (currentSubScreen == "Geolocalization"),
                 onClick = { currentSubScreen = "Geolocalization" }
@@ -78,7 +120,8 @@ fun LeaderboardScreen() {
         )
 
         Text(
-            text = "Monthly Ranking",
+            text = getString(context, R.string.monthlyRanking, currentLocale),
+            color = Color.Black,
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
@@ -87,8 +130,8 @@ fun LeaderboardScreen() {
         )
 
         LazyColumn {
-            items(leaderboard) { (rank, name, points) ->
-                val isCurrentUser = name == "You"
+            items(leaderboard ?: emptyList()) { item ->
+                val isCurrentUser = item.username == "You"
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -100,15 +143,39 @@ fun LeaderboardScreen() {
                         .padding(12.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("#$rank", fontWeight = FontWeight.Bold, modifier = Modifier.width(40.dp))
-                    Icon(
-                        imageVector = Icons.Default.Person,
-                        contentDescription = null,
-                        modifier = Modifier.size(24.dp)
-                    )
+                    Text("#${item.rank}",
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.width(40.dp),
+                        color = Color.Black)
+                    if (item.profile_picture == null) {
+                        Icon(
+                            imageVector = Icons.Default.AccountCircle,
+                            contentDescription = "Perfil default",
+                            tint = Morat,
+                            modifier = Modifier
+                                .size(48.dp)
+                                .clip(CircleShape)
+                                .background(Color.White)
+                        )
+                    }
+                    else {
+                        val baseUrl = "http://nattech.fib.upc.edu:40369"
+                        val urlFinal = baseUrl + item.profile_picture
+                        AsyncImage(
+                            model = urlFinal,
+                            contentDescription = "Perfil Image",
+                            modifier = Modifier
+                                .clip(CircleShape)
+                                .size(48.dp),
+                        )
+                    }
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text(name, modifier = Modifier.weight(1f))
-                    Text("${points} pts", fontWeight = FontWeight.Bold)
+                    Text(item.username,
+                        modifier = Modifier.weight(1f),
+                        color = Color.Black)
+                    Text("${item.points} pts",
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black)
                 }
             }
         }

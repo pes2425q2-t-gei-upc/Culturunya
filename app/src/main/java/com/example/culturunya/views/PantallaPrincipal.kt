@@ -18,8 +18,14 @@ import com.example.culturunya.R
 import com.example.culturunya.ui.theme.*
 import com.example.culturunya.viewmodels.EventViewModel
 import androidx.annotation.RequiresApi
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CalendarMonth
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Map
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import com.example.culturunya.screens.LeaderboardScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -101,7 +107,7 @@ fun MainScreen(navController: NavController, viewModel: EventViewModel, initialS
                 }
 
                 "Quiz" -> QuizScreen(navController)
-                "Leaderboard" -> LeaderboardScreen()
+                "Leaderboard" -> LeaderboardScreen(navController)
                 "Settings" -> SettingsScreen(navController)
             }
         }
