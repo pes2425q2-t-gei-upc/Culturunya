@@ -50,6 +50,15 @@ import java.time.LocalDate
 //imports relacionados con el cambio de idioma
 import com.example.culturunya.CurrentSession
 import com.example.culturunya.R
+import android.os.Looper
+import androidx.compose.runtime.*
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.Priority
+import com.google.android.gms.location.LocationRequest.Builder
+import androidx.core.app.ActivityCompat
+import kotlin.math.abs
 
 
 /**
@@ -183,7 +192,7 @@ fun EventMapScreen() {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 CircularProgressIndicator(color = Purple40)
                 Spacer(modifier = Modifier.height(16.dp))
-                Text(getString(context, R.string.checkingPermissions, currentLocale))
+                Text(getString(context, R.string.checkingPermissions, currentLocale), color = Color.Black)
             }
         }
 
@@ -214,7 +223,7 @@ fun EventMapScreen() {
                         )
                     ) {
                         Box(modifier = Modifier.fillMaxWidth()) {
-                            // Contingut del banner
+                            // Contingut del banner/prompt
                             Row(
                                 modifier = Modifier
                                     .padding(16.dp)
@@ -224,7 +233,8 @@ fun EventMapScreen() {
                                 Icon(
                                     Icons.Default.LocationOn,
                                     contentDescription = "Ubicació",
-                                    modifier = Modifier.padding(end = 8.dp)
+                                    modifier = Modifier.padding(end = 8.dp),
+                                    tint = Color(0xFF856404)
                                 )
                                 Column(
                                     modifier = Modifier.weight(1f)
@@ -232,11 +242,13 @@ fun EventMapScreen() {
                                     Text(
                                         text = getString(context, R.string.bannerTitle, currentLocale),
                                         style = MaterialTheme.typography.bodyLarge,
-                                        fontWeight = FontWeight.Bold
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color(0xFF856404)
                                     )
                                     Text(
                                         text = getString(context, R.string.bannerContent, currentLocale),
-                                        style = MaterialTheme.typography.bodyMedium
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        color = Color(0xFF856404)
                                     )
                                 }
                             }
@@ -274,8 +286,8 @@ fun EventMapScreen() {
             text = {
                 Text(
                     text = getString(context, R.string.alertDialogContent, currentLocale),
-
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    color = Color.Black
                 )
             },
             confirmButton = {
@@ -295,6 +307,7 @@ fun EventMapScreen() {
                     ) {
                         Text(
                             text = getString(context, R.string.accept, currentLocale),
+                            color = Color.White
                         )
                     }
                 }
@@ -350,46 +363,90 @@ fun MapContent(hasLocationPermission: Boolean = true) {
     // Estat per controlar si es mostra la pantalla de detalls de l'esdeveniment
     var showEventDetails by remember { mutableStateOf(false) }
 
+    var isCameraInitialized by remember { mutableStateOf(false) }
+
+    var lastFilterLocation by remember { mutableStateOf<Pair<Double, Double>?>(null) }
+    var lastFilterDate by remember { mutableStateOf<LocalDate?>(null) }
+
+
     // Efecte que s'executa quan es carrega el component per primera vegada
     LaunchedEffect(Unit) {
         if (hasLocationPermission) {
-            // Si tenim permís d'ubicació, obtenim la ubicació actual
+            val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 5000).apply {
+                setMinUpdateIntervalMillis(2000)
+            }.build()
 
-            val location = getLastKnownLocation(context, fusedLocationClient)
-            location?.let {
-                currentLocation = it
-                val userLatLng = LatLng(it.latitude, it.longitude)
-                cameraPositionState.position = CameraPosition.fromLatLngZoom(userLatLng, 15f)
+            val locationCallback = object : LocationCallback() {
+                override fun onLocationResult(locationResult: LocationResult) {
+                    val newLocation = locationResult.lastLocation
+                    if (newLocation != null) {
+                        currentLocation = newLocation
+
+                        // Només centra la càmera un cop
+                        if (!isCameraInitialized) {
+                            val userLatLng = LatLng(newLocation.latitude, newLocation.longitude)
+                            cameraPositionState.position = CameraPosition.fromLatLngZoom(userLatLng, 15f)
+                            isCameraInitialized = true
+                        }
+
+                        val lat = newLocation.latitude
+                        val lon = newLocation.longitude
+
+                        // Només filtra si la ubicació o la data han canviat significativament
+                        val sameLocation = lastFilterLocation?.let {
+                            abs(it.first - lon) < 0.0001 && abs(it.second - lat) < 0.0001
+                        } ?: false
+
+                        val sameDate = lastFilterDate == currentDate
+
+                        if (!sameLocation || !sameDate) {
+                            lastFilterLocation = Pair(lon, lat)
+                            lastFilterDate = currentDate
+
+                            val firstDayOfMonth = currentDate.withDayOfMonth(1).toString()
+                            val lastDayOfMonth = currentDate.withDayOfMonth(currentDate.lengthOfMonth()).toString()
+
+                            viewModel.filterEventsByRangeAndDate(
+                                firstDayOfMonth,
+                                lastDayOfMonth,
+                                Pair(lon, lat),
+                                distanceKm.toInt()
+                            )
+                        }
+                    }
+                }
+            }
 
 
-                // Filtrem esdeveniments per data i ubicació
-                val firstDayOfMonth = currentDate.withDayOfMonth(1).toString()
-                val lastDayOfMonth = currentDate.withDayOfMonth(currentDate.lengthOfMonth()).toString()
-                viewModel.filterEventsByRangeAndDate(
-                    firstDayOfMonth,
-                    lastDayOfMonth,
-                    Pair(it.longitude, it.latitude),
-                    distanceKm.toInt()
+            if (ActivityCompat.checkSelfPermission(
+                    context,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                fusedLocationClient.requestLocationUpdates(
+                    locationRequest,
+                    locationCallback,
+                    Looper.getMainLooper()
                 )
             }
-        } else {
 
-            // Ubicació predeterminada - Centre de Barcelona (Plaça Catalunya)
+        } else {
+            // Ubicació per defecte (Barcelona)
             val defaultLocation = LatLng(41.3874, 2.1686)
             cameraPositionState.position = CameraPosition.fromLatLngZoom(defaultLocation, 13f)
 
             val firstDayOfMonth = currentDate.withDayOfMonth(1).toString()
             val lastDayOfMonth = currentDate.withDayOfMonth(currentDate.lengthOfMonth()).toString()
 
-            // Usar la ubicació predeterminada per filtrar esdeveniments
             viewModel.filterEventsByRangeAndDate(
                 firstDayOfMonth,
                 lastDayOfMonth,
-                Pair(2.1686, 41.3874), // lon, lat de Plaça Catalunya
+                Pair(2.1686, 41.3874),
                 distanceKm.toInt()
             )
         }
     }
+
 
 
     // Efecte que s'executa quan canvia la data o la distància
@@ -440,7 +497,7 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(onClick = { currentDate = currentDate.minusMonths(1) }) {
-                    Icon(Icons.Default.KeyboardArrowLeft, contentDescription = "Mes anterior")
+                    Icon(Icons.Default.KeyboardArrowLeft, contentDescription = "Mes anterior", tint = Color.Black)
                 }
                 Text(
 
@@ -451,10 +508,11 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                             currentLocale
                         )
                     } ${currentDate.year}",
-                    style = MaterialTheme.typography.titleLarge
+                    style = MaterialTheme.typography.titleLarge,
+                    color = Color.Black
                 )
                 IconButton(onClick = { currentDate = currentDate.plusMonths(1) }) {
-                    Icon(Icons.Default.KeyboardArrowRight, contentDescription = "Mes següent")
+                    Icon(Icons.Default.KeyboardArrowRight, contentDescription = "Mes següent", tint = Color.Black)
                 }
             }
 
@@ -474,6 +532,17 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                         selectedEvent = null
                     }
                 ) {
+                    // Afegir un cercle transparent de 150 metres al voltant de la ubicació de l'usuari
+                    if (hasLocationPermission && currentLocation != null) {
+                        val userLatLng = LatLng(currentLocation!!.latitude, currentLocation!!.longitude)
+                        Circle(
+                            center = userLatLng,
+                            radius = 75.0, // 150 metres
+                            strokeColor = Color.Blue.copy(alpha = 0.3f),
+                            fillColor = Color.Blue.copy(alpha = 0.1f)
+                        )
+                    }
+
                     // Dibuixem tots els marcadors
                     filteredEvents.forEach { event ->
                         val position = LatLng(event.location.latitude, event.location.longitude)
@@ -487,7 +556,7 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                             onClick = {
                                 // En fer clic, seleccionar aquest esdeveniment
                                 selectedEvent = event
-                                // Important: retornar false perquè el sistema mostri l'InfoWindow
+                                // retornar false perquè el sistema mostri l'InfoWindow
                                 false
                             },
                             icon = BitmapDescriptorFactory.defaultMarker(
@@ -543,15 +612,18 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                 Row {
                     Text(
                         text = getString(context, R.string.distanceLabel, currentLocale),
-                        style = MaterialTheme.typography.bodyLarge
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = Color.Black
                     )
                     Text(
                         text = distanceKm.toInt().toString(), // el número, sense traducció
-                        style = MaterialTheme.typography.bodyLarge
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = Color.Black
                     )
                     Text(
                         text = getString(context, R.string.kilometersLabel, currentLocale), // " km"
-                        style = MaterialTheme.typography.bodyLarge
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = Color.Black
                     )
                 }
 
@@ -560,7 +632,14 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                     onValueChange = { distanceKm = it },
                     valueRange = 10f..100f,
                     steps = 9,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = SliderDefaults.colors(
+                        activeTrackColor = MaterialTheme.colorScheme.primary,
+                        inactiveTrackColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f), // más claro
+                        thumbColor = MaterialTheme.colorScheme.primary,
+                        activeTickColor = MaterialTheme.colorScheme.primary,
+                        inactiveTickColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
+                    )
                 )
             }
 
