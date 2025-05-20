@@ -6,7 +6,8 @@ from .views import (
     CustomObtainAuthToken, delete_own_account, ChangePasswordView, UserProfileView, get_conversation_with_admin,
     get_conversation_with_user, send_message_user_to_admin, send_message_admin_to_user, update_language,
     update_username, logout_view, resolve_report, list_reports, send_report, get_event_comments, list_chats_admin,
-    upload_profile_pic, google_auth, get_question, obtain_location_points, obtain_quiz_points
+    upload_profile_pic, google_auth, get_question, obtain_location_points, obtain_quiz_points,
+    get_event_assistance_ranking, get_quiz_ranking
 )
 from .views import data_test
 from .views import delete_test
@@ -43,5 +44,7 @@ urlpatterns = [#se concatena con el path de url del proyecto
     path('reports/', list_reports, name='list_reports'),
     path('reports/<int:report_id>/resolve/', resolve_report, name='resolve_report'),
     path('questions/<int:question_id>/', get_question, name='get_question'),
+    path('leaderboard/quiz/', get_quiz_ranking, name='quiz_leaderboard'),
+    path('leaderboard/events/', get_event_assistance_ranking, name='events_leaderboard'),
     path('auth/google/', google_auth, name="google_auth"),
 ]
