@@ -1,6 +1,7 @@
 import json
 from http.client import responses
 
+from django.db import IntegrityError
 from django.http import JsonResponse
 
 # DRF / Auth
@@ -186,6 +187,8 @@ def create_user(request):
 
     except json.JSONDecodeError:
         return JsonResponse({"error": "Formato JSON invalido"}, status=400)
+    except IntegrityError:
+        return Response({"error": "Usuario o email ya existente"}, status=409)
 
 @swagger_auto_schema(
     method='get',
