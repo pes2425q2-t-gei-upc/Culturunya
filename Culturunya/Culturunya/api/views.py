@@ -1094,7 +1094,7 @@ def obtain_quiz_points(request):
 )
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def get_quiz_ranking():
+def get_quiz_ranking(request):
     return Response(get_quiz_ranking_leaderboard(), status=200)
 
 @swagger_auto_schema(
@@ -1106,5 +1106,5 @@ def get_quiz_ranking():
 )
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def get_event_assistance_ranking():
+def get_event_assistance_ranking(request):
     return Response(get_events_ranking_leaderboard(), status=200)
