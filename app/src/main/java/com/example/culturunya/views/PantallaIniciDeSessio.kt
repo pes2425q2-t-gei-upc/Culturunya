@@ -52,18 +52,6 @@ fun ComposableIniciSessio(navController: NavController) {
     val userViewModel: UserViewModel = viewModel()
     val scrollState = rememberScrollState()
 
-    val notificationService = NotificationService(context)
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        val permissionState = rememberPermissionState(
-            permission = android.Manifest.permission.POST_NOTIFICATIONS
-        )
-        LaunchedEffect(Unit) {
-            if (!permissionState.status.isGranted) {
-                permissionState.launchPermissionRequest()
-            }
-        }
-    }
-
     // Inicializa el ViewModel con el contexto
     LaunchedEffect(Unit) {
         loginViewModel.initialize(context)
@@ -159,10 +147,7 @@ fun ComposableIniciSessio(navController: NavController) {
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = {
                     val image = if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff
-                    IconButton(onClick = {
-                        passwordVisible = !passwordVisible
-                        notificationService.showNotification()
-                    }) {
+                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
                         Icon(imageVector = image, contentDescription = "Mostrar/Amagar contrasenya", tint = Color.Gray)
                     }
                 },

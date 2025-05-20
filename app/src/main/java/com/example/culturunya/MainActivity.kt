@@ -1,22 +1,16 @@
 package com.example.culturunya
 
-import android.app.AlertDialog
-import android.app.AlarmManager
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.culturunya.navigation.AppNavigation
 import com.example.culturunya.notifications.scheduleNextNotification
@@ -27,14 +21,18 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Verificar permisos
         checkNotificationPermission()
 
-        // Programar notificación
-        scheduleNextNotification(this)
+        try {
+            scheduleNextNotification(this)
+            val prefs = getSharedPreferences("notification_prefs", Context.MODE_PRIVATE)
+            prefs.edit().putLong("last_schedule_time", System.currentTimeMillis()).apply()
+
+        } catch (e: Exception) {
+            Log.e("MainActivity", "Error al programar notificación: ${e.message}", e)
+        }
 
         setContent {
-            // Ya no necesitas solicitar permisos aquí, lo haremos en checkNotificationPermission
             CulturunyaTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -48,7 +46,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    // Movida al interior de la clase MainActivity
     private fun checkNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(
@@ -56,29 +53,21 @@ class MainActivity : ComponentActivity() {
                     android.Manifest.permission.POST_NOTIFICATIONS
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
-                    0
-                )
+                Log.d("MainActivity", "Solicitando permiso POST_NOTIFICATIONS")
+                requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+            } else {
+                Log.d("MainActivity", "Permiso POST_NOTIFICATIONS ya concedido")
             }
-        }
-
-        // Verificar permiso de alarmas exactas en Android 12+
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            if (!alarmManager.canScheduleExactAlarms()) {
-                // Mostrar diálogo explicando por qué se necesita el permiso
-                AlertDialog.Builder(this)
-                    .setTitle("Permiso necesario")
-                    .setMessage("Para recibir notificaciones correctamente, la aplicación necesita permiso para programar alarmas exactas.")
-                    .setPositiveButton("Configurar") { _, _ ->
-                        val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
-                        startActivity(intent)
-                    }
-                    .setNegativeButton("Cancelar", null)
-                    .show()
-            }
+        } else {
+            Log.d("MainActivity", "No se requiere permiso POST_NOTIFICATIONS en esta versión de Android")
         }
     }
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(androidx.activity.result.contract.ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+            if (isGranted) {
+                scheduleNextNotification(this)
+            }
+            else Log.d("MainActivity", "Permiso de notificaciones DENEGADO")
+        }
 }

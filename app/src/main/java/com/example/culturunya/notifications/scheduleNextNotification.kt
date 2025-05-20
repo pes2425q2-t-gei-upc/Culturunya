@@ -12,9 +12,9 @@ import java.util.*
 fun scheduleNextNotification(context: Context) {
     val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-    // Usa una acción específica para tu aplicación
     val intent = Intent(context, NotificationReceiver::class.java).apply {
         action = "com.example.culturunya.ALARM_TRIGGER"
+        putExtra("timestamp", System.currentTimeMillis())
     }
 
     val pendingIntent = PendingIntent.getBroadcast(
@@ -26,43 +26,27 @@ fun scheduleNextNotification(context: Context) {
 
     val calendar = Calendar.getInstance().apply {
         timeInMillis = System.currentTimeMillis()
-        add(Calendar.MINUTE, 1)
-    }
+        set(Calendar.HOUR_OF_DAY, 16)
+        set(Calendar.MINUTE, 10)
+        set(Calendar.SECOND, 0)
+        set(Calendar.MILLISECOND, 0)
 
-    Log.d("AlarmDebug", "Alarma programada para: ${calendar.time}")
-
-    // Verificar y solicitar permiso para alarmas exactas en Android 12+
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-        if (!alarmManager.canScheduleExactAlarms()) {
-            // Redirigir al usuario a configuración para habilitar alarmas exactas
-            val intent = Intent(android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            context.startActivity(intent)
-            Log.d("AlarmDebug", "Solicitando permiso para alarmas exactas")
-            return
+        if (before(Calendar.getInstance())) {
+            add(Calendar.DATE, 1)
         }
-
-        // Usar setAlarmClock en lugar de setExactAndAllowWhileIdle para mayor prioridad
-        val showTime = System.currentTimeMillis() + 60000 // 1 minuto después
-        val pendingShowIntent = PendingIntent.getActivity(context, 0, Intent(context, MainActivity::class.java), PendingIntent.FLAG_IMMUTABLE)
-
-        alarmManager.setAlarmClock(
-            AlarmManager.AlarmClockInfo(showTime, pendingShowIntent),
-            pendingIntent
-        )
-    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        alarmManager.setExactAndAllowWhileIdle(
-            AlarmManager.RTC_WAKEUP,
-            calendar.timeInMillis,
-            pendingIntent
-        )
-    } else {
-        alarmManager.setExact(
-            AlarmManager.RTC_WAKEUP,
-            calendar.timeInMillis,
-            pendingIntent
-        )
     }
 
-    Log.d("AlarmDebug", "Alarma configurada exitosamente")
+    val triggerTime = calendar.timeInMillis
+    Log.d("AlarmDebug", "Programando alarma inexacta para: ${Date(triggerTime)}")
+
+    try {
+        alarmManager.setInexactRepeating(
+            AlarmManager.RTC_WAKEUP,
+            triggerTime,
+            AlarmManager.INTERVAL_DAY,
+            pendingIntent
+        )
+    } catch (e: Exception) {
+        Log.e("AlarmDebug", "Error al programar alarma: ${e.message}", e)
+    }
 }

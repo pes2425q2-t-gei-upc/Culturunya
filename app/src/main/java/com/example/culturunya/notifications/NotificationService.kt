@@ -10,7 +10,7 @@ import com.example.culturunya.MainActivity
 import com.example.culturunya.R
 
 const val NOTIFICATION_CHANNEL_ID = "ch-1"
-const val NOTIFICATION_CHANNEL_NAME = "Test Notification"
+const val NOTIFICATION_CHANNEL_NAME = "Daily notification"
 const val NOTIFICATION_ID = 100
 const val REQUEST_CODE = 200
 
@@ -33,22 +33,19 @@ class NotificationService(
     fun showNotification() {
         val notification =
             NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
-                .setSmallIcon(R.drawable.logo_retallat)
                 .setContentTitle("Culturunya")
-                .setContentText("Recuerda hacer tus test diarios culturales. Si no los haces, te deportaremos a Italia :)")
-                .setPriority(NotificationCompat.PRIORITY_MAX) // Usar MAX en lugar de HIGH
+                .setSmallIcon(R.drawable.logo_sense_fons)
+                .setContentText("Recuerda hacer tus test diarios culturales para obtener puntos")
+                .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setCategory(NotificationCompat.CATEGORY_ALARM) // Categoría de alarma para dar prioridad
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
-                // Forzar vibración, sonido e iluminación LED
                 .setVibrate(longArrayOf(0, 250, 250, 250))
                 .setLights(android.graphics.Color.RED, 1000, 300)
                 .setSound(android.provider.Settings.System.DEFAULT_NOTIFICATION_URI)
                 .build()
 
-        // Adicionalmente, logueamos cuando se muestra la notificación
         Log.d("NotificationDebug", "Mostrando notificación con ID: $NOTIFICATION_ID")
 
         try {

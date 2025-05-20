@@ -9,13 +9,18 @@ import java.util.*
 
 class NotificationReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent?) {
-        Log.d("NotificationReceiver", "Alarma recibida a las: ${Date()} con acción: ${intent?.action}")
+        Log.d("NotificationReceiver", "================================")
+        Log.d("NotificationReceiver", "onReceive llamado a las: ${Date()}")
+        Log.d("NotificationReceiver", "Acción: ${intent?.action}")
 
-        // Verificar acción específica
+        val prefs = context.getSharedPreferences("notification_prefs", Context.MODE_PRIVATE)
+        prefs.edit().putLong("last_received_time", System.currentTimeMillis())
+            .putString("last_received_action", intent?.action ?: "null")
+            .apply()
+
         if (intent?.action == "com.example.culturunya.ALARM_TRIGGER" ||
             intent?.action == Intent.ACTION_BOOT_COMPLETED) {
 
-            // Utilizando un WakeLock para asegurar que el dispositivo no se duerma
             val powerManager = context.getSystemService(Context.POWER_SERVICE) as PowerManager
             val wakeLock = powerManager.newWakeLock(
                 PowerManager.PARTIAL_WAKE_LOCK,
@@ -23,18 +28,28 @@ class NotificationReceiver : BroadcastReceiver() {
             )
 
             try {
-                wakeLock.acquire(10*60*1000L /*10 minutos*/)
+                wakeLock.acquire(30*1000L)
+                Log.d("NotificationReceiver", "WakeLock adquirido")
 
                 val service = NotificationService(context)
                 service.showNotification()
+                Log.d("NotificationReceiver", "Notificación mostrada")
 
-                // Programar la siguiente notificación
                 scheduleNextNotification(context)
+                Log.d("NotificationReceiver", "Siguiente notificación programada")
+
             } catch (e: Exception) {
-                Log.e("NotificationReceiver", "Error al mostrar notificación", e)
+                Log.e("NotificationReceiver", "Error en onReceive: ${e.message}", e)
             } finally {
-                if (wakeLock.isHeld) wakeLock.release()
+                if (wakeLock.isHeld) {
+                    wakeLock.release()
+                    Log.d("NotificationReceiver", "WakeLock liberado")
+                }
             }
+        } else {
+            Log.d("NotificationReceiver", "Acción no reconocida")
         }
+
+        Log.d("NotificationReceiver", "================================")
     }
 }
