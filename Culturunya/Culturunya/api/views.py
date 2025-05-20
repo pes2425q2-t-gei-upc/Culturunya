@@ -1087,7 +1087,7 @@ def obtain_quiz_points(request):
 
 @swagger_auto_schema(
     method="get",
-    operation_summary="obtener leaderboard de los usuarios asistentes a eventos",
+    operation_summary="obtener leaderboard de los usuarios que responden preguntas",
     responses={
         200: openapi.Response(description="Ok"),
     }
@@ -1099,7 +1099,7 @@ def get_quiz_ranking(request):
 
 @swagger_auto_schema(
     method="get",
-    operation_summary="obtener leaderboard de los usuarios que responden preguntas",
+    operation_summary="obtener leaderboard de los usuarios asistentes a eventos",
     responses={
         200: openapi.Response(description="Ok"),
     }
