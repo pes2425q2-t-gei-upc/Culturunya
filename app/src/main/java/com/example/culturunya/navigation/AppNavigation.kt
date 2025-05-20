@@ -9,13 +9,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.culturunya.endpoints.events.EventViewModel
-import com.example.culturunya.screens.*
-import com.example.culturunya.screens.ComposableIniciSessio
-import com.example.culturunya.screens.MainScreen
-import com.example.culturunya.screens.PantallaRegistre
-import com.example.culturunya.screens.PantallaCanviContrasenya
-import com.example.culturunya.screens.SettingsScreen
+import com.example.culturunya.viewmodels.EventViewModel
+import com.example.culturunya.views.*
+import com.example.culturunya.views.ComposableIniciSessio
+import com.example.culturunya.views.MainScreen
+import com.example.culturunya.views.PantallaRegistre
+import com.example.culturunya.views.PantallaCanviContrasenya
+import com.example.culturunya.views.SettingsScreen
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -48,6 +48,15 @@ fun AppNavigation() {
         }
         composable(route = AppScreens.CanviContrasenya.route) {
             PantallaCanviContrasenya(navController)
+        }
+        composable(route = AppScreens.ChangeUsername.route) {
+            PantallaCanviNom(navController)
+        }
+        composable(route = AppScreens.ChangeProfilePic.route) {
+            PantallaCanviFotoPerfil(navController)
+        }
+        composable(route = AppScreens.Quiz.route) {
+            PantallaQuiz(navController)
         }
         composable(route = "event_map_screen") {
             EventMapScreen()

@@ -48,6 +48,9 @@
     <string name="unexpectedErrorLoadingChat">"There was an unexpected error loading the assistance chat."</string>
     <string name="logoutErrorCurrentSession">"Error during logout. The current session does not exist."</string>
     <string name="logoutUnexpectedError">"Unexpected error during logout."</string>
+    <string name="unexpectedErrorLanguage">"Unexpected error changing language."</string>
+    <string name="notAValidLanguage">"The language provided is not valid."</string>
+    <string name="unauthenticated">"Error. You are not authenticated."</string>
 
     <!-- Pantalla Calendari -->
     <string name="monday">Monday</string>
@@ -134,4 +137,23 @@
     <!-- <string name = "serverError">"Error: Problema en el servidor."</string> -->
     <string name = "networkError">"Network error. Please try again."</string>
     <string name = "unknownError">"Unknown error: "</string>
+
+    <string name="newUsername">"New username"</string>
+    <string name="usernameChangedSuccessfully">"Username changed successfully"</string>
+    <string name="sameUsernameError">"The new username cannot be the same as the current one"</string>
+    <string name="saveChanges">"Save changes"</string>
+
+    <string name="changeProfilePic">Change Profile Picture</string>
+    <string name="selectImage">Select Image</string>
+    <string name="profilePicUpdated">Profile picture updated successfully</string>
+    <string name="invalidData">"Invalid data"</string>
+    <string name="notAuthenticated">"Not authenticated"</string>
+    <string name="errorUpdatingPic">"Error updating profile picture"</string>
+
+    <!-- Quiz strings -->
+    <string name="quizScore">Score: %1$d</string>
+    <string name="quizCorrect">Correct!</string>
+    <string name="quizIncorrect">Incorrect!</string>
+    <string name="quizLoading">Loading question...</string>
+    <string name="quizError">Error: %1$s</string>
 </resources>
