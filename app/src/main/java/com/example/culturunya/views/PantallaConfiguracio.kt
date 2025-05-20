@@ -1,5 +1,6 @@
 package com.example.culturunya.views
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -102,6 +103,7 @@ fun SettingsScreen(navController: NavController) {
         popUpError(message, onClick = {
             showUpdateLanguageErrorDialog = false
         })
+        updateLanguageViewModel.reset()
     }
 
     // Contenidor principal
@@ -187,7 +189,6 @@ fun SettingsScreen(navController: NavController) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable(onClick = {})
                         .padding(16.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
@@ -313,10 +314,11 @@ fun SettingsScreen(navController: NavController) {
 
     LaunchedEffect(updateLanguageCode) {
         if (updateLanguageCode == 200) {
-            if (selectedOption == "English") CurrentSession.changeLanguage("en")
-            else CurrentSession.changeLanguage("es")
+            if (selectedOption == "English") CurrentSession.changeLanguage("EN")
+            else CurrentSession.changeLanguage("ES")
             CurrentSession.getInstance()
             currentLocale = CurrentSession.language
+            updateLanguageViewModel.reset()
         }
         else if (updateLanguageCode != null) showUpdateLanguageErrorDialog = true
     }
