@@ -163,7 +163,11 @@ def google_auth(request):
             'email': openapi.Schema(type=openapi.TYPE_STRING, format=openapi.FORMAT_EMAIL, description="Correo electronico"),
         },
     ),
-    responses={201: "Usuario creado", 400: "Datos invalidos"},
+    responses={
+        201: "Usuario creado",
+        400: "Datos invalidos",
+        409: "Username o email ya existente",
+    },
 )
 @api_view(["POST"])
 def create_user(request):
