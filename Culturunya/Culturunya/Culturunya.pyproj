@@ -34,6 +34,7 @@
     <Compile Include="api\apps.py" />
     <Compile Include="api\migrations\__init__.py" />
     <Compile Include="api\models.py" />
+    <Compile Include="api\serializers.py" />
     <Compile Include="api\urls.py">
       <SubType>Code</SubType>
     </Compile>
@@ -56,6 +57,10 @@
     <Compile Include="Culturunya\wsgi.py" />
     <Compile Include="persistence\admin.py" />
     <Compile Include="persistence\apps.py" />
+    <Compile Include="persistence\migrations\0001_initial.py" />
+    <Compile Include="persistence\migrations\0002_alter_user_language.py" />
+    <Compile Include="persistence\migrations\0003_remove_report_user_report_is_resolved_and_more.py" />
+    <Compile Include="persistence\migrations\0004_event_image.py" />
     <Compile Include="persistence\migrations\__init__.py" />
     <Compile Include="persistence\models.py" />
     <Compile Include="persistence\tests.py" />
