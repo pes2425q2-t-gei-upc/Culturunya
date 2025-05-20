@@ -48,6 +48,9 @@
     <string name="unexpectedErrorLoadingChat">"There was an unexpected error loading the assistance chat."</string>
     <string name="logoutErrorCurrentSession">"Error during logout. The current session does not exist."</string>
     <string name="logoutUnexpectedError">"Unexpected error during logout."</string>
+    <string name="unexpectedErrorLanguage">"Unexpected error changing language."</string>
+    <string name="notAValidLanguage">"The language provided is not valid."</string>
+    <string name="unauthenticated">"Error. You are not authenticated."</string>
 
     <!-- Pantalla Calendari -->
     <string name="monday">Monday</string>
