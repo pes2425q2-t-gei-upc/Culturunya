@@ -27,7 +27,7 @@ fun scheduleNextNotification(context: Context) {
     val calendar = Calendar.getInstance().apply {
         timeInMillis = System.currentTimeMillis()
         set(Calendar.HOUR_OF_DAY, 16)
-        set(Calendar.MINUTE, 10)
+        set(Calendar.MINUTE, 15)
         set(Calendar.SECOND, 0)
         set(Calendar.MILLISECOND, 0)
 
@@ -37,16 +37,48 @@ fun scheduleNextNotification(context: Context) {
     }
 
     val triggerTime = calendar.timeInMillis
-    Log.d("AlarmDebug", "Programando alarma inexacta para: ${Date(triggerTime)}")
+    Log.d("NotificationDebug", "Programando alarma exacta para: ${Date(triggerTime)}")
 
     try {
-        alarmManager.setInexactRepeating(
-            AlarmManager.RTC_WAKEUP,
-            triggerTime,
-            AlarmManager.INTERVAL_DAY,
-            pendingIntent
-        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                triggerTime,
+                pendingIntent
+            )
+
+            val tomorrow = Calendar.getInstance().apply {
+                timeInMillis = triggerTime
+                add(Calendar.DATE, 1)
+            }
+
+            val tomorrowIntent = PendingIntent.getBroadcast(
+                context,
+                REQUEST_CODE + 1,
+                intent,
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            )
+
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                tomorrow.timeInMillis,
+                tomorrowIntent
+            )
+        } else {
+            alarmManager.setExact(
+                AlarmManager.RTC_WAKEUP,
+                triggerTime,
+                pendingIntent
+            )
+        }
+
+        val prefs = context.getSharedPreferences("notification_prefs", Context.MODE_PRIVATE)
+        prefs.edit()
+            .putLong("next_notification_time", triggerTime)
+            .putString("next_notification_date", Date(triggerTime).toString())
+            .apply()
+
     } catch (e: Exception) {
-        Log.e("AlarmDebug", "Error al programar alarma: ${e.message}", e)
+        Log.e("NotificationDebug", "Error al programar alarma: ${e.message}", e)
     }
 }

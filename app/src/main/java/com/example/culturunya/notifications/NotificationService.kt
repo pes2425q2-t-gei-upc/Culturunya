@@ -5,9 +5,12 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.NotificationCompat
+import com.example.culturunya.CurrentSession
 import com.example.culturunya.MainActivity
 import com.example.culturunya.R
+import com.example.culturunya.views.getString
 
 const val NOTIFICATION_CHANNEL_ID = "ch-1"
 const val NOTIFICATION_CHANNEL_NAME = "Daily notification"
@@ -31,11 +34,13 @@ class NotificationService(
     )
 
     fun showNotification() {
+        CurrentSession.getInstance()
+        val currentLocale = CurrentSession.language
         val notification =
             NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
                 .setContentTitle("Culturunya")
                 .setSmallIcon(R.drawable.logo_sense_fons)
-                .setContentText("Recuerda hacer tus test diarios culturales para obtener puntos")
+                .setContentText(getString(context, R.string.dailyNotification, currentLocale))
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
