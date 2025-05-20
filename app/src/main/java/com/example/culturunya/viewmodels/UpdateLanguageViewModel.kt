@@ -43,4 +43,8 @@ class UpdateLanguageViewModel : ViewModel() {
             }
         }
     }
+
+    fun reset() {
+        _updateLanguageStatus.value = null
+    }
 }
