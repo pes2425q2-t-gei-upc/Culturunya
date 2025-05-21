@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.ui.Alignment
@@ -29,36 +30,45 @@ import com.example.culturunya.views.TopButtonItem
 import com.example.culturunya.views.getString
 import com.example.culturunya.R
 import com.example.culturunya.navigation.AppScreens
+import com.example.culturunya.ui.theme.BlauClar
+import com.example.culturunya.ui.theme.Groc
+import com.example.culturunya.ui.theme.MoratFluix
 import com.example.culturunya.viewmodels.GetChatWithAdminViewModel
 import com.example.culturunya.viewmodels.GetChatWithUserViewModel
+import com.example.culturunya.viewmodels.GetLeaderboardEventsViewModel
 import com.example.culturunya.viewmodels.GetLeaderboardQuizViewModel
 import com.example.culturunya.views.popUpError
 import kotlinx.coroutines.delay
 
 @Composable
 fun LeaderboardScreen(navController: NavController) {
-    var currentSubScreen = "Quizz"
+    var currentSubScreen by remember { mutableStateOf("Quiz") }
 
     val context = LocalContext.current
     CurrentSession.getInstance()
     val currentLocale = CurrentSession.language
 
-    val getLeaderboardViewModel = if (currentSubScreen == "Quizz") {
+    val colorQuiz = Morat
+    val colorSelectedQuiz = MoratFluix
+    val colorEvents = Color.Blue
+    val colorSelectedEvents = BlauClar
+
+    val getLeaderboardViewModel = if (currentSubScreen == "Quiz") {
         viewModel<GetLeaderboardQuizViewModel>()
     } else {
-
+        viewModel<GetLeaderboardEventsViewModel>()
     }
 
-    val getLeaderboardStatus by if (currentSubScreen == "Quizz") {
+    val getLeaderboardStatus by if (currentSubScreen == "Quiz") {
         (getLeaderboardViewModel as GetLeaderboardQuizViewModel).getLeaderboardQuizError.collectAsState()
     } else {
-        (getLeaderboardViewModel as GetLeaderboardQuizViewModel).getLeaderboardQuizError.collectAsState() //canviar
+        (getLeaderboardViewModel as GetLeaderboardEventsViewModel).getLeaderboardEventsError.collectAsState()
     }
 
-    val leaderboard by if (currentSubScreen == "Quizz") {
+    val leaderboard by if (currentSubScreen == "Quiz") {
         (getLeaderboardViewModel as GetLeaderboardQuizViewModel).getLeaderboardQuizResponse.collectAsState(initial = emptyList())
     } else {
-        (getLeaderboardViewModel as GetLeaderboardQuizViewModel).getLeaderboardQuizResponse.collectAsState(initial = emptyList())
+        (getLeaderboardViewModel as GetLeaderboardEventsViewModel).getLeaderboardEventsResponse.collectAsState(initial = emptyList())
     }
 
     var showErrorDialog by remember { mutableStateOf(false) }
@@ -75,10 +85,10 @@ fun LeaderboardScreen(navController: NavController) {
     }
 
     LaunchedEffect(Unit) {
-        if (currentSubScreen == "Quizz") {
+        if (currentSubScreen == "Quiz") {
             (getLeaderboardViewModel as GetLeaderboardQuizViewModel).getLeaderboardQuiz()
         } else {
-
+            (getLeaderboardViewModel as GetLeaderboardEventsViewModel).getLeaderboardEvents()
         }
     }
 
@@ -97,15 +107,15 @@ fun LeaderboardScreen(navController: NavController) {
             TopButtonItem(
                 subScreenName = getString(context, R.string.quiz, currentLocale),
                 icon = Icons.Default.CheckCircle,
-                isSelected = (currentSubScreen == "Quizz"),
-                onClick = { currentSubScreen = "Quizz" }
+                isSelected = (currentSubScreen == "Quiz"),
+                onClick = { currentSubScreen = "Quiz" }
             )
 
             TopButtonItem(
-                subScreenName = getString(context, R.string.geolocalization, currentLocale),
+                subScreenName = getString(context, R.string.eventAssistance, currentLocale),
                 icon = Icons.Default.LocationOn,
-                isSelected = (currentSubScreen == "Geolocalization"),
-                onClick = { currentSubScreen = "Geolocalization" }
+                isSelected = (currentSubScreen == "Events"),
+                onClick = { currentSubScreen = "Events" }
             )
         }
         Spacer(modifier = Modifier.height(40.dp))
@@ -113,7 +123,7 @@ fun LeaderboardScreen(navController: NavController) {
         Icon(
             imageVector = Icons.Default.BarChart,
             contentDescription = null,
-            tint = Morat,
+            tint = if (currentSubScreen == "Quiz") colorQuiz else colorEvents,
             modifier = Modifier
                 .size(48.dp)
                 .align(Alignment.CenterHorizontally)
@@ -122,7 +132,7 @@ fun LeaderboardScreen(navController: NavController) {
         Text(
             text = getString(context, R.string.monthlyRanking, currentLocale),
             color = Color.Black,
-            fontSize = 24.sp,
+            fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
@@ -130,20 +140,20 @@ fun LeaderboardScreen(navController: NavController) {
         )
 
         LazyColumn {
-            items(leaderboard ?: emptyList()) { item ->
-                val isCurrentUser = item.username == "You"
+            itemsIndexed(leaderboard ?: emptyList()) { pos, item ->
+                val isCurrentUser = item.username == CurrentSession.username
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 8.dp)
                         .background(
-                            if (isCurrentUser) Color(0xFFDBD8FF) else Color.Transparent,
+                            if (isCurrentUser) if (currentSubScreen == "Quiz") colorSelectedQuiz else colorSelectedEvents else Color.Transparent,
                             shape = RoundedCornerShape(20.dp)
                         )
                         .padding(12.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("#${item.rank}",
+                    Text("#${pos + 1}",
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.width(40.dp),
                         color = Color.Black)
@@ -151,7 +161,7 @@ fun LeaderboardScreen(navController: NavController) {
                         Icon(
                             imageVector = Icons.Default.AccountCircle,
                             contentDescription = "Perfil default",
-                            tint = Morat,
+                            tint = if (currentSubScreen == "Quiz") colorQuiz else colorEvents,
                             modifier = Modifier
                                 .size(48.dp)
                                 .clip(CircleShape)

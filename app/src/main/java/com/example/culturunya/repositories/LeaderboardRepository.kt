@@ -13,4 +13,14 @@ class LeaderboardRepository(private val api: Api) {
             Result.failure(e)
         }
     }
+
+    suspend fun getLeaderboardEvents(token: String): Result<List<RankingPosition>> {
+        return try {
+            val response = api.getLeaderboardEvents(token)
+            Result.success(response)
+        }
+        catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 }

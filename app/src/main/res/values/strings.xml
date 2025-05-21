@@ -160,6 +160,6 @@
     <!-- Pantalla Leaderboard -->
     <string name="monthlyRanking">Monthly Ranking</string>
     <string name="quiz">Quiz</string>
-    <string name="geolocalization">Geolocalization</string>
+    <string name="eventAssistance">Event attendance</string>
     <string name="unknownErrorRanking">Unknown error loading ranking.</string>
 </resources>

@@ -108,4 +108,7 @@ interface Api {
 
     @GET("leaderboard/quiz/")
     suspend fun getLeaderboardQuiz(@Header("Authorization") token: String): List<RankingPosition>
+
+    @GET("leaderboard/events/")
+    suspend fun getLeaderboardEvents(@Header("Authorization") token: String): List<RankingPosition>
 }

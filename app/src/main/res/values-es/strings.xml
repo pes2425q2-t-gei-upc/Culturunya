@@ -163,6 +163,6 @@
     <!-- Pantalla Leaderboard -->
     <string name="monthlyRanking">Clasificación Mensual</string>
     <string name="quiz">Questionario</string>
-    <string name="geolocalization">Geolocalización</string>
+    <string name="eventAssistance">Asistir a eventos</string>
     <string name="unknownErrorRanking">Error desconocido cargando la clasificación.</string>
 </resources>
