@@ -1093,7 +1093,27 @@ def obtain_quiz_points(request):
     method="get",
     operation_summary="obtener leaderboard de los usuarios que responden preguntas",
     responses={
-        200: openapi.Response(description="Ok"),
+        200: openapi.Response(
+            description="Info del usuario",
+            schema=openapi.Schema(
+                type=openapi.TYPE_ARRAY,
+                items=openapi.Schema(
+                    type=openapi.TYPE_OBJECT,
+                    properties={
+                        'username': openapi.Schema(type=openapi.TYPE_STRING),
+                        'profile_picture': openapi.Schema(
+                            type=openapi.TYPE_STRING,
+                            format='uri',  # Indica que es una URL
+                            description="URL de la foto de perfil del usuario (puede ser null)",
+                            x_nullable=True  # Indica explícitamente que puede ser null
+                        ),
+                        'rank': openapi.Schema(type=openapi.TYPE_STRING, description="Rango del usuario en el quiz", enum=["unranked", "bronze", "siver", "gold", "ramon_llull"]),
+                        'points': openapi.Schema(type=openapi.TYPE_INTEGER,
+                                                 description="Puntos actuales del usuario en el quiz"),
+                    },
+                )
+            )
+        )
     }
 )
 @api_view(['GET'])
@@ -1105,7 +1125,28 @@ def get_quiz_ranking(request):
     method="get",
     operation_summary="obtener leaderboard de los usuarios asistentes a eventos",
     responses={
-        200: openapi.Response(description="Ok"),
+        200: openapi.Response(
+            description="Info del usuario",
+            schema=openapi.Schema(
+                type=openapi.TYPE_ARRAY,
+                items=openapi.Schema(
+                    type=openapi.TYPE_OBJECT,
+                    properties={
+                        'username': openapi.Schema(type=openapi.TYPE_STRING),
+                        'profile_picture': openapi.Schema(
+                            type=openapi.TYPE_STRING,
+                            format='uri',
+                            description="URL de la foto de perfil del usuario (puede ser null)",
+                            x_nullable=True
+                        ),
+                        'rank': openapi.Schema(type=openapi.TYPE_STRING, description="Rango del usuario en la asistencia a eventos",
+                                               enum=["unranked", "bronze", "siver", "gold", "ramon_llull"]),
+                        'points': openapi.Schema(type=openapi.TYPE_INTEGER,
+                                                 description="Puntos actuales del usuario en la asistencia a eventos"),
+                    },
+                )
+            )
+        )
     }
 )
 @api_view(['GET'])
