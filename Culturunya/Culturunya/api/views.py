@@ -1027,6 +1027,7 @@ def get_question(request, question_id):
     operation_summary="Sumar puntos al ranking de asistir a eventos de un usuario",
     responses={
         200: openapi.Response(description="Puntos obtenidos o subir de nivel"),
+        403: openapi.Response(description="El usuario ya ha asistido al evento"),
     }
 )
 @api_view(['PUT'])
