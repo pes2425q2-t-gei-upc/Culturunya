@@ -1,6 +1,7 @@
 package com.example.culturunya.views
 
 import android.os.Build
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -41,6 +42,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import com.example.culturunya.dataclasses.users.UserInfo
 import com.example.culturunya.dataclasses.ratings.RatingType
+import com.example.culturunya.viewmodels.ReportViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,7 +52,8 @@ fun RatingListScreen(
     eventId: Long,
     onRatingSelected: (Rating) -> Unit, // Use your Rating class
     ratingViewModel: RatingViewModel = viewModel(),
-    userViewModel: UserViewModel = viewModel()
+    userViewModel: UserViewModel = viewModel(),
+    reportViewModel: ReportViewModel = viewModel()
 ) {
     // Collect the error
     val error by ratingViewModel.error.collectAsState()
@@ -58,6 +61,7 @@ fun RatingListScreen(
     LaunchedEffect(eventId) {
         ratingViewModel.fetchRatingsForEvent(eventId)
     }
+
     // Collect the ratings
     val ratings by ratingViewModel.ratings.collectAsState()
     val ratingCreated by ratingViewModel.ratingCreated.collectAsState()
@@ -85,6 +89,12 @@ fun RatingListScreen(
     LaunchedEffect(ratingCreated) {
         if (ratingCreated) {
             ratingViewModel.refreshRatingsForEvent(eventId)
+        }
+    }
+
+    LaunchedEffect(key1 = reportViewModel) { // key1 asegura que se relance si el viewModel cambia (poco probable con viewModel())
+        reportViewModel.toastEvent.collect { message ->
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -241,7 +251,7 @@ fun RatingListScreen(
                     Text("No ratings yet", color = Purple40, modifier = Modifier.padding(8.dp))
             } else {
                 sortedRatings.forEach { rating ->
-                    RatingBox(rating = rating, onRatingClick = { onRatingSelected(rating) })
+                    RatingBox(rating = rating, onRatingClick = { onRatingSelected(rating)}, reportViewModel = reportViewModel)
                 }
             }
         }

@@ -18,6 +18,7 @@ import com.example.culturunya.dataclasses.login.LoginRequest
 import com.example.culturunya.dataclasses.login.LoginResponse
 import com.example.culturunya.dataclasses.chats.SendMessageToAdminRequest
 import com.example.culturunya.dataclasses.chats.SendMessageToUserRequest
+import com.example.culturunya.dataclasses.ratings.ReportRequest
 import com.example.culturunya.dataclasses.settings.UpdateLanguageRequest
 import retrofit2.Response
 import retrofit2.http.*
@@ -104,4 +105,7 @@ interface Api {
 
     @PUT("user/update_language/")
     suspend fun updateLanguage(@Header("Authorization") token: String, @Body updateLanguageRequest: UpdateLanguageRequest): Response<Unit>
+
+    @POST("reports/create/")
+    suspend fun reportRating(@Header("Authorization") token: String, @Body reportRequest: ReportRequest): Response<Unit>
 }
