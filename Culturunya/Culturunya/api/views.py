@@ -1067,10 +1067,10 @@ def obtain_location_points(request):
 def obtain_quiz_points(request):
     user = User.objects.get(id=request.user.id)
     user.total_quiz_points += 5
-    event_points = user.current_quiz_points + 5
+    quiz_points = user.current_quiz_points + 5
     points_to_next_rank = user.points_to_next_quiz_points
     rank = user.rank_quiz
-    if event_points >= points_to_next_rank:
+    if quiz_points >= points_to_next_rank:
         if rank == TypeRank.UNRANKED:
             rank = TypeRank.BRONZE
         elif rank == TypeRank.BRONZE:
@@ -1085,7 +1085,7 @@ def obtain_quiz_points(request):
         user.save()
         return Response({"message": "¡Has subido de nivel!"}, status=200)
     else:
-        user.current_event_points = event_points
+        user.current_quiz_points = quiz_points
         user.save()
         return Response({"message": "Puntos obtenidos"}, status=200)
 
