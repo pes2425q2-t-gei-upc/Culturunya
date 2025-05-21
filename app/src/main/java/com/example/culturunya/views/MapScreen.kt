@@ -48,15 +48,13 @@ import com.google.maps.android.compose.*
 import kotlinx.coroutines.tasks.await
 import java.time.LocalDate
 //imports relacionados con el cambio de idioma
-import com.example.culturunya.CurrentSession
+import com.example.culturunya.session.CurrentSession
 import com.example.culturunya.R
 import android.os.Looper
-import androidx.compose.runtime.*
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.Priority
-import com.google.android.gms.location.LocationRequest.Builder
 import androidx.core.app.ActivityCompat
 import kotlin.math.abs
 

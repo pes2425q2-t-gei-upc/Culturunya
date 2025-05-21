@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.culturunya.R
 import com.example.culturunya.dataclasses.events.Event
-import com.example.culturunya.CurrentSession
+import com.example.culturunya.session.CurrentSession
 import com.example.culturunya.ui.theme.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter

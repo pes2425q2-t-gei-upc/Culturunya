@@ -32,7 +32,7 @@ import com.example.culturunya.R
 import com.example.culturunya.viewmodels.RatingViewModel
 import com.example.culturunya.dataclasses.ratings.Rating
 import com.example.culturunya.viewmodels.UserViewModel
-import com.example.culturunya.CurrentSession
+import com.example.culturunya.session.CurrentSession
 import com.example.culturunya.ui.theme.*
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.TextField
