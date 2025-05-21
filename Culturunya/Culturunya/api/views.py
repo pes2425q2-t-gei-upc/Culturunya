@@ -1048,9 +1048,11 @@ def obtain_location_points(request):
         user.current_event_points = 0
         user.points_to_next_rank_event = POINTS_TO_NEXT_RANK[rank]
         user.rank_event = rank
+        user.save()
         return Response({"message": "¡Has subido de nivel!"}, status=200)
     else:
         user.current_event_points = event_points
+        user.save()
         return Response({"message": "Puntos obtenidos"}, status=200)
 
 @swagger_auto_schema(
@@ -1080,9 +1082,11 @@ def obtain_quiz_points(request):
         user.current_quiz_points = 0
         user.points_to_next_quiz_points = POINTS_TO_NEXT_RANK[rank]
         user.rank_quiz = rank
+        user.save()
         return Response({"message": "¡Has subido de nivel!"}, status=200)
     else:
         user.current_event_points = event_points
+        user.save()
         return Response({"message": "Puntos obtenidos"}, status=200)
 
 @swagger_auto_schema(
