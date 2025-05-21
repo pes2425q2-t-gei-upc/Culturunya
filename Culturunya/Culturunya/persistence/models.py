@@ -119,6 +119,7 @@ class User(AbstractUser):
     banned_from_comments = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     google_sub = models.CharField(max_length=30, unique=True, null=True, blank=True)
+    events_assisted = models.ManyToManyField(Event, related_name="events_assisted", blank=True)
 
     groups = models.ManyToManyField(
         "auth.Group",

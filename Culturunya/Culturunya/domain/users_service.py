@@ -186,27 +186,33 @@ def create_resolved_report(data, user, report_id):
     return {"error": serializer.errors}, 400
 
 def get_events_ranking_leaderboard():
-    best_users = User.objects.order_by("-total_event_points")[:10]
+    best_users = User.objects.order_by("-total_event_points")
     best_users_serializer = []
+    position = 1
     for user in best_users:
         user_info = {
             "username": user.username,
             "profile_picture": user.profile_pic.url if user.profile_pic else None,
             "rank": user.rank_event,
             "points": user.current_event_points,
+            "position": position,
         }
         best_users_serializer.append(user_info)
+        position += 1
     return best_users_serializer
 
 def get_quiz_ranking_leaderboard():
-    best_users = User.objects.order_by("-total_quiz_points")[:10]
+    best_users = User.objects.order_by("-total_quiz_points")
     best_users_serializer = []
+    position = 1
     for user in best_users:
         user_info = {
             "username": user.username,
             "profile_picture": user.profile_pic.url if user.profile_pic else None,
             "rank": user.rank_quiz,
             "points": user.current_quiz_points,
+            "position": position,
         }
         best_users_serializer.append(user_info)
+        position += 1
     return best_users_serializer

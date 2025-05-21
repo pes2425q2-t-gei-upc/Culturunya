@@ -33,7 +33,8 @@ from api.serializers import UserProfileSerializer, ChangePasswordSerializer, Rep
 from domain.users_service import get_all_events, filter_events, create_user_service, create_rating, create_message, \
     get_messages, create_resolved_report, get_messages_admin, create_report, get_quiz_ranking_leaderboard, \
     get_events_ranking_leaderboard
-from persistence.models import User, Report, Rating, TypeRating, QuestionTranslation, TypeRank, POINTS_TO_NEXT_RANK
+from persistence.models import User, Report, Rating, TypeRating, QuestionTranslation, TypeRank, POINTS_TO_NEXT_RANK, \
+    Event
 from api.serializers import ProfilePicSerializer
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.decorators import parser_classes
@@ -1026,34 +1027,40 @@ def get_question(request, question_id):
     operation_summary="Sumar puntos al ranking de asistir a eventos de un usuario",
     responses={
         200: openapi.Response(description="Puntos obtenidos o subir de nivel"),
+        403: openapi.Response(description="El usuario ya ha asistido al evento"),
     }
 )
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
-def obtain_location_points(request):
+def obtain_location_points(request, event_id):
     user = User.objects.get(id=request.user.id)
-    user.total_event_points += 20
-    event_points = user.current_event_points + 20
-    points_to_next_rank = user.points_to_next_rank_event
-    rank = user.rank_event
-    if event_points >= points_to_next_rank:
-        if rank == TypeRank.UNRANKED:
-            rank = TypeRank.BRONZE
-        elif rank == TypeRank.BRONZE:
-            rank = TypeRank.SILVER
-        elif rank == TypeRank.SILVER:
-            rank = TypeRank.GOLD
-        elif rank == TypeRank.GOLD:
-            rank = TypeRank.RAMON_LLULL
-        user.current_event_points = 0
-        user.points_to_next_rank_event = POINTS_TO_NEXT_RANK[rank]
-        user.rank_event = rank
-        user.save()
-        return Response({"message": "¡Has subido de nivel!"}, status=200)
+    assisted = user.events_assisted.filter(event_id=event_id).exists()
+    if not assisted:
+        user.events_assisted.add(Event.objects.get(id=event_id))
+        user.total_event_points += 20
+        event_points = user.current_event_points + 20
+        points_to_next_rank = user.points_to_next_rank_event
+        rank = user.rank_event
+        if event_points >= points_to_next_rank:
+            if rank == TypeRank.UNRANKED:
+                rank = TypeRank.BRONZE
+            elif rank == TypeRank.BRONZE:
+                rank = TypeRank.SILVER
+            elif rank == TypeRank.SILVER:
+                rank = TypeRank.GOLD
+            elif rank == TypeRank.GOLD:
+                rank = TypeRank.RAMON_LLULL
+            user.current_event_points = 0
+            user.points_to_next_rank_event = POINTS_TO_NEXT_RANK[rank]
+            user.rank_event = rank
+            user.save()
+            return Response({"message": "¡Has subido de nivel!"}, status=200)
+        else:
+            user.current_event_points = event_points
+            user.save()
+            return Response({"message": "Puntos obtenidos"}, status=200)
     else:
-        user.current_event_points = event_points
-        user.save()
-        return Response({"message": "Puntos obtenidos"}, status=200)
+        return Response({"error": "El usuario ya ha asistido al evento"}, status=400)
 
 @swagger_auto_schema(
     method="put",
@@ -1110,6 +1117,7 @@ def obtain_quiz_points(request):
                         'rank': openapi.Schema(type=openapi.TYPE_STRING, description="Rango del usuario en el quiz", enum=["unranked", "bronze", "siver", "gold", "ramon_llull"]),
                         'points': openapi.Schema(type=openapi.TYPE_INTEGER,
                                                  description="Puntos actuales del usuario en el quiz"),
+                        'position': openapi.Schema(type=openapi.TYPE_INTEGER,)
                     },
                 )
             )
@@ -1143,6 +1151,7 @@ def get_quiz_ranking(request):
                                                enum=["unranked", "bronze", "siver", "gold", "ramon_llull"]),
                         'points': openapi.Schema(type=openapi.TYPE_INTEGER,
                                                  description="Puntos actuales del usuario en la asistencia a eventos"),
+                        'position': openapi.Schema(type=openapi.TYPE_INTEGER,)
                     },
                 )
             )
