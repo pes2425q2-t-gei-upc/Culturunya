@@ -1116,6 +1116,7 @@ def obtain_quiz_points(request):
                         'rank': openapi.Schema(type=openapi.TYPE_STRING, description="Rango del usuario en el quiz", enum=["unranked", "bronze", "siver", "gold", "ramon_llull"]),
                         'points': openapi.Schema(type=openapi.TYPE_INTEGER,
                                                  description="Puntos actuales del usuario en el quiz"),
+                        'position': openapi.Schema(type=openapi.TYPE_INTEGER,)
                     },
                 )
             )
@@ -1149,6 +1150,7 @@ def get_quiz_ranking(request):
                                                enum=["unranked", "bronze", "siver", "gold", "ramon_llull"]),
                         'points': openapi.Schema(type=openapi.TYPE_INTEGER,
                                                  description="Puntos actuales del usuario en la asistencia a eventos"),
+                        'position': openapi.Schema(type=openapi.TYPE_INTEGER,)
                     },
                 )
             )
