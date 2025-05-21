@@ -110,7 +110,7 @@ fun RatingBox(
                     ),
                     onClick = {
                         Log.d("RatingBox", "ROW INSIDE RatingBox CLICKED!")
-                        val rep = ReportRequest(rating_id = rating.id.toInt(), message = "")
+                        val rep = ReportRequest(rating_id = rating.id.toInt(), message = "Test")
                         reportViewModel.reportRating(rep)
                     },
                     enabled = !isLoading
