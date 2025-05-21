@@ -21,9 +21,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Map
-
 import androidx.compose.material.icons.filled.Close
-
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -39,26 +37,27 @@ import com.example.culturunya.viewmodels.EventViewModel
 import com.example.culturunya.ui.theme.Purple40
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
-
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
 import kotlinx.coroutines.tasks.await
 import java.time.LocalDate
-//imports relacionados con el cambio de idioma
 import com.example.culturunya.CurrentSession
 import com.example.culturunya.R
 import android.os.Looper
-import androidx.compose.runtime.*
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.Priority
-import com.google.android.gms.location.LocationRequest.Builder
 import androidx.core.app.ActivityCompat
 import kotlin.math.abs
+import com.example.culturunya.dataclasses.chargingPoints.ChargingPointItem
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import com.example.culturunya.ChargingApi
 
 
 /**
@@ -368,6 +367,10 @@ fun MapContent(hasLocationPermission: Boolean = true) {
     var lastFilterLocation by remember { mutableStateOf<Pair<Double, Double>?>(null) }
     var lastFilterDate by remember { mutableStateOf<LocalDate?>(null) }
 
+    //variables relacionades amb els punts de carrega del servei extern
+    var chargingPoints by remember { mutableStateOf<List<ChargingPointItem>>(emptyList()) }
+    var lastChargingLocation by remember { mutableStateOf<Location?>(null) }
+
 
     // Efecte que s'executa quan es carrega el component per primera vegada
     LaunchedEffect(Unit) {
@@ -381,6 +384,25 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                     val newLocation = locationResult.lastLocation
                     if (newLocation != null) {
                         currentLocation = newLocation
+
+                        if (isFarEnough(lastChargingLocation, newLocation)) {
+                            lastChargingLocation = newLocation
+
+                            // Llamada a API de estaciones de carga
+                            CoroutineScope(Dispatchers.IO).launch {
+                                try {
+                                    val chargingResult = ChargingApi.instance.getNearestChargingPoints(
+                                        newLocation.latitude,
+                                        newLocation.longitude
+                                    )
+                                    withContext(Dispatchers.Main) {
+                                        chargingPoints = chargingResult
+                                    }
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                }
+                            }
+                        }
 
                         // Només centra la càmera un cop
                         if (!isCameraInitialized) {
@@ -564,6 +586,19 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                             )
                         )
                     }
+
+                    // Marcadors de punts de càrrega
+                    chargingPoints.forEach { point ->
+                        val station = point.estacio_carrega
+                        val position = LatLng(station.lat, station.lng)
+
+                        Marker(
+                            state = MarkerState(position = position),
+                            title = "Punt de càrrega",
+                            snippet = "${station.direccio} - ${station.potencia} kW",
+                            icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)
+                        )
+                    }
                 }
 
                 // Indicador de càrrega
@@ -706,4 +741,10 @@ fun MapContent(hasLocationPermission: Boolean = true) {
             }
         }
     }
+}
+
+
+fun isFarEnough(oldLocation: Location?, newLocation: Location, thresholdMeters: Float = 250f): Boolean {
+    if (oldLocation == null) return true
+    return oldLocation.distanceTo(newLocation) > thresholdMeters
 }
