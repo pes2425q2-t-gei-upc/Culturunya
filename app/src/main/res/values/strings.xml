@@ -156,4 +156,8 @@
     <string name="quizIncorrect">Incorrect!</string>
     <string name="quizLoading">Loading question...</string>
     <string name="quizError">Error: %1$s</string>
+
+    <!-- Report messages -->
+    <string name="ReportSuccess">Report submitted successfully</string>
+    <string name="ReportError">Error submitting report</string>
 </resources>

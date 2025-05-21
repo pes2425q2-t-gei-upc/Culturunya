@@ -94,7 +94,12 @@ fun RatingListScreen(
 
     LaunchedEffect(key1 = reportViewModel) { // key1 asegura que se relance si el viewModel cambia (poco probable con viewModel())
         reportViewModel.toastEvent.collect { message ->
-            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+            if(message == "Success"){
+                Toast.makeText(context, getString(context, R.string.ReportSuccess, currentLocale), Toast.LENGTH_LONG).show()
+            }
+            else{
+                Toast.makeText(context, message + " " + getString(context, R.string.ReportError, currentLocale), Toast.LENGTH_LONG).show()
+            }
         }
     }
 

@@ -35,11 +35,11 @@ class ReportViewModel : ViewModel() {
             //_errorMessage.value = null   // Clear previous messages
             reportsRepository.reportRating(reportRequest).onSuccess {
                 //_successMessage.value = "Report submitted successfully!" // Or a more specific message from response
-                _toastEventChannel.send("Reporte enviado con éxito")
+                _toastEventChannel.send("Success")
                 _isLoading.value = false
             }.onFailure { exception ->
                 //_errorMessage.value = "Error: ${exception.message ?: "Failed to submit report."}"
-                _toastEventChannel.send("Error: ${exception.message ?: "Failed to submit report."}")
+                _toastEventChannel.send("Error: ${exception.message}")
                 _isLoading.value = false
             }
         }
