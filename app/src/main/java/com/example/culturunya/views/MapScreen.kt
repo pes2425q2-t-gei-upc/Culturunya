@@ -336,7 +336,7 @@ fun MapContent(hasLocationPermission: Boolean = true) {
         R.string.september, R.string.october, R.string.november, R.string.december
     )
 
-    // Client per obtenir la ubicació de l'usuari
+    //obtenir la ubicació de l'usuari
     val fusedLocationClient = remember { LocationServices.getFusedLocationProviderClient(context) }
     val cameraPositionState = rememberCameraPositionState()
 
@@ -347,12 +347,10 @@ fun MapContent(hasLocationPermission: Boolean = true) {
     var currentDate by remember { mutableStateOf(LocalDate.now()) }  // Data actual per filtrar
     var distanceKm by remember { mutableStateOf(10f) }  // Distància en km per filtrar
 
-    // Col·leccions reactives d'esdeveniments filtrats i estats de càrrega/error
-
+    // Col·leccions d'esdeveniments filtrats i estats de càrrega/error
     val filteredEvents by viewModel.filteredEventsByDistanceAndDate.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val error by viewModel.error.collectAsState()
-
 
     // Emmagatzemar l'ubicació actual de l'usuari
     var currentLocation by remember { mutableStateOf<Location?>(null) }
@@ -362,6 +360,9 @@ fun MapContent(hasLocationPermission: Boolean = true) {
     // Estat per controlar si es mostra la pantalla de detalls de l'esdeveniment
     var showEventDetails by remember { mutableStateOf(false) }
 
+    // Estat per emmagatzemar el punt de càrrega seleccionat
+    var selectedChargingPoint by remember { mutableStateOf<ChargingPointItem?>(null) }
+
     var isCameraInitialized by remember { mutableStateOf(false) }
 
     var lastFilterLocation by remember { mutableStateOf<Pair<Double, Double>?>(null) }
@@ -370,7 +371,6 @@ fun MapContent(hasLocationPermission: Boolean = true) {
     //variables relacionades amb els punts de carrega del servei extern
     var chargingPoints by remember { mutableStateOf<List<ChargingPointItem>>(emptyList()) }
     var lastChargingLocation by remember { mutableStateOf<Location?>(null) }
-
 
     // Efecte que s'executa quan es carrega el component per primera vegada
     LaunchedEffect(Unit) {
@@ -388,7 +388,7 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                         if (isFarEnough(lastChargingLocation, newLocation)) {
                             lastChargingLocation = newLocation
 
-                            // Llamada a API de estaciones de carga
+                            // Crida a API de estacions de carrega
                             CoroutineScope(Dispatchers.IO).launch {
                                 try {
                                     val chargingResult = ChargingApi.instance.getNearestChargingPoints(
@@ -439,7 +439,6 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                 }
             }
 
-
             if (ActivityCompat.checkSelfPermission(
                     context,
                     android.Manifest.permission.ACCESS_FINE_LOCATION
@@ -453,7 +452,7 @@ fun MapContent(hasLocationPermission: Boolean = true) {
             }
 
         } else {
-            // Ubicació per defecte (Barcelona)
+            // Ubicació per defecte (Barcelona plaça cat)
             val defaultLocation = LatLng(41.3874, 2.1686)
             cameraPositionState.position = CameraPosition.fromLatLngZoom(defaultLocation, 13f)
 
@@ -468,8 +467,6 @@ fun MapContent(hasLocationPermission: Boolean = true) {
             )
         }
     }
-
-
 
     // Efecte que s'executa quan canvia la data o la distància
     LaunchedEffect(currentDate, distanceKm) {
@@ -491,12 +488,11 @@ fun MapContent(hasLocationPermission: Boolean = true) {
             viewModel.filterEventsByRangeAndDate(
                 firstDayOfMonth,
                 lastDayOfMonth,
-                Pair(2.1686, 41.3874), // lon, lat de Plaza Catalunya
+                Pair(2.1686, 41.3874), // lon, lat de Plaça Cat
                 distanceKm.toInt()
             )
         }
     }
-
 
     // Si es mostra la pantalla de detalls, mostrar EventInfo
     if (showEventDetails && selectedEvent != null) {
@@ -522,7 +518,6 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                     Icon(Icons.Default.KeyboardArrowLeft, contentDescription = "Mes anterior", tint = Color.Black)
                 }
                 Text(
-
                     text = "${
                         getString(
                             context,
@@ -552,14 +547,15 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                     onMapClick = {
                         // Deseleccionar en fer clic al mapa
                         selectedEvent = null
+                        selectedChargingPoint = null
                     }
                 ) {
-                    // Afegir un cercle transparent de 150 metres al voltant de la ubicació de l'usuari
+                    // Afegir un cercle transparent de 75 metres al voltant de la ubicació de l'usuari
                     if (hasLocationPermission && currentLocation != null) {
                         val userLatLng = LatLng(currentLocation!!.latitude, currentLocation!!.longitude)
                         Circle(
                             center = userLatLng,
-                            radius = 75.0, // 150 metres
+                            radius = 75.0, // 75 metres
                             strokeColor = Color.Blue.copy(alpha = 0.3f),
                             fillColor = Color.Blue.copy(alpha = 0.1f)
                         )
@@ -576,8 +572,9 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                             title = event.name,
                             snippet = event.description,
                             onClick = {
-                                // En fer clic, seleccionar aquest esdeveniment
+                                // En fer clic, seleccionar aquest esdeveniment i netejar qualsevol punt de càrrega seleccionat
                                 selectedEvent = event
+                                selectedChargingPoint = null
                                 // retornar false perquè el sistema mostri l'InfoWindow
                                 false
                             },
@@ -591,12 +588,21 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                     chargingPoints.forEach { point ->
                         val station = point.estacio_carrega
                         val position = LatLng(station.lat, station.lng)
+                        val isSelected = selectedChargingPoint == point
 
                         Marker(
                             state = MarkerState(position = position),
-                            title = "Punt de càrrega",
+                            title = getString(context, R.string.chargingPointLabel, currentLocale),
                             snippet = "${station.direccio} - ${station.potencia} kW",
-                            icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)
+                            onClick = {
+                                // En fer clic, seleccionar aquest punt de càrrega i netejar qualsevol esdeveniment seleccionat
+                                selectedChargingPoint = point
+                                selectedEvent = null
+                                false
+                            },
+                            icon = BitmapDescriptorFactory.defaultMarker(
+                                if (isSelected) BitmapDescriptorFactory.HUE_CYAN else BitmapDescriptorFactory.HUE_GREEN
+                            )
                         )
                     }
                 }
@@ -636,14 +642,12 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                 }
             }
 
-            // Slider de Distància per ajustar el radi de cerca
+            // Slider de Distància per ajustar el radi per el filtre de Km
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp)
             ) {
-
-
                 Row {
                     Text(
                         text = getString(context, R.string.distanceLabel, currentLocale),
@@ -651,7 +655,7 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                         color = Color.Black
                     )
                     Text(
-                        text = distanceKm.toInt().toString(), // el número, sense traducció
+                        text = distanceKm.toInt().toString(), // númerode Km, no té traducció
                         style = MaterialTheme.typography.bodyLarge,
                         color = Color.Black
                     )
@@ -670,7 +674,7 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                     modifier = Modifier.fillMaxWidth(),
                     colors = SliderDefaults.colors(
                         activeTrackColor = MaterialTheme.colorScheme.primary,
-                        inactiveTrackColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f), // más claro
+                        inactiveTrackColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f), // més clar
                         thumbColor = MaterialTheme.colorScheme.primary,
                         activeTickColor = MaterialTheme.colorScheme.primary,
                         inactiveTickColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
@@ -678,71 +682,126 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                 )
             }
 
-
-            // Botons per veure detalls i obrir en Google Maps (només visibles si hi ha un esdeveniment seleccionat)
-            if (selectedEvent != null) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-
-                    // Botó per veure detalls de l'esdeveniment
-                    Button(
-                        onClick = { showEventDetails = true },
-                        modifier = Modifier
-                            .weight(1f)
-                            .height(56.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = Purple40)
-                    ) {
-                        Text(
-                            text = getString(context, R.string.eventDetails, currentLocale),
-                            fontWeight = FontWeight.Bold,
-                            color = Color.White
-                        )
-                    }
-
-
-                    // Botó per obrir en Google Maps
-                    Button(
-                        onClick = {
-                            selectedEvent?.let {
-                                openGoogleMaps(
-                                    context,
-                                    it.location.latitude,
-                                    it.location.longitude,
-                                    it.name
-                                )
-                            }
-                        },
-                        modifier = Modifier
-                            .weight(1f)
-                            .height(56.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4285F4)) // Color de Google
-                    ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            Icon(
-                                Icons.Default.Map,
-                                contentDescription = "Obrir en Maps",
-                                modifier = Modifier.padding(end = 8.dp)
-                            )
-                            Text(
-                                text = getString(context, R.string.mapsButton, currentLocale),
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White
-                            )
-                        }
-                    }
-                }
-            }
+            // Composable per mostrar els botons d'obertura a Google Maps
+            GoogleMapsButton(
+                selectedEvent = selectedEvent,
+                selectedChargingPoint = selectedChargingPoint,
+                showEventDetails = showEventDetails,
+                onShowEventDetailsChange = { showEventDetails = it },
+                context = context,
+                currentLocale = currentLocale
+            )
         }
     }
 }
 
+//Composable per gestionar els botons d'esdeveniments i punts de càrrega
+@Composable
+fun GoogleMapsButton(
+    selectedEvent: Event?,
+    selectedChargingPoint: ChargingPointItem?,
+    showEventDetails: Boolean,
+    onShowEventDetailsChange: (Boolean) -> Unit,
+    context: Context,
+    currentLocale: String
+) {
+    // Si hi ha un esdeveniment seleccionat
+    if (selectedEvent != null) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            // Botó per veure detalls de l'esdeveniment
+            Button(
+                onClick = { onShowEventDetailsChange(true) },
+                modifier = Modifier
+                    .weight(1f)
+                    .height(56.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Purple40)
+            ) {
+                Text(
+                    text = getString(context, R.string.eventDetails, currentLocale),
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
+                )
+            }
+
+            // Botó per obrir en Google Maps
+            MapOpenButton(
+                onClick = {
+                    openGoogleMaps(
+                        context,
+                        selectedEvent.location.latitude,
+                        selectedEvent.location.longitude,
+                        selectedEvent.name
+                    )
+                },
+                text = getString(context, R.string.mapsButton, currentLocale),
+                modifier = Modifier
+                    .weight(1f)
+                    .height(56.dp)
+            )
+        }
+    }
+    // Si hi ha un punt de càrrega seleccionat
+    else if (selectedChargingPoint != null) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            // Botó per obrir el punt de càrrega en Google Maps
+            MapOpenButton(
+                onClick = {
+                    val station = selectedChargingPoint.estacio_carrega
+                    openGoogleMaps(
+                        context,
+                        station.lat,
+                        station.lng,
+                        "${getString(context, R.string.chargingPointLabel, currentLocale)} ${station.direccio}"
+                    )
+                },
+                text = getString(context, R.string.mapsButton, currentLocale),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp)
+            )
+        }
+    }
+}
+
+//Composable per al botó d'obrir a Google Maps
+@Composable
+fun MapOpenButton(
+    onClick: () -> Unit,
+    text: String,
+    modifier: Modifier = Modifier
+) {
+    Button(
+        onClick = onClick,
+        modifier = modifier,
+        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4285F4)) // Color de Google
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Icon(
+                Icons.Default.Map,
+                contentDescription = "Obrir en Maps",
+                modifier = Modifier.padding(end = 8.dp)
+            )
+            Text(
+                text = text,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
+            )
+        }
+    }
+}
 
 fun isFarEnough(oldLocation: Location?, newLocation: Location, thresholdMeters: Float = 250f): Boolean {
     if (oldLocation == null) return true
