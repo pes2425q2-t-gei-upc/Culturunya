@@ -104,4 +104,7 @@ interface Api {
 
     @PUT("user/update_language/")
     suspend fun updateLanguage(@Header("Authorization") token: String, @Body updateLanguageRequest: UpdateLanguageRequest): Response<Unit>
+
+    @PUT("user/get_points_event")
+    suspend fun getPointsEvent(@Header("Authorization") token: String): Response<Unit>
 }

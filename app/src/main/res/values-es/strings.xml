@@ -159,4 +159,15 @@
     <string name="quizIncorrect">¡Incorrecto!</string>
     <string name="quizLoading">Cargando pregunta...</string>
     <string name="quizError">Error: %1$s</string>
+
+    <!-- Pantalla EventInfo -->
+    <string name="assistanceConfirmation">"Confirmar asistencia al evento"</string>
+    <string name="localizationPermissionsDenied">"No tienes permiso para acceder a la localización"</string>
+    <string name="wrongTime">"El evento no está en curso actualmente."</string>
+    <string name="wrongPosition">"No estás cerca del evento (más de 50m)."</string>
+    <string name="pointsAlreadyAdded">"Ya has sumado los puntos anteriormente."</string>
+    <string name="pointsAddedCorrectly">"¡Has sumado los puntos correctamente!"</string>
+    <string name="registrationError">"Error al registrar la asistencia."</string>
+    <string name="localizationEerror">"No se pudo obtener tu localización."</string>
+    <string name="assistance">"Comprobar asistencia"</string>
 </resources>

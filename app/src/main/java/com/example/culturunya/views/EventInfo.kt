@@ -39,6 +39,18 @@ import com.example.culturunya.viewmodels.UserViewModel
 import java.net.URLEncoder
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import android.Manifest
+import android.annotation.SuppressLint
+import android.location.Location
+import androidx.compose.runtime.*
+import androidx.core.content.ContextCompat
+import androidx.core.content.PermissionChecker
+import com.google.android.gms.location.LocationServices
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.Dispatchers
+import com.example.culturunya.Api
+import retrofit2.HttpException
+import androidx.compose.material.icons.filled.Check
 
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
@@ -87,6 +99,7 @@ fun EventInfo(
                     containerColor = Color(0xFF6A1B9A)
                 )
             )
+
         }
     ) { paddingValues ->
         Column(
@@ -118,6 +131,12 @@ fun EventInfo(
 
             // Botón para añadir al calendario de Google
             GoogleCalendarButton(event)
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Botó per confirmar assistència
+            AssistButton(event = event)
+
 
             // Contenido del evento
             Column(
@@ -345,5 +364,121 @@ private fun InfoItem(
                 color = Color.Black
             )
         }
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+@SuppressLint("MissingPermission")
+@Composable
+fun AssistButton(event: Event) {
+    CurrentSession.getInstance()
+    var currentLocale by remember { mutableStateOf(CurrentSession.language) }
+
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+    val fusedLocationClient = remember { LocationServices.getFusedLocationProviderClient(context) }
+
+    var showDialog by remember { mutableStateOf(false) }
+    var dialogMessage by remember { mutableStateOf("") }
+
+    Button(
+        onClick = {
+            val permissionGranted = ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PermissionChecker.PERMISSION_GRANTED
+
+            if (!permissionGranted) {
+                dialogMessage = getString(context, R.string.localizationPermissionsDenied, currentLocale)
+                showDialog = true
+                return@Button
+            }
+
+            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                if (location != null) {
+                    val eventLocation = Location("").apply {
+                        latitude = event.location.latitude
+                        longitude = event.location.longitude
+                    }
+
+                    val distance = location.distanceTo(eventLocation)
+
+                    if (distance > 50) {
+                        dialogMessage = getString(context, R.string.wrongPosition, currentLocale)
+                        showDialog = true
+                        return@addOnSuccessListener
+                    }
+
+                    val now = LocalDateTime.now()
+                    val formatter = DateTimeFormatter.ISO_DATE_TIME
+                    val start = LocalDateTime.parse(event.date_start, formatter)
+                    val end = LocalDateTime.parse(event.date_end, formatter)
+
+                    if (now.isBefore(start) || now.isAfter(end)) {
+                        dialogMessage = getString(context, R.string.wrongTime, currentLocale)
+                        showDialog = true
+                        return@addOnSuccessListener
+                    }
+
+                    coroutineScope.launch(Dispatchers.IO) {
+                        try {
+                            val response = Api.instance.getPointsEvent("Bearer ${CurrentSession.token}")
+
+                            dialogMessage = when (response.code()) {
+                                200 -> getString(context, R.string.pointsAddedCorrectly, currentLocale)
+                                418 -> getString(context, R.string.pointsAlreadyAdded, currentLocale)
+                                else -> getString(context, R.string.pointsAddedCorrectly, currentLocale)
+                            }
+                        } catch (e: HttpException) {
+                            dialogMessage = "Error HTTP: ${e.code()}"
+                        } catch (e: Exception) {
+                            dialogMessage = "Error: ${e.localizedMessage}"
+                        }
+                        showDialog = true
+                    }
+                } else {
+                    dialogMessage = getString(context, R.string.localizationEerror, currentLocale)
+                    showDialog = true
+                }
+            }
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 4.dp),
+        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF7B1FA2)),
+        shape = RoundedCornerShape(8.dp)
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.padding(8.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.Check,
+                contentDescription = "Confirmar assistència",
+                tint = Color.White,
+                modifier = Modifier.size(24.dp)
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = getString(context, R.string.assistanceConfirmation, currentLocale),
+                color = Color.White,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Medium
+            )
+        }
+    }
+
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            title = { Text(getString(context, R.string.assistance, currentLocale)) },
+            text = { Text(dialogMessage) },
+            confirmButton = {
+                TextButton(onClick = { showDialog = false }) {
+                    Text("OK")
+                }
+            }
+        )
     }
 }
