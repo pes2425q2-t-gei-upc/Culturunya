@@ -112,6 +112,7 @@
     <string name = "eventDetails">"See details</string>
     <string name = "mapsButton">"Open Maps"</string>
     <string name = "checkingPermissions">"Checking location permissions..."</string>
+    <string name="chargingPointLabel">charging Point:</string>
 
 
     <!-- Pantalla Xat -->
