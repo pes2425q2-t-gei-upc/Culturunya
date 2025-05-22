@@ -32,7 +32,6 @@ import com.example.culturunya.navigation.AppScreens
 import com.example.culturunya.ui.theme.Morat
 import com.example.culturunya.viewmodels.LoginViewModel
 import com.example.culturunya.viewmodels.UserViewModel
-import com.example.culturunya.CurrentSession
 import com.example.culturunya.notifications.NotificationService
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted

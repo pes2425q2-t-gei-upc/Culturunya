@@ -7,9 +7,9 @@ import android.content.Intent
 import android.util.Log
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.NotificationCompat
-import com.example.culturunya.CurrentSession
 import com.example.culturunya.MainActivity
 import com.example.culturunya.R
+import com.example.culturunya.session.CurrentSession
 import com.example.culturunya.views.getString
 
 const val NOTIFICATION_CHANNEL_ID = "ch-1"
