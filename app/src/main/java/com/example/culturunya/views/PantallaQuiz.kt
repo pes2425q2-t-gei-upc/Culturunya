@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -25,6 +26,11 @@ import coil.compose.AsyncImage
 import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.rememberScrollState
+import android.content.Intent
+import android.net.Uri
+import androidx.core.content.FileProvider
+import java.io.File
+import java.io.FileOutputStream
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,12 +58,13 @@ fun PantallaQuiz(navController: NavController) {
             .fillMaxSize()
             .background(Color.White)
     ) {
-        // Capçalera amb fletxa i títol
+        // Capçalera amb fletxa i botó de compartir
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 8.dp, start = 8.dp, end = 8.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             IconButton(
                 onClick = {
@@ -72,7 +79,43 @@ fun PantallaQuiz(navController: NavController) {
                     tint = Color.Black
                 )
             }
-            Spacer(modifier = Modifier.width(8.dp))
+            
+            IconButton(
+                onClick = {
+                    // Crear un fitxer temporal per la imatge
+                    val imageFile = File(context.cacheDir, "logo_share.png")
+                    context.resources.openRawResource(R.drawable.logo_sense_fons).use { input ->
+                        FileOutputStream(imageFile).use { output ->
+                            input.copyTo(output)
+                        }
+                    }
+                    
+                    // Crear l'URI de la imatge
+                    val imageUri = FileProvider.getUriForFile(
+                        context,
+                        "${context.packageName}.provider",
+                        imageFile
+                    )
+
+                    // Crear l'Intent per compartir
+                    val shareIntent = Intent().apply {
+                        action = Intent.ACTION_SEND_MULTIPLE
+                        type = "image/*"
+                        putExtra(Intent.EXTRA_TEXT, context.getString(R.string.shareMessage))
+                        putParcelableArrayListExtra(Intent.EXTRA_STREAM, arrayListOf(imageUri))
+                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    }
+                    
+                    context.startActivity(Intent.createChooser(shareIntent, context.getString(R.string.shareButton)))
+                },
+                modifier = Modifier.size(40.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Share,
+                    contentDescription = "Share",
+                    tint = Morat
+                )
+            }
         }
 
         // Contingut principal

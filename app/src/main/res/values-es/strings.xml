@@ -162,4 +162,8 @@
 
     <!-- Notificaciones -->
     <string name="dailyNotification">"Recuerda hacer tus test diarios culturales para obtener puntos"</string>
+
+    <!-- Share strings -->
+    <string name="shareMessage">¡Estoy siendo una persona más culta gracias a Culturunya! Descárgala aquí: https://play.google.com/store/apps/details?id=com.example.culturunya</string>
+    <string name="shareButton">Compartir</string>
 </resources>
