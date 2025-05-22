@@ -165,4 +165,15 @@
     <string name="quiz">Questionario</string>
     <string name="eventAssistance">Asistir a eventos</string>
     <string name="unknownErrorRanking">Error desconocido cargando la clasificación.</string>
+    <string name="rankingSystem">Sistema de rangos</string>
+    <string name="unranked">Sin rango</string>
+    <string name="unrankedDescription">Aún no has acumulado suficientes puntos.</string>
+    <string name="bronze">Bronce (100+ puntos)</string>
+    <string name="bronzeDescription">Has empezado tu camino cultural.</string>
+    <string name="silver">Plata (200+ puntos)</string>
+    <string name="silverDescription">Vas por buen camino, ¡sigue así!</string>
+    <string name="gold">Oro (500+ puntos)</string>
+    <string name="goldDescription">¡Gran trabajo! Estás entre los mejores.</string>
+    <string name="ramonllull">Ramon Llull (1000+ puntos)</string>
+    <string name="ramonllullDescription">Rango solo para leyendas. La sabiduría infinita de Ramón Llull te acoge.</string>
 </resources>

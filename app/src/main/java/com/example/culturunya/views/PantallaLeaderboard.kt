@@ -1,6 +1,8 @@
 package com.example.culturunya.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,24 +17,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.culturunya.CurrentSession
-import com.example.culturunya.ui.theme.Morat
 import com.example.culturunya.views.TopButtonItem
 import com.example.culturunya.views.getString
 import com.example.culturunya.R
 import com.example.culturunya.navigation.AppScreens
-import com.example.culturunya.ui.theme.BlauClar
-import com.example.culturunya.ui.theme.Groc
-import com.example.culturunya.ui.theme.MoratFluix
+import com.example.culturunya.ui.theme.*
 import com.example.culturunya.viewmodels.GetChatWithAdminViewModel
 import com.example.culturunya.viewmodels.GetChatWithUserViewModel
 import com.example.culturunya.viewmodels.GetLeaderboardEventsViewModel
@@ -52,6 +55,8 @@ fun LeaderboardScreen(navController: NavController) {
     val colorSelectedQuiz = MoratFluix
     val colorEvents = Color.Blue
     val colorSelectedEvents = BlauClar
+
+    var showRankInfoDialog by remember { mutableStateOf(false) }
 
     val getLeaderboardViewModel = if (currentSubScreen == "Quiz") {
         viewModel<GetLeaderboardQuizViewModel>()
@@ -118,16 +123,35 @@ fun LeaderboardScreen(navController: NavController) {
                 onClick = { currentSubScreen = "Events" }
             )
         }
+
         Spacer(modifier = Modifier.height(40.dp))
 
-        Icon(
-            imageVector = Icons.Default.BarChart,
-            contentDescription = null,
-            tint = if (currentSubScreen == "Quiz") colorQuiz else colorEvents,
+        Box(
             modifier = Modifier
-                .size(48.dp)
-                .align(Alignment.CenterHorizontally)
-        )
+                .fillMaxWidth()
+                .height(56.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = Icons.Default.BarChart,
+                contentDescription = null,
+                tint = if (currentSubScreen == "Quiz") colorQuiz else colorEvents,
+                modifier = Modifier
+                    .size(48.dp)
+            )
+
+            Icon(
+                imageVector = Icons.Default.Info,
+                contentDescription = "Info",
+                tint = Color.Gray,
+                modifier = Modifier
+                    .size(40.dp)
+                    .align(Alignment.CenterEnd)
+                    .padding(end = 16.dp)
+                    .clickable { showRankInfoDialog = true }
+            )
+        }
+
 
         Text(
             text = getString(context, R.string.monthlyRanking, currentLocale),
@@ -180,9 +204,35 @@ fun LeaderboardScreen(navController: NavController) {
                         )
                     }
                     Spacer(modifier = Modifier.width(8.dp))
+
                     Text(item.username,
                         modifier = Modifier.weight(1f),
                         color = Color.Black)
+
+                    if (item.rank == "RamonLlull") {
+                        Image(
+                            painter = painterResource(id = R.drawable.llullvermell),
+                            contentDescription = "Llull",
+                            modifier = Modifier.size(30.dp)
+                        )
+                    }
+
+                    else if (item.rank != "Unranked") {
+                        Icon(
+                            imageVector = Icons.Filled.Diamond,
+                            contentDescription = "Diamond",
+                            tint = when (item.rank) {
+                                "RamonLlull" -> Color.Red
+                                "Gold" -> Dorat
+                                "Silver" -> Color.LightGray
+                                "Bronze" -> Marro
+                                else -> Unranked
+                            }
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.width(10.dp))
+
                     Text("${item.points} pts",
                         fontWeight = FontWeight.Bold,
                         color = Color.Black)
@@ -191,5 +241,69 @@ fun LeaderboardScreen(navController: NavController) {
         }
 
         Spacer(modifier = Modifier.height(60.dp))
+
+        if (showRankInfoDialog) {
+            AlertDialog(
+                onDismissRequest = { showRankInfoDialog = false },
+                confirmButton = {
+                    Text(
+                        text = "OK",
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .clickable { showRankInfoDialog = false },
+                        color = Color.Blue
+                    )
+                },
+                title = {
+                    Text(getString(context, R.string.rankingSystem, currentLocale), fontWeight = FontWeight.Bold, color = Color.Black)
+                },
+                text = {
+                    Column {
+                        RankInfoItem(getString(context, R.string.unranked, currentLocale), getString(context, R.string.unrankedDescription, currentLocale), icon = Icons.Default.Remove, color = Color.Black)
+                        Spacer(modifier = Modifier.height(10.dp))
+                        RankInfoItem(getString(context, R.string.bronze, currentLocale), getString(context, R.string.bronzeDescription, currentLocale), icon = Icons.Default.Diamond, color = Marro)
+                        Spacer(modifier = Modifier.height(10.dp))
+                        RankInfoItem(getString(context, R.string.silver, currentLocale), getString(context, R.string.silverDescription, currentLocale), icon = Icons.Default.Diamond, color = Color.LightGray)
+                        Spacer(modifier = Modifier.height(10.dp))
+                        RankInfoItem(getString(context, R.string.gold, currentLocale), getString(context, R.string.goldDescription, currentLocale), icon = Icons.Default.Diamond, color = Dorat)
+                        Spacer(modifier = Modifier.height(10.dp))
+                        RankInfoItem(getString(context, R.string.ramonllull, currentLocale), getString(context, R.string.ramonllullDescription, currentLocale), imageRes = R.drawable.llullvermell)
+                    }
+                },
+                containerColor = Color.White,
+                shape = RoundedCornerShape(16.dp)
+            )
+        }
     }
 }
+
+@Composable
+fun RankInfoItem(title: String, description: String, icon: ImageVector? = null, color: Color = Color.Gray, imageRes: Int? = null) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.padding(vertical = 4.dp)
+    ) {
+        if (icon != null) {
+            Icon(
+                imageVector = icon,
+                contentDescription = title,
+                tint = color,
+                modifier = Modifier.size(24.dp)
+            )
+        } else if (imageRes != null) {
+            Image(
+                painter = painterResource(id = imageRes),
+                contentDescription = title,
+                modifier = Modifier.size(24.dp)
+            )
+        }
+
+        Spacer(modifier = Modifier.width(8.dp))
+        Column {
+            Text(text = title, fontWeight = FontWeight.Bold, color = Color.Black)
+            Spacer(modifier = Modifier.height(5.dp))
+            Text(text = description, fontSize = 12.sp, color = Color.Black)
+        }
+    }
+}
+

@@ -162,4 +162,15 @@
     <string name="quiz">Quiz</string>
     <string name="eventAssistance">Event attendance</string>
     <string name="unknownErrorRanking">Unknown error loading ranking.</string>
+    <string name="rankingSystem">Ranking system</string>
+    <string name="unranked">Unranked</string>
+    <string name="unrankedDescription">You have not accumulated enough points yet.</string>
+    <string name="bronze">Bronze (100+ points)</string>
+    <string name="bronzeDescription">You have started your cultural journey.</string>
+    <string name="silver">Silver (200+ points)</string>
+    <string name="silverDescription">You are on the right track, keep it up!</string>
+    <string name="gold">Gold (500+ points)</string>
+    <string name="goldDescription">Great job! You are among the best.</string>
+    <string name="ramonllull">Ramon Llull (1000+ points)</string>
+    <string name="ramonllullDescription">Rank only for legends. The infinite wisdom of Ramón Llull welcomes you.</string>
 </resources>
