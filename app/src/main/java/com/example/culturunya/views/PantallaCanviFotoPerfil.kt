@@ -28,7 +28,7 @@ import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.culturunya.R
 import com.example.culturunya.viewmodels.ChangeProfilePicViewModel
-import com.example.culturunya.CurrentSession
+import com.example.culturunya.session.CurrentSession
 import com.example.culturunya.ui.theme.Morat
 import coil.compose.AsyncImage
 

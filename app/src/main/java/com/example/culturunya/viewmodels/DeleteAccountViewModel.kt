@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.culturunya.Api
 import com.example.culturunya.repositories.UserRepository
-import com.example.culturunya.CurrentSession
+import com.example.culturunya.session.CurrentSession
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch

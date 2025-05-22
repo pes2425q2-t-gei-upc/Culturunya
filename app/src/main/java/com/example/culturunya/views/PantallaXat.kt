@@ -34,7 +34,7 @@ import com.example.culturunya.viewmodels.GetChatWithUserViewModel
 import com.example.culturunya.viewmodels.SendMessageToAdminViewModel
 import com.example.culturunya.viewmodels.SendMessageToUserViewModel
 import com.example.culturunya.dataclasses.chats.Message
-import com.example.culturunya.CurrentSession
+import com.example.culturunya.session.CurrentSession
 import com.example.culturunya.navigation.AppScreens
 import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat

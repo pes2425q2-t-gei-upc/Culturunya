@@ -43,7 +43,7 @@ import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import com.example.culturunya.R
 import com.example.culturunya.dataclasses.ratings.Rating
-import com.example.culturunya.CurrentSession
+import com.example.culturunya.session.CurrentSession
 import com.example.culturunya.dataclasses.ratings.ReportRequest
 import com.example.culturunya.ui.theme.*
 import com.google.android.gms.maps.model.Circle
