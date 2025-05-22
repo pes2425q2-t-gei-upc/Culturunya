@@ -14,14 +14,19 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -44,6 +49,7 @@ import com.example.culturunya.ui.theme.*
 import com.google.android.gms.maps.model.Circle
 import com.example.culturunya.viewmodels.ReportViewModel
 
+@kotlin.OptIn(ExperimentalMaterial3Api::class)
 @OptIn(UnstableApi::class)
 @Composable
 fun RatingBox(
@@ -54,33 +60,12 @@ fun RatingBox(
     val context = LocalContext.current
     CurrentSession.getInstance()
     val currentLocale by remember { mutableStateOf(CurrentSession.language) }
+    var reportStatus by remember { mutableStateOf(false)}
+    var report_new by remember { mutableStateOf("") }
 
     Log.d("RatingBox", "RatingBox recomposing. Initializing.")
 
-    //val successMessage by reportViewModel.successMessage.collectAsState()
-    //val errorMessage by reportViewModel.errorMessage.collectAsState()
     val isLoading by reportViewModel.isLoading.collectAsState()
-
-    /*LaunchedEffect(successMessage, errorMessage, isLoading) {
-        Log.d("RatingBox", "States updated: success='${successMessage}', error='${errorMessage}', loading='${isLoading}'") // <-- LOG B
-    }*/
-
-    /*LaunchedEffect(successMessage) {
-        successMessage?.let { message ->
-            Log.d("RatingBox", "SUCCESS LaunchedEffect: Message='${message}'")
-            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-            reportViewModel.clearSuccessMessage() // Clear message after showing
-        }
-    }*/
-
-    // Show Toast for error message
-    /*LaunchedEffect(errorMessage) {
-        errorMessage?.let { message ->
-            Log.d("RatingBox", "ERROR LaunchedEffect: Message='${message}'")
-            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-            reportViewModel.clearErrorMessage() // Clear message after showing
-        }
-    }*/
 
     Box(
         modifier = Modifier
@@ -98,36 +83,37 @@ fun RatingBox(
                         color = Purple40
                     ), modifier = Modifier.padding(top = 8.dp, bottom = 4.dp))
                 Spacer(Modifier.weight(1f))
-                IconButton(
-                    modifier = Modifier
-                        .size(35.dp)
-                        .background(Color.Red, CircleShape)
-                        .clip(CircleShape)
-                    ,
-                    colors = IconButtonDefaults.iconButtonColors(
-                        containerColor = Color.Transparent,
-                        contentColor = Color.White
-                    ),
-                    onClick = {
-                        Log.d("RatingBox", "ROW INSIDE RatingBox CLICKED!")
-                        val rep = ReportRequest(rating_id = rating.id.toInt(), message = "Test")
-                        reportViewModel.reportRating(rep)
-                    },
-                    enabled = !isLoading
-                ){
-                    if (isLoading) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.size(20.dp),
-                            color = Color.White,
-                            strokeWidth = 2.dp
-                        )
-                    } else {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_report),
-                            contentDescription = stringResource(id = R.string.Report),
-                            tint = Color.White,
-                            modifier = Modifier.size(20.dp)
-                        )
+                if(rating.user.username != CurrentSession.username){
+                    IconButton(
+                        modifier = Modifier
+                            .size(35.dp)
+                            .background(Color.Red, CircleShape)
+                            .clip(CircleShape)
+                        ,
+                        colors = IconButtonDefaults.iconButtonColors(
+                            containerColor = Color.Transparent,
+                            contentColor = Color.White
+                        ),
+                        onClick = {
+                            Log.d("RatingBox", "ROW INSIDE RatingBox CLICKED!")
+                            reportStatus = !reportStatus
+                        },
+                        enabled = !isLoading
+                    ){
+                        if (isLoading) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(20.dp),
+                                color = Color.White,
+                                strokeWidth = 2.dp
+                            )
+                        } else {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_report),
+                                contentDescription = stringResource(id = R.string.Report),
+                                tint = Color.White,
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
                     }
                 }
             }
@@ -135,6 +121,49 @@ fun RatingBox(
             Text(text = getString(context, R.string.Rating, currentLocale) + ": " + rating.rating.toString(), color = Purple40)
             Spacer(modifier = Modifier.padding(8.dp))
             rating.comment?.let { Text(text= it, color = Purple40, fontSize = 16.sp)  }
+            Spacer(modifier = Modifier.padding(8.dp))
+            if(reportStatus){
+                OutlinedTextField(
+                    value = report_new,
+                    onValueChange = { report_new = it },
+                    label = { Text(getString(context, R.string.Report, currentLocale)) },
+                    singleLine = true,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                    ,
+                    leadingIcon = {
+                        Icon(imageVector = Icons.Default.Person, contentDescription = "Persona")
+                    },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        textColor = Color.Black,
+                        cursorColor = Color.Black,
+                        focusedBorderColor = Color.Gray,
+                        unfocusedBorderColor = Color.LightGray
+                    )
+                )
+                //Spacer(modifier = Modifier.padding(8.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = androidx.compose.foundation.layout.Arrangement.Center
+                ){
+                    Button(
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.Red,
+                            contentColor = Color.White
+                        ),
+                        onClick = {
+                            val reportRequest = ReportRequest(message = report_new, rating_id = rating.id.toInt())
+                            reportViewModel.reportRating(reportRequest)
+                            reportStatus = false
+                        },
+                        modifier = Modifier.width(200.dp),
+                    ) {
+                        Text(getString(context, R.string.Report, currentLocale))
+                    }
+                }
+            }
         }
 
     }
