@@ -43,7 +43,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
 import kotlinx.coroutines.tasks.await
 import java.time.LocalDate
-import com.example.culturunya.CurrentSession
+import com.example.culturunya.session.CurrentSession
 import com.example.culturunya.R
 import android.os.Looper
 import com.google.android.gms.location.LocationCallback
