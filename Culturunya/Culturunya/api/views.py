@@ -1034,7 +1034,7 @@ def get_question(request, question_id):
 @permission_classes([IsAuthenticated])
 def obtain_location_points(request, event_id):
     user = User.objects.get(id=request.user.id)
-    assisted = user.events_assisted.filter(event_id=event_id).exists()
+    assisted = user.events_assisted.filter(events_assisted=event_id).exists()
     if not assisted:
         user.events_assisted.add(Event.objects.get(id=event_id))
         user.total_event_points += 20
