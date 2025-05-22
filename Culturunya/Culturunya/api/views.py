@@ -1065,6 +1065,10 @@ def obtain_location_points(request, event_id):
 @swagger_auto_schema(
     method="put",
     operation_summary="Sumar puntos al ranking de preguntas de un usuario",
+    request_body=openapi.Schema(
+        type=openapi.TYPE_INTEGER,
+        description="Puntos obtenidos o perdidos",
+    ),
     responses={
         200: openapi.Response(description="Puntos obtenidos o subir de nivel"),
     }
@@ -1073,8 +1077,9 @@ def obtain_location_points(request, event_id):
 @permission_classes([IsAuthenticated])
 def obtain_quiz_points(request):
     user = User.objects.get(id=request.user.id)
-    user.total_quiz_points += 5
-    quiz_points = user.current_quiz_points + 5
+    points = request['points']
+    user.total_quiz_points += points
+    quiz_points = user.current_quiz_points + points
     points_to_next_rank = user.points_to_next_quiz_points
     rank = user.rank_quiz
     if quiz_points >= points_to_next_rank:
