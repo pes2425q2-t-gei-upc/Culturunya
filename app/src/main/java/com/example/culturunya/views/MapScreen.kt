@@ -453,7 +453,9 @@ fun MapContent(hasLocationPermission: Boolean = true) {
 
         } else {
             // Ubicació per defecte (Barcelona plaça cat)
-            val defaultLocation = LatLng(41.3874, 2.1686)
+            val defaultLat = 41.3874
+            val defaultLon = 2.1686
+            val defaultLocation = LatLng(defaultLat, defaultLon)
             cameraPositionState.position = CameraPosition.fromLatLngZoom(defaultLocation, 13f)
 
             val firstDayOfMonth = currentDate.withDayOfMonth(1).toString()
@@ -465,6 +467,25 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                 Pair(2.1686, 41.3874),
                 distanceKm.toInt()
             )
+
+            // Crida a l'API de punts de carrega amb la ubi predeterminada
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    val chargingResult = ChargingApi.instance.getNearestChargingPoints(
+                        defaultLat,
+                        defaultLon
+                    )
+                    withContext(Dispatchers.Main) {
+                        chargingPoints = chargingResult
+                        lastChargingLocation = Location("").apply {
+                            latitude = defaultLat
+                            longitude = defaultLon
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
         }
     }
 
