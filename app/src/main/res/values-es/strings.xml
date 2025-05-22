@@ -161,6 +161,10 @@
     <string name="quizLoading">Cargando pregunta...</string>
     <string name="quizError">Error: %1$s</string>
 
+    <!-- Report messages -->
+    <string name="ReportSuccess">Se ha reportado correctamente</string>
+    <string name="ReportError">Error al reportar</string>
+
     <!-- Notificaciones -->
     <string name="dailyNotification">"Recuerda hacer tus test diarios culturales para obtener puntos"</string>
 
