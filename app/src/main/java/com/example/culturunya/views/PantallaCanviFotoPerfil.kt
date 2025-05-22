@@ -30,6 +30,7 @@ import com.example.culturunya.R
 import com.example.culturunya.viewmodels.ChangeProfilePicViewModel
 import com.example.culturunya.session.CurrentSession
 import com.example.culturunya.ui.theme.Morat
+import coil.compose.AsyncImage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -107,19 +108,31 @@ fun PantallaCanviFotoPerfil(navController: NavController) {
                         contentScale = ContentScale.Crop
                     )
                 } else {
-                    Icon(
-                        imageVector = Icons.Default.Person,
-                        contentDescription = "Profile picture",
-                        modifier = Modifier.size(100.dp),
-                        tint = Morat
-                    )
+                    val currentProfilePic = CurrentSession.profile_pic
+                    if (currentProfilePic != null && currentProfilePic.isNotEmpty()) {
+                        val baseUrl = "http://nattech.fib.upc.edu:40369"
+                        val urlFinal = baseUrl + currentProfilePic
+                        AsyncImage(
+                            model = urlFinal,
+                            contentDescription = "Current profile picture",
+                            modifier = Modifier.fillMaxSize(),
+                            contentScale = ContentScale.Crop
+                        )
+                    } else {
+                        Icon(
+                            imageVector = Icons.Default.Person,
+                            contentDescription = "Profile picture",
+                            modifier = Modifier.size(100.dp),
+                            tint = Morat
+                        )
+                    }
                 }
             }
 
             Spacer(modifier = Modifier.height(40.dp))
 
             Text(
-                text = context.getString(R.string.changeProfilePic),
+                text = getString(context, R.string.changeProfilePic, currentLocale),
                 fontSize = 24.sp,
                 color = Color.Black,
                 fontWeight = FontWeight.Bold
@@ -147,10 +160,10 @@ fun PantallaCanviFotoPerfil(navController: NavController) {
                             },
                             colors = ButtonDefaults.buttonColors(containerColor = Morat)
                         ) {
-                            Text(context.getString(R.string.ok))
+                            Text(getString(context, R.string.ok, currentLocale))
                         }
                     },
-                    title = { Text(context.getString(R.string.profilePicUpdated)) },
+                    title = { Text(getString(context, R.string.profilePicUpdated, currentLocale)) },
                     containerColor = Color.White
                 )
             }
@@ -169,7 +182,7 @@ fun PantallaCanviFotoPerfil(navController: NavController) {
                         color = MaterialTheme.colorScheme.onPrimary
                     )
                 } else {
-                    Text(context.getString(R.string.selectImage))
+                    Text(getString(context, R.string.selectImage, currentLocale))
                 }
             }
         }

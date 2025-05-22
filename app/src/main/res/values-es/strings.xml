@@ -113,6 +113,7 @@
     <string name = "eventDetails">"Ver detalles</string>
     <string name = "mapsButton">"Abrir Maps"</string>
     <string name = "checkingPermissions">"Verificando permisos de localización..."</string>
+    <string name="chargingPointLabel">Punto de carga:</string>
 
     <!--pantalla registre-->
     <string name = "registerScreenTitle">"Crea tu cuenta"</string>
@@ -160,6 +161,14 @@
     <string name="quizLoading">Cargando pregunta...</string>
     <string name="quizError">Error: %1$s</string>
 
+    <!-- Report messages -->
+    <string name="ReportSuccess">Se ha reportado correctamente</string>
+    <string name="ReportError">Error al reportar</string>
+
     <!-- Notificaciones -->
     <string name="dailyNotification">"Recuerda hacer tus test diarios culturales para obtener puntos"</string>
+
+    <!-- Share strings -->
+    <string name="shareMessage">¡Estoy siendo una persona más culta gracias a Culturunya! Descárgala aquí: https://play.google.com/store/apps/details?id=com.example.culturunya</string>
+    <string name="shareButton">Compartir</string>
 </resources>

@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.PhotoCamera
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -156,6 +157,14 @@ fun SettingsScreen(navController: NavController) {
                     text = getString(context, R.string.changeThePassword, currentLocale),
                     onClick = {
                         navController.navigate(AppScreens.CanviContrasenya.route)
+                    }
+                )
+                Divider(color = Color.LightGray)
+                SettingsButton(
+                    icon = Icons.Default.PhotoCamera,
+                    text = getString(context, R.string.changeProfilePic, currentLocale),
+                    onClick = {
+                        navController.navigate(AppScreens.ChangeProfilePic.route)
                     }
                 )
             }

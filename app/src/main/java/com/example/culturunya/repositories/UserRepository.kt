@@ -5,6 +5,7 @@ import com.example.culturunya.dataclasses.users.UserInfo
 import com.example.culturunya.dataclasses.settings.ChangePasswordRequest
 import com.example.culturunya.dataclasses.settings.ChangeUsernameRequest
 import com.example.culturunya.dataclasses.settings.UpdateLanguageRequest
+import com.example.culturunya.SetQuizPointsRequest
 import retrofit2.HttpException
 import okhttp3.MultipartBody
 
@@ -90,6 +91,16 @@ class UserRepository(private val api: Api) {
             } else {
                 Result.failure(HttpException(response))
             }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+    
+    suspend fun setQuizPoints(token: String, points: Int): Result<Unit> {
+        return try {
+            val response = api.setQuizPoints(token, SetQuizPointsRequest(points))
+            if (response.isSuccessful) Result.success(Unit)
+            else Result.failure(Exception("Error: ${response.code()}"))
         } catch (e: Exception) {
             Result.failure(e)
         }
