@@ -160,4 +160,7 @@
     <string name="quizIncorrect">¡Incorrecto!</string>
     <string name="quizLoading">Cargando pregunta...</string>
     <string name="quizError">Error: %1$s</string>
+
+    <!-- Notificaciones -->
+    <string name="dailyNotification">"Recuerda hacer tus test diarios culturales para obtener puntos"</string>
 </resources>
