@@ -24,6 +24,8 @@ import retrofit2.Response
 import retrofit2.http.*
 import okhttp3.MultipartBody
 
+data class SetQuizPointsRequest(val points: Int)
+
 interface Api {
     companion object{
         val instance: Api = Retrofit.Builder().baseUrl("http://nattech.fib.upc.edu:40369/api/")
@@ -108,4 +110,11 @@ interface Api {
 
     @POST("reports/create/")
     suspend fun reportRating(@Header("Authorization") token: String, @Body reportRequest: ReportRequest): Response<Unit>
+
+    @PUT("user/set_points_quiz/")
+    suspend fun setQuizPoints(
+        @Header("Authorization") token: String,
+        @Body request: SetQuizPointsRequest
+    ): Response<Unit>
+
 }
