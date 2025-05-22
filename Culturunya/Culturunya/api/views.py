@@ -1060,7 +1060,7 @@ def obtain_location_points(request, event_id):
             user.save()
             return Response({"message": "Puntos obtenidos"}, status=200)
     else:
-        return Response({"error": "El usuario ya ha asistido al evento"}, status=400)
+        return Response({"error": "El usuario ya ha asistido al evento"}, status=403)
 
 @swagger_auto_schema(
     method="put",
