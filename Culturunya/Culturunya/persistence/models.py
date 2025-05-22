@@ -109,7 +109,7 @@ class User(AbstractUser):
     birth_date = models.DateField(blank=True, null=True)
     language = models.CharField(max_length=20, choices=[("ES", "Español"), ("EN", "English")], default=("ES", "Español"))
     rank_event = models.CharField(max_length=20, choices=TypeRank.choices, default=TypeRank.UNRANKED)
-    rank_quiz = models.CharField(max_length=20, choices=TypeRating.choices, default=TypeRating.BAD)
+    rank_quiz = models.CharField(max_length=20, choices=TypeRank.choices, default=TypeRank.UNRANKED)
     total_event_points = models.IntegerField(default=0, null=True)
     total_quiz_points = models.IntegerField(default=0, null=True)
     current_event_points = models.IntegerField(default=0)
