@@ -1066,7 +1066,11 @@ def obtain_location_points(request, event_id):
     method="put",
     operation_summary="Sumar puntos al ranking de preguntas de un usuario",
     request_body=openapi.Schema(
-        type=openapi.TYPE_INTEGER,
+        type=openapi.TYPE_OBJECT,
+        required=['points'],
+        properties={
+          'points': openapi.Schema(type=openapi.TYPE_INTEGER),
+        },
         description="Puntos obtenidos o perdidos",
     ),
     responses={
