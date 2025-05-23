@@ -24,6 +24,10 @@ class CurrentSession private constructor() {
 
         var profile_pic: String = ""
 
+        var rank_quiz: String = ""
+
+        var rank_event: String = ""
+
         var current_quiz_points: Int = 0
 
         fun getInstance() =
@@ -36,11 +40,13 @@ class CurrentSession private constructor() {
             Companion.password = password
         }
 
-        fun setUserData(username: String, email: String, profile_pic: String, language: String) {
+        fun setUserData(username: String, email: String, profile_pic: String, language: String, rank_quiz: String, rank_event: String) {
             Companion.username = username
             Companion.email = email
             Companion.profile_pic = profile_pic
             Companion.language = language
+            Companion.rank_quiz = rank_quiz
+            Companion.rank_event = rank_event
         }
 
         fun setGoogleToken(idToken: String) {

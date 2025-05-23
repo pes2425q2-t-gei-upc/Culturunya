@@ -1,6 +1,5 @@
 package com.example.culturunya.views
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -64,6 +63,8 @@ fun SettingsScreen(navController: NavController) {
     val username = CurrentSession.username
     val email = CurrentSession.email
     val imageUrl = CurrentSession.profile_pic
+    val rank_quiz = CurrentSession.rank_quiz
+    val rank_event = CurrentSession.rank_event
 
     val options = listOf("English", "Español")
     var expanded by remember { mutableStateOf(false) }

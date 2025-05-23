@@ -119,7 +119,7 @@ class LoginViewModel : ViewModel() {
                         Log.d("LoginViewModel", "Login con Google exitoso. Token: ${response.token}")
                         _loginResponse.value = response
                         CurrentSession.setTokenAndPassword(response.token, "")
-                        CurrentSession.setUserData(googleIdTokenCredential.displayName ?: "", "","", "")
+                        CurrentSession.setUserData(googleIdTokenCredential.displayName ?: "", "","", "", "", "")
                         _googleLoginError.value = null
                     }.onFailure { error ->
                         Log.e("LoginViewModel", "Error en login con Google: ${error.message}")

@@ -132,46 +132,54 @@ fun LeaderboardScreen(navController: NavController) {
             )
         }
 
-        Spacer(modifier = Modifier.height(40.dp))
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp),
-            contentAlignment = Alignment.Center
+        LazyColumn(
+            modifier = Modifier.fillMaxSize()
         ) {
-            Icon(
-                imageVector = Icons.Default.BarChart,
-                contentDescription = null,
-                tint = if (currentSubScreen == "Quiz") colorQuiz else colorEvents,
-                modifier = Modifier
-                    .size(48.dp)
-            )
+            item {
+                Spacer(modifier = Modifier.height(40.dp))
+            }
 
-            Icon(
-                imageVector = Icons.Default.Info,
-                contentDescription = "Info",
-                tint = Color.Gray,
-                modifier = Modifier
-                    .size(40.dp)
-                    .align(Alignment.CenterEnd)
-                    .padding(end = 16.dp)
-                    .clickable { showRankInfoDialog = true }
-            )
-        }
+            item {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.BarChart,
+                        contentDescription = null,
+                        tint = if (currentSubScreen == "Quiz") colorQuiz else colorEvents,
+                        modifier = Modifier
+                            .size(48.dp)
+                    )
 
+                    Icon(
+                        imageVector = Icons.Default.Info,
+                        contentDescription = "Info",
+                        tint = Color.Gray,
+                        modifier = Modifier
+                            .size(40.dp)
+                            .align(Alignment.CenterEnd)
+                            .padding(end = 16.dp)
+                            .clickable { showRankInfoDialog = true }
+                    )
+                }
+            }
 
-        Text(
-            text = getString(context, R.string.monthlyRanking, currentLocale),
-            color = Color.Black,
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(vertical = 16.dp)
-        )
+            item {
+                Text(
+                    text = getString(context, R.string.monthlyRanking, currentLocale),
+                    color = Color.Black,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentWidth(Alignment.CenterHorizontally)
+                        .padding(vertical = 16.dp)
+                )
+            }
 
-        LazyColumn {
             itemsIndexed(leaderboard ?: emptyList()) { pos, item ->
                 val isCurrentUser = item.username == CurrentSession.username
                 Row(
@@ -217,27 +225,7 @@ fun LeaderboardScreen(navController: NavController) {
                         modifier = Modifier.weight(1f),
                         color = Color.Black)
 
-                    if (item.rank == "RamonLlull") {
-                        Image(
-                            painter = painterResource(id = R.drawable.llullvermell),
-                            contentDescription = "Llull",
-                            modifier = Modifier.size(30.dp)
-                        )
-                    }
-
-                    else if (item.rank != "Unranked") {
-                        Icon(
-                            imageVector = Icons.Filled.Diamond,
-                            contentDescription = "Diamond",
-                            tint = when (item.rank) {
-                                "RamonLlull" -> Color.Red
-                                "Gold" -> Dorat
-                                "Silver" -> Color.LightGray
-                                "Bronze" -> Marro
-                                else -> Unranked
-                            }
-                        )
-                    }
+                    RankIcon(item.rank)
 
                     Spacer(modifier = Modifier.width(10.dp))
 
@@ -246,9 +234,11 @@ fun LeaderboardScreen(navController: NavController) {
                         color = Color.Black)
                 }
             }
-        }
 
-        Spacer(modifier = Modifier.height(60.dp))
+            item {
+                Spacer(modifier = Modifier.height(60.dp))
+            }
+        }
 
         if (showRankInfoDialog) {
             AlertDialog(
@@ -315,3 +305,40 @@ fun RankInfoItem(title: String, description: String, icon: ImageVector? = null, 
     }
 }
 
+@Composable
+fun RankIcon(rank: String, modifier: Modifier = Modifier) {
+    when (rank) {
+        "RamonLlull" -> {
+            Image(
+                painter = painterResource(id = R.drawable.llullvermell),
+                contentDescription = "Llull",
+                modifier = modifier.size(30.dp)
+            )
+        }
+
+        "Gold", "Silver", "Bronze" -> {
+            Icon(
+                imageVector = Icons.Filled.Diamond,
+                contentDescription = "Rank Icon",
+                tint = when (rank) {
+                    "Gold" -> Dorat
+                    "Silver" -> Color.LightGray
+                    "Bronze" -> Marro
+                    else -> Color.Unspecified
+                },
+                modifier = modifier
+            )
+        }
+
+        else -> {
+            if (rank != "Unranked") {
+                Icon(
+                    imageVector = Icons.Filled.Diamond,
+                    contentDescription = "Rank Icon",
+                    tint = Unranked,
+                    modifier = modifier
+                )
+            }
+        }
+    }
+}
