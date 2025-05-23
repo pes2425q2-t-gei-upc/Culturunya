@@ -19,10 +19,13 @@ import com.example.culturunya.dataclasses.login.LoginResponse
 import com.example.culturunya.dataclasses.chats.SendMessageToAdminRequest
 import com.example.culturunya.dataclasses.chats.SendMessageToUserRequest
 import com.example.culturunya.dataclasses.ranking.RankingPosition
+import com.example.culturunya.dataclasses.ratings.ReportRequest
 import com.example.culturunya.dataclasses.settings.UpdateLanguageRequest
 import retrofit2.Response
 import retrofit2.http.*
 import okhttp3.MultipartBody
+
+data class SetQuizPointsRequest(val points: Int)
 
 interface Api {
     companion object{
@@ -105,6 +108,16 @@ interface Api {
 
     @PUT("user/update_language/")
     suspend fun updateLanguage(@Header("Authorization") token: String, @Body updateLanguageRequest: UpdateLanguageRequest): Response<Unit>
+
+    @POST("reports/create/")
+    suspend fun reportRating(@Header("Authorization") token: String, @Body reportRequest: ReportRequest): Response<Unit>
+
+    @PUT("user/set_points_quiz/")
+    suspend fun setQuizPoints(
+        @Header("Authorization") token: String,
+        @Body request: SetQuizPointsRequest
+    ): Response<Unit>
+
 
     @GET("leaderboard/quiz/")
     suspend fun getLeaderboardQuiz(@Header("Authorization") token: String): List<RankingPosition>

@@ -1,5 +1,6 @@
 package com.example.culturunya.views
 
+import SessionManager
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -8,6 +9,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.PhotoCamera
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -23,15 +25,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.culturunya.R
-import com.example.culturunya.viewmodels.DeleteAccountViewModel
-import com.example.culturunya.viewmodels.GetChatsViewModel
-import com.example.culturunya.viewmodels.LogoutViewModel
-import com.example.culturunya.viewmodels.UpdateLanguageViewModel
-import com.example.culturunya.viewmodels.UserViewModel
-import com.example.culturunya.CurrentSession
+import com.example.culturunya.session.CurrentSession
 import com.example.culturunya.navigation.AppScreens
 import com.example.culturunya.ui.theme.GrisMoltFluix
 import com.example.culturunya.ui.theme.Morat
+import com.example.culturunya.viewmodels.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -71,6 +69,9 @@ fun SettingsScreen(navController: NavController) {
     var selectedOption by remember { mutableStateOf(if (currentLocale == "en" || currentLocale == "EN") options[0] else options[1]) }
 
     val userViewModel: UserViewModel = viewModel()
+
+    val authViewModel: AuthViewModel = viewModel()
+    val sessionManager = remember { SessionManager(context) }
 
     LaunchedEffect(Unit) {
         getChatsViewModel.reset()
@@ -158,6 +159,14 @@ fun SettingsScreen(navController: NavController) {
                     text = getString(context, R.string.changeThePassword, currentLocale),
                     onClick = {
                         navController.navigate(AppScreens.CanviContrasenya.route)
+                    }
+                )
+                Divider(color = Color.LightGray)
+                SettingsButton(
+                    icon = Icons.Default.PhotoCamera,
+                    text = getString(context, R.string.changeProfilePic, currentLocale),
+                    onClick = {
+                        navController.navigate(AppScreens.ChangeProfilePic.route)
                     }
                 )
             }
@@ -326,6 +335,7 @@ fun SettingsScreen(navController: NavController) {
 
     LaunchedEffect(logoutCode) {
         if (logoutCode == 200) {
+            authViewModel.logout(sessionManager)
             navController.navigate(AppScreens.IniciSessio.route)
         }
         else if (logoutCode != null) {

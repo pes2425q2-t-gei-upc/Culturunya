@@ -8,7 +8,7 @@ import com.example.culturunya.R
 import com.example.culturunya.Api
 import com.example.culturunya.repositories.UserRepository
 import com.example.culturunya.dataclasses.quiz.QuizQuestion
-import com.example.culturunya.CurrentSession
+import com.example.culturunya.session.CurrentSession
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -23,7 +23,8 @@ data class QuizState(
     val isLoading: Boolean = false,
     val error: String? = null,
     val showCorrectAnimation: Boolean = false,
-    val showIncorrectAnimation: Boolean = false
+    val showIncorrectAnimation: Boolean = false,
+    val selectedOption: Int? = null
 )
 
 class QuizViewModel : ViewModel() {
@@ -58,12 +59,10 @@ class QuizViewModel : ViewModel() {
                 
                 QuizQuestion(
                     id = questionObj.getInt("id"),
-                    question = if (CurrentSession.language == "es")
-                        questionObj.getString("question_es")
-                    else 
-                        questionObj.getString("question_en"),
+                    question = questionObj.getString("question_${CurrentSession.language.lowercase()}"),
                     options = optionsList,
-                    correctAnswer = correctAnswer
+                    correctAnswer = correctAnswer,
+                    image = questionObj.optString("image").takeIf { it != "null" && it.isNotBlank() }
                 )
             }
             
@@ -111,27 +110,25 @@ class QuizViewModel : ViewModel() {
     fun checkAnswer(selectedOption: Int) {
         val currentQuestion = _state.value.currentQuestion ?: return
         val isCorrect = selectedOption == currentQuestion.correctAnswer
-        
         _state.value = _state.value.copy(
             showCorrectAnimation = isCorrect,
-            showIncorrectAnimation = !isCorrect
+            showIncorrectAnimation = !isCorrect,
+            selectedOption = selectedOption
         )
-
         // Actualitzar punts
-        val newPoints = if (isCorrect) {
-            _state.value.currentPoints + 1
-        } else {
-            maxOf(0, _state.value.currentPoints - 1)
-        }
-        
+        val newPoints = if (isCorrect) _state.value.currentPoints + 1 else maxOf(0, _state.value.currentPoints - 1)
         _state.value = _state.value.copy(currentPoints = newPoints)
 
+        // Guardar punts sempre TODO: només cridar quan es tanca la pantalla
+        savePoints()
+        
         // Després d'un moment, carregar nova pregunta
         viewModelScope.launch {
-            kotlinx.coroutines.delay(1500) // Temps per veure l'animació
+            kotlinx.coroutines.delay(2000) // Temps per veure l'animació
             _state.value = _state.value.copy(
                 showCorrectAnimation = false,
-                showIncorrectAnimation = false
+                showIncorrectAnimation = false,
+                selectedOption = null
             )
             loadNewQuestion()
         }
@@ -140,8 +137,7 @@ class QuizViewModel : ViewModel() {
     fun savePoints() {
         viewModelScope.launch {
             try {
-                // TODO: Implementar crida al servidor quan estigui disponible
-                // Per ara només actualitzem CurrentSession
+                repository.setQuizPoints("Token ${CurrentSession.token}", _state.value.currentPoints)
                 CurrentSession.current_quiz_points = _state.value.currentPoints
             } catch (e: Exception) {
                 _state.value = _state.value.copy(error = "Error guardant els punts: ${e.message}")

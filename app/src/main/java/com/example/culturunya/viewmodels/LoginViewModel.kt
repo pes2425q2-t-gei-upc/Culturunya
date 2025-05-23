@@ -1,10 +1,11 @@
 package com.example.culturunya.viewmodels
 
+import SessionManager
+import android.app.Application
 import android.util.Log
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.culturunya.Api
-import com.example.culturunya.CurrentSession
+import com.example.culturunya.session.CurrentSession
 import com.example.culturunya.dataclasses.login.LoginRequest
 import com.example.culturunya.dataclasses.login.LoginResponse
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,10 +19,12 @@ import android.content.Context
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialResponse
+import androidx.lifecycle.AndroidViewModel
 import com.example.culturunya.repositories.AuthRepository
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 
-class LoginViewModel : ViewModel() {
+class LoginViewModel(application: Application): AndroidViewModel(application) {
+    private val sessionManager = SessionManager(application.applicationContext)
     private val _loginResponse = MutableStateFlow<LoginResponse?>(null)
     val loginResponse: StateFlow<LoginResponse?> = _loginResponse
 
@@ -52,6 +55,7 @@ class LoginViewModel : ViewModel() {
                 _loginResponse.value = body
                 CurrentSession.getInstance()
                 CurrentSession.setTokenAndPassword(body.token, password)
+                CurrentSession.saveToDataStore(sessionManager)
                 _loginError.value = null
             }.onFailure { error ->
                 Log.e("LoginViewModel", "Error en login: ${error.message}")
@@ -120,6 +124,7 @@ class LoginViewModel : ViewModel() {
                         _loginResponse.value = response
                         CurrentSession.setTokenAndPassword(response.token, "")
                         CurrentSession.setUserData(googleIdTokenCredential.displayName ?: "", "","", "", "", "")
+                        CurrentSession.saveToDataStore(sessionManager)
                         _googleLoginError.value = null
                     }.onFailure { error ->
                         Log.e("LoginViewModel", "Error en login con Google: ${error.message}")

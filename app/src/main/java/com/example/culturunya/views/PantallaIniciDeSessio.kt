@@ -1,5 +1,6 @@
 package com.example.culturunya.views
 
+import android.os.Build
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -31,9 +32,13 @@ import com.example.culturunya.navigation.AppScreens
 import com.example.culturunya.ui.theme.Morat
 import com.example.culturunya.viewmodels.LoginViewModel
 import com.example.culturunya.viewmodels.UserViewModel
-import com.example.culturunya.CurrentSession
+import com.example.culturunya.notifications.NotificationService
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
+import com.example.culturunya.session.CurrentSession
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
 fun ComposableIniciSessio(navController: NavController) {
     var usuari by remember { mutableStateOf("") }

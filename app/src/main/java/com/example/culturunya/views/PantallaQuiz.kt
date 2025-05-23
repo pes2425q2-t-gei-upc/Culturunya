@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -19,8 +20,17 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.culturunya.R
 import com.example.culturunya.viewmodels.QuizViewModel
-import com.example.culturunya.CurrentSession
+import com.example.culturunya.session.CurrentSession
 import com.example.culturunya.ui.theme.Morat
+import coil.compose.AsyncImage
+import androidx.compose.ui.draw.clip
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.rememberScrollState
+import android.content.Intent
+import android.net.Uri
+import androidx.core.content.FileProvider
+import java.io.File
+import java.io.FileOutputStream
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,144 +58,215 @@ fun PantallaQuiz(navController: NavController) {
             .fillMaxSize()
             .background(Color.White)
     ) {
-        // Botó enrere
-        IconButton(
-            onClick = {
-                viewModel.savePoints()
-                navController.popBackStack()
-            },
-            modifier = Modifier.padding(16.dp)
+        // Capçalera amb fletxa i botó de compartir
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp, start = 8.dp, end = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Icon(
-                imageVector = Icons.Default.ArrowBack,
-                contentDescription = "Back",
-                tint = Color.Black
-            )
+            IconButton(
+                onClick = {
+                    viewModel.savePoints()
+                    navController.popBackStack()
+                },
+                modifier = Modifier.size(40.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = "Back",
+                    tint = Color.Black
+                )
+            }
+            
+            IconButton(
+                onClick = {
+                    // Crear un fitxer temporal per la imatge
+                    val imageFile = File(context.cacheDir, "logo_share.png")
+                    context.resources.openRawResource(R.drawable.logo_sense_fons).use { input ->
+                        FileOutputStream(imageFile).use { output ->
+                            input.copyTo(output)
+                        }
+                    }
+                    
+                    // Crear l'URI de la imatge
+                    val imageUri = FileProvider.getUriForFile(
+                        context,
+                        "${context.packageName}.provider",
+                        imageFile
+                    )
+
+                    // Crear l'Intent per compartir
+                    val shareIntent = Intent().apply {
+                        action = Intent.ACTION_SEND_MULTIPLE
+                        type = "image/*"
+                        putExtra(Intent.EXTRA_TEXT, context.getString(R.string.shareMessage))
+                        putParcelableArrayListExtra(Intent.EXTRA_STREAM, arrayListOf(imageUri))
+                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    }
+                    
+                    context.startActivity(Intent.createChooser(shareIntent, context.getString(R.string.shareButton)))
+                },
+                modifier = Modifier.size(40.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Share,
+                    contentDescription = "Share",
+                    tint = Morat
+                )
+            }
         }
 
         // Contingut principal
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
-                .padding(top = 48.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .padding(horizontal = 8.dp)
+                .padding(top = 8.dp, bottom = 8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top
         ) {
             // Puntuació
             Text(
-                text = context.getString(R.string.quizScore, state.currentPoints),
-                fontSize = 24.sp,
+                text = getString(context, R.string.quizScore, currentLocale).format(state.currentPoints),
+                fontSize = 22.sp,
                 fontWeight = FontWeight.Bold,
-                color = Morat
+                color = Morat,
+                modifier = Modifier.padding(top = 0.dp, bottom = 8.dp)
             )
 
-            Spacer(modifier = Modifier.height(32.dp))
-
-            // Pregunta actual
-            if (state.isLoading) {
-                CircularProgressIndicator(color = Morat)
-                Text(
-                    text = context.getString(R.string.quizLoading),
-                    fontSize = 16.sp,
-                    color = Color.Gray,
-                    modifier = Modifier.padding(top = 8.dp)
-                )
-            } else {
-                state.currentQuestion?.let { question ->
-                    // Contenidor de la pregunta amb animació
-                    AnimatedVisibility(
-                        visible = !state.showCorrectAnimation && !state.showIncorrectAnimation,
-                        enter = fadeIn() + expandVertically(),
-                        exit = fadeOut() + shrinkVertically()
+            // Pregunta i opcions amb scroll si cal
+            Spacer(modifier = Modifier.height(8.dp))
+            Box(modifier = Modifier.weight(1f, fill = false)) {
+                androidx.compose.foundation.rememberScrollState().let { scrollState ->
+                    Column(
+                        modifier = Modifier
+                            .verticalScroll(scrollState)
+                            .fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Card(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(16.dp),
-                            shape = RoundedCornerShape(16.dp)
-                        ) {
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(16.dp)
-                            ) {
-                                Text(
-                                    text = question.question,
-                                    fontSize = 20.sp,
-                                    fontWeight = FontWeight.Bold
-                                )
-
-                                Spacer(modifier = Modifier.height(16.dp))
-
-                                // Opcions
-                                question.options.forEachIndexed { index, option ->
-                                    Button(
-                                        onClick = { viewModel.checkAnswer(index) },
+                        if (state.isLoading) {
+                            CircularProgressIndicator(color = Morat)
+                            Text(
+                                text = getString(context, R.string.quizLoading, currentLocale),
+                                fontSize = 16.sp,
+                                color = Color.Gray,
+                                modifier = Modifier.padding(top = 8.dp)
+                            )
+                        } else {
+                            state.currentQuestion?.let { currentQuestion ->
+                                Card(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(4.dp),
+                                    shape = RoundedCornerShape(16.dp)
+                                ) {
+                                    Column(
                                         modifier = Modifier
                                             .fillMaxWidth()
-                                            .padding(vertical = 4.dp),
-                                        colors = ButtonDefaults.buttonColors(containerColor = Morat)
+                                            .padding(8.dp),
+                                        horizontalAlignment = Alignment.CenterHorizontally
                                     ) {
-                                        Text(option)
+                                        // Mostra la imatge si existeix
+                                        if (currentQuestion.image != null) {
+                                            val baseUrl = "http://nattech.fib.upc.edu:40369"
+                                            val imageUrl = if (currentQuestion.image.startsWith("http")) currentQuestion.image else baseUrl + currentQuestion.image
+                                            AsyncImage(
+                                                model = imageUrl,
+                                                contentDescription = "Quiz image",
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .height(240.dp)
+                                                    .clip(RoundedCornerShape(12.dp))
+                                                    .background(Color.LightGray)
+                                            )
+                                            Spacer(modifier = Modifier.height(8.dp))
+                                        }
+                                        Text(
+                                            text = currentQuestion.question,
+                                            fontSize = 18.sp,
+                                            fontWeight = FontWeight.Bold,
+                                            modifier = Modifier.padding(bottom = 8.dp)
+                                        )
+                                        // Opcions
+                                        currentQuestion.options.forEachIndexed { index, option ->
+                                            val isCorrect = index == currentQuestion.correctAnswer
+                                            val isSelected = state.selectedOption == index
+                                            val showAnim = state.showCorrectAnimation || state.showIncorrectAnimation
+                                            val backgroundColor = when {
+                                                showAnim && isCorrect -> Color(0xFFB9F6CA) // Verd clar
+                                                showAnim && isSelected && !isCorrect -> Color(0xFFFF8A80) // Vermell clar
+                                                else -> Morat
+                                            }
+                                            Button(
+                                                onClick = { if (!showAnim) viewModel.checkAnswer(index) },
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .padding(vertical = 2.dp),
+                                                colors = ButtonDefaults.buttonColors(containerColor = backgroundColor),
+                                                enabled = true
+                                            ) {
+                                                Text(option)
+                                            }
+                                        }
+                                    }
+                                }
+                                // Animació de resposta correcta
+                                AnimatedVisibility(
+                                    visible = state.showCorrectAnimation,
+                                    enter = fadeIn() + expandVertically(),
+                                    exit = fadeOut() + shrinkVertically()
+                                ) {
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(200.dp)
+                                            .background(Color.Green.copy(alpha = 0.3f), RoundedCornerShape(16.dp)),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Text(
+                                            text = getString(context, R.string.quizCorrect, currentLocale),
+                                            fontSize = 24.sp,
+                                            color = Color.Green,
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                    }
+                                }
+
+                                // Animació de resposta incorrecta
+                                AnimatedVisibility(
+                                    visible = state.showIncorrectAnimation,
+                                    enter = fadeIn() + expandVertically(),
+                                    exit = fadeOut() + shrinkVertically()
+                                ) {
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(200.dp)
+                                            .background(Color.Red.copy(alpha = 0.3f), RoundedCornerShape(16.dp)),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Text(
+                                            text = getString(context, R.string.quizIncorrect, currentLocale),
+                                            fontSize = 24.sp,
+                                            color = Color.Red,
+                                            fontWeight = FontWeight.Bold
+                                        )
                                     }
                                 }
                             }
                         }
                     }
-
-                    // Animació de resposta correcta
-                    AnimatedVisibility(
-                        visible = state.showCorrectAnimation,
-                        enter = fadeIn() + expandVertically(),
-                        exit = fadeOut() + shrinkVertically()
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(200.dp)
-                                .background(Color.Green.copy(alpha = 0.3f), RoundedCornerShape(16.dp)),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = context.getString(R.string.quizCorrect),
-                                fontSize = 24.sp,
-                                color = Color.Green,
-                                fontWeight = FontWeight.Bold
-                            )
-                        }
-                    }
-
-                    // Animació de resposta incorrecta
-                    AnimatedVisibility(
-                        visible = state.showIncorrectAnimation,
-                        enter = fadeIn() + expandVertically(),
-                        exit = fadeOut() + shrinkVertically()
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(200.dp)
-                                .background(Color.Red.copy(alpha = 0.3f), RoundedCornerShape(16.dp)),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = context.getString(R.string.quizIncorrect),
-                                fontSize = 24.sp,
-                                color = Color.Red,
-                                fontWeight = FontWeight.Bold
-                            )
-                        }
-                    }
                 }
             }
-
             // Mostrar error si n'hi ha
             state.error?.let { error ->
                 Text(
-                    text = context.getString(R.string.quizError, error),
+                    text = getString(context, R.string.quizError, currentLocale).format(error),
                     color = Color.Red,
                     fontSize = 14.sp,
-                    modifier = Modifier.padding(top = 8.dp)
+                    modifier = Modifier.padding(top = 4.dp)
                 )
             }
         }
