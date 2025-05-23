@@ -403,34 +403,59 @@ fun AssistButton(event: Event) {
 
                     val distance = location.distanceTo(eventLocation)
 
+                    /*
                     if (distance > 50) {
                         dialogMessage = getString(context, R.string.wrongPosition, currentLocale)
                         showDialog = true
                         return@addOnSuccessListener
                     }
 
+                     */
+
                     val now = LocalDateTime.now()
                     val formatter = DateTimeFormatter.ISO_DATE_TIME
                     val start = LocalDateTime.parse(event.date_start, formatter)
                     val end = LocalDateTime.parse(event.date_end, formatter)
 
+                    /*
                     if (now.isBefore(start) || now.isAfter(end)) {
                         dialogMessage = getString(context, R.string.wrongTime, currentLocale)
                         showDialog = true
                         return@addOnSuccessListener
                     }
 
+                     */
+
                     coroutineScope.launch(Dispatchers.IO) {
                         try {
-                            val response = Api.instance.getPointsEvent("Bearer ${CurrentSession.token}")
+                            // Debug logging
+                            println("Making API call with:")
+                            println("Event ID: ${event.id}")
+                            println("Token: ${CurrentSession.getAuthHeader()}")
+                            println("Full URL would be: /user/get_points_event/${event.id}/")
+
+                            // Crida a l'endpoint per SUMAR punts en el BACKEND
+                            val response = Api.instance.getPointsEvent(
+                                eventId = event.id, // event.id ja està en format String
+                                token = CurrentSession.getAuthHeader() // La crida retorna "Token {token}"
+                            )
+
+                            // Debug response
+                            println("Response received:")
+                            println("Status Code: ${response.code()}")
+                            println("Is Successful: ${response.isSuccessful}")
+                            println("Response Headers: ${response.headers()}")
+                            if (!response.isSuccessful) {
+                                println("Error Body: ${response.errorBody()?.string()}")
+                            }
 
                             dialogMessage = when (response.code()) {
                                 200 -> getString(context, R.string.pointsAddedCorrectly, currentLocale)
-                                418 -> getString(context, R.string.pointsAlreadyAdded, currentLocale)
+                                403 -> getString(context, R.string.pointsAlreadyAdded, currentLocale)
                                 else -> getString(context, R.string.pointsAddedCorrectly, currentLocale)
                             }
                         } catch (e: HttpException) {
-                            dialogMessage = "Error HTTP: ${e.code()}"
+                            dialogMessage = "Error HTTP: ${e.code()} - ${e.message()}"
                         } catch (e: Exception) {
                             dialogMessage = "Error: ${e.localizedMessage}"
                         }
