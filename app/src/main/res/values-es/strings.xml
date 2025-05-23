@@ -171,4 +171,13 @@
     <!-- Share strings -->
     <string name="shareMessage">¡Estoy siendo una persona más culta gracias a Culturunya! Descárgala aquí: https://play.google.com/store/apps/details?id=com.example.culturunya</string>
     <string name="shareButton">Compartir</string>
+
+    <!-- Navigation -->
+    <string name="nav_events">Eventos</string>
+    <string name="nav_map">Mapa</string>
+    <string name="nav_calendar">Calendario</string>
+    <string name="nav_list">Lista</string>
+    <string name="nav_quiz">Quiz</string>
+    <string name="nav_leaderboard">Clasificación</string>
+    <string name="nav_settings">Ajustes</string>
 </resources>

@@ -165,8 +165,17 @@
     <!-- Notificaciones -->
     <string name="dailyNotification">"Remember to do your daily cultural quizzes to get points"</string>
 
-    <!-- New strings for sharing -->
-    <string name="shareMessage">¡Estoy siendo una persona más culta gracias a Culturunya! Descárgala aquí: https://play.google.com/store/apps/details?id=com.example.culturunya</string>
-    <string name="shareButton">Compartir</string>
+    <!-- Share strings -->
+    <string name="shareMessage">I\'m becoming a more cultured person thanks to Culturunya! Download it here: https://play.google.com/store/apps/details?id=com.example.culturunya</string>
+    <string name="shareButton">Share</string>
+   
+    <!-- Navigation -->
+    <string name="nav_events">Events</string>
+    <string name="nav_map">Map</string>
+    <string name="nav_calendar">Calendar</string>
+    <string name="nav_list">List</string>
+    <string name="nav_quiz">Quiz</string>
+    <string name="nav_leaderboard">Leaderboard</string>
+    <string name="nav_settings">Settings</string>
 
 </resources>
