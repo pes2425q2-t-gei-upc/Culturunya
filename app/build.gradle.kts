@@ -47,6 +47,7 @@ android {
 }
 
 dependencies {
+    implementation("androidx.datastore:datastore-core-android:1.1.7")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
     implementation("androidx.compose.material:material-icons-extended")
     implementation ("com.google.android.material:material:1.9.0")
@@ -71,6 +72,9 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-moshi:2.9.0")
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation("com.google.accompanist:accompanist-permissions:0.32.0")
+
 
     //MAP
     implementation("com.google.maps.android:maps-compose:2.11.4")

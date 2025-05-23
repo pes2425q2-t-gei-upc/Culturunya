@@ -3,7 +3,7 @@ package com.example.culturunya.repositories
 import com.example.culturunya.Api
 import com.example.culturunya.dataclasses.ratings.Rating
 import com.example.culturunya.dataclasses.ratings.RatingRequest
-import com.example.culturunya.CurrentSession
+import com.example.culturunya.session.CurrentSession
 
 
 class RatingsRepository(private val api: Api) {

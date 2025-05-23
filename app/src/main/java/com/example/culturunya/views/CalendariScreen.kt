@@ -25,7 +25,7 @@ import com.example.culturunya.R
 
 import com.example.culturunya.dataclasses.events.Event
 import com.example.culturunya.viewmodels.EventViewModel
-import com.example.culturunya.CurrentSession
+import com.example.culturunya.session.CurrentSession
 import java.time.format.DateTimeFormatter
 
 

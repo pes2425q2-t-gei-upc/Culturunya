@@ -26,7 +26,7 @@ import com.example.culturunya.ui.theme.Morat
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.culturunya.Api
-import com.example.culturunya.CurrentSession
+import com.example.culturunya.session.CurrentSession
 import com.example.culturunya.repositories.AuthRepository
 import com.example.culturunya.viewmodels.LoginViewModel
 import kotlinx.coroutines.runBlocking
