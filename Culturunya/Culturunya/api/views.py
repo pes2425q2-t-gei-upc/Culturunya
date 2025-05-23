@@ -16,7 +16,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, generics
 
 from google.oauth2 import id_token
 from google.auth.transport import requests as g_requests
@@ -1039,8 +1039,8 @@ def obtain_location_points(request, event_id):
         user.events_assisted.add(Event.objects.get(id=event_id))
         user.total_event_points += 20
         event_points = user.current_event_points + 20
-        points_to_next_rank = user.points_to_next_rank_event
         rank = user.rank_event
+        points_to_next_rank = POINTS_TO_NEXT_RANK[rank]
         if event_points >= points_to_next_rank:
             if rank == TypeRank.UNRANKED:
                 rank = TypeRank.BRONZE
@@ -1051,7 +1051,6 @@ def obtain_location_points(request, event_id):
             elif rank == TypeRank.GOLD:
                 rank = TypeRank.RAMON_LLULL
             user.current_event_points = 0
-            user.points_to_next_rank_event = POINTS_TO_NEXT_RANK[rank]
             user.rank_event = rank
             user.save()
             return Response({"message": "¡Has subido de nivel!"}, status=200)
@@ -1081,11 +1080,11 @@ def obtain_location_points(request, event_id):
 @permission_classes([IsAuthenticated])
 def obtain_quiz_points(request):
     user = User.objects.get(id=request.user.id)
-    points = request['points']
+    points = request.data['points']
     user.total_quiz_points += points
     quiz_points = user.current_quiz_points + points
-    points_to_next_rank = user.points_to_next_quiz_points
     rank = user.rank_quiz
+    points_to_next_rank = POINTS_TO_NEXT_RANK[rank]
     if quiz_points >= points_to_next_rank:
         if rank == TypeRank.UNRANKED:
             rank = TypeRank.BRONZE
@@ -1096,7 +1095,6 @@ def obtain_quiz_points(request):
         elif rank == TypeRank.GOLD:
             rank = TypeRank.RAMON_LLULL
         user.current_quiz_points = 0
-        user.points_to_next_quiz_points = POINTS_TO_NEXT_RANK[rank]
         user.rank_quiz = rank
         user.save()
         return Response({"message": "¡Has subido de nivel!"}, status=200)
@@ -1143,7 +1141,7 @@ def get_quiz_ranking(request):
     operation_summary="obtener leaderboard de los usuarios asistentes a eventos",
     responses={
         200: openapi.Response(
-            description="Info del usuario",
+            description="Lista de usuarios de la leaderboard",
             schema=openapi.Schema(
                 type=openapi.TYPE_ARRAY,
                 items=openapi.Schema(
@@ -1171,3 +1169,20 @@ def get_quiz_ranking(request):
 @permission_classes([IsAuthenticated])
 def get_event_assistance_ranking(request):
     return Response(get_events_ranking_leaderboard(), status=200)
+
+class GetUsers(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    @swagger_auto_schema(
+        operation_summary="Obtener todos los usuarios",
+        responses={
+            200: UserProfileSerializer(many=True),
+            403: "No autorizado, tienes que ser admin"
+        }
+    )
+    def get(self, request):
+        user = User.objects.get(id=request.user.id)
+        if not user.is_admin:
+            return Response({"error": "no autorizado, tienes que ser admin"}, status=403)
+        queryset = User.objects.all()
+        serializer = UserProfileSerializer(queryset, many=True)
+        return Response(serializer.data)

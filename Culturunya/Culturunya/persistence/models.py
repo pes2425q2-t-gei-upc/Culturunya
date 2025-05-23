@@ -114,8 +114,6 @@ class User(AbstractUser):
     total_quiz_points = models.IntegerField(default=0, null=True)
     current_event_points = models.IntegerField(default=0)
     current_quiz_points = models.IntegerField(default=0)
-    points_to_next_rank_event = models.IntegerField(default=POINTS_TO_NEXT_RANK[TypeRank.UNRANKED])
-    points_to_next_quiz_points = models.IntegerField(default=POINTS_TO_NEXT_RANK[TypeRank.UNRANKED])
     banned_from_comments = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     google_sub = models.CharField(max_length=30, unique=True, null=True, blank=True)

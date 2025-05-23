@@ -22,8 +22,8 @@ class UserProfileSerializer(serializers.ModelSerializer):
             'rank_quiz',
             'current_event_points',
             'current_quiz_points',
-            'points_to_next_rank_event',
-            'points_to_next_quiz_points',
+            'total_event_points',
+            'total_quiz_points',
         ]
 
 class UserSimpleInfoSerializer(serializers.ModelSerializer):
