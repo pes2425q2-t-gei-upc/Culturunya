@@ -29,7 +29,7 @@ class GetLeaderboardEventsViewModel : ViewModel() {
             val token = CurrentSession.token
             Log.d("GetLeaderboardEvents", "Using token: $token")
 
-            val result = repository.getLeaderboardQuiz("Token $token")
+            val result = repository.getLeaderboardEvents("Token $token")
 
             result.onSuccess { body ->
                 Log.d("GetLeaderboardEvents", "Success: Received ${body.size} positions")

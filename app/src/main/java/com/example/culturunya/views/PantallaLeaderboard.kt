@@ -82,6 +82,14 @@ fun LeaderboardScreen(navController: NavController) {
         if (getLeaderboardStatus != 200 && getLeaderboardStatus != null) showErrorDialog = true
     }
 
+    LaunchedEffect(currentSubScreen) {
+        if (currentSubScreen == "Quiz") {
+            (getLeaderboardViewModel as GetLeaderboardQuizViewModel).getLeaderboardQuiz()
+        } else {
+            (getLeaderboardViewModel as GetLeaderboardEventsViewModel).getLeaderboardEvents()
+        }
+    }
+
     if (showErrorDialog) {
         popUpError(getString(context, R.string.unknownErrorRanking, currentLocale), onClick = {
             showErrorDialog = false
@@ -251,7 +259,7 @@ fun LeaderboardScreen(navController: NavController) {
                         modifier = Modifier
                             .padding(8.dp)
                             .clickable { showRankInfoDialog = false },
-                        color = Color.Blue
+                        color = Morat
                     )
                 },
                 title = {
