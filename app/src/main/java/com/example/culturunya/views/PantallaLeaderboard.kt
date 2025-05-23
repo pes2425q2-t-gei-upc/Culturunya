@@ -257,7 +257,7 @@ fun LeaderboardScreen(navController: NavController) {
                 },
                 text = {
                     Column {
-                        RankInfoItem(getString(context, R.string.unranked, currentLocale), getString(context, R.string.unrankedDescription, currentLocale), color = Color.Black)
+                        RankInfoItem(getString(context, R.string.unranked, currentLocale), getString(context, R.string.unrankedDescription, currentLocale), icon = Icons.Default.Remove, color = Color.Black)
                         Spacer(modifier = Modifier.height(10.dp))
                         RankInfoItem(getString(context, R.string.bronze, currentLocale), getString(context, R.string.bronzeDescription, currentLocale), icon = Icons.Default.Diamond, color = Marro)
                         Spacer(modifier = Modifier.height(10.dp))
