@@ -23,6 +23,10 @@ import androidx.lifecycle.AndroidViewModel
 import com.example.culturunya.repositories.AuthRepository
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 
+/**
+ * ViewModel para manejar el proceso de inicio de sesión.
+ * Utiliza la API de CredentialManager para manejar las credenciales de Google.
+ */
 class LoginViewModel(application: Application): AndroidViewModel(application) {
     private val sessionManager = SessionManager(application.applicationContext)
     private val _loginResponse = MutableStateFlow<LoginResponse?>(null)
@@ -39,11 +43,20 @@ class LoginViewModel(application: Application): AndroidViewModel(application) {
     private lateinit var credentialManager: CredentialManager
     private val WEB_CLIENT_ID = "102065557294-a14162ejafi97l4a776ftomhrguon2rv.apps.googleusercontent.com"
 
+    /**
+     * Inicializa el CredentialManager.
+     * @param context Contexto de la aplicación
+     */
     fun initialize(context: Context) {
         Log.d("LoginViewModel", "Inicializando CredentialManager")
         credentialManager = CredentialManager.create(context)
     }
 
+    /**
+     * Inicia sesión con el nombre de usuario y la contraseña.
+     * @param username Nombre de usuario
+     * @param password Contraseña
+     */
     fun login(username: String, password: String) {
         Log.d("LoginViewModel", "Intentando iniciar sesión con usuario: $username")
         viewModelScope.launch {
@@ -74,6 +87,10 @@ class LoginViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
+    /**
+     * Inicia sesión con Google utilizando el CredentialManager.
+     * @param context Contexto de la aplicación
+     */
     fun signInWithGoogle(context: Context) {
         Log.d("LoginViewModel", "Iniciando login con Google")
         viewModelScope.launch {
@@ -100,6 +117,10 @@ class LoginViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
+    /**
+     * Maneja la respuesta de inicio de sesión con Google.
+     * @param result Resultado de la solicitud de credenciales
+     */
     private fun handleGoogleSignIn(result: GetCredentialResponse) {
         Log.d("LoginViewModel", "Procesando credenciales de Google")
         viewModelScope.launch {

@@ -5,11 +5,24 @@ import com.example.culturunya.dataclasses.users.UserInfo
 import com.example.culturunya.dataclasses.settings.ChangePasswordRequest
 import com.example.culturunya.dataclasses.settings.ChangeUsernameRequest
 import com.example.culturunya.dataclasses.settings.UpdateLanguageRequest
-import com.example.culturunya.SetQuizPointsRequest
+import com.example.culturunya.dataclasses.quiz.SetQuizPointsRequest
 import retrofit2.HttpException
 import okhttp3.MultipartBody
 
+/**
+ * @class UserRepository
+ * @brief Clase que gestiona la información del usuario y las operaciones relacionadas.
+ *
+ * Proporciona métodos para obtener información del perfil, cerrar sesión, eliminar cuenta,
+ * cambiar contraseña, cambiar nombre de usuario, subir foto de perfil y actualizar idioma.
+ */
 class UserRepository(private val api: Api) {
+    /**
+     * @brief Obtiene la información del perfil del usuario.
+     *
+     * @param token Token de autenticación del usuario.
+     * @return UserInfo
+     */
     suspend fun getProfileInfo(token: String): UserInfo {
         return try{
             api.getProfileInfo(token)
@@ -18,6 +31,12 @@ class UserRepository(private val api: Api) {
         }
     }
 
+    /**
+     * @brief Cierra la sesión del usuario.
+     *
+     * @param token Token de autenticación del usuario.
+     * @return Result<Unit>
+     */
     suspend fun logout(token: String): Result<Unit> {
         return try {
             val response = api.logout(token)
@@ -31,6 +50,12 @@ class UserRepository(private val api: Api) {
         }
     }
 
+    /**
+     * @brief Elimina la cuenta del usuario.
+     *
+     * @param token Token de autenticación del usuario.
+     * @return Result<Unit>
+     */
     suspend fun deleteAccount(token: String): Result<Unit> {
         return try {
             val response = api.deleteAccount(token)
@@ -44,6 +69,13 @@ class UserRepository(private val api: Api) {
         }
     }
 
+    /**
+     * @brief Cambia la contraseña del usuario.
+     *
+     * @param token Token de autenticación del usuario.
+     * @param request Objeto que contiene la nueva contraseña.
+     * @return Result<Unit>
+     */
     suspend fun changePassword(token: String, request: ChangePasswordRequest): Result<Unit> {
         return try {
             val response = api.changePassword(token, request)
@@ -57,6 +89,13 @@ class UserRepository(private val api: Api) {
         }
     }
 
+    /**
+     * @brief Cambia el nombre de usuario del usuario.
+     *
+     * @param token Token de autenticación del usuario.
+     * @param request Objeto que contiene el nuevo nombre de usuario.
+     * @return Result<Unit>
+     */
     suspend fun changeUsername(token: String, request: ChangeUsernameRequest): Result<Unit> {
         return try {
             val response = api.changeUsername(token, request)
@@ -70,6 +109,13 @@ class UserRepository(private val api: Api) {
         }
     }
 
+    /**
+     * @brief Sube la foto de perfil del usuario.
+     *
+     * @param token Token de autenticación del usuario.
+     * @param profilePic Foto de perfil en formato MultipartBody.Part.
+     * @return Result<Unit>
+     */
     suspend fun uploadProfilePic(token: String, profilePic: MultipartBody.Part): Result<Unit> {
         return try {
             val response = api.uploadProfilePic(token, profilePic)
@@ -83,6 +129,13 @@ class UserRepository(private val api: Api) {
         }
     }
 
+    /**
+     * @brief Actualiza el idioma del usuario.
+     *
+     * @param token Token de autenticación del usuario.
+     * @param language Nuevo idioma.
+     * @return Result<Unit>
+     */
     suspend fun updateLangugage(token: String, language: String): Result<Unit> {
         return try {
             val response = api.updateLanguage(token, UpdateLanguageRequest(language))
@@ -95,7 +148,14 @@ class UserRepository(private val api: Api) {
             Result.failure(e)
         }
     }
-    
+
+    /**
+     * @brief Establece los puntos del cuestionario.
+     *
+     * @param token Token de autenticación del usuario.
+     * @param points Puntos a establecer.
+     * @return Result<Unit>
+     */
     suspend fun setQuizPoints(token: String, points: Int): Result<Unit> {
         return try {
             val response = api.setQuizPoints(token, SetQuizPointsRequest(points))

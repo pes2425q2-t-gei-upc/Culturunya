@@ -18,14 +18,16 @@ import com.example.culturunya.dataclasses.login.LoginRequest
 import com.example.culturunya.dataclasses.login.LoginResponse
 import com.example.culturunya.dataclasses.chats.SendMessageToAdminRequest
 import com.example.culturunya.dataclasses.chats.SendMessageToUserRequest
+import com.example.culturunya.dataclasses.quiz.SetQuizPointsRequest
 import com.example.culturunya.dataclasses.ratings.ReportRequest
 import com.example.culturunya.dataclasses.settings.UpdateLanguageRequest
 import retrofit2.Response
 import retrofit2.http.*
 import okhttp3.MultipartBody
 
-data class SetQuizPointsRequest(val points: Int)
-
+/**
+ * API interface for Culturunya app
+ */
 interface Api {
     companion object{
         val instance: Api = Retrofit.Builder().baseUrl("http://nattech.fib.upc.edu:40369/api/")

@@ -5,29 +5,35 @@ import androidx.lifecycle.viewModelScope
 import com.example.culturunya.Api
 import com.example.culturunya.repositories.UserRepository
 import com.example.culturunya.dataclasses.settings.ChangeUsernameRequest
+import com.example.culturunya.dataclasses.settings.ChangeUsernameState
 import com.example.culturunya.session.CurrentSession
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
-data class ChangeUsernameState(
-    val isLoading: Boolean = false,
-    val success: Boolean = false,
-    val error: String? = null,
-    val newUsername: String = ""
-)
-
+/**
+ * ViewModel for handling the change username functionality.
+ * It manages the state of the username change process.
+ */
 class ChangeUsernameViewModel: ViewModel() {
     private val _state = MutableStateFlow(ChangeUsernameState())
     val state: StateFlow<ChangeUsernameState> = _state
 
     private val repository = UserRepository(Api.instance)
 
+    /**
+     * Updates the new username in the state.
+     * @param username The new username to be set.
+     */
     fun updateNewUsername(username: String) {
         _state.value = _state.value.copy(newUsername = username)
     }
 
+    /**
+     * Changes the username by making a network request.
+     * It updates the state based on the result of the request.
+     */
     fun changeUsername() {
         viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true, error = null)

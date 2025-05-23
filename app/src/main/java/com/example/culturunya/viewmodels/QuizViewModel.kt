@@ -8,6 +8,7 @@ import com.example.culturunya.R
 import com.example.culturunya.Api
 import com.example.culturunya.repositories.UserRepository
 import com.example.culturunya.dataclasses.quiz.QuizQuestion
+import com.example.culturunya.dataclasses.quiz.QuizState
 import com.example.culturunya.session.CurrentSession
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,16 +18,10 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import kotlin.random.Random
 
-data class QuizState(
-    val currentQuestion: QuizQuestion? = null,
-    val currentPoints: Int = 0,
-    val isLoading: Boolean = false,
-    val error: String? = null,
-    val showCorrectAnimation: Boolean = false,
-    val showIncorrectAnimation: Boolean = false,
-    val selectedOption: Int? = null
-)
-
+/**
+ * ViewModel for managing quiz questions and user points.
+ * It loads questions from a JSON file and handles user interactions.
+ */
 class QuizViewModel : ViewModel() {
     private val _state = MutableStateFlow(QuizState())
     val state: StateFlow<QuizState> = _state
@@ -35,12 +30,21 @@ class QuizViewModel : ViewModel() {
     private lateinit var context: Context
     private var questions: List<QuizQuestion> = emptyList()
 
+    /**
+     * Sets the context for the ViewModel and loads questions and current points.
+     *
+     * @param context The context to be used for loading resources.
+     */
     fun setContext(context: Context) {
         this.context = context
         loadQuestionsFromJson()
         loadCurrentPoints()
     }
 
+    /**
+     * Loads quiz questions from a JSON file in the assets folder.
+     * It parses the JSON and creates a list of QuizQuestion objects.
+     */
     private fun loadQuestionsFromJson() {
         try {
             val inputStream = context.assets.open("quiz/quiz_200.json")
@@ -74,6 +78,10 @@ class QuizViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Loads the current points of the user from the repository.
+     * It updates the state with the current points.
+     */
     private fun loadCurrentPoints() {
         viewModelScope.launch {
             try {
@@ -85,6 +93,10 @@ class QuizViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Loads a new quiz question.
+     * It randomly selects a question from the loaded questions and updates the state.
+     */
     fun loadNewQuestion() {
         viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true)
@@ -107,6 +119,12 @@ class QuizViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Checks the user's answer against the correct answer.
+     * It updates the state with the result of the check and loads a new question after a delay.
+     *
+     * @param selectedOption The option selected by the user.
+     */
     fun checkAnswer(selectedOption: Int) {
         val currentQuestion = _state.value.currentQuestion ?: return
         val isCorrect = selectedOption == currentQuestion.correctAnswer
@@ -134,6 +152,10 @@ class QuizViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Saves the current points to the server.
+     * It uses the repository to update the user's points.
+     */
     fun savePoints() {
         viewModelScope.launch {
             try {

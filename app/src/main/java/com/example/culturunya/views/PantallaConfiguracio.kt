@@ -33,6 +33,12 @@ import com.example.culturunya.viewmodels.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+/**
+ * Pantalla de configuració de l'usuari.
+ * Permet canviar el nom d'usuari, la contrasenya, la foto de perfil i la llengua de l'aplicació.
+ *
+ * @param navController Controlador de navegació per gestionar la navegació entre pantalles.
+ */
 fun SettingsScreen(navController: NavController) {
     // Control de diàlegs
     var showLogoutDialog by remember { mutableStateOf(false) }
@@ -372,6 +378,14 @@ fun SettingsScreen(navController: NavController) {
 
 
 @Composable
+/**
+ * Header de perfil que mostra la imatge d'usuari, el nom i el correu electrònic.
+ *
+ * @param username Nom d'usuari a mostrar.
+ * @param email Correu electrònic a mostrar.
+ * @param avatarRes URL de la imatge d'usuari.
+ * @param navController Controlador de navegació per gestionar la navegació entre pantalles.
+ */
 fun ProfileHeader(
     username: String,
     email: String,
@@ -430,7 +444,11 @@ fun ProfileHeader(
 }
 
 /**
- * Un botó de configuració reutilitzable que mostra un icon, text i una fletxa.
+ * Botó de configuració amb una icona i text.
+ *
+ * @param icon Icona a mostrar.
+ * @param text Text a mostrar.
+ * @param onClick Funció a executar quan es fa clic al botó.
  */
 @Composable
 fun SettingsButton(
@@ -469,6 +487,13 @@ fun SettingsButton(
 }
 
 @Composable
+/**
+ * Diàleg de confirmació per a accions importants.
+ *
+ * @param title Títol del diàleg.
+ * @param onConfirm Funció a executar quan es confirma l'acció.
+ * @param onDismiss Funció a executar quan es tanca el diàleg.
+ */
 fun popUpDialog(title: String, onConfirm: () -> Unit, onDismiss: () -> Unit) {
     val context = LocalContext.current
     CurrentSession.getInstance()
@@ -497,6 +522,12 @@ fun popUpDialog(title: String, onConfirm: () -> Unit, onDismiss: () -> Unit) {
 }
 
 @Composable
+/**
+ * Diàleg d'error per mostrar missatges d'error.
+ *
+ * @param text Text a mostrar al diàleg.
+ * @param onClick Funció a executar quan es fa clic al botó "OK".
+ */
 fun popUpError(text: String, onClick: () -> Unit) {
     AlertDialog(
         onDismissRequest = onClick,

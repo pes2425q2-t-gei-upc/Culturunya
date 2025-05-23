@@ -14,6 +14,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
+/**
+ * ViewModel for managing user-related operations.
+ *
+ * @property application The application context.
+ */
 class UserViewModel(application: Application): AndroidViewModel(application) {
     private val repository = UserRepository(Api.instance)
     private val sessionManager = SessionManager(application.applicationContext)
@@ -24,6 +29,9 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
     private val _getUserInfoError = MutableStateFlow<Int?>(null)
     val getUserInfoError: StateFlow<Int?> = _getUserInfoError
 
+    /**
+     * Fetches the user's profile information.
+     */
     fun fetchProfileInfo() {
         Log.d("UserViewModel", "fetchProfileInfo called")
         viewModelScope.launch {

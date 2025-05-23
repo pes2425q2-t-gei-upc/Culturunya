@@ -18,6 +18,11 @@ class UpdateLanguageViewModel : ViewModel() {
     private val api = Api.instance
     private val repository = UserRepository(api)
 
+    /**
+     * Updates the user's language preference.
+     *
+     * @param language The new language to set.
+     */
     fun updateLanguage(language: String) {
         viewModelScope.launch {
             val token = CurrentSession.token

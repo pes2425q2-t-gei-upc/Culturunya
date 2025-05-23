@@ -11,6 +11,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
+/**
+ * ViewModel for sending messages to a user.
+ *
+ * @property api The API instance for making network requests.
+ * @property repository The repository for sending messages to users.
+ */
 class SendMessageToUserViewModel : ViewModel() {
     private val _sendMessageToUserStatus = MutableStateFlow<Int?>(null)
     val sendMessageToUserStatus: StateFlow<Int?> = _sendMessageToUserStatus
@@ -18,6 +24,12 @@ class SendMessageToUserViewModel : ViewModel() {
     private val api = Api.instance
     private val repository = ChatRepository(api)
 
+    /**
+     * Sends a message to a user.
+     *
+     * @param userId The ID of the user to send the message to.
+     * @param message The message to be sent.
+     */
     fun sendMessageToUser(userId: Int, message: String) {
         viewModelScope.launch {
             Log.d("SendMessageToUserVM", "Attempting to send message to userId=$userId")

@@ -7,6 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.culturunya.R
 
+/**
+ * @class QuizFragment
+ * @brief Fragmento que muestra la pantalla de cuestionario (Quiz).
+ */
 class QuizFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,

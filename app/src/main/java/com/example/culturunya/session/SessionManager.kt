@@ -4,11 +4,19 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
+import com.example.culturunya.dataclasses.login.SessionData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user_session")
 
+/**
+ * @class SessionManager
+ * @brief Clase que gestiona la sesión del usuario utilizando DataStore.
+ *
+ * Almacena y recupera datos de sesión como token, nombre de usuario, correo electrónico,
+ * foto de perfil y estado de administrador.
+ */
 class SessionManager(context: Context) {
     private val dataStore = context.dataStore
 
@@ -22,6 +30,15 @@ class SessionManager(context: Context) {
         private const val TAG = "SessionManager"
     }
 
+    /**
+     * @brief Guarda la sesión del usuario.
+     *
+     * @param token Token de autenticación del usuario.
+     * @param username Nombre de usuario.
+     * @param email Correo electrónico del usuario.
+     * @param profilePic URL de la foto de perfil del usuario.
+     * @param isAdmin Estado de administrador del usuario.
+     */
     suspend fun saveSession(
         token: String,
         username: String,
@@ -60,6 +77,9 @@ class SessionManager(context: Context) {
             data
         }
 
+    /**
+     * @brief Limpia los datos de la sesion
+     */
     suspend fun clearSession() {
         Log.d(TAG, "Clearing session...")
         dataStore.edit { preferences ->
@@ -68,11 +88,3 @@ class SessionManager(context: Context) {
         Log.d(TAG, "Session cleared.")
     }
 }
-
-data class SessionData(
-    val token: String,
-    val username: String,
-    val email: String,
-    val profilePic: String,
-    val isAdmin: Boolean
-)

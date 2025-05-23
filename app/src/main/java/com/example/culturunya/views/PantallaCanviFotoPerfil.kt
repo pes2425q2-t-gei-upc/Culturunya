@@ -34,6 +34,12 @@ import coil.compose.AsyncImage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+/**
+ * Pantalla per canviar la foto de perfil de l'usuari.
+ * Permet seleccionar una imatge de la galeria i pujar-la com a nova foto de perfil.
+ *
+ * @param navController Controlador de navegació per gestionar la navegació entre pantalles.
+ */
 fun PantallaCanviFotoPerfil(navController: NavController) {
     var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
     var missatgeError by remember { mutableStateOf("") }

@@ -12,6 +12,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
+/*
+ * ViewModel for managing chat with a specific user.
+ * It fetches chat messages and handles errors.
+ */
 class GetChatWithUserViewModel : ViewModel() {
 
     private val _getChatWithUserResponse = MutableStateFlow<List<Message>?>(null)
@@ -23,6 +27,12 @@ class GetChatWithUserViewModel : ViewModel() {
     private val api = Api.instance
     private val repository = ChatRepository(api)
 
+    /**
+     * Fetches chat messages with a specific user.
+     * It uses the current session token for authentication.
+     *
+     * @param userId The ID of the user to fetch chat messages with.
+     */
     fun getChatWithUser(userId: String) {
         Log.d("GetChatWithUser", "Function called with userId: $userId")
 

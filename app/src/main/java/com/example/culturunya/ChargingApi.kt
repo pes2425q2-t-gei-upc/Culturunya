@@ -6,6 +6,9 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
+/**
+ * API interface for charging points
+ */
 interface ChargingApi {
 
     companion object {

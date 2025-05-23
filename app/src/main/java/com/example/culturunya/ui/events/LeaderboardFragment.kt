@@ -7,6 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.culturunya.R
 
+/**
+ * @class LeaderboardFragment
+ * @brief Fragmento que muestra la pantalla de clasificación (Leaderboard).
+ */
 class LeaderboardFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,

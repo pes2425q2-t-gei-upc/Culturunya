@@ -40,6 +40,12 @@ import com.example.culturunya.session.CurrentSession
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
+/**
+ * Pantalla d'inici de sessió.
+ * Permet a l'usuari iniciar sessió amb el seu nom d'usuari i contrasenya o amb el seu compte de Google.
+ *
+ * @param navController Controlador de navegació per gestionar la navegació entre pantalles.
+ */
 fun ComposableIniciSessio(navController: NavController) {
     var usuari by remember { mutableStateOf("") }
     var contrasenya by remember { mutableStateOf("") }

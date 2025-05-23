@@ -31,6 +31,13 @@ import com.example.culturunya.ui.theme.Morat
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+/**
+ * PantallaCanviContrasenya is a Composable function that represents the password change screen.
+ * It allows the user to enter their current password, new password, and confirm the new password.
+ * If the passwords match and the current password is correct, it updates the password.
+ *
+ * @param navController The NavController used for navigation.
+ */
 fun PantallaCanviContrasenya(navController: NavController) {
     var contrasenyaActual by remember { mutableStateOf("") }
     var novaContrasenya by remember { mutableStateOf("") }

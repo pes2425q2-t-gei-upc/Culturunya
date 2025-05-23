@@ -34,6 +34,10 @@ import java.io.FileOutputStream
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+/**
+ * Pantalla del quiz
+ * @param navController Controlador de navegació
+ */
 fun PantallaQuiz(navController: NavController) {
     val viewModel: QuizViewModel = viewModel()
     val state by viewModel.state.collectAsState()

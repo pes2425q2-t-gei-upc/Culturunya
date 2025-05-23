@@ -29,6 +29,12 @@ import com.example.culturunya.session.CurrentSession
 import java.time.format.DateTimeFormatter
 
 
+/**
+ * Pantalla del calendario que muestra los eventos del mes actual.
+ * Permite navegar entre meses y seleccionar fechas para ver eventos específicos.
+ *
+ * @param viewModel ViewModel que contiene la lógica de negocio y datos de eventos.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun CalendarScreen(viewModel: EventViewModel) {
@@ -160,6 +166,14 @@ fun CalendarScreen(viewModel: EventViewModel) {
     }
 }
 
+/**
+ * Composable que representa la cuadrícula del calendario.
+ * Muestra los días del mes actual y permite seleccionar fechas.
+ *
+ * @param currentDate Fecha actual que se está mostrando en el calendario.
+ * @param selectedDate Fecha seleccionada por el usuario.
+ * @param onDateSelected Función que se llama cuando se selecciona una fecha.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun CalendarGrid(
@@ -252,6 +266,11 @@ fun CalendarGrid(
     }
 }
 
+/**
+ * Composable que muestra la fecha seleccionada en el calendario.
+ *
+ * @param selectedDate Fecha seleccionada por el usuario.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun SelectedDateDisplay(selectedDate: LocalDate) {

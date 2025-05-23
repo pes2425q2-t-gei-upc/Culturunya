@@ -26,6 +26,11 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 
+/**
+ * Function to get the image URL for an event.
+ * @param eventId The ID of the event.
+ * @return The URL of the event image.
+ */
 fun getEventImageUrl(eventId: String): String {
     // Assuming your base URL is something like "http://yourserver.com/media/"
     val baseUrl = "http://nattech.fib.upc.edu:40369/media/"
@@ -33,7 +38,11 @@ fun getEventImageUrl(eventId: String): String {
     return "${baseUrl}event_images/${eventId}.jpg"
 }
 
-//Funcion provisional para formatear la fecha
+/**
+ * Function to format a date string from ISO format to a more readable format.
+ * @param dateString The date string in ISO format.
+ * @return The formatted date string.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 fun formatDateString(dateString: String): String {
     // Define the input format (how the date is stored in your data)
@@ -53,6 +62,11 @@ fun formatDateString(dateString: String): String {
     }
 }
 
+/**
+ * Composable function to display an event box with details.
+ * @param event The event data to display.
+ * @param onEventClick Callback function to handle event click.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun EventBox(
@@ -62,16 +76,14 @@ fun EventBox(
     val context = LocalContext.current
     CurrentSession.getInstance()
     val currentLocale by remember { mutableStateOf(CurrentSession.language) }
-    var showMenu by remember { mutableStateOf(false) }
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
             .background(PurpleGrey80, RoundedCornerShape(8.dp))
-            .clickable { showMenu = true }
+            .clickable { onEventClick(event) }
     ) {
         Row {
-            //Sustituir por foto
             AsyncImage(
                 model = getEventImageUrl(event.id),
                 contentDescription = "Event Image",
@@ -83,8 +95,6 @@ fun EventBox(
                 error = painterResource(R.drawable.logo_retallat),
                 placeholder = painterResource(R.drawable.logo_retallat)
             )
-            //
-
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -125,22 +135,6 @@ fun EventBox(
                 )
 
             }
-        }
-        DropdownMenu(
-            expanded = showMenu,
-            onDismissRequest = { showMenu = false }
-        ) {
-            DropdownMenuItem(
-                text = { Text("Detalles del Evento") },
-                onClick = {
-                    onEventClick(event)
-                    showMenu = false
-                }
-            )
-            DropdownMenuItem(
-                text = { Text("Guardar Evento") },
-                onClick = { showMenu = false }
-            )
         }
     }
 }

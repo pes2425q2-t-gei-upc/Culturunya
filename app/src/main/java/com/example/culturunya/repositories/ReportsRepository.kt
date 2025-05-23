@@ -5,7 +5,19 @@ import com.example.culturunya.session.CurrentSession
 import com.example.culturunya.dataclasses.ratings.ReportRequest
 import retrofit2.HttpException
 
+/**
+ * @class ReportsRepository
+ * @brief Clase que gestiona la creación de informes sobre valoraciones.
+ *
+ * Proporciona métodos para informar sobre valoraciones específicas.
+ */
 class ReportsRepository(private val api: Api) {
+    /**
+     * @brief Reporta una valoración específica.
+     *
+     * @param reportRequest Objeto que contiene la información del informe a crear.
+     * @return Result<Unit>
+     */
     suspend fun reportRating(reportRequest: ReportRequest): Result<Unit> {
         return try{
             val response = api.reportRating(token = CurrentSession.getAuthHeader(), reportRequest = reportRequest)

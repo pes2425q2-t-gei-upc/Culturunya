@@ -17,9 +17,16 @@ import com.example.culturunya.views.PantallaRegistre
 import com.example.culturunya.views.PantallaCanviContrasenya
 import com.example.culturunya.views.SettingsScreen
 
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    @Composable
+/**
+ * @brief Composable que gestiona la navegación principal de la aplicación.
+ *
+ * Define las rutas de navegación y las pantallas disponibles según el estado de autenticación del usuario.
+ *
+ * @param isLoggedIn Indica si el usuario ha iniciado sesión.
+ * @param onLogout Función que se ejecuta al cerrar sesión.
+ */
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
 fun AppNavigation(isLoggedIn: Boolean, onLogout: () -> Unit) {
     val eventViewModel: EventViewModel = viewModel()
     val navController = rememberNavController()

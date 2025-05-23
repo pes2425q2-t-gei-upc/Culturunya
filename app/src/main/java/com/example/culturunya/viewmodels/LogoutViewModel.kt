@@ -13,6 +13,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
+/**
+ * ViewModel para manejar el proceso de cierre de sesión.
+ * Utiliza la API de CredentialManager para manejar las credenciales de Google.
+ */
 class LogoutViewModel : ViewModel() {
     private val _logoutStatus = MutableStateFlow<Int?>(null)
     val logoutStatus: StateFlow<Int?> = _logoutStatus

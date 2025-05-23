@@ -22,6 +22,10 @@ class GetChatsViewModel : ViewModel() {
     private val api = Api.instance
     private val repository = ChatRepository(api)
 
+    /**
+     * Fetches the list of chats from the repository.
+     * It updates the state based on the result of the request.
+     */
     fun getChats() {
         viewModelScope.launch {
             val token = CurrentSession.token
@@ -43,6 +47,10 @@ class GetChatsViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Resets the state of the ViewModel.
+     * It clears the response and error values.
+     */
     fun reset() {
         _getChatsResponse.value = null
         _getChatsError.value = null

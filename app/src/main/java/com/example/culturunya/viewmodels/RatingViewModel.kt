@@ -15,6 +15,11 @@ import java.util.Collections.emptyList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
+/**
+ * ViewModel for managing ratings.
+ *
+ * @property ratingsRepository The repository for fetching and creating ratings.
+ */
 class RatingViewModel : ViewModel() {
     private val ratingsRepository = RatingsRepository(Api.instance)
 
@@ -30,6 +35,11 @@ class RatingViewModel : ViewModel() {
     private val _ratingCreated = MutableStateFlow<Boolean>(false)
     val ratingCreated: StateFlow<Boolean> = _ratingCreated
 
+    /**
+     * Fetches ratings for a specific event.
+     *
+     * @param eventId The ID of the event to fetch ratings for.
+     */
     fun fetchRatingsForEvent(eventId: Long) {
         viewModelScope.launch {
             ratingsRepository.getRatingsForEvent(eventId).onSuccess {
@@ -41,6 +51,11 @@ class RatingViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Fetches a rating by its ID.
+     *
+     * @param ratingId The ID of the rating to fetch.
+     */
     fun fetchRatingById(ratingId: String) {
         viewModelScope.launch {
             ratingsRepository.getRatingById(ratingId).onSuccess {
@@ -50,6 +65,15 @@ class RatingViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Creates a new rating.
+     *
+     * @param user The user creating the rating.
+     * @param eventId The ID of the event being rated.
+     * @param date The date of the rating.
+     * @param rating The rating value.
+     * @param comment An optional comment for the rating.
+     */
     @OptIn(UnstableApi::class)
     fun createRating(user: UserInfo, eventId: Long, date: String, rating: String, comment: String? = null) {
         val newRating = RatingRequest(eventId, rating, comment)
@@ -65,6 +89,12 @@ class RatingViewModel : ViewModel() {
             }
         }
     }
+
+    /**
+     * Deletes a rating by its ID.
+     *
+     * @param eventId The ID of the rating to delete.
+     */
     fun refreshRatingsForEvent(eventId: Long) {
         viewModelScope.launch {
             ratingsRepository.getRatingsForEvent(eventId).onSuccess {

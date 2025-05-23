@@ -7,7 +7,22 @@ import android.os.PowerManager
 import android.util.Log
 import java.util.*
 
+/**
+ * @class NotificationReceiver
+ * @brief Clase que recibe las notificaciones y maneja su programación.
+ *
+ * Esta clase se encarga de recibir las notificaciones y programar la siguiente notificación.
+ */
 class NotificationReceiver : BroadcastReceiver() {
+
+    /**
+     * @brief Método llamado al recibir una notificación.
+     *
+     * Este método se encarga de manejar la recepción de la notificación y programar la siguiente.
+     *
+     * @param context Contexto de la aplicación.
+     * @param intent Intención que desencadenó el evento.
+     */
     override fun onReceive(context: Context, intent: Intent?) {
         Log.d("NotificationReceiver", "================================")
         Log.d("NotificationReceiver", "onReceive llamado a las: ${Date()}")

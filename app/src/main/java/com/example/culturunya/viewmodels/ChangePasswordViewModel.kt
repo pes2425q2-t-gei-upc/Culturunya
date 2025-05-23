@@ -11,6 +11,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
+/**
+ * ViewModel para manejar el proceso de cambio de contraseña.
+ */
 class ChangePasswordViewModel: ViewModel() {
     private val _changePasswordStatus = MutableStateFlow<Int?>(null)
     val changePasswordStatus: StateFlow<Int?> = _changePasswordStatus
@@ -18,6 +21,11 @@ class ChangePasswordViewModel: ViewModel() {
     private val api = Api.instance
     private val repository = UserRepository(api)
 
+    /**
+     * Cambia la contraseña del usuario.
+     * @param oldPassword Contraseña actual
+     * @param newPassword Nueva contraseña
+     */
     fun changePassword(oldPassword: String, newPassword: String) {
         viewModelScope.launch {
             val currentToken = CurrentSession.token

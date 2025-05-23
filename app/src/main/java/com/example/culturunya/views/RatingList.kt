@@ -48,6 +48,16 @@ import com.example.culturunya.viewmodels.ReportViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
+/**
+ * RatingListScreen is a Composable function that displays a list of ratings for a specific event.
+ * It allows users to create new ratings and view existing ones.
+ *
+ * @param eventId The ID of the event for which ratings are being displayed.
+ * @param onRatingSelected A lambda function to handle click events on a rating.
+ * @param ratingViewModel The ViewModel responsible for managing ratings data.
+ * @param userViewModel The ViewModel responsible for managing user data.
+ * @param reportViewModel The ViewModel responsible for managing report actions.
+ */
 fun RatingListScreen(
     eventId: Long,
     onRatingSelected: (Rating) -> Unit, // Use your Rating class

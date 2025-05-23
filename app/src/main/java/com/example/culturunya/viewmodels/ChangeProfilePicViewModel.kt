@@ -7,6 +7,7 @@ import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.culturunya.Api
+import com.example.culturunya.dataclasses.settings.ChangeProfilePicState
 import com.example.culturunya.repositories.UserRepository
 import com.example.culturunya.session.CurrentSession
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,12 +19,10 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.HttpException
 import java.io.File
 
-data class ChangeProfilePicState(
-    val isLoading: Boolean = false,
-    val success: Boolean = false,
-    val error: String? = null
-)
-
+/**
+ * ViewModel for handling the change profile picture functionality.
+ * It manages the state of the profile picture upload process.
+ */
 class ChangeProfilePicViewModel : ViewModel() {
     private val _state = MutableStateFlow(ChangeProfilePicState())
     val state: StateFlow<ChangeProfilePicState> = _state
@@ -31,10 +30,18 @@ class ChangeProfilePicViewModel : ViewModel() {
     private val repository = UserRepository(Api.instance)
     private lateinit var context: Context
 
+    /**
+     * Sets the context for the ViewModel. This is necessary for accessing resources and file system.
+     * @param context The context to be set.
+     */
     fun setContext(context: Context) {
         this.context = context
     }
 
+    /**
+     * Uploads the profile picture to the server.
+     * @param uri The URI of the image to be uploaded.
+     */
     fun uploadProfilePic(uri: Uri) {
         viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true, error = null)

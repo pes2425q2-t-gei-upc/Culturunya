@@ -4,12 +4,33 @@ import com.example.culturunya.Api
 import com.example.culturunya.dataclasses.events.Event
 import com.example.culturunya.session.CurrentSession
 
+/**
+ * @class EventsRepository
+ * @brief Clase que gestiona la obtención de eventos.
+ *
+ * Proporciona métodos para obtener eventos filtrados por diferentes criterios.
+ */
 class EventsRepository(private val api: Api) {
 
+    /**
+     * @brief Obtiene la lista de eventos.
+     *
+     * @return Result<List<Event>>
+     */
     suspend fun getEvents(): Result<List<Event>> = runCatching {
         api.getEvents().events
     }
 
+    /**
+     * @brief Obtiene eventos filtrados por categorías, fechas y ubicación.
+     *
+     * @param categories Lista de categorías para filtrar los eventos.
+     * @param dateStart Fecha de inicio para filtrar los eventos.
+     * @param dateEnd Fecha de fin para filtrar los eventos.
+     * @param location Ubicación (latitud y longitud) para filtrar los eventos.
+     * @param range Rango de distancia en metros para filtrar los eventos.
+     * @return Result<List<Event>>
+     */
     suspend fun getFilteredEvents(
         categories: List<String>? = null,
         dateStart: String? = null,
@@ -32,6 +53,13 @@ class EventsRepository(private val api: Api) {
         ).events
     }
 
+    /**
+     * @brief Filtra eventos por fechas.
+     *
+     * @param dateStart Fecha de inicio para filtrar los eventos.
+     * @param dateEnd Fecha de fin para filtrar los eventos.
+     * @return Result<List<Event>>
+     */
     suspend fun filterByDateRange(
         dateStart: String,
         dateEnd: String
@@ -42,6 +70,15 @@ class EventsRepository(private val api: Api) {
         ).getOrThrow()
     }
 
+    /**
+     * @brief Filtra eventos por distancia y fechas.
+     *
+     * @param dateStart Fecha de inicio para filtrar los eventos.
+     * @param dateEnd Fecha de fin para filtrar los eventos.
+     * @param location Ubicación (latitud y longitud) para filtrar los eventos.
+     * @param range Rango de distancia en metros para filtrar los eventos.
+     * @return Result<List<Event>>
+     */
     suspend fun filterByDistanceAndDate(
         dateStart: String,
         dateEnd: String,

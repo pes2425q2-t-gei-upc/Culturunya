@@ -41,6 +41,13 @@ import com.example.culturunya.ui.theme.Purple40
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
+/**
+ * EventListScreen is a Composable function that displays a list of events.
+ * It uses the EventViewModel to fetch the events and allows the user to select an event to view its details.
+ *
+ * @param viewModel The EventViewModel instance used to fetch events.
+ * @param onEventSelected A lambda function that is called when an event is selected.
+ */
 fun EventListScreen(
     viewModel: EventViewModel,
     onEventSelected: (Event) -> Unit
@@ -60,6 +67,13 @@ fun EventListScreen(
     }
 }
 
+/**
+ * Cleans the input text by removing punctuation marks from the start and end of the string.
+ * It preserves accented vowels and the characters ñ/Ñ.
+ *
+ * @param text The input string to be cleaned.
+ * @return The cleaned string with punctuation removed from the start and end.
+ */
 fun cleanPunctuation(text: String): String {
     // Regular expression to remove punctuation marks from the start and end,
     // but preserve accented vowels and ñ/Ñ.
@@ -73,6 +87,13 @@ enum class SortCriteria {
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+/**
+ * EventListView is a Composable function that displays a list of events with sorting options.
+ * It allows the user to sort the events by name or date and toggle between ascending and descending order.
+ *
+ * @param events The list of events to be displayed.
+ * @param onEventSelected A lambda function that is called when an event is selected.
+ */
 private fun EventListView(
     events: List<Event>,
     onEventSelected: (Event) -> Unit,

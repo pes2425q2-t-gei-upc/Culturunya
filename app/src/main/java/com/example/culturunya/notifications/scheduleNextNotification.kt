@@ -9,6 +9,14 @@ import android.util.Log
 import com.example.culturunya.MainActivity
 import java.util.*
 
+/**
+ * @class NotificationScheduler
+ * @brief Clase que maneja la programación de notificaciones.
+ *
+ * Esta clase se encarga de programar las notificaciones diarias en la aplicación.
+ *
+ * @param context Contexto de la aplicación.
+ */
 fun scheduleNextNotification(context: Context) {
     val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 

@@ -9,6 +9,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import com.example.culturunya.repositories.EventsRepository
 
+/**
+ * ViewModel for handling events-related operations.
+ * It manages the state of the events list, loading status, and error messages.
+ */
 class EventViewModel: ViewModel() {
     private val _allEvents = MutableStateFlow<List<Event>>(emptyList())
     val allEvents: StateFlow<List<Event>> = _allEvents
@@ -28,11 +32,17 @@ class EventViewModel: ViewModel() {
     private val _filteredEventsByDistanceAndDate = MutableStateFlow<List<Event>>(emptyList())
     val filteredEventsByDistanceAndDate: StateFlow<List<Event>> = _filteredEventsByDistanceAndDate
 
-
+    /**
+     * Initializes the ViewModel and loads all events.
+     */
     init {
         loadAllEvents()
     }
 
+    /**
+     * Loads all events from the repository.
+     * It updates the loading status and handles any errors that occur during the process.
+     */
     fun loadAllEvents() {
         viewModelScope.launch {
             _isLoading.value = true
@@ -48,6 +58,11 @@ class EventViewModel: ViewModel() {
         }
     }
 
+    /**
+     * Filters events by a specific date range.
+     * @param dateStart The start date of the range.
+     * @param dateEnd The end date of the range.
+     */
     fun filterEventsByDate(dateStart: String, dateEnd: String) {
         viewModelScope.launch {
             _isLoading.value = true
@@ -69,6 +84,13 @@ class EventViewModel: ViewModel() {
         }
     }
 
+    /**
+     * Filters events by a specific date range and location.
+     * @param dateStart The start date of the range.
+     * @param dateEnd The end date of the range.
+     * @param location The location coordinates (latitude, longitude).
+     * @param range The distance range in meters.
+     */
     fun filterEventsByRangeAndDate(
         dateStart: String,
         dateEnd: String,
@@ -94,5 +116,4 @@ class EventViewModel: ViewModel() {
             _isLoading.value = false
         }
     }
-
 }

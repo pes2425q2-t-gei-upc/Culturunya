@@ -4,11 +4,16 @@ import SessionManager
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.culturunya.dataclasses.users.AuthState
 import com.example.culturunya.session.CurrentSession
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
+/**
+ * ViewModel para manejar el estado de autenticación del usuario.
+ * Carga la sesión actual y maneja el cierre de sesión.
+ */
 class AuthViewModel : ViewModel() {
 
     companion object {
@@ -18,6 +23,10 @@ class AuthViewModel : ViewModel() {
     private val _authState = MutableStateFlow(AuthState())
     val authState: StateFlow<AuthState> = _authState
 
+    /**
+     * Carga la sesión actual desde DataStore.
+     * @param sessionManager SessionManager para manejar la sesión.
+     */
     fun loadSession(sessionManager: SessionManager) {
         viewModelScope.launch {
             try {
@@ -44,7 +53,10 @@ class AuthViewModel : ViewModel() {
         }
     }
 
-
+    /**
+     * Cierra la sesión del usuario.
+     * @param sessionManager SessionManager para manejar la sesión.
+     */
     fun logout(sessionManager: SessionManager) {
         viewModelScope.launch {
             Log.d(TAG, "Logging out...")
@@ -59,8 +71,3 @@ class AuthViewModel : ViewModel() {
         }
     }
 }
-
-data class AuthState(
-    val isAuthenticated: Boolean = false,
-    val isLoading: Boolean = true
-)

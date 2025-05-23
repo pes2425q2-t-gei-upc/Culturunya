@@ -42,6 +42,12 @@ import java.util.*
 import coil.compose.AsyncImage
 
 @Composable
+/**
+ * Function to show a message bubble in the chat screen.
+ * @param message The message object containing the text and date.
+ * @param imAdmin Boolean indicating if the user is an admin.
+ * @param username The username of the user.
+ */
 fun MessageBubble(message: Message, imAdmin: Boolean, username: String) {
     val iveSent = iveSentIt(message, imAdmin, username)
     val backgroundColor = if (iveSent) Morat else GrisMoltFluix
@@ -69,6 +75,13 @@ fun MessageBubble(message: Message, imAdmin: Boolean, username: String) {
 }
 
 @Composable
+/**
+ * Function to show a list of messages grouped by date.
+ * @param messages List of messages to be displayed.
+ * @param imAdmin Boolean indicating if the user is an admin.
+ * @param username The username of the user.
+ * @param lazyListState State of the lazy list for scrolling.
+ */
 fun MessageWithDate(
     messages: List<Message>,
     imAdmin: Boolean,
@@ -114,6 +127,11 @@ fun MessageWithDate(
 }
 
 @Composable
+/**
+ * Function to format the timestamp of a message.
+ * @param timestamp The timestamp string to be formatted.
+ * @return Formatted time string.
+ */
 fun formatTimestamp(timestamp: String): String {
     val context = LocalContext.current
     CurrentSession.getInstance()
@@ -130,6 +148,11 @@ fun formatTimestamp(timestamp: String): String {
 }
 
 @Composable
+/**
+ * Function to format the date of a message.
+ * @param timestamp The timestamp string to be formatted.
+ * @return Formatted date string.
+ */
 fun formatDate(timestamp: String): String {
     val context = LocalContext.current
     CurrentSession.getInstance()
@@ -147,6 +170,13 @@ fun formatDate(timestamp: String): String {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+/**
+ * Function to show the chat screen.
+ * @param navController Navigation controller for navigating between screens.
+ * @param userId The ID of the user being chatted with.
+ * @param username The username of the user being chatted with.
+ * @param imageUrl The URL of the user's profile image.
+ */
 fun PantallaXat(navController: NavController, userId: Int?, username: String?, imageUrl: String?) {
     val context = LocalContext.current
     CurrentSession.getInstance()
@@ -377,6 +407,13 @@ fun PantallaXat(navController: NavController, userId: Int?, username: String?, i
     }
 }
 
+/**
+ * Function to check if the message was sent by the user or the admin.
+ * @param message The message object containing the sender information.
+ * @param imAdmin Boolean indicating if the user is an admin.
+ * @param username The username of the user.
+ * @return Boolean indicating if the message was sent by the user or admin.
+ */
 fun iveSentIt(message: Message, imAdmin: Boolean, username: String): Boolean {
     return (message.from != username && imAdmin) || (message.from != "Administrador" && !imAdmin)
 }

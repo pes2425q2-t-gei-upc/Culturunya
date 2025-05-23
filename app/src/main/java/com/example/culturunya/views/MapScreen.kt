@@ -60,11 +60,15 @@ import kotlinx.coroutines.withContext
 import com.example.culturunya.ChargingApi
 
 
+
+@SuppressLint("MissingPermission")
 /**
  * Funció per obtenir l'última ubicació coneguda de l'usuari.
- * Utilitza el FusedLocationProviderClient i retorna l'ubicació o null si hi ha un error.
+ *
+ * @param context Context de l'aplicació.
+ * @param fusedLocationProviderClient Client de localització fusionada.
+ * @return L'última ubicació coneguda o null si no es pot obtenir.
  */
-@SuppressLint("MissingPermission")
 suspend fun getLastKnownLocation(
     context: Context,
     fusedLocationProviderClient: FusedLocationProviderClient
@@ -151,12 +155,13 @@ fun RequestLocationPermission(
 }
 
 
+
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
 /**
  * Component principal que gestiona la pantalla del mapa d'esdeveniments.
  * Controla els permisos d'ubicació i mostra contingut diferent segons si els permisos estan concedits o no.
  */
-@RequiresApi(Build.VERSION_CODES.O)
-@Composable
 fun EventMapScreen() {
     //variables relacionades amb el canvi d'idioma
     val context = LocalContext.current
@@ -716,8 +721,19 @@ fun MapContent(hasLocationPermission: Boolean = true) {
     }
 }
 
-//Composable per gestionar els botons d'esdeveniments i punts de càrrega
+
 @Composable
+/**
+ * Composable que mostra els botons d'obertura a Google Maps.
+ * Si hi ha un esdeveniment seleccionat, mostra un botó per veure els detalls de l'esdeveniment
+ * i un altre per obrir Google Maps.
+ * Si hi ha un punt de càrrega seleccionat, només mostra el botó per obrir Google Maps.
+ *
+ * @param selectedEvent Esdeveniment seleccionat (null si no n'hi ha cap).
+ * @param selectedChargingPoint Punt de càrrega seleccionat (null si no n'hi ha cap).
+ * @param showEventDetails Estat que indica si s'han de mostrar els detalls de l'esdeveniment.
+ * @param onShowEventDetailsChange Funció per canviar l'estat de mostrar els detalls de l'esdeveniment.
+ */
 fun GoogleMapsButton(
     selectedEvent: Event?,
     selectedChargingPoint: ChargingPointItem?,
@@ -794,8 +810,14 @@ fun GoogleMapsButton(
     }
 }
 
-//Composable per al botó d'obrir a Google Maps
 @Composable
+/**
+ * Composable que mostra un botó per obrir Google Maps amb una ubicació específica.
+ *
+ * @param onClick Funció que s'executa quan es fa clic al botó.
+ * @param text Text que es mostra al botó.
+ * @param modifier Modificador opcional per personalitzar l'aparença del botó.
+ */
 fun MapOpenButton(
     onClick: () -> Unit,
     text: String,
@@ -824,6 +846,14 @@ fun MapOpenButton(
     }
 }
 
+/**
+ * Funció que comprova si la nova ubicació és suficientment lluny de l'ubicació anterior.
+ *
+ * @param oldLocation Ubicació anterior (pot ser null).
+ * @param newLocation Nova ubicació.
+ * @param thresholdMeters Distància mínima en metres per considerar que les ubicacions són diferents.
+ * @return True si la nova ubicació és suficientment lluny de l'anterior, false en cas contrari.
+ */
 fun isFarEnough(oldLocation: Location?, newLocation: Location, thresholdMeters: Float = 250f): Boolean {
     if (oldLocation == null) return true
     return oldLocation.distanceTo(newLocation) > thresholdMeters

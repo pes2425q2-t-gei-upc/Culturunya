@@ -333,11 +333,26 @@ fun PantallaRegistre(navController: NavController) {
     }
 }
 
-// Funció per verificar que el correu té una estructura adequeada (amb el domini)
+/**
+ * Funció per validar si un correu electrònic té una estructura vàlida.
+ * Utilitza les expressions regulars per verificar el format del correu electrònic.
+ *
+ * @param email El correu electrònic a validar.
+ * @return Retorna true si el correu electrònic és vàlid, false en cas contrari.
+ */
 fun isValidEmail(email: String): Boolean {
     return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
 }
 
+/**
+ * Funció per enviar les dades d'un nou usuari al backend.
+ * Utilitza el repositori d'autenticació per registrar l'usuari.
+ *
+ * @param username Nom d'usuari a registrar.
+ * @param email Correu electrònic de l'usuari.
+ * @param password Contrasenya de l'usuari.
+ * @return Retorna el codi HTTP de la resposta del servidor.
+ */
 fun enviarDadesAlBackend(username: String, email: String, password: String): Int {
     val api = Api.instance
     val repository = AuthRepository(api)

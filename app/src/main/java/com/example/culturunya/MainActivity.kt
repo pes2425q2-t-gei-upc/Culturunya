@@ -32,6 +32,12 @@ import com.example.culturunya.ui.theme.Morat
 import com.example.culturunya.viewmodels.AuthViewModel
 import kotlinx.coroutines.launch
 
+/**
+ * @class MainActivity
+ * @brief Actividad principal de la aplicación Culturunya.
+ *
+ * Gestiona la inicialización de la interfaz, el control de sesión y la configuración de notificaciones.
+ */
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,6 +66,11 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    /**
+     * @brief Verifica y solicita el permiso de notificaciones en Android 13 o superior.
+     *
+     * Si el permiso no ha sido concedido, se solicita al usuario.
+     */
     private fun checkNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(
@@ -87,6 +98,12 @@ class MainActivity : ComponentActivity() {
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
+/**
+ * @brief Contenido principal de la aplicación.
+ *
+ * Muestra una pantalla de carga mientras se verifica el estado de autenticación del usuario.
+ * Una vez autenticado, navega a la interfaz principal de la aplicación.
+ */
 fun MainAppContent() {
     val context = LocalContext.current
     val sessionManager = remember { SessionManager(context) }

@@ -52,6 +52,14 @@ import com.example.culturunya.viewmodels.ReportViewModel
 @kotlin.OptIn(ExperimentalMaterial3Api::class)
 @OptIn(UnstableApi::class)
 @Composable
+/**
+ * RatingBox is a Composable function that displays a rating and its associated comment.
+ * It also provides an option to report the rating if the user is not the one who posted it.
+ *
+ * @param rating The rating object containing the rating details.
+ * @param onRatingClick A lambda function to handle click events on the rating.
+ * @param reportViewModel The ViewModel responsible for handling report actions.
+ */
 fun RatingBox(
     rating: Rating,
     onRatingClick: (Rating) -> Unit,

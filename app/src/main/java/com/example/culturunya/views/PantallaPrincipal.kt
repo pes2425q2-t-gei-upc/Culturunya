@@ -23,6 +23,12 @@ import androidx.compose.ui.Modifier
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
+/**
+ * @brief Pantalla principal de la aplicación con menú inferior.
+ * @param navController Controlador de navegación para cambiar de pantalla.
+ * @param viewModel ViewModel para gestionar el estado de los eventos.
+ * @param initialScreen Pantalla inicial seleccionada.
+ */
 fun MainScreen(navController: NavController, viewModel: EventViewModel, initialScreen: String) {
     // Estat per a la pantalla principal
     // Estat per als sub-botons d'Events (Map, Calendar, List)
@@ -155,6 +161,13 @@ fun MainScreen(navController: NavController, viewModel: EventViewModel, initialS
 
 /** Composable genèric per als botons de la fila de dalt (Map, Calendar, List). */
 @Composable
+/**
+ * @brief Composable per a un botó de la fila superior.
+ * @param subScreenName Nom de la subpantalla.
+ * @param iconRes Recurso drawable de l'icona.
+ * @param isSelected Indica si el botó està seleccionat.
+ * @param onClick Funció a executar quan es fa clic al botó.
+ */
 fun TopButtonItem(
     subScreenName: String,
     @DrawableRes iconRes: Int,
@@ -191,6 +204,13 @@ fun TopButtonItem(
 
 /** Composable genèric per als botons del footer. */
 @Composable
+/**
+ * @brief Composable per a un botó del peu de pàgina.
+ * @param screenName Nom de la pantalla.
+ * @param iconRes Recurso drawable de l'icona.
+ * @param isSelected Indica si el botó està seleccionat.
+ * @param onClick Funció a executar quan es fa clic al botó.
+ */
 fun BottomButtonItem(
     screenName: String,
     @DrawableRes iconRes: Int,
@@ -230,12 +250,20 @@ fun BottomButtonItem(
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
+/**
+ * @brief Pantalla de mapa d'esdeveniments.
+ * @param viewModel ViewModel per gestionar l'estat dels esdeveniments.
+ */
 fun EventCalendarScreen(viewModel: EventViewModel) {
     CalendarScreen(viewModel)
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
+/**
+ * @brief Pantalla de mapa d'esdeveniments.
+ * @param viewModel ViewModel per gestionar l'estat dels esdeveniments.
+ */
 fun EventListScreen(viewModel: EventViewModel) {
     EventListScreen(
         viewModel = viewModel,
@@ -246,11 +274,18 @@ fun EventListScreen(viewModel: EventViewModel) {
 
 /** ALTRES PANTALLES PRINCIPALS */
 @Composable
+/**
+ * @brief Pantalla de configuració.
+ * @param navController Controlador de navegació per canviar de pantalla.
+ */
 fun QuizScreen(navController: NavController) {
     PantallaQuiz(navController)
 }
 
 @Composable
+/**
+ * @brief Pantalla de configuració. Encara no està implementada.
+ */
 fun LeaderboardScreen() {
     Text(text = "Aquesta serà la pantalla de Leaderboard")
 }

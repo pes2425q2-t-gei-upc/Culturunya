@@ -17,6 +17,14 @@ const val NOTIFICATION_CHANNEL_NAME = "Daily notification"
 const val NOTIFICATION_ID = 100
 const val REQUEST_CODE = 200
 
+/**
+ * @class NotificationService
+ * @brief Clase que maneja la creación y envío de notificaciones.
+ *
+ * Esta clase se encarga de crear y enviar notificaciones al usuario.
+ *
+ * @param context Contexto de la aplicación.
+ */
 class NotificationService(
     private val context: Context
 ) {
@@ -33,6 +41,12 @@ class NotificationService(
         PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
     )
 
+    /**
+     * @brief Muestra una notificación al usuario.
+     *
+     * Este método crea y muestra una notificación con un título, un icono y un texto específico.
+     * También establece la prioridad, el sonido, la vibración y la visibilidad de la notificación.
+     */
     fun showNotification() {
         CurrentSession.getInstance()
         val currentLocale = CurrentSession.language

@@ -12,6 +12,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
+/**
+ * ViewModel for managing reports.
+ *
+ * @property reportsRepository The repository for fetching and creating reports.
+ */
 class ReportViewModel : ViewModel() {
     private val reportsRepository = ReportsRepository(Api.instance) // Example instantiation
 
@@ -28,6 +33,11 @@ class ReportViewModel : ViewModel() {
     private val _toastEventChannel = Channel<String>()
     val toastEvent = _toastEventChannel.receiveAsFlow()
 
+    /**
+     * Report a rating.
+     *
+     * @param reportRequest The request object containing the report details.
+     */
     fun reportRating(reportRequest: ReportRequest) {
         viewModelScope.launch {
             _isLoading.value = true
@@ -50,6 +60,7 @@ class ReportViewModel : ViewModel() {
     fun clearErrorMessage() {
         _errorMessage.value = null
     }*/
+
     override fun onCleared() {
         super.onCleared()
         _toastEventChannel.close() // Cierra el canal cuando el ViewModel se destruye

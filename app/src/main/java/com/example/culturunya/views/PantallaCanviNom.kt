@@ -26,6 +26,12 @@ import com.example.culturunya.ui.theme.Morat
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+/**
+ * Pantalla per canviar el nom d'usuari.
+ * Permet introduir un nou nom d'usuari i actualitzar-lo.
+ *
+ * @param navController Controlador de navegació per gestionar la navegació entre pantalles.
+ */
 fun PantallaCanviNom(navController: NavController) {
     var nouNom by remember { mutableStateOf("") }
     var missatgeError by remember { mutableStateOf("") }

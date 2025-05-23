@@ -12,6 +12,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
+/**
+ * ViewModel for managing chat with admin.
+ * It fetches chat messages and handles errors.
+ */
 class GetChatWithAdminViewModel : ViewModel() {
 
     private val _getChatWithAdminResponse = MutableStateFlow<List<Message>?>(null)
@@ -23,6 +27,10 @@ class GetChatWithAdminViewModel : ViewModel() {
     private val api = Api.instance
     private val repository = ChatRepository(api)
 
+    /**
+     * Fetches chat messages with admin.
+     * It uses the current session token for authentication.
+     */
     fun getChatWithAdmin() {
         Log.d("GetChatWithAdmin", "Function called")
 

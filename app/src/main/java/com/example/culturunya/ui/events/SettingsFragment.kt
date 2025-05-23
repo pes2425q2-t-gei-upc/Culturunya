@@ -7,6 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.culturunya.R
 
+/**
+ * @class SettingsFragment
+ * @brief Fragmento que muestra la pantalla de configuración (settings).
+ */
 class SettingsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,

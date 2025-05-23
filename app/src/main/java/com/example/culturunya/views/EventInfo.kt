@@ -40,9 +40,15 @@ import java.net.URLEncoder
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
+
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+/**
+ * Composable function to display event information.
+ * @param event The event to be displayed.
+ * @param onBack Callback function to handle back navigation.
+ */
 fun EventInfo(
     event: Event,
     onBack: () -> Unit
@@ -236,8 +242,13 @@ fun EventInfo(
     }
 }
 
+
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
+/**
+ * Composable function to create a button for adding an event to Google Calendar.
+ * @param event The event to be added to the calendar.
+ */
 fun GoogleCalendarButton(event: Event) {
     val context = LocalContext.current
     val hasGoogleAccount = remember { CurrentSession.getGoogleToken().isNotEmpty() }
@@ -300,7 +311,13 @@ fun GoogleCalendarButton(event: Event) {
     }
 }
 
+
 @RequiresApi(Build.VERSION_CODES.O)
+/**
+ * Function to format a date string for Google Calendar.
+ * @param dateTime The date string in ISO 8601 format.
+ * @return The formatted date string for Google Calendar.
+ */
 private fun formatForGoogleCalendar(dateTime: String): String {
     // Convertir formato ISO 8601 a formato Google Calendar
     val formatter = DateTimeFormatter.ISO_DATE_TIME
@@ -309,6 +326,13 @@ private fun formatForGoogleCalendar(dateTime: String): String {
 }
 
 @Composable
+/**
+ * Composable function to display an information item with an icon.
+ * @param title The title of the item.
+ * @param content The content of the item.
+ * @param iconRes The resource ID of the icon (optional).
+ * @param modifier Modifier for styling.
+ */
 private fun InfoItem(
     title: String,
     content: String,

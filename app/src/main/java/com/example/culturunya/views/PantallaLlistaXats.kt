@@ -27,23 +27,22 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.culturunya.R
+import com.example.culturunya.dataclasses.chats.Chat
 import com.example.culturunya.viewmodels.GetChatsViewModel
 import com.example.culturunya.session.CurrentSession
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
-
-data class Chat(
-    val username: String,
-    val lastMessage: String,
-    val avatar: String?,
-    val lastMessageDate: String,
-    val userId: Int
-)
-
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+/**
+ * Pantalla que mostra la llista de xats de l'usuari.
+ * Permet navegar a la pantalla de xat amb un usuari concret.
+ *
+ * @param navController Controlador de navegació per gestionar la navegació entre pantalles.
+ * @param getChatsViewModel ViewModel per obtenir la llista de xats.
+ */
 fun PantallaLlistaXats(
     navController: NavController,
     getChatsViewModel: GetChatsViewModel = viewModel()
@@ -132,6 +131,13 @@ fun PantallaLlistaXats(
 
 
 @Composable
+/**
+ * Composable que representa un element de la llista de xats.
+ * Mostra la informació del xat, incloent el nom d'usuari, l'últim missatge i la imatge de perfil.
+ *
+ * @param chat Objecte Chat que conté la informació del xat.
+ * @param navController Controlador de navegació per gestionar la navegació entre pantalles.
+ */
 fun ChatItem(chat: Chat, navController: NavController) {
     Row(
         modifier = Modifier

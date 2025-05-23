@@ -10,6 +10,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
+/**
+ * ViewModel for sending messages to the admin.
+ *
+ * @property api The API instance for making network requests.
+ * @property repository The repository for sending messages to the admin.
+ */
 class SendMessageToAdminViewModel : ViewModel() {
     private val _sendMessageToAdminStatus = MutableStateFlow<Int?>(null)
     val sendMessageToAdminStatus: StateFlow<Int?> = _sendMessageToAdminStatus
@@ -17,6 +23,11 @@ class SendMessageToAdminViewModel : ViewModel() {
     private val api = Api.instance
     private val repository = ChatRepository(api)
 
+    /**
+     * Sends a message to the admin.
+     *
+     * @param message The message to be sent.
+     */
     fun sendMessageToAdmin(message: String) {
         viewModelScope.launch {
             val token = CurrentSession.token
