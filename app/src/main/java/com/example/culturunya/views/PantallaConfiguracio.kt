@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.modifier.modifierLocalMapOf
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -27,6 +28,7 @@ import coil.compose.AsyncImage
 import com.example.culturunya.R
 import com.example.culturunya.session.CurrentSession
 import com.example.culturunya.navigation.AppScreens
+import com.example.culturunya.screens.RankIcon
 import com.example.culturunya.ui.theme.GrisMoltFluix
 import com.example.culturunya.ui.theme.Morat
 import com.example.culturunya.viewmodels.*
@@ -63,6 +65,8 @@ fun SettingsScreen(navController: NavController) {
     val imageUrl = CurrentSession.profile_pic
     val rank_quiz = CurrentSession.rank_quiz
     val rank_event = CurrentSession.rank_event
+    val current_quiz_points = CurrentSession.current_quiz_points
+    val current_event_points = CurrentSession.current_event_points
 
     val options = listOf("English", "Español")
     var expanded by remember { mutableStateOf(false) }
@@ -72,6 +76,8 @@ fun SettingsScreen(navController: NavController) {
 
     val authViewModel: AuthViewModel = viewModel()
     val sessionManager = remember { SessionManager(context) }
+
+    var showProfileRanks by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         getChatsViewModel.reset()
@@ -167,6 +173,14 @@ fun SettingsScreen(navController: NavController) {
                     text = getString(context, R.string.changeProfilePic, currentLocale),
                     onClick = {
                         navController.navigate(AppScreens.ChangeProfilePic.route)
+                    }
+                )
+                Divider(color = Color.LightGray)
+                SettingsButton(
+                    icon = Icons.Default.BarChart,
+                    text = getString(context, R.string.monthlyClassification, currentLocale),
+                    onClick = {
+                        showProfileRanks = true
                     }
                 )
             }
@@ -276,10 +290,10 @@ fun SettingsScreen(navController: NavController) {
             }
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(4.dp))
 
         // SEPARADOR
-        Divider(modifier = Modifier.padding(vertical = 8.dp))
+        Divider(modifier = Modifier.padding(vertical = 6.dp))
 
         // BOTÓ "LOG OUT"
         Text(
@@ -289,7 +303,7 @@ fun SettingsScreen(navController: NavController) {
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable { showLogoutDialog = true }
-                .padding(8.dp)
+                .padding(4.dp)
         )
 
         // BOTÓ "DELETE ACCOUNT"
@@ -300,7 +314,7 @@ fun SettingsScreen(navController: NavController) {
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable { showDeleteDialog = true }
-                .padding(8.dp)
+                .padding(4.dp)
         )
     }
 
@@ -370,6 +384,55 @@ fun SettingsScreen(navController: NavController) {
             showLogoutErrorDialog = false
         })
     }
+
+    if (showProfileRanks) {
+        AlertDialog(
+            onDismissRequest = { showProfileRanks = false },
+            text = {
+                Row {
+                    Column {
+                        Text(
+                            text = getString(context, R.string.quiz, currentLocale),
+                            fontSize = 20.sp,
+                            color = Color.Black,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Spacer (modifier = Modifier.height(15.dp))
+                        RankIcon(rank_quiz, modifier = Modifier.align(Alignment.CenterHorizontally))
+                        Spacer (modifier = Modifier.height(10.dp))
+                        Text(rank_quiz, modifier = Modifier.align(Alignment.CenterHorizontally))
+                        Spacer (modifier = Modifier.height(10.dp))
+                        Text(text = "$current_quiz_points" + " pts", modifier = Modifier.align(Alignment.CenterHorizontally))
+                    }
+                    Spacer (modifier = Modifier.width(30.dp))
+                    Column {
+                        Text(
+                            text = getString(context, R.string.eventAssistance, currentLocale),
+                            fontSize = 20.sp,
+                            color = Color.Black,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Spacer (modifier = Modifier.height(15.dp))
+                        RankIcon(rank_event, modifier = Modifier.align(Alignment.CenterHorizontally))
+                        Spacer (modifier = Modifier.height(10.dp))
+                        Text(rank_event, modifier = Modifier.align(Alignment.CenterHorizontally))
+                        Spacer (modifier = Modifier.height(10.dp))
+                        Text(text = "$current_event_points" + " pts", modifier = Modifier.align(Alignment.CenterHorizontally))
+                    }
+                }
+            },
+            confirmButton = {
+                Button(
+                    onClick = { showProfileRanks = false },
+                    colors = ButtonDefaults.buttonColors(containerColor = Morat)
+                ) {
+                    Text(text = "OK")
+                }
+            },
+            containerColor = Color.White
+        )
+    }
+
 }
 
 

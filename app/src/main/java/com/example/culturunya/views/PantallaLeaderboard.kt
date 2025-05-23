@@ -30,7 +30,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.culturunya.CurrentSession
+import com.example.culturunya.session.CurrentSession
 import com.example.culturunya.views.TopButtonItem
 import com.example.culturunya.views.getString
 import com.example.culturunya.R
@@ -225,7 +225,7 @@ fun LeaderboardScreen(navController: NavController) {
                         modifier = Modifier.weight(1f),
                         color = Color.Black)
 
-                    RankIcon(item.rank)
+                    if (item.rank != "Unranked") RankIcon(item.rank)
 
                     Spacer(modifier = Modifier.width(10.dp))
 
@@ -257,7 +257,7 @@ fun LeaderboardScreen(navController: NavController) {
                 },
                 text = {
                     Column {
-                        RankInfoItem(getString(context, R.string.unranked, currentLocale), getString(context, R.string.unrankedDescription, currentLocale), icon = Icons.Default.Remove, color = Color.Black)
+                        RankInfoItem(getString(context, R.string.unranked, currentLocale), getString(context, R.string.unrankedDescription, currentLocale), color = Color.Black)
                         Spacer(modifier = Modifier.height(10.dp))
                         RankInfoItem(getString(context, R.string.bronze, currentLocale), getString(context, R.string.bronzeDescription, currentLocale), icon = Icons.Default.Diamond, color = Marro)
                         Spacer(modifier = Modifier.height(10.dp))
@@ -331,14 +331,12 @@ fun RankIcon(rank: String, modifier: Modifier = Modifier) {
         }
 
         else -> {
-            if (rank != "Unranked") {
-                Icon(
-                    imageVector = Icons.Filled.Diamond,
-                    contentDescription = "Rank Icon",
-                    tint = Unranked,
-                    modifier = modifier
-                )
-            }
+            Icon(
+                imageVector = Icons.Default.Remove,
+                contentDescription = "Rank Icon",
+                tint = Color.Black,
+                modifier = modifier
+            )
         }
     }
 }

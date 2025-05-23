@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.culturunya.Api
-import com.example.culturunya.CurrentSession
+import com.example.culturunya.session.CurrentSession
 import com.example.culturunya.dataclasses.ranking.RankingPosition
 import com.example.culturunya.repositories.LeaderboardRepository
 import kotlinx.coroutines.flow.MutableStateFlow

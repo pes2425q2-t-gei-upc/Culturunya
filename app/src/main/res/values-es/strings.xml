@@ -163,7 +163,7 @@
 
     <!-- Pantalla Leaderboard -->
     <string name="monthlyRanking">Clasificación Mensual</string>
-    <string name="quiz">Questionario</string>
+    <string name="quiz">Questionarios</string>
     <string name="eventAssistance">Asistir a eventos</string>
     <string name="unknownErrorRanking">Error desconocido cargando la clasificación.</string>
     <string name="rankingSystem">Sistema de rangos</string>
@@ -177,6 +177,7 @@
     <string name="goldDescription">¡Gran trabajo! Estás entre los mejores.</string>
     <string name="ramonllull">Ramon Llull (1000+ puntos)</string>
     <string name="ramonllullDescription">Rango solo para leyendas. La sabiduría infinita de Ramón Llull te acoge.</string>
+    <string name="monthlyClassification">Tu clasificación mensual</string>
 
     <!-- Report messages -->
     <string name="ReportSuccess">Se ha reportado correctamente</string>
