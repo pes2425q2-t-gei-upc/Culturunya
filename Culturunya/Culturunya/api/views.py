@@ -1082,7 +1082,11 @@ def obtain_quiz_points(request):
     user = User.objects.get(id=request.user.id)
     points = request.data['points']
     user.total_quiz_points += points
+    if user.total_quiz_points < 0:
+        user.total_quiz_points = 0
     quiz_points = user.current_quiz_points + points
+    if quiz_points < 0:
+        quiz_points = 0
     rank = user.rank_quiz
     points_to_next_rank = POINTS_TO_NEXT_RANK[rank]
     if quiz_points >= points_to_next_rank:
