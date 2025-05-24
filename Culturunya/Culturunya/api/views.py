@@ -32,7 +32,7 @@ from api.serializers import UserProfileSerializer, ChangePasswordSerializer, Rep
 # Services
 from domain.users_service import get_all_events, filter_events, create_user_service, create_rating, create_message, \
     get_messages, create_resolved_report, get_messages_admin, create_report, get_quiz_ranking_leaderboard, \
-    get_events_ranking_leaderboard
+    get_events_ranking_leaderboard, update_rank
 from persistence.models import User, Report, Rating, TypeRating, QuestionTranslation, TypeRank, POINTS_TO_NEXT_RANK, \
     Event
 from api.serializers import ProfilePicSerializer
@@ -1038,24 +1038,14 @@ def obtain_location_points(request, event_id):
     if not assisted:
         user.events_assisted.add(Event.objects.get(id=event_id))
         user.total_event_points += 20
-        event_points = user.current_event_points + 20
+        event_points = user.total_event_points
         rank = user.rank_event
         points_to_next_rank = POINTS_TO_NEXT_RANK[rank]
         if event_points >= points_to_next_rank:
-            if rank == TypeRank.UNRANKED:
-                rank = TypeRank.BRONZE
-            elif rank == TypeRank.BRONZE:
-                rank = TypeRank.SILVER
-            elif rank == TypeRank.SILVER:
-                rank = TypeRank.GOLD
-            elif rank == TypeRank.GOLD:
-                rank = TypeRank.RAMON_LLULL
-            user.current_event_points = 0
-            user.rank_event = rank
+            user.rank_event = update_rank(rank)
             user.save()
             return Response({"message": "¡Has subido de nivel!"}, status=200)
         else:
-            user.current_event_points = event_points
             user.save()
             return Response({"message": "Puntos obtenidos"}, status=200)
     else:
@@ -1084,26 +1074,16 @@ def obtain_quiz_points(request):
     user.total_quiz_points += points
     if user.total_quiz_points < 0:
         user.total_quiz_points = 0
-    quiz_points = user.current_quiz_points + points
+    quiz_points = user.total_quiz_points
     if quiz_points < 0:
         quiz_points = 0
     rank = user.rank_quiz
     points_to_next_rank = POINTS_TO_NEXT_RANK[rank]
     if quiz_points >= points_to_next_rank:
-        if rank == TypeRank.UNRANKED:
-            rank = TypeRank.BRONZE
-        elif rank == TypeRank.BRONZE:
-            rank = TypeRank.SILVER
-        elif rank == TypeRank.SILVER:
-            rank = TypeRank.GOLD
-        elif rank == TypeRank.GOLD:
-            rank = TypeRank.RAMON_LLULL
-        user.current_quiz_points = 0
-        user.rank_quiz = rank
+        user.rank_quiz = update_rank(rank)
         user.save()
         return Response({"message": "¡Has subido de nivel!"}, status=200)
     else:
-        user.current_quiz_points = quiz_points
         user.save()
         return Response({"message": "Puntos obtenidos"}, status=200)
 
