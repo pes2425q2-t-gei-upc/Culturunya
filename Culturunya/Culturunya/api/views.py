@@ -28,13 +28,13 @@ from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
 from api.serializers import UserProfileSerializer, ChangePasswordSerializer, ReportSerializer, \
-    ReportResolutionSerializer, RatingSerializer
+    RatingSerializer
 # Services
 from domain.users_service import get_all_events, filter_events, create_user_service, create_rating, create_message, \
     get_messages, create_resolved_report, get_messages_admin, create_report, get_quiz_ranking_leaderboard, \
-    get_events_ranking_leaderboard, update_rank
-from persistence.models import User, Report, Rating, TypeRating, QuestionTranslation, TypeRank, POINTS_TO_NEXT_RANK, \
-    Event
+    get_events_ranking_leaderboard, update_rank_from_adding_points, update_rank_from_decreasing_points
+from persistence.models import User, Report, Rating, TypeRating, QuestionTranslation, \
+    Event, RANK_ORDER
 from api.serializers import ProfilePicSerializer
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.decorators import parser_classes
@@ -1040,13 +1040,12 @@ def obtain_location_points(request, event_id):
         user.total_event_points += 20
         event_points = user.total_event_points
         rank = user.rank_event
-        points_to_next_rank = POINTS_TO_NEXT_RANK[rank]
-        if event_points >= points_to_next_rank:
-            user.rank_event = update_rank(rank)
-            user.save()
+        new_rank = update_rank_from_adding_points(rank, event_points)
+        user.rank_event = new_rank
+        user.save()
+        if RANK_ORDER.index(new_rank) > RANK_ORDER.index(rank):
             return Response({"message": "¡Has subido de nivel!"}, status=200)
         else:
-            user.save()
             return Response({"message": "Puntos obtenidos"}, status=200)
     else:
         return Response({"error": "El usuario ya ha asistido al evento"}, status=403)
@@ -1075,17 +1074,24 @@ def obtain_quiz_points(request):
     if user.total_quiz_points < 0:
         user.total_quiz_points = 0
     quiz_points = user.total_quiz_points
-    if quiz_points < 0:
-        quiz_points = 0
     rank = user.rank_quiz
-    points_to_next_rank = POINTS_TO_NEXT_RANK[rank]
-    if quiz_points >= points_to_next_rank:
-        user.rank_quiz = update_rank(rank)
+    if points > 0:
+        new_rank = update_rank_from_adding_points(rank, quiz_points)
+        user.rank_quiz = new_rank
         user.save()
-        return Response({"message": "¡Has subido de nivel!"}, status=200)
+        if RANK_ORDER.index(new_rank) > RANK_ORDER.index(rank):
+            return Response({"message": "¡Has subido de nivel!"}, status=200)
+        else:
+            return Response({"message": "Puntos obtenidos"}, status=200)
     else:
+        new_rank = update_rank_from_decreasing_points(rank, quiz_points)
+        user.rank_quiz = new_rank
         user.save()
-        return Response({"message": "Puntos obtenidos"}, status=200)
+        if RANK_ORDER.index(new_rank) < RANK_ORDER.index(rank):
+            return Response({"message": "Vaya, has bajado de nivel..."}, status=200)
+        else:
+            return Response({"message": "Puntos decrementados"}, status=200)
+
 
 @swagger_auto_schema(
     method="get",

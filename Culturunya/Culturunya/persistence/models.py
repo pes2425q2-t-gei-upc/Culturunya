@@ -81,12 +81,20 @@ class TypeRank(models.TextChoices):
     GOLD = "Gold", "Oro"
     RAMON_LLULL = "RamonLlull", "Ramon Llull"
 
-POINTS_TO_NEXT_RANK = {
-    TypeRank.UNRANKED: 100, #100 puntos para subir a bronce y consecutivamente
-    TypeRank.BRONZE: 200,
-    TypeRank.SILVER: 500,
-    TypeRank.GOLD: 1000,
-    TypeRank.RAMON_LLULL: None,  # Último rango, no sube más
+RANK_ORDER = [
+    TypeRank.UNRANKED,
+    TypeRank.BRONZE,
+    TypeRank.SILVER,
+    TypeRank.GOLD,
+    TypeRank.RAMON_LLULL,
+]
+
+RANK_POINTS = {
+    TypeRank.UNRANKED: 0, #100 puntos para subir a bronce y consecutivamente
+    TypeRank.BRONZE: 100,
+    TypeRank.SILVER: 200,
+    TypeRank.GOLD: 500,
+    TypeRank.RAMON_LLULL: 1000,  # Último rango, no sube más
 }
 
 class TypeRating(models.TextChoices):
