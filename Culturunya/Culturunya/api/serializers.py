@@ -20,8 +20,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
             'language',
             'rank_event',
             'rank_quiz',
-            'current_event_points',
-            'current_quiz_points',
             'total_event_points',
             'total_quiz_points',
             'banned_from_comments',

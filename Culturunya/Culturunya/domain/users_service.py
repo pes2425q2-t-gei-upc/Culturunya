@@ -10,7 +10,8 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 
 from api.serializers import ReportResolutionSerializer, ReportSerializer
-from persistence.models import Event, PersonalCalendar, Rating, Message, Report, TypeRank
+from persistence.models import Event, PersonalCalendar, Rating, Message, Report, \
+    RANK_ORDER, RANK_POINTS
 
 
 def get_all_events():
@@ -186,6 +187,30 @@ def create_resolved_report(data, user, report_id):
         return {"message": "Report resuelto correctamente"}, 200
 
     return {"error": serializer.errors}, 400
+
+def update_rank_from_adding_points(rank, points):
+    current_rank_index = RANK_ORDER.index(rank)
+    established = False
+    while current_rank_index < len(RANK_ORDER)-1 and not established:
+        next_rank = RANK_ORDER[current_rank_index+1]
+        if points >= RANK_POINTS[next_rank]:
+            rank = next_rank
+            current_rank_index += 1
+        else:
+            established = True
+    return rank
+
+def update_rank_from_decreasing_points(rank, points):
+    current_rank_index = RANK_ORDER.index(rank)
+    established = False
+    while current_rank_index > 0 and not established:
+        if points < RANK_POINTS[rank]:
+            rank = RANK_ORDER[current_rank_index-1]
+            current_rank_index -= 1
+        else:
+            established = True
+    return rank
+
 
 def get_events_ranking_leaderboard():
     best_users = User.objects.order_by("-total_event_points")
