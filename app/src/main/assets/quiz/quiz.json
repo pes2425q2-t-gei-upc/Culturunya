@@ -1,0 +1,4608 @@
+[
+  {
+    "id": 1,
+    "question_es": "¿Cuánto cuesta asistir al evento “Els Bons”?",
+    "question_en": "How much does it cost to attend the event “Els Bons”?",
+    "image": null,
+    "options": [
+      "10.00 euros",
+      "25.00 euros",
+      "8.00 euros",
+      "27.00 euros"
+    ],
+    "correct_answer": "25.00 euros",
+    "points": 4
+  },
+  {
+    "id": 2,
+    "question_es": "¿En qué fecha tiene lugar el evento “L’Emperador de Beethoven”?",
+    "question_en": "On what date does the event “L’Emperador de Beethoven” take place?",
+    "image": null,
+    "options": [
+      "24/05/2025",
+      "13/07/2025",
+      "18/05/2025",
+      "25/04/2025"
+    ],
+    "correct_answer": "18/05/2025",
+    "points": 8
+  },
+  {
+    "id": 3,
+    "question_es": "¿Cuál es la dirección del evento “Una mena d'Alaska”?",
+    "question_en": "What is the address of the event “Una mena d'Alaska”?",
+    "image": null,
+    "options": [
+      "Pg. de Santa Madrona, 40-46",
+      "Pl. Montserrat Canals, s/n",
+      "C. Plataneda, s/n",
+      "C. del Riu Ter, 29"
+    ],
+    "correct_answer": "Pg. de Santa Madrona, 40-46",
+    "points": 10
+  },
+  {
+    "id": 4,
+    "question_es": "¿En qué ciudad se celebra el evento “Celtas Cortos”?",
+    "question_en": "In which city is the event “Celtas Cortos” held?",
+    "image": null,
+    "options": [
+      "Barcelona",
+      "Orrius",
+      "Botarell",
+      "Sant joan despi"
+    ],
+    "correct_answer": "Barcelona",
+    "points": 3
+  },
+  {
+    "id": 5,
+    "question_es": "¿Cuál es la dirección del evento “Rita”?",
+    "question_en": "What is the address of the event “Rita”?",
+    "image": null,
+    "options": [
+      "C. dels Pirineus, 10",
+      "C. de Santa Teresa, 9",
+      "Av. del Rei En Jaume, 118",
+      "Av. de Francesc Ferrer i Guàrdia, 13"
+    ],
+    "correct_answer": "C. de Santa Teresa, 9",
+    "points": 10
+  },
+  {
+    "id": 6,
+    "question_es": "¿En qué fecha tiene lugar el evento “Tip TAP Top”?",
+    "question_en": "On what date does the event “Tip TAP Top” take place?",
+    "image": null,
+    "options": [
+      "11/05/2025",
+      "05/07/2025",
+      "08/05/2025",
+      "09/05/2025"
+    ],
+    "correct_answer": "11/05/2025",
+    "points": 8
+  },
+  {
+    "id": 7,
+    "question_es": "¿En qué ciudad se celebra el evento “Olivier Messiaen: ‘Catalogue d’oiseaux’”?",
+    "question_en": "In which city is the event “Olivier Messiaen: ‘Catalogue d’oiseaux’” held?",
+    "image": null,
+    "options": [
+      "Barcelona",
+      "Ullastrell",
+      "Sitges",
+      "Rubi"
+    ],
+    "correct_answer": "Barcelona",
+    "points": 3
+  },
+  {
+    "id": 8,
+    "question_es": "¿Cuánto cuesta asistir al evento “Èric Vinaixa”?",
+    "question_en": "How much does it cost to attend the event “Èric Vinaixa”?",
+    "image": null,
+    "options": [
+      "10.00 euros",
+      "36.00 euros",
+      "5.00 euros",
+      "18.40 euros"
+    ],
+    "correct_answer": "5.00 euros",
+    "points": 4
+  },
+  {
+    "id": 9,
+    "question_es": "¿En qué ciudad se celebra el evento “Madama Butterfly, de G. Puccini”?",
+    "question_en": "In which city is the event “Madama Butterfly, de G. Puccini” held?",
+    "image": null,
+    "options": [
+      "Cadaques",
+      "Barcelona",
+      "Esplugues de llobregat",
+      "Calella"
+    ],
+    "correct_answer": "Barcelona",
+    "points": 3
+  },
+  {
+    "id": 10,
+    "question_es": "¿Cuál es la dirección del evento “London Symphony Orchestra & Gustavo Dudamel”?",
+    "question_en": "What is the address of the event “London Symphony Orchestra & Gustavo Dudamel”?",
+    "image": null,
+    "options": [
+      "C. del Palau de la Música, 4-6",
+      "Avda. Salòria, 51-55",
+      "C. de Pere Aldavert, 4",
+      "C. Plataneda, s/n"
+    ],
+    "correct_answer": "C. del Palau de la Música, 4-6",
+    "points": 10
+  },
+  {
+    "id": 11,
+    "question_es": "¿Cuánto cuesta asistir al evento “Maragall a casa”?",
+    "question_en": "How much does it cost to attend the event “Maragall a casa”?",
+    "image": null,
+    "options": [
+      "19.00 euros",
+      "35.00 euros",
+      "15.00 euros",
+      "38.00 euros"
+    ],
+    "correct_answer": "15.00 euros",
+    "points": 4
+  },
+  {
+    "id": 12,
+    "question_es": "¿Cuál es la categoría principal del evento “Exposició \"L’elogi del dibuix\"”?",
+    "question_en": "What is the main category of the event “Exposició \"L’elogi del dibuix\"”?",
+    "image": null,
+    "options": [
+      "Tradicional i popular",
+      "Espectacles",
+      "Arts visuals",
+      "Musica"
+    ],
+    "correct_answer": "Arts visuals",
+    "points": 2
+  },
+  {
+    "id": 13,
+    "question_es": "¿Cuánto cuesta asistir al evento “Madama Butterfly, de G. Puccini”?",
+    "question_en": "How much does it cost to attend the event “Madama Butterfly, de G. Puccini”?",
+    "image": null,
+    "options": [
+      "16.00 euros",
+      "20.00 euros",
+      "6.00 euros",
+      "45.00 euros"
+    ],
+    "correct_answer": "20.00 euros",
+    "points": 4
+  },
+  {
+    "id": 14,
+    "question_es": "¿En qué fecha tiene lugar el evento “Alosa”?",
+    "question_en": "On what date does the event “Alosa” take place?",
+    "image": null,
+    "options": [
+      "25/04/2025",
+      "27/06/2025",
+      "11/05/2025",
+      "27/04/2025"
+    ],
+    "correct_answer": "11/05/2025",
+    "points": 8
+  },
+  {
+    "id": 15,
+    "question_es": "¿Cuál es la categoría principal del evento “El gegant del pi”?",
+    "question_en": "What is the main category of the event “El gegant del pi”?",
+    "image": null,
+    "options": [
+      "Espectacles",
+      "Divulgacio",
+      "Gastronomia",
+      "Tradicional i popular"
+    ],
+    "correct_answer": "Espectacles",
+    "points": 2
+  },
+  {
+    "id": 16,
+    "question_es": "¿En qué ciudad se celebra el evento “Conferència \"L’últim concert de Juli Garreta\"”?",
+    "question_en": "In which city is the event “Conferència \"L’últim concert de Juli Garreta\"” held?",
+    "image": null,
+    "options": [
+      "Barcelona",
+      "Bescano",
+      "Santa coloma de queralt",
+      "Roda de ter"
+    ],
+    "correct_answer": "Barcelona",
+    "points": 3
+  },
+  {
+    "id": 17,
+    "question_es": "¿Cuánto cuesta asistir al evento “Tinder Sorpresa”?",
+    "question_en": "How much does it cost to attend the event “Tinder Sorpresa”?",
+    "image": null,
+    "options": [
+      "12.00 euros",
+      "17.00 euros",
+      "15.00 euros",
+      "28.00 euros"
+    ],
+    "correct_answer": "17.00 euros",
+    "points": 4
+  },
+  {
+    "id": 18,
+    "question_es": "¿En qué ciudad se celebra el evento “Virtual Sadness”?",
+    "question_en": "In which city is the event “Virtual Sadness” held?",
+    "image": null,
+    "options": [
+      "L esquirol",
+      "Bescano",
+      "Arbeca",
+      "Igualada"
+    ],
+    "correct_answer": "L esquirol",
+    "points": 3
+  },
+  {
+    "id": 19,
+    "question_es": "¿En qué ciudad se celebra el evento “Fabiolo Connection”?",
+    "question_en": "In which city is the event “Fabiolo Connection” held?",
+    "image": null,
+    "options": [
+      "Calella",
+      "Arenys de mar",
+      "Barcelona",
+      "Sant joan despi"
+    ],
+    "correct_answer": "Barcelona",
+    "points": 3
+  },
+  {
+    "id": 20,
+    "question_es": "¿En qué fecha tiene lugar el evento “Arcadi Volodos”?",
+    "question_en": "On what date does the event “Arcadi Volodos” take place?",
+    "image": null,
+    "options": [
+      "30/07/2025",
+      "11/05/2025",
+      "11/12/2025",
+      "28/05/2025"
+    ],
+    "correct_answer": "28/05/2025",
+    "points": 8
+  },
+  {
+    "id": 21,
+    "question_es": "¿En qué ciudad se celebra el evento “Mamemi... Mozart!”?",
+    "question_en": "In which city is the event “Mamemi... Mozart!” held?",
+    "image": null,
+    "options": [
+      "Caldes d estrac",
+      "Vilassar de dalt",
+      "Sant hipolit de voltrega",
+      "Barcelona"
+    ],
+    "correct_answer": "Barcelona",
+    "points": 3
+  },
+  {
+    "id": 22,
+    "question_es": "¿En qué fecha tiene lugar el evento “Roba'm”?",
+    "question_en": "On what date does the event “Roba'm” take place?",
+    "image": null,
+    "options": [
+      "25/04/2025",
+      "30/04/2025",
+      "31/05/2025",
+      "21/05/2025"
+    ],
+    "correct_answer": "25/04/2025",
+    "points": 8
+  },
+  {
+    "id": 23,
+    "question_es": "¿Cuánto cuesta asistir al evento “llustres Ignorantes”?",
+    "question_en": "How much does it cost to attend the event “llustres Ignorantes”?",
+    "image": null,
+    "options": [
+      "33.00 euros",
+      "13.00 euros",
+      "19.00 euros",
+      "20.00 euros"
+    ],
+    "correct_answer": "20.00 euros",
+    "points": 4
+  },
+  {
+    "id": 24,
+    "question_es": "¿Cuál es la dirección del evento “Domino's Tour”?",
+    "question_en": "What is the address of the event “Domino's Tour”?",
+    "image": null,
+    "options": [
+      "Pl. de l'Estació, 4",
+      "C. Domènec Carles, 21",
+      "C. Major, 69",
+      "Pl. Onze de setembre"
+    ],
+    "correct_answer": "Pl. Onze de setembre",
+    "points": 10
+  },
+  {
+    "id": 25,
+    "question_es": "¿Cuánto cuesta asistir al evento “David Cepo”?",
+    "question_en": "How much does it cost to attend the event “David Cepo”?",
+    "image": null,
+    "options": [
+      "39.00 euros",
+      "7.00 euros",
+      "0.00 euros",
+      "27.00 euros"
+    ],
+    "correct_answer": "0.00 euros",
+    "points": 4
+  },
+  {
+    "id": 26,
+    "question_es": "¿En qué fecha tiene lugar el evento “Carmen de Bizet”?",
+    "question_en": "On what date does the event “Carmen de Bizet” take place?",
+    "image": null,
+    "options": [
+      "06/06/2025",
+      "26/04/2025",
+      "17/05/2025",
+      "03/08/2025"
+    ],
+    "correct_answer": "17/05/2025",
+    "points": 8
+  },
+  {
+    "id": 27,
+    "question_es": "¿Cuánto cuesta asistir al evento “Moltes mercès”?",
+    "question_en": "How much does it cost to attend the event “Moltes mercès”?",
+    "image": null,
+    "options": [
+      "49.50 euros",
+      "7.00 euros",
+      "12.50 euros",
+      "5.00 euros"
+    ],
+    "correct_answer": "7.00 euros",
+    "points": 4
+  },
+  {
+    "id": 28,
+    "question_es": "¿Cuál es la categoría principal del evento “Un menú tancat”?",
+    "question_en": "What is the main category of the event “Un menú tancat”?",
+    "image": null,
+    "options": [
+      "Espectacles",
+      "Divulgacio",
+      "Gastronomia",
+      "Tradicional i popular"
+    ],
+    "correct_answer": "Espectacles",
+    "points": 2
+  },
+  {
+    "id": 29,
+    "question_es": "¿Cuánto cuesta asistir al evento “El cau del Tabalet”?",
+    "question_en": "How much does it cost to attend the event “El cau del Tabalet”?",
+    "image": null,
+    "options": [
+      "3.00 euros",
+      "17.00 euros",
+      "7.00 euros",
+      "24.00 euros"
+    ],
+    "correct_answer": "3.00 euros",
+    "points": 4
+  },
+  {
+    "id": 30,
+    "question_es": "¿En qué fecha tiene lugar el evento “Edu Soto”?",
+    "question_en": "On what date does the event “Edu Soto” take place?",
+    "image": null,
+    "options": [
+      "08/08/2025",
+      "17/05/2025",
+      "31/05/2025",
+      "09/05/2025"
+    ],
+    "correct_answer": "17/05/2025",
+    "points": 8
+  },
+  {
+    "id": 31,
+    "question_es": "¿Cuánto cuesta asistir al evento “Freiburger Barockorchester & René Jacobs”?",
+    "question_en": "How much does it cost to attend the event “Freiburger Barockorchester & René Jacobs”?",
+    "image": null,
+    "options": [
+      "19.00 euros",
+      "45.00 euros",
+      "3.00 euros",
+      "28.00 euros"
+    ],
+    "correct_answer": "45.00 euros",
+    "points": 4
+  },
+  {
+    "id": 32,
+    "question_es": "¿Cuál es la dirección del evento “Ícaro”?",
+    "question_en": "What is the address of the event “Ícaro”?",
+    "image": null,
+    "options": [
+      "C. Bac de Roda, 1",
+      "Pl. Montserrat Canals, 1",
+      "C. de la Capella, 6",
+      "Carretera de Montblanc, 21"
+    ],
+    "correct_answer": "C. Bac de Roda, 1",
+    "points": 10
+  },
+  {
+    "id": 33,
+    "question_es": "¿En qué fecha tiene lugar el evento “Romain Garioud & Daniel Blanch”?",
+    "question_en": "On what date does the event “Romain Garioud & Daniel Blanch” take place?",
+    "image": null,
+    "options": [
+      "17/10/2025",
+      "03/06/2025",
+      "02/06/2025",
+      "27/06/2025"
+    ],
+    "correct_answer": "02/06/2025",
+    "points": 8
+  },
+  {
+    "id": 34,
+    "question_es": "¿En qué ciudad se celebra el evento “Tinder Sorpresa”?",
+    "question_en": "In which city is the event “Tinder Sorpresa” held?",
+    "image": null,
+    "options": [
+      "Barcelona",
+      "Riudoms",
+      "Sant hipolit de voltrega",
+      "Llinars del valles"
+    ],
+    "correct_answer": "Barcelona",
+    "points": 3
+  },
+  {
+    "id": 35,
+    "question_es": "¿En qué fecha tiene lugar el evento “Maig al Harlem Jazz Club”?",
+    "question_en": "On what date does the event “Maig al Harlem Jazz Club” take place?",
+    "image": null,
+    "options": [
+      "05/07/2025",
+      "01/05/2025",
+      "06/06/2025",
+      "11/05/2025"
+    ],
+    "correct_answer": "01/05/2025",
+    "points": 8
+  },
+  {
+    "id": 36,
+    "question_es": "¿Cuánto cuesta asistir al evento “David Navarro”?",
+    "question_en": "How much does it cost to attend the event “David Navarro”?",
+    "image": null,
+    "options": [
+      "3.00 euros",
+      "22.00 euros",
+      "17.00 euros",
+      "15.00 euros"
+    ],
+    "correct_answer": "15.00 euros",
+    "points": 4
+  },
+  {
+    "id": 37,
+    "question_es": "¿Cuál es la categoría principal del evento “El Tigre”?",
+    "question_en": "What is the main category of the event “El Tigre”?",
+    "image": null,
+    "options": [
+      "Espectacles",
+      "Arts visuals",
+      "Gastronomia",
+      "Llibres i lletres"
+    ],
+    "correct_answer": "Espectacles",
+    "points": 2
+  },
+  {
+    "id": 38,
+    "question_es": "¿En qué fecha tiene lugar el evento “Quico Pi de la Serra”?",
+    "question_en": "On what date does the event “Quico Pi de la Serra” take place?",
+    "image": null,
+    "options": [
+      "11/05/2025",
+      "04/05/2025",
+      "13/05/2025",
+      "03/05/2025"
+    ],
+    "correct_answer": "11/05/2025",
+    "points": 8
+  },
+  {
+    "id": 39,
+    "question_es": "¿Cuál es la dirección del evento “JOSB & Josep Caballé Domenech”?",
+    "question_en": "What is the address of the event “JOSB & Josep Caballé Domenech”?",
+    "image": null,
+    "options": [
+      "C. del Palau de la Música, 4-6",
+      "C. de Villarroel, 87",
+      "C. Major 83",
+      "Carretera de Montblanc, 21"
+    ],
+    "correct_answer": "C. del Palau de la Música, 4-6",
+    "points": 10
+  },
+  {
+    "id": 40,
+    "question_es": "¿Cuál es la categoría principal del evento “Tomeu Penya”?",
+    "question_en": "What is the main category of the event “Tomeu Penya”?",
+    "image": null,
+    "options": [
+      "Arts visuals",
+      "Gastronomia",
+      "Divulgacio",
+      "Musica"
+    ],
+    "correct_answer": "Musica",
+    "points": 2
+  },
+  {
+    "id": 41,
+    "question_es": "¿Cuál es la dirección del evento “Luis Zahera”?",
+    "question_en": "What is the address of the event “Luis Zahera”?",
+    "image": null,
+    "options": [
+      "Avda. de Catalunya, 78",
+      "C. de Villarroel, 87",
+      "Av. del Rei En Jaume, 118",
+      "Gran Via de les Corts Catalanes, 595"
+    ],
+    "correct_answer": "Gran Via de les Corts Catalanes, 595",
+    "points": 10
+  },
+  {
+    "id": 42,
+    "question_es": "¿Cuál es la categoría principal del evento “La traviata de Giuseppe Verdi”?",
+    "question_en": "What is the main category of the event “La traviata de Giuseppe Verdi”?",
+    "image": null,
+    "options": [
+      "Musica",
+      "Arts visuals",
+      "Gastronomia",
+      "Espectacles"
+    ],
+    "correct_answer": "Espectacles",
+    "points": 2
+  },
+  {
+    "id": 43,
+    "question_es": "¿Cuál es la dirección del evento “Exposició \"Tempo: moviment o pausa\"”?",
+    "question_en": "What is the address of the event “Exposició \"Tempo: moviment o pausa\"”?",
+    "image": null,
+    "options": [
+      "C. de Nàpols, 187",
+      "Rambla de Vallromanes, 65",
+      "C. del Doctor Trèmols, 1",
+      "Avda. Salòria, 51-55"
+    ],
+    "correct_answer": "C. del Doctor Trèmols, 1",
+    "points": 10
+  },
+  {
+    "id": 44,
+    "question_es": "¿Cuál es la dirección del evento “Muerta de amor”?",
+    "question_en": "What is the address of the event “Muerta de amor”?",
+    "image": null,
+    "options": [
+      "C. de l'Església, 45-47",
+      "Av. Diagonal, 547",
+      "C. de Lleida, 59",
+      "Rambla de Vallromanes, 65"
+    ],
+    "correct_answer": "C. de Lleida, 59",
+    "points": 10
+  },
+  {
+    "id": 45,
+    "question_es": "¿Cuál es la dirección del evento “Maig a la Sala Almo2bar”?",
+    "question_en": "What is the address of the event “Maig a la Sala Almo2bar”?",
+    "image": null,
+    "options": [
+      "C. del Pilar, 13",
+      "C. d'Alfons XII, 79",
+      "C. Montcada, 15-23",
+      "C. de Bruniquer, 59-61"
+    ],
+    "correct_answer": "C. de Bruniquer, 59-61",
+    "points": 10
+  },
+  {
+    "id": 46,
+    "question_es": "¿Cuál es la dirección del evento “Biològica”?",
+    "question_en": "What is the address of the event “Biològica”?",
+    "image": null,
+    "options": [
+      "Pl. del Teatre, 3",
+      "C. de Jaume Huguet, 10-12",
+      "C. de Sant Gervasi, 41",
+      "Rambla, 51-59"
+    ],
+    "correct_answer": "C. de Jaume Huguet, 10-12",
+    "points": 10
+  },
+  {
+    "id": 47,
+    "question_es": "¿En qué fecha tiene lugar el evento “Barcelona Guitar Trio & Dance”?",
+    "question_en": "On what date does the event “Barcelona Guitar Trio & Dance” take place?",
+    "image": null,
+    "options": [
+      "31/05/2025",
+      "08/08/2025",
+      "08/06/2025",
+      "10/10/2025"
+    ],
+    "correct_answer": "08/08/2025",
+    "points": 8
+  },
+  {
+    "id": 48,
+    "question_es": "¿En qué fecha tiene lugar el evento “El Tigre”?",
+    "question_en": "On what date does the event “El Tigre” take place?",
+    "image": null,
+    "options": [
+      "24/05/2025",
+      "01/08/2025",
+      "02/06/2025",
+      "22/05/2025"
+    ],
+    "correct_answer": "24/05/2025",
+    "points": 8
+  },
+  {
+    "id": 49,
+    "question_es": "¿Cuánto cuesta asistir al evento “Simfonia del Nou Món”?",
+    "question_en": "How much does it cost to attend the event “Simfonia del Nou Món”?",
+    "image": null,
+    "options": [
+      "9.00 euros",
+      "26.00 euros",
+      "18.00 euros",
+      "32.00 euros"
+    ],
+    "correct_answer": "32.00 euros",
+    "points": 4
+  },
+  {
+    "id": 50,
+    "question_es": "¿Cuál es la categoría principal del evento “Maig a la Sala Almo2bar”?",
+    "question_en": "What is the main category of the event “Maig a la Sala Almo2bar”?",
+    "image": null,
+    "options": [
+      "Gastronomia",
+      "Divulgacio",
+      "Musica",
+      "Espectacles"
+    ],
+    "correct_answer": "Musica",
+    "points": 2
+  },
+  {
+    "id": 51,
+    "question_es": "¿En qué fecha tiene lugar el evento “Festival Camp de Mart”?",
+    "question_en": "On what date does the event “Festival Camp de Mart” take place?",
+    "image": null,
+    "options": [
+      "20/06/2025",
+      "19/04/2025",
+      "04/05/2025",
+      "23/04/2025"
+    ],
+    "correct_answer": "20/06/2025",
+    "points": 8
+  },
+  {
+    "id": 52,
+    "question_es": "¿En qué ciudad se celebra el evento “Visita guiada al Museu Pau Casals”?",
+    "question_en": "In which city is the event “Visita guiada al Museu Pau Casals” held?",
+    "image": null,
+    "options": [
+      "Sant feliu de guixols",
+      "Vilassar de dalt",
+      "El vendrell",
+      "Santa eulalia de roncana"
+    ],
+    "correct_answer": "El vendrell",
+    "points": 3
+  },
+  {
+    "id": 53,
+    "question_es": "¿En qué fecha tiene lugar el evento “Orchestra dell’Accademia Nazionale di Santa Cecilia & Harding”?",
+    "question_en": "On what date does the event “Orchestra dell’Accademia Nazionale di Santa Cecilia & Harding” take place?",
+    "image": null,
+    "options": [
+      "14/07/2025",
+      "27/04/2025",
+      "05/05/2025",
+      "23/04/2025"
+    ],
+    "correct_answer": "05/05/2025",
+    "points": 8
+  },
+  {
+    "id": 54,
+    "question_es": "¿Cuál es la dirección del evento “Manuel Carrasco”?",
+    "question_en": "What is the address of the event “Manuel Carrasco”?",
+    "image": null,
+    "options": [
+      "Passeig Olímpic, 5-7",
+      "C. Sant Domènec, 7",
+      "Pl. de Catalunya, 6",
+      "Pl. Nova s/n"
+    ],
+    "correct_answer": "Passeig Olímpic, 5-7",
+    "points": 10
+  },
+  {
+    "id": 55,
+    "question_es": "¿En qué fecha tiene lugar el evento “David Cepo”?",
+    "question_en": "On what date does the event “David Cepo” take place?",
+    "image": null,
+    "options": [
+      "17/05/2025",
+      "20/04/2025",
+      "25/05/2025",
+      "08/05/2025"
+    ],
+    "correct_answer": "25/05/2025",
+    "points": 8
+  },
+  {
+    "id": 56,
+    "question_es": "¿En qué fecha tiene lugar el evento “JOSB & Josep Caballé Domenech”?",
+    "question_en": "On what date does the event “JOSB & Josep Caballé Domenech” take place?",
+    "image": null,
+    "options": [
+      "09/07/2025",
+      "11/05/2025",
+      "04/05/2025",
+      "14/06/2025"
+    ],
+    "correct_answer": "04/05/2025",
+    "points": 8
+  },
+  {
+    "id": 57,
+    "question_es": "¿Cuál es la dirección del evento “No me toques el cuento”?",
+    "question_en": "What is the address of the event “No me toques el cuento”?",
+    "image": null,
+    "options": [
+      "La Rambla, 115 (Rambla dels Estudis)",
+      "C. Ullà, 31",
+      "C/ de Saragossa, 27",
+      "C. del Pilar, 13"
+    ],
+    "correct_answer": "La Rambla, 115 (Rambla dels Estudis)",
+    "points": 10
+  },
+  {
+    "id": 58,
+    "question_es": "¿Cuánto cuesta asistir al evento “El gegant del Pi”?",
+    "question_en": "How much does it cost to attend the event “El gegant del Pi”?",
+    "image": null,
+    "options": [
+      "15.00 euros",
+      "9.00 euros",
+      "23.00 euros",
+      "8.00 euros"
+    ],
+    "correct_answer": "8.00 euros",
+    "points": 4
+  },
+  {
+    "id": 59,
+    "question_es": "¿En qué fecha tiene lugar el evento “Cor Jove de l’Orfeó Català & Orquestra Filharmònica de la Universitat de València”?",
+    "question_en": "On what date does the event “Cor Jove de l’Orfeó Català & Orquestra Filharmònica de la Universitat de València” take place?",
+    "image": null,
+    "options": [
+      "28/04/2025",
+      "08/05/2025",
+      "24/05/2025",
+      "26/04/2025"
+    ],
+    "correct_answer": "24/05/2025",
+    "points": 8
+  },
+  {
+    "id": 60,
+    "question_es": "¿Cuál es la categoría principal del evento “Vibra”?",
+    "question_en": "What is the main category of the event “Vibra”?",
+    "image": null,
+    "options": [
+      "Tradicional i popular",
+      "Divulgacio",
+      "Llibres i lletres",
+      "Musica"
+    ],
+    "correct_answer": "Divulgacio",
+    "points": 2
+  },
+  {
+    "id": 61,
+    "question_es": "¿Cuánto cuesta asistir al evento “Barcelona Guitar Trio & Dance”?",
+    "question_en": "How much does it cost to attend the event “Barcelona Guitar Trio & Dance”?",
+    "image": null,
+    "options": [
+      "39.00 euros",
+      "8.00 euros",
+      "610.00 euros",
+      "20.37 euros"
+    ],
+    "correct_answer": "39.00 euros",
+    "points": 4
+  },
+  {
+    "id": 62,
+    "question_es": "¿En qué fecha tiene lugar el evento “Mamemi... Mozart!”?",
+    "question_en": "On what date does the event “Mamemi... Mozart!” take place?",
+    "image": null,
+    "options": [
+      "31/05/2025",
+      "02/06/2025",
+      "16/05/2025",
+      "03/08/2025"
+    ],
+    "correct_answer": "31/05/2025",
+    "points": 8
+  },
+  {
+    "id": 63,
+    "question_es": "¿En qué fecha tiene lugar el evento “Maragall a casa”?",
+    "question_en": "On what date does the event “Maragall a casa” take place?",
+    "image": null,
+    "options": [
+      "29/04/2025",
+      "02/06/2025",
+      "01/05/2025",
+      "23/04/2025"
+    ],
+    "correct_answer": "02/06/2025",
+    "points": 8
+  },
+  {
+    "id": 64,
+    "question_es": "¿Cuál es la dirección del evento “Raquel Lua”?",
+    "question_en": "What is the address of the event “Raquel Lua”?",
+    "image": null,
+    "options": [
+      "Pl. d'Urquinaona, 9",
+      "C. de Bruniquer, 59-61",
+      "C. Major, 10",
+      "Pl. del Teatre, 3"
+    ],
+    "correct_answer": "Pl. del Teatre, 3",
+    "points": 10
+  },
+  {
+    "id": 65,
+    "question_es": "¿En qué ciudad se celebra el evento “Quim Mandado en concert”?",
+    "question_en": "In which city is the event “Quim Mandado en concert” held?",
+    "image": null,
+    "options": [
+      "Reus",
+      "Parets del valles",
+      "Valls",
+      "Capellades"
+    ],
+    "correct_answer": "Reus",
+    "points": 3
+  },
+  {
+    "id": 66,
+    "question_es": "¿En qué ciudad se celebra el evento “This is Michael”?",
+    "question_en": "In which city is the event “This is Michael” held?",
+    "image": null,
+    "options": [
+      "Orrius",
+      "Barcelona",
+      "Banyoles",
+      "Girona"
+    ],
+    "correct_answer": "Barcelona",
+    "points": 3
+  },
+  {
+    "id": 67,
+    "question_es": "¿Cuánto cuesta asistir al evento “Sarsuela “Grans Èxits””?",
+    "question_en": "How much does it cost to attend the event “Sarsuela “Grans Èxits””?",
+    "image": null,
+    "options": [
+      "16.00 euros",
+      "11.30 euros",
+      "24.00 euros",
+      "39.00 euros"
+    ],
+    "correct_answer": "24.00 euros",
+    "points": 4
+  },
+  {
+    "id": 68,
+    "question_es": "¿En qué fecha tiene lugar el evento “David Navarro”?",
+    "question_en": "On what date does the event “David Navarro” take place?",
+    "image": null,
+    "options": [
+      "18/05/2025",
+      "16/05/2025",
+      "03/05/2025",
+      "26/04/2025"
+    ],
+    "correct_answer": "03/05/2025",
+    "points": 8
+  },
+  {
+    "id": 69,
+    "question_es": "¿En qué fecha tiene lugar el evento “El clam del buit”?",
+    "question_en": "On what date does the event “El clam del buit” take place?",
+    "image": null,
+    "options": [
+      "17/05/2025",
+      "25/04/2025",
+      "08/05/2025",
+      "23/04/2025"
+    ],
+    "correct_answer": "08/05/2025",
+    "points": 8
+  },
+  {
+    "id": 70,
+    "question_es": "¿Cuánto cuesta asistir al evento “Els Miserables”?",
+    "question_en": "How much does it cost to attend the event “Els Miserables”?",
+    "image": null,
+    "options": [
+      "20.37 euros",
+      "32.00 euros",
+      "10.00 euros",
+      "34.00 euros"
+    ],
+    "correct_answer": "10.00 euros",
+    "points": 4
+  },
+  {
+    "id": 71,
+    "question_es": "¿En qué ciudad se celebra el evento “Cor Jove de l’Orfeó Català & Orquestra Filharmònica de la Universitat de València”?",
+    "question_en": "In which city is the event “Cor Jove de l’Orfeó Català & Orquestra Filharmònica de la Universitat de València” held?",
+    "image": null,
+    "options": [
+      "Montcada i reixac",
+      "Montmelo",
+      "Llado",
+      "Barcelona"
+    ],
+    "correct_answer": "Barcelona",
+    "points": 3
+  },
+  {
+    "id": 72,
+    "question_es": "¿Cuánto cuesta asistir al evento “Jethro Tull”?",
+    "question_en": "How much does it cost to attend the event “Jethro Tull”?",
+    "image": null,
+    "options": [
+      "11.30 euros",
+      "16.00 euros",
+      "32.00 euros",
+      "24.00 euros"
+    ],
+    "correct_answer": "24.00 euros",
+    "points": 4
+  },
+  {
+    "id": 73,
+    "question_es": "¿Cuánto cuesta asistir al evento “Exposició \"Com dissenyar una revolució: La via xilena al disseny\"”?",
+    "question_en": "How much does it cost to attend the event “Exposició \"Com dissenyar una revolució: La via xilena al disseny\"”?",
+    "image": null,
+    "options": [
+      "24.00 euros",
+      "6.20 euros",
+      "21.30 euros",
+      "21.60 euros"
+    ],
+    "correct_answer": "6.20 euros",
+    "points": 4
+  },
+  {
+    "id": 74,
+    "question_es": "¿Cuánto cuesta asistir al evento “Mireia Tarragó & Victoria Guerrero”?",
+    "question_en": "How much does it cost to attend the event “Mireia Tarragó & Victoria Guerrero”?",
+    "image": null,
+    "options": [
+      "15.00 euros",
+      "33.00 euros",
+      "5.00 euros",
+      "6.00 euros"
+    ],
+    "correct_answer": "15.00 euros",
+    "points": 4
+  },
+  {
+    "id": 75,
+    "question_es": "¿Cuánto cuesta asistir al evento “Candlelight: Tribut a Queen”?",
+    "question_en": "How much does it cost to attend the event “Candlelight: Tribut a Queen”?",
+    "image": null,
+    "options": [
+      "20.37 euros",
+      "23.00 euros",
+      "9.00 euros",
+      "19.00 euros"
+    ],
+    "correct_answer": "19.00 euros",
+    "points": 4
+  },
+  {
+    "id": 76,
+    "question_es": "¿Cuál es la categoría principal del evento “West Side Story”?",
+    "question_en": "What is the main category of the event “West Side Story”?",
+    "image": null,
+    "options": [
+      "Tradicional i popular",
+      "Espectacles",
+      "Llibres i lletres",
+      "Musica"
+    ],
+    "correct_answer": "Musica",
+    "points": 2
+  },
+  {
+    "id": 77,
+    "question_es": "¿Cuál es la categoría principal del evento “Exposició \"Tempo: moviment o pausa\"”?",
+    "question_en": "What is the main category of the event “Exposició \"Tempo: moviment o pausa\"”?",
+    "image": null,
+    "options": [
+      "Llibres i lletres",
+      "Arts visuals",
+      "Gastronomia",
+      "Divulgacio"
+    ],
+    "correct_answer": "Arts visuals",
+    "points": 2
+  },
+  {
+    "id": 78,
+    "question_es": "¿Cuánto cuesta asistir al evento “L'hora de l'estrella, de Clarice Lispector”?",
+    "question_en": "How much does it cost to attend the event “L'hora de l'estrella, de Clarice Lispector”?",
+    "image": null,
+    "options": [
+      "11.00 euros",
+      "5.00 euros",
+      "39.00 euros",
+      "12.00 euros"
+    ],
+    "correct_answer": "5.00 euros",
+    "points": 4
+  },
+  {
+    "id": 79,
+    "question_es": "¿En qué ciudad se celebra el evento “Exposició \"Tempo: moviment o pausa\"”?",
+    "question_en": "In which city is the event “Exposició \"Tempo: moviment o pausa\"” held?",
+    "image": null,
+    "options": [
+      "Cadaques",
+      "Riudoms",
+      "Vilablareix",
+      "Vilassar de mar"
+    ],
+    "correct_answer": "Cadaques",
+    "points": 3
+  },
+  {
+    "id": 80,
+    "question_es": "¿Cuál es la dirección del evento “Al Sol d'Hivern”?",
+    "question_en": "What is the address of the event “Al Sol d'Hivern”?",
+    "image": null,
+    "options": [
+      "C. Sant Miquel, 5",
+      "C. Dr. Zamenhoff, 38",
+      "C. Sant Domènec, 7",
+      "C. de Ponent"
+    ],
+    "correct_answer": "C. Dr. Zamenhoff, 38",
+    "points": 10
+  },
+  {
+    "id": 81,
+    "question_es": "¿Cuál es la categoría principal del evento “Cobla Maricel”?",
+    "question_en": "What is the main category of the event “Cobla Maricel”?",
+    "image": null,
+    "options": [
+      "Llibres i lletres",
+      "Musica",
+      "Tradicional i popular",
+      "Arts visuals"
+    ],
+    "correct_answer": "Musica",
+    "points": 2
+  },
+  {
+    "id": 82,
+    "question_es": "¿En qué ciudad se celebra el evento “Barcelona Guitar Trio & Dance”?",
+    "question_en": "In which city is the event “Barcelona Guitar Trio & Dance” held?",
+    "image": null,
+    "options": [
+      "Porqueres",
+      "Barcelona",
+      "Martorell",
+      "Suria"
+    ],
+    "correct_answer": "Barcelona",
+    "points": 3
+  },
+  {
+    "id": 83,
+    "question_es": "¿Cuánto cuesta asistir al evento “Love Child”?",
+    "question_en": "How much does it cost to attend the event “Love Child”?",
+    "image": null,
+    "options": [
+      "15.00 euros",
+      "610.00 euros",
+      "35.00 euros",
+      "5.00 euros"
+    ],
+    "correct_answer": "15.00 euros",
+    "points": 4
+  },
+  {
+    "id": 84,
+    "question_es": "¿Cuál es la categoría principal del evento “Ya me has tocado el cuento”?",
+    "question_en": "What is the main category of the event “Ya me has tocado el cuento”?",
+    "image": null,
+    "options": [
+      "Arts visuals",
+      "Espectacles",
+      "Tradicional i popular",
+      "Gastronomia"
+    ],
+    "correct_answer": "Espectacles",
+    "points": 2
+  },
+  {
+    "id": 85,
+    "question_es": "¿En qué fecha tiene lugar el evento “Patricia Galván”?",
+    "question_en": "On what date does the event “Patricia Galván” take place?",
+    "image": null,
+    "options": [
+      "13/05/2025",
+      "01/07/2025",
+      "04/05/2025",
+      "10/05/2025"
+    ],
+    "correct_answer": "10/05/2025",
+    "points": 8
+  },
+  {
+    "id": 86,
+    "question_es": "¿Cuál es la categoría principal del evento “Patricia Kopatchinskaja & friends”?",
+    "question_en": "What is the main category of the event “Patricia Kopatchinskaja & friends”?",
+    "image": null,
+    "options": [
+      "Divulgacio",
+      "Tradicional i popular",
+      "Musica",
+      "Espectacles"
+    ],
+    "correct_answer": "Musica",
+    "points": 2
+  },
+  {
+    "id": 87,
+    "question_es": "¿En qué ciudad se celebra el evento “Twinkle, twinkle, Baby’s star”?",
+    "question_en": "In which city is the event “Twinkle, twinkle, Baby’s star” held?",
+    "image": null,
+    "options": [
+      "Sant esteve de palautordera",
+      "Llinars del valles",
+      "Centelles",
+      "Barcelona"
+    ],
+    "correct_answer": "Barcelona",
+    "points": 3
+  },
+  {
+    "id": 88,
+    "question_es": "¿En qué ciudad se celebra el evento “Gloses de l’art”?",
+    "question_en": "In which city is the event “Gloses de l’art” held?",
+    "image": null,
+    "options": [
+      "Botarell",
+      "Llinars del valles",
+      "Barcelona",
+      "Calldetenes"
+    ],
+    "correct_answer": "Barcelona",
+    "points": 3
+  },
+  {
+    "id": 89,
+    "question_es": "¿En qué fecha tiene lugar el evento “Tinder Sorpresa”?",
+    "question_en": "On what date does the event “Tinder Sorpresa” take place?",
+    "image": null,
+    "options": [
+      "09/05/2025",
+      "01/05/2025",
+      "06/06/2025",
+      "09/05/2025"
+    ],
+    "correct_answer": "06/06/2025",
+    "points": 8
+  },
+  {
+    "id": 90,
+    "question_es": "¿Cuál es la categoría principal del evento “Carmen, de G. Bizet”?",
+    "question_en": "What is the main category of the event “Carmen, de G. Bizet”?",
+    "image": null,
+    "options": [
+      "Divulgacio",
+      "Musica",
+      "Llibres i lletres",
+      "Espectacles"
+    ],
+    "correct_answer": "Espectacles",
+    "points": 2
+  },
+  {
+    "id": 91,
+    "question_es": "¿En qué ciudad se celebra el evento “Exposició \"L'art de navegar. Com perdre's en un món d'imatges\"”?",
+    "question_en": "In which city is the event “Exposició \"L'art de navegar. Com perdre's en un món d'imatges\"” held?",
+    "image": null,
+    "options": [
+      "Santa susanna",
+      "Lleida",
+      "Cambrils",
+      "Barcelona"
+    ],
+    "correct_answer": "Barcelona",
+    "points": 3
+  },
+  {
+    "id": 92,
+    "question_es": "¿Cuál es la dirección del evento “Trio Fortuny”?",
+    "question_en": "What is the address of the event “Trio Fortuny”?",
+    "image": null,
+    "options": [
+      "C. Sant Jaume, 2",
+      "C. del Palau de la Música, 4-6",
+      "C. d'Àngel Guimerà, 38",
+      "C. Sant Miquel, 5"
+    ],
+    "correct_answer": "C. del Palau de la Música, 4-6",
+    "points": 10
+  },
+  {
+    "id": 93,
+    "question_es": "¿Cuánto cuesta asistir al evento “Faixedas i punt”?",
+    "question_en": "How much does it cost to attend the event “Faixedas i punt”?",
+    "image": null,
+    "options": [
+      "21.00 euros",
+      "39.00 euros",
+      "6.20 euros",
+      "5.00 euros"
+    ],
+    "correct_answer": "5.00 euros",
+    "points": 4
+  },
+  {
+    "id": 94,
+    "question_es": "¿Cuál es la dirección del evento “Ákri”?",
+    "question_en": "What is the address of the event “Ákri”?",
+    "image": null,
+    "options": [
+      "C. d'Anselm Calvé, 5",
+      "C. Ample, 26",
+      "Rambla de Vallromanes, 65",
+      "C. Major, 10"
+    ],
+    "correct_answer": "Rambla de Vallromanes, 65",
+    "points": 10
+  },
+  {
+    "id": 95,
+    "question_es": "¿Cuál es la categoría principal del evento “Exposició \"Miguel Milá. Dissenyador (pre)industrial\"”?",
+    "question_en": "What is the main category of the event “Exposició \"Miguel Milá. Dissenyador (pre)industrial\"”?",
+    "image": null,
+    "options": [
+      "Llibres i lletres",
+      "Arts visuals",
+      "Tradicional i popular",
+      "Musica"
+    ],
+    "correct_answer": "Arts visuals",
+    "points": 2
+  },
+  {
+    "id": 96,
+    "question_es": "¿Cuánto cuesta asistir al evento “Les aventures del lleó vergonyós”?",
+    "question_en": "How much does it cost to attend the event “Les aventures del lleó vergonyós”?",
+    "image": null,
+    "options": [
+      "23.00 euros",
+      "7.00 euros",
+      "3.00 euros",
+      "14.00 euros"
+    ],
+    "correct_answer": "14.00 euros",
+    "points": 4
+  },
+  {
+    "id": 97,
+    "question_es": "¿En qué ciudad se celebra el evento “Pablo Ibarburu”?",
+    "question_en": "In which city is the event “Pablo Ibarburu” held?",
+    "image": null,
+    "options": [
+      "Barcelona",
+      "Calldetenes",
+      "Badalona",
+      "Salt"
+    ],
+    "correct_answer": "Barcelona",
+    "points": 3
+  },
+  {
+    "id": 98,
+    "question_es": "¿En qué fecha tiene lugar el evento “Les mans”?",
+    "question_en": "On what date does the event “Les mans” take place?",
+    "image": null,
+    "options": [
+      "01/05/2025",
+      "17/05/2025",
+      "24/05/2025",
+      "31/05/2025"
+    ],
+    "correct_answer": "31/05/2025",
+    "points": 8
+  },
+  {
+    "id": 99,
+    "question_es": "¿Cuál es la dirección del evento “El joc de la veritat”?",
+    "question_en": "What is the address of the event “El joc de la veritat”?",
+    "image": null,
+    "options": [
+      "Pl. del Mercat, s/n",
+      "C. Major, 10",
+      "Pl. de l’Església, 17",
+      "Pl. de la Generalitat"
+    ],
+    "correct_answer": "Pl. de la Generalitat",
+    "points": 10
+  },
+  {
+    "id": 100,
+    "question_es": "¿Cuál es la dirección del evento “Tunti-Tapau”?",
+    "question_en": "What is the address of the event “Tunti-Tapau”?",
+    "image": null,
+    "options": [
+      "Av. de Pere Baurier, s/n",
+      "C. Maragall, 17",
+      "C. Major, 69",
+      "C. de l'Església, 45-47"
+    ],
+    "correct_answer": "C. Major, 69",
+    "points": 10
+  },
+  {
+    "id": 101,
+    "question_es": "¿Cuál es la categoría principal del evento “Hipstory”?",
+    "question_en": "What is the main category of the event “Hipstory”?",
+    "image": null,
+    "options": [
+      "Tradicional i popular",
+      "Musica",
+      "Divulgacio",
+      "Espectacles"
+    ],
+    "correct_answer": "Espectacles",
+    "points": 2
+  },
+  {
+    "id": 102,
+    "question_es": "¿Cuál es la categoría principal del evento “NODI: de gossos i malditos”?",
+    "question_en": "What is the main category of the event “NODI: de gossos i malditos”?",
+    "image": null,
+    "options": [
+      "Espectacles",
+      "Llibres i lletres",
+      "Tradicional i popular",
+      "Arts visuals"
+    ],
+    "correct_answer": "Espectacles",
+    "points": 2
+  },
+  {
+    "id": 103,
+    "question_es": "¿Cuál es la dirección del evento “L'hora de l'estrella, de Clarice Lispector”?",
+    "question_en": "What is the address of the event “L'hora de l'estrella, de Clarice Lispector”?",
+    "image": null,
+    "options": [
+      "C. de Sant Pau, 9",
+      "C. de Salvà, 86",
+      "C. Ferrer i Busquets, 90",
+      "Av. del Paral·lel, 57-59"
+    ],
+    "correct_answer": "C. de Salvà, 86",
+    "points": 10
+  },
+  {
+    "id": 104,
+    "question_es": "¿Cuál es la categoría principal del evento “Yo sobreviví a la EGB”?",
+    "question_en": "What is the main category of the event “Yo sobreviví a la EGB”?",
+    "image": null,
+    "options": [
+      "Musica",
+      "Divulgacio",
+      "Llibres i lletres",
+      "Espectacles"
+    ],
+    "correct_answer": "Espectacles",
+    "points": 2
+  },
+  {
+    "id": 105,
+    "question_es": "¿Cuál es la dirección del evento “La Música”?",
+    "question_en": "What is the address of the event “La Música”?",
+    "image": null,
+    "options": [
+      "Pl. d'Urquinaona, 9",
+      "C. Ferrer i Busquets, 90",
+      "C. del Batlle Serrallonga, 1",
+      "Ronda de Sant Antoni de Vilamajor 19"
+    ],
+    "correct_answer": "Pl. d'Urquinaona, 9",
+    "points": 10
+  },
+  {
+    "id": 106,
+    "question_es": "¿Cuál es la dirección del evento “David Navarro”?",
+    "question_en": "What is the address of the event “David Navarro”?",
+    "image": null,
+    "options": [
+      "Plaça dels Àngels, 1",
+      "C. de Sant Josep, 35",
+      "Ctra. de Manresa, 52",
+      "Pl. d'Urquinaona, 9"
+    ],
+    "correct_answer": "Pl. d'Urquinaona, 9",
+    "points": 10
+  },
+  {
+    "id": 107,
+    "question_es": "¿En qué fecha tiene lugar el evento “Exposicio \"La temptació de la modernitat\"”?",
+    "question_en": "On what date does the event “Exposicio \"La temptació de la modernitat\"” take place?",
+    "image": null,
+    "options": [
+      "24/04/2025",
+      "06/06/2025",
+      "20/06/2025",
+      "15/06/2025"
+    ],
+    "correct_answer": "06/06/2025",
+    "points": 8
+  },
+  {
+    "id": 108,
+    "question_es": "¿Cuánto cuesta asistir al evento “Florian Störtz & Aleksandra Myslek”?",
+    "question_en": "How much does it cost to attend the event “Florian Störtz & Aleksandra Myslek”?",
+    "image": null,
+    "options": [
+      "25.00 euros",
+      "15.00 euros",
+      "11.00 euros",
+      "17.00 euros"
+    ],
+    "correct_answer": "15.00 euros",
+    "points": 4
+  },
+  {
+    "id": 109,
+    "question_es": "¿Cuál es la dirección del evento “Cicle de concerts Sala del Mar”?",
+    "question_en": "What is the address of the event “Cicle de concerts Sala del Mar”?",
+    "image": null,
+    "options": [
+      "Vial de Ronda, s/n",
+      "C. Plataneda, s/n",
+      "C. d'Anselm Calvé, 5",
+      "Pg. Miramar 132 - 136"
+    ],
+    "correct_answer": "Pg. Miramar 132 - 136",
+    "points": 10
+  },
+  {
+    "id": 110,
+    "question_es": "¿En qué ciudad se celebra el evento “Jethro Tull”?",
+    "question_en": "In which city is the event “Jethro Tull” held?",
+    "image": null,
+    "options": [
+      "Alcanar",
+      "Suria",
+      "Barcelona",
+      "Calella"
+    ],
+    "correct_answer": "Barcelona",
+    "points": 3
+  },
+  {
+    "id": 111,
+    "question_es": "¿Cuánto cuesta asistir al evento “Alba Careta Group”?",
+    "question_en": "How much does it cost to attend the event “Alba Careta Group”?",
+    "image": null,
+    "options": [
+      "28.00 euros",
+      "34.00 euros",
+      "0.00 euros",
+      "15.00 euros"
+    ],
+    "correct_answer": "15.00 euros",
+    "points": 4
+  },
+  {
+    "id": 112,
+    "question_es": "¿Cuál es la categoría principal del evento “Shéhérazade de Rimski-Kórsakov”?",
+    "question_en": "What is the main category of the event “Shéhérazade de Rimski-Kórsakov”?",
+    "image": null,
+    "options": [
+      "Musica",
+      "Tradicional i popular",
+      "Arts visuals",
+      "Divulgacio"
+    ],
+    "correct_answer": "Musica",
+    "points": 2
+  },
+  {
+    "id": 113,
+    "question_es": "¿En qué fecha tiene lugar el evento “Cor Mitjans & Cor Petits”?",
+    "question_en": "On what date does the event “Cor Mitjans & Cor Petits” take place?",
+    "image": null,
+    "options": [
+      "17/05/2025",
+      "31/05/2025",
+      "11/05/2025",
+      "04/05/2025"
+    ],
+    "correct_answer": "11/05/2025",
+    "points": 8
+  },
+  {
+    "id": 114,
+    "question_es": "¿Cuál es la categoría principal del evento “Rita”?",
+    "question_en": "What is the main category of the event “Rita”?",
+    "image": null,
+    "options": [
+      "Gastronomia",
+      "Musica",
+      "Espectacles",
+      "Tradicional i popular"
+    ],
+    "correct_answer": "Espectacles",
+    "points": 2
+  },
+  {
+    "id": 115,
+    "question_es": "¿En qué ciudad se celebra el evento “¡Hola caracola!”?",
+    "question_en": "In which city is the event “¡Hola caracola!” held?",
+    "image": null,
+    "options": [
+      "Castellar del valles",
+      "Sant hipolit de voltrega",
+      "Bigues i riells",
+      "Barcelona"
+    ],
+    "correct_answer": "Barcelona",
+    "points": 3
+  },
+  {
+    "id": 116,
+    "question_es": "¿Cuál es la categoría principal del evento “Cicle de concerts \"El so de Pau Casals\"”?",
+    "question_en": "What is the main category of the event “Cicle de concerts \"El so de Pau Casals\"”?",
+    "image": null,
+    "options": [
+      "Musica",
+      "Divulgacio",
+      "Tradicional i popular",
+      "Gastronomia"
+    ],
+    "correct_answer": "Musica",
+    "points": 2
+  },
+  {
+    "id": 117,
+    "question_es": "¿Cuál es la dirección del evento “David Cepo”?",
+    "question_en": "What is the address of the event “David Cepo”?",
+    "image": null,
+    "options": [
+      "Pl. Francesc Layret",
+      "Gran Via de les Corts Catalanes, 595",
+      "Passeig de la Riera, 118",
+      "Camí del Gual, 40"
+    ],
+    "correct_answer": "Gran Via de les Corts Catalanes, 595",
+    "points": 10
+  },
+  {
+    "id": 118,
+    "question_es": "¿Cuál es la dirección del evento “Madama Butterfly, de G. Puccini”?",
+    "question_en": "What is the address of the event “Madama Butterfly, de G. Puccini”?",
+    "image": null,
+    "options": [
+      "Gran Via de les Corts Catalanes, 595",
+      "Pl. de les Arts, 1",
+      "C. Tarragona, 32",
+      "C. del Palau de la Música, 4-6"
+    ],
+    "correct_answer": "C. del Palau de la Música, 4-6",
+    "points": 10
+  },
+  {
+    "id": 119,
+    "question_es": "¿En qué ciudad se celebra el evento “Exposició \"Neus Dalmau i Corominas. La força Verdaguer\"”?",
+    "question_en": "In which city is the event “Exposició \"Neus Dalmau i Corominas. La força Verdaguer\"” held?",
+    "image": null,
+    "options": [
+      "Bescano",
+      "Vilanova i la geltru",
+      "Valls",
+      "Caldes d estrac"
+    ],
+    "correct_answer": "Caldes d estrac",
+    "points": 3
+  },
+  {
+    "id": 120,
+    "question_es": "¿Cuál es la categoría principal del evento “Maig a la sala 23 Robadors”?",
+    "question_en": "What is the main category of the event “Maig a la sala 23 Robadors”?",
+    "image": null,
+    "options": [
+      "Divulgacio",
+      "Gastronomia",
+      "Llibres i lletres",
+      "Musica"
+    ],
+    "correct_answer": "Musica",
+    "points": 2
+  },
+  {
+    "id": 121,
+    "question_es": "¿Cuál es la categoría principal del evento “Luis Zahera”?",
+    "question_en": "What is the main category of the event “Luis Zahera”?",
+    "image": null,
+    "options": [
+      "Arts visuals",
+      "Divulgacio",
+      "Gastronomia",
+      "Espectacles"
+    ],
+    "correct_answer": "Espectacles",
+    "points": 2
+  },
+  {
+    "id": 122,
+    "question_es": "¿Cuál es la dirección del evento “Baobab, un arbre, un bolet i un esquirol”?",
+    "question_en": "What is the address of the event “Baobab, un arbre, un bolet i un esquirol”?",
+    "image": null,
+    "options": [
+      "C. Sant Antoni Maria Claret, 16-18",
+      "Avda. Baile Calbeto Barra, 8",
+      "C. dels Pirineus, 10",
+      "C. de l'Alumini, s/n"
+    ],
+    "correct_answer": "Avda. Baile Calbeto Barra, 8",
+    "points": 10
+  },
+  {
+    "id": 123,
+    "question_es": "¿En qué fecha tiene lugar el evento “Sin remite”?",
+    "question_en": "On what date does the event “Sin remite” take place?",
+    "image": null,
+    "options": [
+      "25/04/2025",
+      "27/04/2025",
+      "10/05/2025",
+      "26/04/2025"
+    ],
+    "correct_answer": "26/04/2025",
+    "points": 8
+  },
+  {
+    "id": 124,
+    "question_es": "¿Cuál es la categoría principal del evento “Orquestra Simfònica Sant Cugat”?",
+    "question_en": "What is the main category of the event “Orquestra Simfònica Sant Cugat”?",
+    "image": null,
+    "options": [
+      "Gastronomia",
+      "Musica",
+      "Tradicional i popular",
+      "Arts visuals"
+    ],
+    "correct_answer": "Musica",
+    "points": 2
+  },
+  {
+    "id": 125,
+    "question_es": "¿Cuál es la dirección del evento “Pols de diamant”?",
+    "question_en": "What is the address of the event “Pols de diamant”?",
+    "image": null,
+    "options": [
+      "Rambla Nova, 11",
+      "C. Enric Granados, 16",
+      "Pl. del Mercat, s/n",
+      "C. d'Anselm Calvé, 5"
+    ],
+    "correct_answer": "C. d'Anselm Calvé, 5",
+    "points": 10
+  },
+  {
+    "id": 126,
+    "question_es": "¿Cuánto cuesta asistir al evento “Visita guiada al Museu Pau Casals”?",
+    "question_en": "How much does it cost to attend the event “Visita guiada al Museu Pau Casals”?",
+    "image": null,
+    "options": [
+      "19.00 euros",
+      "20.00 euros",
+      "977.00 euros",
+      "3.00 euros"
+    ],
+    "correct_answer": "977.00 euros",
+    "points": 4
+  },
+  {
+    "id": 127,
+    "question_es": "¿En qué ciudad se celebra el evento “Festival Jordi Savall”?",
+    "question_en": "In which city is the event “Festival Jordi Savall” held?",
+    "image": null,
+    "options": [
+      "Tona",
+      "Valls",
+      "Lleida",
+      "Moia"
+    ],
+    "correct_answer": "Valls",
+    "points": 3
+  },
+  {
+    "id": 128,
+    "question_es": "¿Cuánto cuesta asistir al evento “Orchestre des Champs Élysées & Herreweghe”?",
+    "question_en": "How much does it cost to attend the event “Orchestre des Champs Élysées & Herreweghe”?",
+    "image": null,
+    "options": [
+      "14.00 euros",
+      "20.00 euros",
+      "0.00 euros",
+      "6.20 euros"
+    ],
+    "correct_answer": "20.00 euros",
+    "points": 4
+  },
+  {
+    "id": 129,
+    "question_es": "¿Cuánto cuesta asistir al evento “Carmen de Bizet”?",
+    "question_en": "How much does it cost to attend the event “Carmen de Bizet”?",
+    "image": null,
+    "options": [
+      "6.20 euros",
+      "23.00 euros",
+      "11.00 euros",
+      "49.50 euros"
+    ],
+    "correct_answer": "23.00 euros",
+    "points": 4
+  },
+  {
+    "id": 130,
+    "question_es": "¿Cuál es la categoría principal del evento “BUMT & literatura”?",
+    "question_en": "What is the main category of the event “BUMT & literatura”?",
+    "image": null,
+    "options": [
+      "Tradicional i popular",
+      "Llibres i lletres",
+      "Musica",
+      "Gastronomia"
+    ],
+    "correct_answer": "Musica",
+    "points": 2
+  },
+  {
+    "id": 131,
+    "question_es": "¿Cuál es la categoría principal del evento “Cor dels amants”?",
+    "question_en": "What is the main category of the event “Cor dels amants”?",
+    "image": null,
+    "options": [
+      "Musica",
+      "Arts visuals",
+      "Gastronomia",
+      "Espectacles"
+    ],
+    "correct_answer": "Espectacles",
+    "points": 2
+  },
+  {
+    "id": 132,
+    "question_es": "¿Cuál es la categoría principal del evento “Anónima”?",
+    "question_en": "What is the main category of the event “Anónima”?",
+    "image": null,
+    "options": [
+      "Arts visuals",
+      "Tradicional i popular",
+      "Llibres i lletres",
+      "Espectacles"
+    ],
+    "correct_answer": "Espectacles",
+    "points": 2
+  },
+  {
+    "id": 133,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250328025.jpg",
+    "options": [
+      "Bruixanteris",
+      "La Música",
+      "Andrés López",
+      "Tinder Sorpresa"
+    ],
+    "correct_answer": "Tinder Sorpresa",
+    "points": 2
+  },
+  {
+    "id": 134,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250226029.jpg",
+    "options": [
+      "Arte Flamenco",
+      "Muerta de amor",
+      "No me toques el cuento",
+      "La brama del cérvol"
+    ],
+    "correct_answer": "Muerta de amor",
+    "points": 2
+  },
+  {
+    "id": 135,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250414030.jpg",
+    "options": [
+      "Exposició \"Tempo: moviment o pausa\"",
+      "Pla per Roig",
+      "Aplec de sardanes Ciutat de Tarragona",
+      "Festival Camp de Mart"
+    ],
+    "correct_answer": "Festival Camp de Mart",
+    "points": 2
+  },
+  {
+    "id": 136,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250329004.jpg",
+    "options": [
+      "Andrè Schuen & Daniel Heide",
+      "Maig a la sala 23 Robadors",
+      "No me toques el cuento",
+      "Perdón"
+    ],
+    "correct_answer": "No me toques el cuento",
+    "points": 2
+  },
+  {
+    "id": 137,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250417012.jpg",
+    "options": [
+      "Buenrollistas",
+      "Gran Gala Flamenc",
+      "Ana Belén",
+      "Poncia"
+    ],
+    "correct_answer": "Poncia",
+    "points": 2
+  },
+  {
+    "id": 138,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250328019.jpg",
+    "options": [
+      "Les aventures del lleó vergonyós",
+      "Los guapos",
+      "Yo sobreviví a la EGB",
+      "Quartet de corda de Camerata XXI"
+    ],
+    "correct_answer": "Les aventures del lleó vergonyós",
+    "points": 2
+  },
+  {
+    "id": 139,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250122051.jpg",
+    "options": [
+      "Cor dels amants",
+      "Arte Flamenco",
+      "Exposició \"Tempo: moviment o pausa\"",
+      "Nits Musicals de la Brufaganya"
+    ],
+    "correct_answer": "Exposició \"Tempo: moviment o pausa\"",
+    "points": 2
+  },
+  {
+    "id": 140,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250328015.jpg",
+    "options": [
+      "Buenrollistas",
+      "Edu Soto",
+      "David Cepo",
+      "Arte Flamenco"
+    ],
+    "correct_answer": "Buenrollistas",
+    "points": 2
+  },
+  {
+    "id": 141,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250417020.jpg",
+    "options": [
+      "Das Paradies und die Peri de Schumann",
+      "David Cepo",
+      "Vigilia",
+      "Exposició \" Pablo Picasso i la Sala Gaspar (1955 – 1973)\""
+    ],
+    "correct_answer": "Vigilia",
+    "points": 2
+  },
+  {
+    "id": 142,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250127039.jpg",
+    "options": [
+      "Barcelona Guitar Trio & Dance",
+      "Bruixanteris",
+      "La traviata de Giuseppe Verdi",
+      "Arcadi Volodos"
+    ],
+    "correct_answer": "La traviata de Giuseppe Verdi",
+    "points": 2
+  },
+  {
+    "id": 143,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250326044.jpg",
+    "options": [
+      "Cor dels amants",
+      "Un menú tancat",
+      "David Navarro",
+      "Arte Flamenco"
+    ],
+    "correct_answer": "David Navarro",
+    "points": 2
+  },
+  {
+    "id": 144,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250417016.jpg",
+    "options": [
+      "Ya me has tocado el cuento",
+      "Twinkle, twinkle, Baby’s star",
+      "Festival Jordi Savall",
+      "Anónima"
+    ],
+    "correct_answer": "Anónima",
+    "points": 2
+  },
+  {
+    "id": 145,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250225012.jpg",
+    "options": [
+      "Maig al Harlem Jazz Club",
+      "Domino's Tour",
+      "El gegant del Pi",
+      "David Navarro"
+    ],
+    "correct_answer": "El gegant del Pi",
+    "points": 2
+  },
+  {
+    "id": 146,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250417037.jpg",
+    "options": [
+      "Coral Jove Verge del Camí · Som totes aquelles veus",
+      "Audicions íntimes: Cosmos Quartet & Noelia Rodiles",
+      "Bruixanteris",
+      "Orfeó Català i Pablo Larraz"
+    ],
+    "correct_answer": "Audicions íntimes: Cosmos Quartet & Noelia Rodiles",
+    "points": 2
+  },
+  {
+    "id": 147,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250227014.jpg",
+    "options": [
+      "Muerta de amor",
+      "Gran Gala Flamenc",
+      "El Tigre",
+      "Coral Jove Verge del Camí · Som totes aquelles veus"
+    ],
+    "correct_answer": "Coral Jove Verge del Camí · Som totes aquelles veus",
+    "points": 2
+  },
+  {
+    "id": 148,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250128067.jpg",
+    "options": [
+      "Lady Panda",
+      "Tinder Sorpresa",
+      "Gran Gala Flamenc",
+      "Lluna plena"
+    ],
+    "correct_answer": "Gran Gala Flamenc",
+    "points": 2
+  },
+  {
+    "id": 149,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250417035.jpg",
+    "options": [
+      "Adamar Johnson",
+      "Patricia Kopatchinskaja & friends",
+      "JOSB & Josep Caballé Domenech",
+      "Arte Flamenco"
+    ],
+    "correct_answer": "JOSB & Josep Caballé Domenech",
+    "points": 2
+  },
+  {
+    "id": 150,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250417036.jpg",
+    "options": [
+      "Gran Gala Flamenc",
+      "Orchestra dell’Accademia Nazionale di Santa Cecilia & Harding",
+      "Buenrollistas",
+      "La Ruina"
+    ],
+    "correct_answer": "Orchestra dell’Accademia Nazionale di Santa Cecilia & Harding",
+    "points": 2
+  },
+  {
+    "id": 151,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250410026.jpg",
+    "options": [
+      "Simfonia del Nou Món",
+      "Per lo mudable",
+      "Exposició \"Neus Dalmau i Corominas. La força Verdaguer\"",
+      "La brama del cérvol"
+    ],
+    "correct_answer": "Simfonia del Nou Món",
+    "points": 2
+  },
+  {
+    "id": 152,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250415007.jpg",
+    "options": [
+      "Un menú tancat",
+      "Tomeu Penya",
+      "Ginestà",
+      "Muerta de amor"
+    ],
+    "correct_answer": "Un menú tancat",
+    "points": 2
+  },
+  {
+    "id": 153,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250319034.jpg",
+    "options": [
+      "Freiburger Barockorchester & René Jacobs",
+      "Buenrollistas",
+      "Arcadi Volodos",
+      "Exposició \" Pablo Picasso i la Sala Gaspar (1955 – 1973)\""
+    ],
+    "correct_answer": "Exposició \" Pablo Picasso i la Sala Gaspar (1955 – 1973)\"",
+    "points": 2
+  },
+  {
+    "id": 154,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250422030.jpg",
+    "options": [
+      "Exposició \"Com dissenyar una revolució: La via xilena al disseny\"",
+      "Jarana",
+      "Seong Jin Cho",
+      "JOSB & Josep Caballé Domenech"
+    ],
+    "correct_answer": "Exposició \"Com dissenyar una revolució: La via xilena al disseny\"",
+    "points": 2
+  },
+  {
+    "id": 155,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250424009.jpg",
+    "options": [
+      "Candlelight: Tribut a Coldplay vs Imagine Dragons",
+      "London Symphony Orchestra & Gustavo Dudamel",
+      "Lluna plena",
+      "Baobab, un arbre, un bolet i un esquirol"
+    ],
+    "correct_answer": "Candlelight: Tribut a Coldplay vs Imagine Dragons",
+    "points": 2
+  },
+  {
+    "id": 156,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250424007.jpg",
+    "options": [
+      "Bye bye, Confetti",
+      "Gran Gala Flamenc",
+      "Gran Gala Flamenc",
+      "Candlelight: Tribut a Queen"
+    ],
+    "correct_answer": "Candlelight: Tribut a Queen",
+    "points": 2
+  },
+  {
+    "id": 157,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250324054.jpg",
+    "options": [
+      "Giselle",
+      "Arte Flamenco",
+      "Una mena d'Alaska",
+      "Cor Jove de l’Orfeó Català & Orquestra Filharmònica de la Universitat de València"
+    ],
+    "correct_answer": "Una mena d'Alaska",
+    "points": 2
+  },
+  {
+    "id": 158,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250417024.jpg",
+    "options": [
+      "Els Miserables",
+      "Exposició \"Coco Fusco. He après a nedar en sec\"",
+      "Ícaro",
+      "Arte Flamenco"
+    ],
+    "correct_answer": "Ícaro",
+    "points": 2
+  },
+  {
+    "id": 159,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250417038.jpg",
+    "options": [
+      "Visita teatralitzada al Museu Pau Casals",
+      "WE. Nosaltres i els temps",
+      "Cosmos Quartet, O Vos Omnes, Vinyes-Curtis & Rodiles",
+      "Barcelona Guitar Trio & Dance"
+    ],
+    "correct_answer": "Cosmos Quartet, O Vos Omnes, Vinyes-Curtis & Rodiles",
+    "points": 2
+  },
+  {
+    "id": 160,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250128031.jpg",
+    "options": [
+      "Michael's Legacy",
+      "Barcelona Guitar Trio & Dance",
+      "Carles Viarnès",
+      "Exposició \"Tempo: moviment o pausa\""
+    ],
+    "correct_answer": "Barcelona Guitar Trio & Dance",
+    "points": 2
+  },
+  {
+    "id": 161,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250122011.jpg",
+    "options": [
+      "Arte Flamenco",
+      "Bulle à Bulle",
+      "Exposició \"Francesc d’A. Galí. El mestre invisible\"",
+      "Arte Flamenco"
+    ],
+    "correct_answer": "Exposició \"Francesc d’A. Galí. El mestre invisible\"",
+    "points": 2
+  },
+  {
+    "id": 162,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250403018.jpg",
+    "options": [
+      "Gran Gala Flamenc",
+      "NODI: de gossos i malditos",
+      "No me toques el cuento",
+      "Fira de Música Emergent i Familiar de Vila-seca · FIM"
+    ],
+    "correct_answer": "Fira de Música Emergent i Familiar de Vila-seca · FIM",
+    "points": 2
+  },
+  {
+    "id": 163,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250324022.jpg",
+    "options": [
+      "Hamlet.02",
+      "Els Bons",
+      "Barcelona Guitar Trio & Dance",
+      "Joves intèrprets a la Cripta"
+    ],
+    "correct_answer": "Els Bons",
+    "points": 2
+  },
+  {
+    "id": 164,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250411024.jpg",
+    "options": [
+      "Buenrollistas",
+      "Arte Flamenco",
+      "Moltes mercès",
+      "Barcelona Guitar Trio & Dance"
+    ],
+    "correct_answer": "Arte Flamenco",
+    "points": 2
+  },
+  {
+    "id": 165,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250324031.jpg",
+    "options": [
+      "Audicions íntimes: Cosmos Quartet & Noelia Rodiles",
+      "Matí musical per a embarassades",
+      "Mario Alonso Puig",
+      "Bruixanteris"
+    ],
+    "correct_answer": "Bruixanteris",
+    "points": 2
+  },
+  {
+    "id": 166,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250410033.jpg",
+    "options": [
+      "Freiburger Barockorchester & René Jacobs",
+      "JOSB & Josep Caballé Domenech",
+      "Marató de jazz",
+      "Baobab, un arbre, un bolet i un esquirol"
+    ],
+    "correct_answer": "Marató de jazz",
+    "points": 2
+  },
+  {
+    "id": 167,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250324033.jpg",
+    "options": [
+      "Com els pingüins",
+      "Impro Show",
+      "Gran Gala Flamenc",
+      "L'orquestra impossible"
+    ],
+    "correct_answer": "Impro Show",
+    "points": 2
+  },
+  {
+    "id": 168,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250327008.jpg",
+    "options": [
+      "Jose Corbacho",
+      "Barcelona Guitar Trio & Dance",
+      "Rita",
+      "David Cepo"
+    ],
+    "correct_answer": "Jose Corbacho",
+    "points": 2
+  },
+  {
+    "id": 169,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250324024.jpg",
+    "options": [
+      "Odissees",
+      "Gran Gala Flamenc",
+      "Candlelight: Tribut a Queen",
+      "La nena dels Pardals"
+    ],
+    "correct_answer": "La nena dels Pardals",
+    "points": 2
+  },
+  {
+    "id": 170,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250326022.jpg",
+    "options": [
+      "Barcelona Guitar Trio & Dance",
+      "Celtas Cortos",
+      "Ícaro",
+      "Pla per Roig"
+    ],
+    "correct_answer": "Celtas Cortos",
+    "points": 2
+  },
+  {
+    "id": 171,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250221032.jpg",
+    "options": [
+      "Jo Jet i Maria Ribot",
+      "Exposició \"Joan Amigó i Barriga (1875-1958). Arquitecte modernista de Badalona\"",
+      "David Cepo",
+      "Coral Jove Verge del Camí · Som totes aquelles veus"
+    ],
+    "correct_answer": "Exposició \"Joan Amigó i Barriga (1875-1958). Arquitecte modernista de Badalona\"",
+    "points": 2
+  },
+  {
+    "id": 172,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250408045.jpg",
+    "options": [
+      "El reBOOOMbori",
+      "Inauguració de l'Any Conxita Badia",
+      "Jose Corbacho",
+      "Seong Jin Cho"
+    ],
+    "correct_answer": "Inauguració de l'Any Conxita Badia",
+    "points": 2
+  },
+  {
+    "id": 173,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250327010.jpg",
+    "options": [
+      "Love Child",
+      "llustres Ignorantes",
+      "Maig a la Sala Almo2bar",
+      "La Música"
+    ],
+    "correct_answer": "La Música",
+    "points": 2
+  },
+  {
+    "id": 174,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250326029.jpg",
+    "options": [
+      "Barcelona Guitar Trio & Dance",
+      "Saturday Night Disco",
+      "Barcelona Guitar Trio & Dance",
+      "Dj Symphonic"
+    ],
+    "correct_answer": "Saturday Night Disco",
+    "points": 2
+  },
+  {
+    "id": 175,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250331004.jpg",
+    "options": [
+      "Vigilia",
+      "Exposició \"Neus Dalmau i Corominas. La força Verdaguer\"",
+      "Accademia Bizantina & Ottavio Dantone",
+      "Arte Flamenco"
+    ],
+    "correct_answer": "Exposició \"Neus Dalmau i Corominas. La força Verdaguer\"",
+    "points": 2
+  },
+  {
+    "id": 176,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250303020.jpg",
+    "options": [
+      "El Tigre",
+      "Kammart Ensemble",
+      "Patricia Kopatchinskaja & friends",
+      "Vibra"
+    ],
+    "correct_answer": "Vibra",
+    "points": 2
+  },
+  {
+    "id": 177,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250325017.jpg",
+    "options": [
+      "Giselle",
+      "David Navarro",
+      "Moltes mercès",
+      "Luis Zahera"
+    ],
+    "correct_answer": "Luis Zahera",
+    "points": 2
+  },
+  {
+    "id": 178,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250326036.jpg",
+    "options": [
+      "Exposició \"L'art de navegar. Com perdre's en un món d'imatges\"",
+      "Biològica",
+      "Edu Soto",
+      "Quico Pi de la Serra"
+    ],
+    "correct_answer": "Edu Soto",
+    "points": 2
+  },
+  {
+    "id": 179,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250424022.jpg",
+    "options": [
+      "Madama Butterfly, de G. Puccini",
+      "Tip TAP Top",
+      "Un déu salvatge",
+      "Arte Flamenco"
+    ],
+    "correct_answer": "Madama Butterfly, de G. Puccini",
+    "points": 2
+  },
+  {
+    "id": 180,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250324034.jpg",
+    "options": [
+      "Lia Sampai",
+      "Giselle",
+      "Celestina, la tragicomedia",
+      "Exposició \"Tempo: moviment o pausa\""
+    ],
+    "correct_answer": "Giselle",
+    "points": 2
+  },
+  {
+    "id": 181,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250410036.jpg",
+    "options": [
+      "Sotabosc",
+      "WE. Nosaltres i els temps",
+      "Ícaro",
+      "Shéhérazade de Rimski-Kórsakov"
+    ],
+    "correct_answer": "Shéhérazade de Rimski-Kórsakov",
+    "points": 2
+  },
+  {
+    "id": 182,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250221004.jpg",
+    "options": [
+      "Arte Flamenco",
+      "Gran Gala Flamenc",
+      "Els Bons",
+      "Odissees"
+    ],
+    "correct_answer": "Odissees",
+    "points": 2
+  },
+  {
+    "id": 183,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250324055.jpg",
+    "options": [
+      "Arte Flamenco",
+      "Candlelight: Tribut a Queen",
+      "La brama del cérvol",
+      "Momo"
+    ],
+    "correct_answer": "La brama del cérvol",
+    "points": 2
+  },
+  {
+    "id": 184,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250326031.jpg",
+    "options": [
+      "Buenrollistas",
+      "Carmina Burana",
+      "NODI: de gossos i malditos",
+      "Gran Gala Flamenc"
+    ],
+    "correct_answer": "Carmina Burana",
+    "points": 2
+  },
+  {
+    "id": 185,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250130034.jpg",
+    "options": [
+      "Gran Gala Flamenc",
+      "Gran Gala Flamenc",
+      "Exposició \"Coco Fusco. He après a nedar en sec\"",
+      "La nena dels Pardals"
+    ],
+    "correct_answer": "Exposició \"Coco Fusco. He après a nedar en sec\"",
+    "points": 2
+  },
+  {
+    "id": 186,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250425008.jpg",
+    "options": [
+      "Un menú tancat",
+      "Diva de barrio",
+      "Raquel Lua",
+      "Tinder Sorpresa"
+    ],
+    "correct_answer": "Raquel Lua",
+    "points": 2
+  },
+  {
+    "id": 187,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250327011.jpg",
+    "options": [
+      "Cicle de concerts \"El so de Pau Casals\"",
+      "Los guapos",
+      "Accademia Bizantina & Ottavio Dantone",
+      "Fabiolo Connection"
+    ],
+    "correct_answer": "Fabiolo Connection",
+    "points": 2
+  },
+  {
+    "id": 188,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250324036.jpg",
+    "options": [
+      "El Tigre",
+      "Giselle",
+      "Exposició \"Coco Fusco. He après a nedar en sec\"",
+      "Joc partit: Llompart, Martí Folguera, Pedrals i Conesa"
+    ],
+    "correct_answer": "El Tigre",
+    "points": 2
+  },
+  {
+    "id": 189,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250325025.jpg",
+    "options": [
+      "Pablo Chiapella i Tian Lara",
+      "Romain Garioud & Daniel Blanch",
+      "Carmen, de G. Bizet",
+      "Momo"
+    ],
+    "correct_answer": "Pablo Chiapella i Tian Lara",
+    "points": 2
+  },
+  {
+    "id": 190,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250411005.jpg",
+    "options": [
+      "La Gran de Schubert",
+      "Juanpis González",
+      "La traviata de Giuseppe Verdi",
+      "All Divas"
+    ],
+    "correct_answer": "La Gran de Schubert",
+    "points": 2
+  },
+  {
+    "id": 191,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250403029.jpg",
+    "options": [
+      "MDR - Mort de riure",
+      "Jose Corbacho",
+      "BaBeBra & Mozart",
+      "Man mano, il tempo scorre (L'incontro)"
+    ],
+    "correct_answer": "Man mano, il tempo scorre (L'incontro)",
+    "points": 2
+  },
+  {
+    "id": 192,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20241205029.jpg",
+    "options": [
+      "Exposició \"Com dissenyar una revolució: La via xilena al disseny\"",
+      "David Cepo",
+      "John & Jen",
+      "Jarana"
+    ],
+    "correct_answer": "David Cepo",
+    "points": 2
+  },
+  {
+    "id": 193,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250325026.jpg",
+    "options": [
+      "Gran Gala Flamenc",
+      "Jeff Arcuri",
+      "Un tal Quixot",
+      "Exposició \"Joan Amigó i Barriga (1875-1958). Arquitecte modernista de Badalona\""
+    ],
+    "correct_answer": "Jeff Arcuri",
+    "points": 2
+  },
+  {
+    "id": 194,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250220057.jpg",
+    "options": [
+      "David Navarro",
+      "Exposició \"Francesc d’A. Galí. El mestre invisible\"",
+      "Lady Panda",
+      "La Música"
+    ],
+    "correct_answer": "Lady Panda",
+    "points": 2
+  },
+  {
+    "id": 195,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250411009.jpg",
+    "options": [
+      "Els Bons",
+      "Els Planetes de Holst",
+      "Píndoles de teatre breu",
+      "Judit Neddermann"
+    ],
+    "correct_answer": "Els Planetes de Holst",
+    "points": 2
+  },
+  {
+    "id": 196,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250326038.jpg",
+    "options": [
+      "Muerta de amor",
+      "Tomeu Penya",
+      "llustres Ignorantes",
+      "Exposició \" Pablo Picasso i la Sala Gaspar (1955 – 1973)\""
+    ],
+    "correct_answer": "llustres Ignorantes",
+    "points": 2
+  },
+  {
+    "id": 197,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250212048.jpg",
+    "options": [
+      "SERENGUETI GLAM - Enfangadas en la noche tropical",
+      "Les mans",
+      "Barcelona Guitar Trio & Dance",
+      "Candlelight: Tribut a Coldplay vs Imagine Dragons"
+    ],
+    "correct_answer": "Les mans",
+    "points": 2
+  },
+  {
+    "id": 198,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250411015.jpg",
+    "options": [
+      "Cor Mitjans & Cor Petits",
+      "Maig a la Sala Upload",
+      "Dirrrty Boys",
+      "Visita guiada a la instal·lació sonora \"Esquellòrium\""
+    ],
+    "correct_answer": "Visita guiada a la instal·lació sonora \"Esquellòrium\"",
+    "points": 2
+  },
+  {
+    "id": 199,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250130033.jpg",
+    "options": [
+      "Quim Mandado en concert",
+      "Carmen de Bizet",
+      "Augustin Hadelich",
+      "BUMT & literatura"
+    ],
+    "correct_answer": "Quim Mandado en concert",
+    "points": 2
+  },
+  {
+    "id": 200,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250324028.jpg",
+    "options": [
+      "Com els pingüins",
+      "Lluna plena",
+      "Orfeó Català i Pablo Larraz",
+      "WE. Nosaltres i els temps"
+    ],
+    "correct_answer": "Com els pingüins",
+    "points": 2
+  },
+  {
+    "id": 201,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250410015.jpg",
+    "options": [
+      "Exposició \"L'art de navegar. Com perdre's en un món d'imatges\"",
+      "Taller - Escolta, descobreix i crea la teva música!",
+      "Suites per a orquestra i Concerts per a violí de Bach",
+      "Love Love Love"
+    ],
+    "correct_answer": "Exposició \"L'art de navegar. Com perdre's en un món d'imatges\"",
+    "points": 2
+  },
+  {
+    "id": 202,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250424026.jpg",
+    "options": [
+      "Madama Butterfly, de G. Puccini",
+      "De Catalunya, al món",
+      "Teta · Festival Feminista de Tarragona",
+      "Arte Flamenco"
+    ],
+    "correct_answer": "De Catalunya, al món",
+    "points": 2
+  },
+  {
+    "id": 203,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250416017.jpg",
+    "options": [
+      "Jose Corbacho",
+      "Gran Gala Flamenc",
+      "Trio Fortuny",
+      "Exposicio \"La temptació de la modernitat\""
+    ],
+    "correct_answer": "Exposicio \"La temptació de la modernitat\"",
+    "points": 2
+  },
+  {
+    "id": 204,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250414002.jpg",
+    "options": [
+      "Festival Jordi Savall",
+      "Gran Gala Flamenc",
+      "Gran Gala Flamenc",
+      "Tomeu Penya"
+    ],
+    "correct_answer": "Tomeu Penya",
+    "points": 2
+  },
+  {
+    "id": 205,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250416027.jpg",
+    "options": [
+      "Exposició \"Miguel Milá. Dissenyador (pre)industrial\"",
+      "Sin remite",
+      "Nits Musicals de la Brufaganya",
+      "Anónima"
+    ],
+    "correct_answer": "Exposició \"Miguel Milá. Dissenyador (pre)industrial\"",
+    "points": 2
+  },
+  {
+    "id": 206,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250324026.jpg",
+    "options": [
+      "La rateta Martina i el ratolí Serafí",
+      "Tempo",
+      "Com els pingüins",
+      "El mar: visió d'uns nens que no l'han vist mai"
+    ],
+    "correct_answer": "El mar: visió d'uns nens que no l'han vist mai",
+    "points": 2
+  },
+  {
+    "id": 207,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250228026.jpg",
+    "options": [
+      "Diva de barrio",
+      "Elmer, l'elefant multicolor",
+      "Gran Gala Flamenc",
+      "L'hora de l'estrella, de Clarice Lispector"
+    ],
+    "correct_answer": "Diva de barrio",
+    "points": 2
+  },
+  {
+    "id": 208,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250410029.jpg",
+    "options": [
+      "Biològica",
+      "Pols de diamant",
+      "Ákri",
+      "No me toques el cuento"
+    ],
+    "correct_answer": "Biològica",
+    "points": 2
+  },
+  {
+    "id": 209,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250409029.jpg",
+    "options": [
+      "Bruixanteris",
+      "Nits Musicals de la Brufaganya",
+      "Michael's Legacy",
+      "Exposició \"Eugènia Balcells \"From the center\""
+    ],
+    "correct_answer": "Nits Musicals de la Brufaganya",
+    "points": 2
+  },
+  {
+    "id": 210,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250227006.jpg",
+    "options": [
+      "Els Planetes de Holst",
+      "Tuelf Points, el musical más Eurovisivo",
+      "La Fúmiga",
+      "Joves intèrprets a la Cripta"
+    ],
+    "correct_answer": "Joves intèrprets a la Cripta",
+    "points": 2
+  },
+  {
+    "id": 211,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250327031.jpg",
+    "options": [
+      "Buenrollistas",
+      "Exposició \"Eugènia Balcells \"From the center\"",
+      "Mamemi... Mozart!",
+      "Yo sobreviví a la EGB"
+    ],
+    "correct_answer": "Yo sobreviví a la EGB",
+    "points": 2
+  },
+  {
+    "id": 212,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250425009.jpg",
+    "options": [
+      "Elmer, l'elefant multicolor",
+      "Cançons amagades",
+      "Moltes mercès",
+      "Gran Gala Flamenc"
+    ],
+    "correct_answer": "Cançons amagades",
+    "points": 2
+  },
+  {
+    "id": 213,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20240619056.jpg",
+    "options": [
+      "La traviata, de G. Verdi",
+      "Barcelona Guitar Trio & Dance",
+      "WE. Nosaltres i els temps",
+      "Arcadi Volodos"
+    ],
+    "correct_answer": "La traviata, de G. Verdi",
+    "points": 2
+  },
+  {
+    "id": 214,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20240619036.jpg",
+    "options": [
+      "Gran Gala Flamenc",
+      "Carmen, de G. Bizet",
+      "El cau del Tabalet",
+      "Gran Gala Flamenc"
+    ],
+    "correct_answer": "Carmen, de G. Bizet",
+    "points": 2
+  },
+  {
+    "id": 215,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250403011.jpg",
+    "options": [
+      "Festival Jordi Savall",
+      "Barcelona Guitar Trio & Dance",
+      "Quartet de corda de Camerata XXI",
+      "Maquinaigües"
+    ],
+    "correct_answer": "Festival Jordi Savall",
+    "points": 2
+  },
+  {
+    "id": 216,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250407020.jpg",
+    "options": [
+      "Candlelight: Tribut a Queen",
+      "Jeff Arcuri",
+      "Sigues tortuga",
+      "Orthemis Orquestra"
+    ],
+    "correct_answer": "Sigues tortuga",
+    "points": 2
+  },
+  {
+    "id": 217,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250304017.jpg",
+    "options": [
+      "Manuel Carrasco",
+      "Joc partit: Llompart, Martí Folguera, Pedrals i Conesa",
+      "Odissees",
+      "Buenrollistas"
+    ],
+    "correct_answer": "Manuel Carrasco",
+    "points": 2
+  },
+  {
+    "id": 218,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250430020.jpg",
+    "options": [
+      "Gran Gala Flamenc",
+      "Quim Mandado en concert",
+      "Romain Garioud & Daniel Blanch",
+      "Maig a la Sala Upload"
+    ],
+    "correct_answer": "Maig a la Sala Upload",
+    "points": 2
+  },
+  {
+    "id": 219,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250417011.jpg",
+    "options": [
+      "Yo sobreviví a la EGB",
+      "Mar de Sons i Vi",
+      "Freiburger Barockorchester & René Jacobs",
+      "L'orquestra impossible"
+    ],
+    "correct_answer": "L'orquestra impossible",
+    "points": 2
+  },
+  {
+    "id": 220,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250417032.jpg",
+    "options": [
+      "SERENGUETI GLAM - Enfangadas en la noche tropical",
+      "Biològica",
+      "El Professor Bromera",
+      "Celtas Cortos"
+    ],
+    "correct_answer": "SERENGUETI GLAM - Enfangadas en la noche tropical",
+    "points": 2
+  },
+  {
+    "id": 221,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250410037.jpg",
+    "options": [
+      "Giselle",
+      "Barcelona Guitar Trio & Dance",
+      "Sol amb la Lluna",
+      "Visita guiada al Museu Pau Casals"
+    ],
+    "correct_answer": "Visita guiada al Museu Pau Casals",
+    "points": 2
+  },
+  {
+    "id": 222,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250429044.jpg",
+    "options": [
+      "Vigilia",
+      "Michael's Legacy",
+      "La tendresa del riure",
+      "Lia Sampai"
+    ],
+    "correct_answer": "La tendresa del riure",
+    "points": 2
+  },
+  {
+    "id": 223,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250430004.jpg",
+    "options": [
+      "Impro Show",
+      "Maig al Harlem Jazz Club",
+      "Grans cors de Morricone, Zimmer & Williams",
+      "Cor Infantil de l’Orfeó Català & Maria Guinand"
+    ],
+    "correct_answer": "Maig al Harlem Jazz Club",
+    "points": 2
+  },
+  {
+    "id": 224,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250326042.jpg",
+    "options": [
+      "MDR - Mort de riure",
+      "Quim Masferrer",
+      "Barcelona Guitar Trio & Dance",
+      "Arte Flamenco"
+    ],
+    "correct_answer": "Quim Masferrer",
+    "points": 2
+  },
+  {
+    "id": 225,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250429015.jpg",
+    "options": [
+      "Exposició \"Com dissenyar una revolució: La via xilena al disseny\"",
+      "Maig a la sala 23 Robadors",
+      "Ya me has tocado el cuento",
+      "Tinder Sorpresa"
+    ],
+    "correct_answer": "Maig a la sala 23 Robadors",
+    "points": 2
+  },
+  {
+    "id": 226,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250425010.jpg",
+    "options": [
+      "La Música",
+      "Love Child",
+      "Arte Flamenco",
+      "Yo sobreviví a la EGB"
+    ],
+    "correct_answer": "Love Child",
+    "points": 2
+  },
+  {
+    "id": 227,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250429018.jpg",
+    "options": [
+      "Kenneth Weiss",
+      "Gran Gala Flamenc",
+      "Maig a la Sala Almo2bar",
+      "Elmer, l'elefant multicolor"
+    ],
+    "correct_answer": "Maig a la Sala Almo2bar",
+    "points": 2
+  },
+  {
+    "id": 228,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250429029.jpg",
+    "options": [
+      "Tripula",
+      "Romain Garioud & Daniel Blanch",
+      "Explica dansa",
+      "Virtual Sadness"
+    ],
+    "correct_answer": "Explica dansa",
+    "points": 2
+  },
+  {
+    "id": 229,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250429032.jpg",
+    "options": [
+      "Raquel Lua",
+      "Encanteri",
+      "Cobla Maricel",
+      "Hilària"
+    ],
+    "correct_answer": "Cobla Maricel",
+    "points": 2
+  },
+  {
+    "id": 230,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250429019.jpg",
+    "options": [
+      "El gegant del Pi",
+      "Tempo",
+      "Buenrollistas",
+      "Orchestra Fireluche"
+    ],
+    "correct_answer": "Orchestra Fireluche",
+    "points": 2
+  },
+  {
+    "id": 231,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250429016.jpg",
+    "options": [
+      "Sotabosc",
+      "Diva de barrio",
+      "Ismael Serrano",
+      "Sharonne All Divas"
+    ],
+    "correct_answer": "Sotabosc",
+    "points": 2
+  },
+  {
+    "id": 232,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250429010.jpg",
+    "options": [
+      "Maquinaigües",
+      "Cor Jove de l’Orfeó Català & Orquestra Filharmònica de la Universitat de València",
+      "London Symphony Orchestra & Gustavo Dudamel",
+      "Ni en broma"
+    ],
+    "correct_answer": "Maquinaigües",
+    "points": 2
+  },
+  {
+    "id": 233,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250423024.jpg",
+    "options": [
+      "JOSB & Josep Caballé Domenech",
+      "Arte Flamenco",
+      "Tinder Sorpresa",
+      "Bulle à Bulle"
+    ],
+    "correct_answer": "Bulle à Bulle",
+    "points": 2
+  },
+  {
+    "id": 234,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20240917037.jpg",
+    "options": [
+      "Gran Gala Flamenc",
+      "Ismael Serrano",
+      "Twinkle, twinkle, Baby’s star",
+      "Ya me has tocado el cuento"
+    ],
+    "correct_answer": "Twinkle, twinkle, Baby’s star",
+    "points": 2
+  },
+  {
+    "id": 235,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250329009.jpg",
+    "options": [
+      "Iaia",
+      "Biològica",
+      "Hipstory",
+      "Ya me has tocado el cuento"
+    ],
+    "correct_answer": "Ya me has tocado el cuento",
+    "points": 2
+  },
+  {
+    "id": 236,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250429043.jpg",
+    "options": [
+      "BUMT & literatura",
+      "Els Miserables",
+      "Encanteri",
+      "PAISATGES. Estudi #1"
+    ],
+    "correct_answer": "PAISATGES. Estudi #1",
+    "points": 2
+  },
+  {
+    "id": 237,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250417019.jpg",
+    "options": [
+      "Una madre de película",
+      "Els Bons",
+      "La Gran de Schubert",
+      "Exposició \"L'art de navegar. Com perdre's en un món d'imatges\""
+    ],
+    "correct_answer": "Una madre de película",
+    "points": 2
+  },
+  {
+    "id": 238,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250425005.jpg",
+    "options": [
+      "Luis Zahera",
+      "Barcelona Guitar Trio & Dance",
+      "Concert d'inauguració de l'Any Ricard Viñes",
+      "SERENGUETI GLAM - Enfangadas en la noche tropical"
+    ],
+    "correct_answer": "Concert d'inauguració de l'Any Ricard Viñes",
+    "points": 2
+  },
+  {
+    "id": 239,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250430002.jpg",
+    "options": [
+      "Barcelona Guitar Trio & Dance",
+      "Blowing",
+      "Maragall a casa",
+      "Arte Flamenco"
+    ],
+    "correct_answer": "Maragall a casa",
+    "points": 2
+  },
+  {
+    "id": 240,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250430047.jpg",
+    "options": [
+      "Gran Gala Flamenc",
+      "PAISATGES. Estudi #1",
+      "Womagis, el mag de les paraules",
+      "Taller de gestió del món virtual en família"
+    ],
+    "correct_answer": "Taller de gestió del món virtual en família",
+    "points": 2
+  },
+  {
+    "id": 241,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250326045.jpg",
+    "options": [
+      "Iaia",
+      "Andrés López",
+      "PAISATGES. Estudi #1",
+      "Arte Flamenco"
+    ],
+    "correct_answer": "Andrés López",
+    "points": 2
+  },
+  {
+    "id": 242,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250418001.jpg",
+    "options": [
+      "Orchestre des Champs Élysées & Herreweghe",
+      "Los guapos",
+      "Festival Dixieland Tarragona",
+      "Gran Gala Flamenc"
+    ],
+    "correct_answer": "Orchestre des Champs Élysées & Herreweghe",
+    "points": 2
+  },
+  {
+    "id": 243,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250419001.jpg",
+    "options": [
+      "Tinder Sorpresa",
+      "Jethro Tull",
+      "Celtas Cortos",
+      "Hamlet.02"
+    ],
+    "correct_answer": "Jethro Tull",
+    "points": 2
+  },
+  {
+    "id": 244,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250417033.jpg",
+    "options": [
+      "Cobla Maricel",
+      "El clam del buit",
+      "Bulle à Bulle",
+      "Maig a la Sala Almo2bar"
+    ],
+    "correct_answer": "El clam del buit",
+    "points": 2
+  },
+  {
+    "id": 245,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250122005.jpg",
+    "options": [
+      "Gran Gala Flamenc",
+      "Exposició \"Eugènia Balcells \"From the center\"",
+      "Poncia",
+      "El gegant del pi"
+    ],
+    "correct_answer": "Exposició \"Eugènia Balcells \"From the center\"",
+    "points": 2
+  },
+  {
+    "id": 246,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250410031.jpg",
+    "options": [
+      "Lady Panda",
+      "Biològica",
+      "Teta · Festival Feminista de Tarragona",
+      "Das Paradies und die Peri de Schumann"
+    ],
+    "correct_answer": "Das Paradies und die Peri de Schumann",
+    "points": 2
+  },
+  {
+    "id": 247,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250419002.jpg",
+    "options": [
+      "Maig a la Sala Almo2bar",
+      "Una madre de película",
+      "Exposició \"Francesc d’A. Galí. El mestre invisible\"",
+      "Conferència \"L’últim concert de Juli Garreta\""
+    ],
+    "correct_answer": "Conferència \"L’últim concert de Juli Garreta\"",
+    "points": 2
+  },
+  {
+    "id": 248,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250429046.jpg",
+    "options": [
+      "Una madre de película",
+      "Cor dels amants",
+      "Cai Godayol",
+      "Love Child"
+    ],
+    "correct_answer": "Cai Godayol",
+    "points": 2
+  },
+  {
+    "id": 249,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250419003.jpg",
+    "options": [
+      "Arte Flamenco",
+      "Encanteri",
+      "Luis Zahera",
+      "Maldita Nerea"
+    ],
+    "correct_answer": "Maldita Nerea",
+    "points": 2
+  },
+  {
+    "id": 250,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250425007.jpg",
+    "options": [
+      "Pols de diamant",
+      "Carmen, de G. Bizet",
+      "Tempo",
+      "Èric Vinaixa"
+    ],
+    "correct_answer": "Tempo",
+    "points": 2
+  },
+  {
+    "id": 251,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250423006.jpg",
+    "options": [
+      "Andrè Schuen & Daniel Heide",
+      "Maragall a casa",
+      "Una llum constant",
+      "L-R"
+    ],
+    "correct_answer": "Andrè Schuen & Daniel Heide",
+    "points": 2
+  },
+  {
+    "id": 252,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20241014064.jpg",
+    "options": [
+      "Els Planetes de Holst",
+      "Barcelona Guitar Trio & Dance",
+      "Patricia Galván",
+      "Carmen"
+    ],
+    "correct_answer": "Patricia Galván",
+    "points": 2
+  },
+  {
+    "id": 253,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250429035.jpg",
+    "options": [
+      "Saturday Night Disco",
+      "Judit Neddermann",
+      "Adamar Johnson",
+      "Baobab, un arbre, un bolet i un esquirol"
+    ],
+    "correct_answer": "Baobab, un arbre, un bolet i un esquirol",
+    "points": 2
+  },
+  {
+    "id": 254,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250429054.jpg",
+    "options": [
+      "Pols de diamant",
+      "Augustin Hadelich",
+      "Ni en broma",
+      "Grans cors de Morricone, Zimmer & Williams"
+    ],
+    "correct_answer": "Ni en broma",
+    "points": 2
+  },
+  {
+    "id": 255,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250429053.jpg",
+    "options": [
+      "Tinder Sorpresa",
+      "Visita guiada a la instal·lació sonora \"Esquellòrium\"",
+      "L-R",
+      "Patricia Galván"
+    ],
+    "correct_answer": "L-R",
+    "points": 2
+  },
+  {
+    "id": 256,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250423009.jpg",
+    "options": [
+      "Tip TAP Top",
+      "Carmen de Bizet",
+      "Gran Gala Flamenc",
+      "Arte Flamenco"
+    ],
+    "correct_answer": "Carmen de Bizet",
+    "points": 2
+  },
+  {
+    "id": 257,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250430010.jpg",
+    "options": [
+      "Celestina, la tragicomedia",
+      "Pols de diamant",
+      "Moltes mercès",
+      "Madama Butterfly, de G. Puccini"
+    ],
+    "correct_answer": "Celestina, la tragicomedia",
+    "points": 2
+  },
+  {
+    "id": 258,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250429050.jpg",
+    "options": [
+      "Los guapos",
+      "Ya me has tocado el cuento",
+      "Andrés López",
+      "Masterclass de patronatge"
+    ],
+    "correct_answer": "Masterclass de patronatge",
+    "points": 2
+  },
+  {
+    "id": 259,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250429052.jpg",
+    "options": [
+      "Hamlet.02",
+      "PAISATGES. Estudi #1",
+      "L’Emperador de Beethoven",
+      "Bruixanteris"
+    ],
+    "correct_answer": "Hamlet.02",
+    "points": 2
+  },
+  {
+    "id": 260,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250429041.jpg",
+    "options": [
+      "Barcelona Guitar Trio & Dance",
+      "Womagis, el mag de les paraules",
+      "Carmen de Bizet",
+      "Lluna plena"
+    ],
+    "correct_answer": "Womagis, el mag de les paraules",
+    "points": 2
+  },
+  {
+    "id": 261,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250425012.jpg",
+    "options": [
+      "Ni en broma",
+      "Matí musical per a embarassades",
+      "Mireia Tarragó & Victoria Guerrero",
+      "Palla, fusta, pedra"
+    ],
+    "correct_answer": "Palla, fusta, pedra",
+    "points": 2
+  },
+  {
+    "id": 262,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250423033.jpg",
+    "options": [
+      "Barcelona Guitar Trio & Dance",
+      "Gospelians en concert",
+      "Les mans",
+      "Pols de diamant"
+    ],
+    "correct_answer": "Pols de diamant",
+    "points": 2
+  },
+  {
+    "id": 263,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250425020.jpg",
+    "options": [
+      "Cor Jove de l’Orfeó Català & Orquestra Filharmònica de la Universitat de València",
+      "Cor dels amants",
+      "Saturday Night Disco",
+      "White Bottom"
+    ],
+    "correct_answer": "White Bottom",
+    "points": 2
+  },
+  {
+    "id": 264,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250425017.jpg",
+    "options": [
+      "Sin remite",
+      "Lluna plena",
+      "Gran Gala Flamenc",
+      "Barcelona Guitar Trio & Dance"
+    ],
+    "correct_answer": "Lluna plena",
+    "points": 2
+  },
+  {
+    "id": 265,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250425014.jpg",
+    "options": [
+      "Raquel Lua",
+      "Hilària",
+      "Pols de diamant",
+      "L'hora de l'estrella, de Clarice Lispector"
+    ],
+    "correct_answer": "Hilària",
+    "points": 2
+  },
+  {
+    "id": 266,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250425002.jpg",
+    "options": [
+      "Suites per a orquestra i Concerts per a violí de Bach",
+      "Bye bye, Confetti",
+      "Jose Corbacho",
+      "¡Hola caracola!"
+    ],
+    "correct_answer": "Bye bye, Confetti",
+    "points": 2
+  },
+  {
+    "id": 267,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250430021.jpg",
+    "options": [
+      "Festival Camp de Mart",
+      "El Professor Bromera",
+      "Píndoles de teatre breu",
+      "La rateta Martina i el ratolí Serafí"
+    ],
+    "correct_answer": "La rateta Martina i el ratolí Serafí",
+    "points": 2
+  },
+  {
+    "id": 268,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250430039.jpg",
+    "options": [
+      "Jo Jet i Maria Ribot",
+      "Baobab, un arbre, un bolet i un esquirol",
+      "White Bottom",
+      "Un menú tancat"
+    ],
+    "correct_answer": "Jo Jet i Maria Ribot",
+    "points": 2
+  },
+  {
+    "id": 269,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250415019.jpg",
+    "options": [
+      "Píndoles de teatre breu",
+      "Cobla Maricel",
+      "BUMT & literatura",
+      "llustres Ignorantes"
+    ],
+    "correct_answer": "BUMT & literatura",
+    "points": 2
+  },
+  {
+    "id": 270,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250424018.jpg",
+    "options": [
+      "Com els pingüins",
+      "El cau del Tabalet",
+      "Aplec de sardanes Ciutat de Tarragona",
+      "Hipstory"
+    ],
+    "correct_answer": "Aplec de sardanes Ciutat de Tarragona",
+    "points": 2
+  },
+  {
+    "id": 271,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250423014.jpg",
+    "options": [
+      "Odissees",
+      "Altstaedt, Cor de Cambra del Palau & Júlia Sesé",
+      "Hamlet.02",
+      "La rateta Martina i el ratolí Serafí"
+    ],
+    "correct_answer": "Altstaedt, Cor de Cambra del Palau & Júlia Sesé",
+    "points": 2
+  },
+  {
+    "id": 272,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250423017.jpg",
+    "options": [
+      "Cor Mitjans & Cor Petits",
+      "Grans cors de Morricone, Zimmer & Williams",
+      "Nomen Nescio",
+      "Mar de Sons i Vi"
+    ],
+    "correct_answer": "Cor Mitjans & Cor Petits",
+    "points": 2
+  },
+  {
+    "id": 273,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250425024.jpg",
+    "options": [
+      "Arte Flamenco",
+      "La nena dels Pardals",
+      "Visita teatralitzada al Museu Pau Casals",
+      "Sergio Bezos ha llegado a tu ciudad"
+    ],
+    "correct_answer": "Sergio Bezos ha llegado a tu ciudad",
+    "points": 2
+  },
+  {
+    "id": 274,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250430025.jpg",
+    "options": [
+      "Cicle de concerts Sala del Mar",
+      "Domino's Tour",
+      "No me toques el cuento",
+      "Quico Pi de la Serra"
+    ],
+    "correct_answer": "Quico Pi de la Serra",
+    "points": 2
+  },
+  {
+    "id": 275,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20240919031.jpg",
+    "options": [
+      "Gran Gala Flamenc",
+      "El reBOOOMbori",
+      "Pols de diamant",
+      "Matí musical per a embarassades"
+    ],
+    "correct_answer": "Matí musical per a embarassades",
+    "points": 2
+  },
+  {
+    "id": 276,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250425030.jpg",
+    "options": [
+      "Audicions íntimes: Cosmos Quartet & Noelia Rodiles",
+      "Un tal Quixot",
+      "NODI: de gossos i malditos",
+      "Elmer, l'elefant multicolor"
+    ],
+    "correct_answer": "Elmer, l'elefant multicolor",
+    "points": 2
+  },
+  {
+    "id": 277,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250410034.jpg",
+    "options": [
+      "Barcelona Guitar Trio & Dance",
+      "Gran Gala Flamenc",
+      "NEXUS Piano Duo",
+      "West Side Story"
+    ],
+    "correct_answer": "West Side Story",
+    "points": 2
+  },
+  {
+    "id": 278,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250423016.jpg",
+    "options": [
+      "Visita teatralitzada al Museu Pau Casals",
+      "La Música",
+      "London Symphony Orchestra & Gustavo Dudamel",
+      "Yo sobreviví a la EGB"
+    ],
+    "correct_answer": "London Symphony Orchestra & Gustavo Dudamel",
+    "points": 2
+  },
+  {
+    "id": 279,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250425031.jpg",
+    "options": [
+      "Los guapos",
+      "Madama Butterfly, de G. Puccini",
+      "Gran Gala Flamenc",
+      "Sotabosc"
+    ],
+    "correct_answer": "Los guapos",
+    "points": 2
+  },
+  {
+    "id": 280,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250425035.jpg",
+    "options": [
+      "La Música",
+      "Festival Dixieland Tarragona",
+      "Jarana",
+      "Lluna plena"
+    ],
+    "correct_answer": "Jarana",
+    "points": 2
+  },
+  {
+    "id": 281,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250425037.jpg",
+    "options": [
+      "Els Bons",
+      "Al Sol d'Hivern",
+      "Simfonia del Nou Món",
+      "Candlelight: Tribut a Queen"
+    ],
+    "correct_answer": "Al Sol d'Hivern",
+    "points": 2
+  },
+  {
+    "id": 282,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250430028.jpg",
+    "options": [
+      "Blowing",
+      "Inauguració de l'Any Conxita Badia",
+      "Joc partit: Llompart, Martí Folguera, Pedrals i Conesa",
+      "Alosa"
+    ],
+    "correct_answer": "Alosa",
+    "points": 2
+  },
+  {
+    "id": 283,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250430030.jpg",
+    "options": [
+      "Una llum constant",
+      "Palla, fusta, pedra",
+      "Un menú tancat",
+      "Tip TAP Top"
+    ],
+    "correct_answer": "Tip TAP Top",
+    "points": 2
+  },
+  {
+    "id": 284,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250326025.jpg",
+    "options": [
+      "Lluna plena",
+      "Gran Gala Flamenc",
+      "Mario Alonso Puig",
+      "Gran Gala Flamenc"
+    ],
+    "correct_answer": "Mario Alonso Puig",
+    "points": 2
+  },
+  {
+    "id": 285,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250423021.jpg",
+    "options": [
+      "Luis Zahera",
+      "Freiburger Barockorchester & René Jacobs",
+      "Jarana",
+      "Miguel Lago"
+    ],
+    "correct_answer": "Freiburger Barockorchester & René Jacobs",
+    "points": 2
+  },
+  {
+    "id": 286,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250423045.jpg",
+    "options": [
+      "Arte Flamenco",
+      "llustres Ignorantes",
+      "Joc partit: Llompart, Martí Folguera, Pedrals i Conesa",
+      "Exposició \"Tempo: moviment o pausa\""
+    ],
+    "correct_answer": "Joc partit: Llompart, Martí Folguera, Pedrals i Conesa",
+    "points": 2
+  },
+  {
+    "id": 287,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250429037.jpg",
+    "options": [
+      "Barcelona Guitar Trio & Dance",
+      "Alosa",
+      "Maig a la Sala Bikini",
+      "Edu Soto"
+    ],
+    "correct_answer": "Maig a la Sala Bikini",
+    "points": 2
+  },
+  {
+    "id": 288,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20241205003.jpg",
+    "options": [
+      "La Ruina",
+      "Gran Gala Flamenc",
+      "La traviata, de G. Verdi",
+      "El mar: visió d'uns nens que no l'han vist mai"
+    ],
+    "correct_answer": "La Ruina",
+    "points": 2
+  },
+  {
+    "id": 289,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250423023.jpg",
+    "options": [
+      "Trio Fortuny",
+      "Pols de diamant",
+      "Pla per Roig",
+      "Luis Zahera"
+    ],
+    "correct_answer": "Trio Fortuny",
+    "points": 2
+  },
+  {
+    "id": 290,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250429025.jpg",
+    "options": [
+      "Quim Masferrer",
+      "Impro Show",
+      "Palla, fusta, pedra",
+      "Virtual Sadness"
+    ],
+    "correct_answer": "Virtual Sadness",
+    "points": 2
+  },
+  {
+    "id": 291,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250429026.jpg",
+    "options": [
+      "Lluna plena",
+      "Accademia Bizantina & Ottavio Dantone",
+      "David Navarro",
+      "Quanta dignitat"
+    ],
+    "correct_answer": "Quanta dignitat",
+    "points": 2
+  },
+  {
+    "id": 292,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250429028.jpg",
+    "options": [
+      "Augustin Hadelich",
+      "La Fúmiga",
+      "Maig a la Sala Upload",
+      "Sharonne All Divas"
+    ],
+    "correct_answer": "Sharonne All Divas",
+    "points": 2
+  },
+  {
+    "id": 293,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250429031.jpg",
+    "options": [
+      "Matí musical per a embarassades",
+      "Love, love, love",
+      "El gegant del pi",
+      "Barcelona Guitar Trio & Dance"
+    ],
+    "correct_answer": "El gegant del pi",
+    "points": 2
+  },
+  {
+    "id": 294,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20240920056.jpg",
+    "options": [
+      "Concert per a nadons",
+      "Yo sobreviví a la EGB",
+      "Ismael Serrano",
+      "El cau del Tabalet"
+    ],
+    "correct_answer": "Concert per a nadons",
+    "points": 2
+  },
+  {
+    "id": 295,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250423026.jpg",
+    "options": [
+      "Kenneth Weiss",
+      "PAISATGES. Estudi #1",
+      "Un menú tancat",
+      "Olivier Messiaen: ‘Catalogue d’oiseaux’"
+    ],
+    "correct_answer": "Olivier Messiaen: ‘Catalogue d’oiseaux’",
+    "points": 2
+  },
+  {
+    "id": 296,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250325021.jpg",
+    "options": [
+      "Els Miserables",
+      "Pols de diamant",
+      "La nena dels Pardals",
+      "Juanpis González"
+    ],
+    "correct_answer": "Juanpis González",
+    "points": 2
+  },
+  {
+    "id": 297,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250423027.jpg",
+    "options": [
+      "Tinder Sorpresa",
+      "Inauguració de l'Any Conxita Badia",
+      "Orfeó Català i Pablo Larraz",
+      "Tomeu Penya"
+    ],
+    "correct_answer": "Orfeó Català i Pablo Larraz",
+    "points": 2
+  },
+  {
+    "id": 298,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250423032.jpg",
+    "options": [
+      "Barcelona Guitar Trio & Dance",
+      "Ginestà",
+      "Inner Voice de Carles Marigó",
+      "Blowing"
+    ],
+    "correct_answer": "Inner Voice de Carles Marigó",
+    "points": 2
+  },
+  {
+    "id": 299,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250328039.jpg",
+    "options": [
+      "Buenrollistas",
+      "Cor Infantil de l’Orfeó Català & Niños Cantores de Morelia",
+      "Explore el jardín de los Cárpatos",
+      "Sol amb la Lluna"
+    ],
+    "correct_answer": "Explore el jardín de los Cárpatos",
+    "points": 2
+  },
+  {
+    "id": 300,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250423030.jpg",
+    "options": [
+      "Ya me has tocado el cuento",
+      "Tempo",
+      "Ultrashow",
+      "L’Emperador de Beethoven"
+    ],
+    "correct_answer": "L’Emperador de Beethoven",
+    "points": 2
+  },
+  {
+    "id": 301,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250423041.jpg",
+    "options": [
+      "Schaghajegh Nosrati",
+      "Exposició \"Coco Fusco. He après a nedar en sec\"",
+      "Per lo mudable",
+      "Hipstory"
+    ],
+    "correct_answer": "Schaghajegh Nosrati",
+    "points": 2
+  },
+  {
+    "id": 302,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250411004.jpg",
+    "options": [
+      "Ya me has tocado el cuento",
+      "Tinder Sorpresa",
+      "Joc partit: Llompart, Martí Folguera, Pedrals i Conesa",
+      "Augustin Hadelich"
+    ],
+    "correct_answer": "Augustin Hadelich",
+    "points": 2
+  },
+  {
+    "id": 303,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250423042.jpg",
+    "options": [
+      "Jeff Arcuri",
+      "Candlelight: Tribut a Coldplay vs Imagine Dragons",
+      "Rudolf Buchbinder",
+      "Luis Zahera"
+    ],
+    "correct_answer": "Rudolf Buchbinder",
+    "points": 2
+  },
+  {
+    "id": 304,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250424012.jpg",
+    "options": [
+      "Orquestra Simfònica de la Ràdio Sueca, Orfeó Català & Harding",
+      "Candlelight: Tribut a Coldplay vs Imagine Dragons",
+      "Tinder Sorpresa",
+      "Orquestra Simfònica Sant Cugat"
+    ],
+    "correct_answer": "Orquestra Simfònica de la Ràdio Sueca, Orfeó Català & Harding",
+    "points": 2
+  },
+  {
+    "id": 305,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250423043.jpg",
+    "options": [
+      "Man mano, il tempo scorre (L'incontro)",
+      "Taller - Escolta, descobreix i crea la teva música!",
+      "Edu Soto",
+      "Hania Rani"
+    ],
+    "correct_answer": "Hania Rani",
+    "points": 2
+  },
+  {
+    "id": 306,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250417034.jpg",
+    "options": [
+      "Cobla Maricel",
+      "Per lo mudable",
+      "Madama Butterfly, de G. Puccini",
+      "Arte Flamenco"
+    ],
+    "correct_answer": "Per lo mudable",
+    "points": 2
+  },
+  {
+    "id": 307,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250226062.jpg",
+    "options": [
+      "La traviata, de G. Verdi",
+      "Simfonia del Nou Món",
+      "Berto Romero",
+      "Yo sobreviví a la EGB"
+    ],
+    "correct_answer": "Berto Romero",
+    "points": 2
+  },
+  {
+    "id": 308,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250424024.jpg",
+    "options": [
+      "Alba Careta Group",
+      "Coral Jove Verge del Camí · Som totes aquelles veus",
+      "Yo sobreviví a la EGB",
+      "Cicle de concerts \"El so de Pau Casals\""
+    ],
+    "correct_answer": "Cicle de concerts \"El so de Pau Casals\"",
+    "points": 2
+  },
+  {
+    "id": 309,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250423046.jpg",
+    "options": [
+      "Carmen de Bizet",
+      "Escolania de Montserrat, Orquestra del Miracle & Juan de la Rubia",
+      "Exposició \"Intercanvis. Miró i els Estats Units\"",
+      "Gran Gala Flamenc"
+    ],
+    "correct_answer": "Escolania de Montserrat, Orquestra del Miracle & Juan de la Rubia",
+    "points": 2
+  },
+  {
+    "id": 310,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250328026.jpg",
+    "options": [
+      "Ultrashow",
+      "Rel i Grapa",
+      "Explica dansa",
+      "Los guapos"
+    ],
+    "correct_answer": "Ultrashow",
+    "points": 2
+  },
+  {
+    "id": 311,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250424001.jpg",
+    "options": [
+      "De Catalunya, al món",
+      "Els Bons",
+      "La música de Morricone, Zimmer & Williams",
+      "JOSB & Josep Caballé Domenech"
+    ],
+    "correct_answer": "La música de Morricone, Zimmer & Williams",
+    "points": 2
+  },
+  {
+    "id": 312,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250424019.jpg",
+    "options": [
+      "Maquinaigües",
+      "Un menú tancat",
+      "Ana Belén",
+      "La Ruina"
+    ],
+    "correct_answer": "Ana Belén",
+    "points": 2
+  },
+  {
+    "id": 313,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250423012.jpg",
+    "options": [
+      "Orquestra Simfònica Sant Cugat",
+      "David Cepo",
+      "Teta · Festival Feminista de Tarragona",
+      "Tinder Sorpresa"
+    ],
+    "correct_answer": "Teta · Festival Feminista de Tarragona",
+    "points": 2
+  },
+  {
+    "id": 314,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250424010.jpg",
+    "options": [
+      "Alba Careta Group",
+      "Gran Gala Flamenc",
+      "Faixedas i punt",
+      "Cor Jove de l’Orfeó Català & Orquestra Filharmònica de la Universitat de València"
+    ],
+    "correct_answer": "Cor Jove de l’Orfeó Català & Orquestra Filharmònica de la Universitat de València",
+    "points": 2
+  },
+  {
+    "id": 315,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250327014.jpg",
+    "options": [
+      "Al Sol d'Hivern",
+      "Buenrollistas",
+      "Pablo Ibarburu",
+      "BaBeBra & Mozart"
+    ],
+    "correct_answer": "Pablo Ibarburu",
+    "points": 2
+  },
+  {
+    "id": 316,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250424002.jpg",
+    "options": [
+      "Simfonia Heroica de Beethoven",
+      "El cau del Tabalet",
+      "Orquestra Simfònica Sant Cugat",
+      "Joves intèrprets a la Cripta"
+    ],
+    "correct_answer": "Simfonia Heroica de Beethoven",
+    "points": 2
+  },
+  {
+    "id": 317,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250411006.jpg",
+    "options": [
+      "Edu Soto",
+      "Visita teatralitzada al Museu Pau Casals",
+      "Carmen",
+      "Gran Gala Flamenc"
+    ],
+    "correct_answer": "Carmen",
+    "points": 2
+  },
+  {
+    "id": 318,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250424013.jpg",
+    "options": [
+      "Florian Störtz & Aleksandra Myslek",
+      "Pablo Ibarburu",
+      "Barcelona Guitar Trio & Dance",
+      "Juanpis González"
+    ],
+    "correct_answer": "Florian Störtz & Aleksandra Myslek",
+    "points": 2
+  },
+  {
+    "id": 319,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250424016.jpg",
+    "options": [
+      "Escolania de Montserrat, Orquestra del Miracle & Juan de la Rubia",
+      "Luis Zahera",
+      "El reBOOOMbori",
+      "Arcadi Volodos"
+    ],
+    "correct_answer": "Arcadi Volodos",
+    "points": 2
+  },
+  {
+    "id": 320,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250424017.jpg",
+    "options": [
+      "Tinder Sorpresa",
+      "Ismael Serrano",
+      "Los guapos",
+      "Kenneth Weiss"
+    ],
+    "correct_answer": "Ismael Serrano",
+    "points": 2
+  },
+  {
+    "id": 321,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250411014.jpg",
+    "options": [
+      "Simfonia Heroica de Beethoven",
+      "Píndoles de teatre breu",
+      "Carmen de Bizet",
+      "Mamemi... Mozart!"
+    ],
+    "correct_answer": "Mamemi... Mozart!",
+    "points": 2
+  },
+  {
+    "id": 322,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250424020.jpg",
+    "options": [
+      "Gran Gala Flamenc",
+      "Sarsuela “Grans Èxits”",
+      "Barcelona Guitar Trio & Dance",
+      "Gran Gala Flamenc"
+    ],
+    "correct_answer": "Sarsuela “Grans Èxits”",
+    "points": 2
+  },
+  {
+    "id": 323,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250425022.jpg",
+    "options": [
+      "Mamemi... Mozart!",
+      "Cor Infantil de l’Orfeó Català & Maria Guinand",
+      "Exposició \"Tempo: moviment o pausa\"",
+      "Candlelight: Tribut a Queen"
+    ],
+    "correct_answer": "Cor Infantil de l’Orfeó Català & Maria Guinand",
+    "points": 2
+  },
+  {
+    "id": 324,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250425026.jpg",
+    "options": [
+      "Vigilia",
+      "Romain Garioud & Daniel Blanch",
+      "Barcelona Guitar Trio & Dance",
+      "Barcelona Guitar Trio & Dance"
+    ],
+    "correct_answer": "Romain Garioud & Daniel Blanch",
+    "points": 2
+  },
+  {
+    "id": 325,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250425039.jpg",
+    "options": [
+      "Alba Careta Group",
+      "Kenneth Weiss",
+      "Inner Voice de Carles Marigó",
+      "llustres Ignorantes"
+    ],
+    "correct_answer": "Kenneth Weiss",
+    "points": 2
+  },
+  {
+    "id": 326,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250425040.jpg",
+    "options": [
+      "Pols de diamant",
+      "Grans cors de Morricone, Zimmer & Williams",
+      "Momo",
+      "Taller - Escolta, descobreix i crea la teva música!"
+    ],
+    "correct_answer": "Grans cors de Morricone, Zimmer & Williams",
+    "points": 2
+  },
+  {
+    "id": 327,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250103016.jpg",
+    "options": [
+      "Bruixanteris",
+      "Exposició \"Intercanvis. Miró i els Estats Units\"",
+      "Arte Flamenco",
+      "Gran Gala Flamenc"
+    ],
+    "correct_answer": "Exposició \"Intercanvis. Miró i els Estats Units\"",
+    "points": 2
+  },
+  {
+    "id": 328,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250103015.jpg",
+    "options": [
+      "Exposició \"Pintar el cel. 50 anys d'històries de la Fundació Miró\"",
+      "L'orquestra impossible",
+      "Todos pájaros",
+      "Arte Flamenco"
+    ],
+    "correct_answer": "Exposició \"Pintar el cel. 50 anys d'històries de la Fundació Miró\"",
+    "points": 2
+  },
+  {
+    "id": 329,
+    "question_es": "¿A qué evento pertenece esta foto?",
+    "question_en": "Which event does this photo belong to?",
+    "image": "/media/event_images/20250429051.jpg",
+    "options": [
+      "Moltes mercès",
+      "Com els pingüins",
+      "Festival Camp de Mart",
+      "Exposició \"Francesc d’A. Galí. El mestre invisible\""
+    ],
+    "correct_answer": "Moltes mercès",
+    "points": 2
+  }
+]

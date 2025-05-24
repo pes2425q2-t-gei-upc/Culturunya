@@ -160,6 +160,7 @@
     <string name="quizIncorrect">¡Incorrecto!</string>
     <string name="quizLoading">Cargando pregunta...</string>
     <string name="quizError">Error: %1$s</string>
+    <string name="quizPointsMessage">Para obtener %d puntos responda bien esta pregunta</string>
 
     <!-- Report messages -->
     <string name="ReportSuccess">Se ha reportado correctamente</string>
