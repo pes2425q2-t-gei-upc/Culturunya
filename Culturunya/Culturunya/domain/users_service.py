@@ -1,6 +1,6 @@
 from typing import List
 
-from django.db.models import Q, QuerySet
+from django.db.models import Q, QuerySet, Count
 from django.http import JsonResponse
 from django.core import serializers
 from datetime import datetime
@@ -102,6 +102,12 @@ def create_rating(event_id: int, user_id: int, rating: str, comment: str = None)
         rating=rating,
         comment=comment
     )
+
+def get_admin_with_less_messages():
+    admin_with_less_messages = User.objects.filter(is_admin=True).annotate(
+        received_messages_count=Count('received_messages')
+    ).order_by('received_messages_count').first()
+    return admin_with_less_messages
 
 def create_message(sender_id: int, receiver_id: int, text: str) -> Message:
     try:

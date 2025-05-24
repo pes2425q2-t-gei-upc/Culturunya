@@ -32,7 +32,8 @@ from api.serializers import UserProfileSerializer, ChangePasswordSerializer, Rep
 # Services
 from domain.users_service import get_all_events, filter_events, create_user_service, create_rating, create_message, \
     get_messages, create_resolved_report, get_messages_admin, create_report, get_quiz_ranking_leaderboard, \
-    get_events_ranking_leaderboard, update_rank_from_adding_points, update_rank_from_decreasing_points
+    get_events_ranking_leaderboard, update_rank_from_adding_points, update_rank_from_decreasing_points, \
+    get_admin_with_less_messages
 from persistence.models import User, Report, Rating, TypeRating, QuestionTranslation, \
     Event, RANK_ORDER
 from api.serializers import ProfilePicSerializer
@@ -558,9 +559,10 @@ def send_message_user_to_admin(request):
         if user.is_admin:
             return Response({"error": "Un administrador no usa este endpoint"}, status=403)
         # Buscar primer administrador disponible
-        admin = User.objects.filter(is_admin=True).first()
+        admin = get_admin_with_less_messages()
+        if admin is None:
+            return Response({"error": "No hay admins"}, status=404)
         create_message(user.id, admin.id, text)
-
         return Response({"message": "Mensaje enviado con éxito"}, status=201)
 
     except Exception as e:
