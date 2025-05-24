@@ -221,7 +221,7 @@ def get_events_ranking_leaderboard():
             "username": user.username,
             "profile_picture": user.profile_pic.url if user.profile_pic else None,
             "rank": user.rank_event,
-            "points": user.current_event_points,
+            "points": user.total_event_points,
             "position": position,
         }
         best_users_serializer.append(user_info)
@@ -237,7 +237,7 @@ def get_quiz_ranking_leaderboard():
             "username": user.username,
             "profile_picture": user.profile_pic.url if user.profile_pic else None,
             "rank": user.rank_quiz,
-            "points": user.current_quiz_points,
+            "points": user.total_quiz_points,
             "position": position,
         }
         best_users_serializer.append(user_info)
