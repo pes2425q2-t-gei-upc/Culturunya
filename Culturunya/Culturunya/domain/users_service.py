@@ -134,6 +134,8 @@ def create_report(data, user):
         rating = Rating.objects.get(id=data['rating_id'])
     except ObjectDoesNotExist:
         raise ValueError("Valoración no encontrada")
+    if user.id == rating.user.id:
+        return {"error": "No se puede reportar a uno mismo"}, 403
     fields = {
         "reported_user": rating.user.id,
         "comment": rating.comment,
