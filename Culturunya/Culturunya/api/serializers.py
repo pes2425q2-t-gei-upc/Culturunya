@@ -24,6 +24,8 @@ class UserProfileSerializer(serializers.ModelSerializer):
             'current_quiz_points',
             'total_event_points',
             'total_quiz_points',
+            'banned_from_comments',
+            'is_admin',
         ]
 
 class UserSimpleInfoSerializer(serializers.ModelSerializer):
