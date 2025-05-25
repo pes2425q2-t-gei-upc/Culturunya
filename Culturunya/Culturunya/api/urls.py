@@ -1,7 +1,8 @@
+# -*- coding: utf-8 -*-
 
 from django.urls import path
 from .views import (
-    test_api, data_test, post_test, put_test, delete_test,
+    edit_rating, test_api, data_test, post_test, put_test, delete_test,
     get_events, get_filtered_events, create_user, create_rating_endpoint,
     CustomObtainAuthToken, delete_own_account, ChangePasswordView, UserProfileView, get_conversation_with_admin,
     get_conversation_with_user, send_message_user_to_admin, send_message_admin_to_user, update_language,
@@ -24,7 +25,8 @@ urlpatterns = [#se concatena con el path de url del proyecto
     #otro endpoint POST/DELETE para añadir/quitar eventos de su calendario personal
     path('create_user/', create_user, name='create_user'),
     path('ratings/create/', create_rating_endpoint, name='create_rating'),
-    path('ratings/<int:event_id>/', get_event_comments, name='get_event_comments'),
+    path('ratings/<str:event_id>/', get_event_comments, name='get_event_comments'),
+    path('ratings/edit_rating/<str:rating_id>/', edit_rating, name='edit_rating'),
     path('login/', CustomObtainAuthToken.as_view(), name='api_token_auth'),
     path('logout/', logout_view, name='logout'),
     path('delete_account/', delete_own_account, name='delete_own_account'),

@@ -1,8 +1,11 @@
+# -*- coding: utf-8 -*-
+
 import json
 from http.client import responses
 
 from django.db import IntegrityError
 from django.http import JsonResponse
+
 
 # DRF / Auth
 from rest_framework.decorators import (
@@ -91,7 +94,7 @@ class CustomObtainAuthToken(ObtainAuthToken):
     security=[{'Token': []}],
     responses={
         200: openapi.Response(description="Sesión cerrada exitosamente"),
-        400: openapi.Response(description="Sesión no existente o ya eliminada"),
+        404: openapi.Response(description="Sesión no existente o ya eliminada"),
     }
 )
 @api_view(['POST'])
@@ -104,7 +107,7 @@ def logout_view(request):
     try:
         request.user.auth_token.delete()
     except (AttributeError, Token.DoesNotExist):
-        return Response({"error": "Sesión no existente o ya eliminada"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error": "Sesión no existente o ya eliminada"}, status=status.HTTP_401_UNAUTHORIZED)
 
     return Response({"message": "Sesión cerrada exitosamente"}, status=status.HTTP_200_OK)
 
@@ -131,7 +134,7 @@ def google_auth(request):
             settings.GOOGLE_CLIENT_ID
         )
     except ValueError:
-        return Response({"error": "ID token inválido"}, status=400)
+        return Response({"error": "ID token invalido"}, status=400)
 
     sub   = idinfo["sub"]
     email = idinfo.get("email")
@@ -210,7 +213,7 @@ def get_events(request):
         events = get_all_events()
         return JsonResponse({"events": events})
     else:
-        return JsonResponse({"error": "Invalid request method"}, status=400)
+        return JsonResponse({"error": "Invalid request method"}, status=405)
 
 
 
@@ -361,7 +364,7 @@ def delete_test(request):
 )
 @api_view(["GET"])
 @authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
+#@permission_classes([IsAuthenticated])
 def get_filtered_events(request):
     if request.method == "GET":
         filters = request.GET.dict()
@@ -561,7 +564,7 @@ def send_message_user_to_admin(request):
         admin = User.objects.filter(is_admin=True).first()
         create_message(user.id, admin.id, text)
 
-        return Response({"message": "Mensaje enviado con éxito"}, status=201)
+        return Response({"message": "Mensaje enviado con exito"}, status=201)
 
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
@@ -596,7 +599,7 @@ def send_message_admin_to_user(request):
         receiver = User.objects.get(id=receiver_id)
         create_message(user.id, receiver.id, text)
 
-        return Response({"message": "Mensaje enviado con éxito"}, status=201)
+        return Response({"message": "Mensaje enviado con exito"}, status=201)
 
     except Exception as e:
         return Response({"error": str(e)}, status=400)
