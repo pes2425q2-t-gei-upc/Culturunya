@@ -1,8 +1,12 @@
 package com.example.culturunya.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.culturunya.Api // Assuming you have your Api instance here
+import com.example.culturunya.CurrentSession
+import com.example.culturunya.dataclasses.ratings.Rating
+import com.example.culturunya.dataclasses.ratings.Report
 import com.example.culturunya.dataclasses.ratings.ReportRequest // Your ReportRequest class
 import com.example.culturunya.repositories.ReportsRepository // Your repository
 import kotlinx.coroutines.channels.Channel
@@ -11,47 +15,64 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import java.util.Collections
 
 class ReportViewModel : ViewModel() {
     private val reportsRepository = ReportsRepository(Api.instance) // Example instantiation
 
-    //private val _successMessage = MutableStateFlow<String?>(null)
-    //val successMessage: StateFlow<String?> = _successMessage.asStateFlow()
+    private val _successMessage = MutableStateFlow<String?>(null)
+    val successMessage: StateFlow<String?> = _successMessage.asStateFlow()
 
-    //private val _errorMessage = MutableStateFlow<String?>(null)
-    //val errorMessage: StateFlow<String?> = _errorMessage.asStateFlow()
+    private val _errorMessage = MutableStateFlow<String?>(null)
+    val errorMessage: StateFlow<String?> = _errorMessage.asStateFlow()
 
-    // To show a loading indicator in the button if you want
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
     private val _toastEventChannel = Channel<String>()
     val toastEvent = _toastEventChannel.receiveAsFlow()
 
+    private val _reports = MutableStateFlow<List<Report>>(Collections.emptyList())
+    val reports: StateFlow<List<Report>> = _reports
+
     fun reportRating(reportRequest: ReportRequest) {
         viewModelScope.launch {
             _isLoading.value = true
-            //_successMessage.value = null // Clear previous messages
-            //_errorMessage.value = null   // Clear previous messages
+            _successMessage.value = null
+            _errorMessage.value = null
             reportsRepository.reportRating(reportRequest).onSuccess {
-                //_successMessage.value = "Report submitted successfully!" // Or a more specific message from response
+                _successMessage.value = "Reports obtained successfully!"
                 _toastEventChannel.send("Success")
                 _isLoading.value = false
             }.onFailure { exception ->
-                //_errorMessage.value = "Error: ${exception.message ?: "Failed to submit report."}"
+                _errorMessage.value = "Error: ${exception.message ?: "Failed to obtain reports."}"
                 _toastEventChannel.send("Error: ${exception.message}")
                 _isLoading.value = false
             }
         }
     }
-    /*fun clearSuccessMessage() {
-        _successMessage.value = null
-    }
-    fun clearErrorMessage() {
-        _errorMessage.value = null
-    }*/
     override fun onCleared() {
         super.onCleared()
         _toastEventChannel.close() // Cierra el canal cuando el ViewModel se destruye
+    }
+
+    fun getReports() {
+        viewModelScope.launch {
+            reportsRepository.getReports().onSuccess {
+                Log.d("GetReports", "Success: Received ${it.size} messages")
+                _reports.value = it
+                _successMessage.value = "Success"
+                _errorMessage.value = null
+            }.onFailure { error ->
+                _errorMessage.value = when (error) {
+                    is HttpException -> {
+                        Log.e("GetReports", "HTTP Error code: ${error.code()}")
+                        "HTTP Error code: ${error.code()}. Error message: ${error.message()}"
+                    }
+                    else -> "Error: ${error.message ?: "Failed to obtain reports."}"
+                }
+            }
+        }
     }
 }

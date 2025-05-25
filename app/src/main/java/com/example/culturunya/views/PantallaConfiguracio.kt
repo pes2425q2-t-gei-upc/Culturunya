@@ -272,6 +272,13 @@ fun SettingsScreen(navController: NavController) {
                         getChatsViewModel.getChats()
                     }
                 )
+                SettingsButton(
+                    icon = Icons.Default.Dangerous,
+                    text = "Reportes",//getString(context, R.string.Reports, currentLocale),
+                    onClick = {
+                        navController.navigate(AppScreens.LlistaReports.route)
+                    }
+                )
             }
         }
 

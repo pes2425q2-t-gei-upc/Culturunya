@@ -10,18 +10,22 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.culturunya.viewmodels.EventViewModel
+import com.example.culturunya.viewmodels.ReportViewModel
 import com.example.culturunya.views.*
 import com.example.culturunya.views.ComposableIniciSessio
 import com.example.culturunya.views.MainScreen
 import com.example.culturunya.views.PantallaRegistre
 import com.example.culturunya.views.PantallaCanviContrasenya
 import com.example.culturunya.views.SettingsScreen
+import com.example.culturunya.views.PantallaReport
+
 
 
     @RequiresApi(Build.VERSION_CODES.O)
     @Composable
 fun AppNavigation() {
     val eventViewModel: EventViewModel = viewModel()
+    val ReportViewModel : ReportViewModel = viewModel()
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = AppScreens.IniciSessio.route) {
         composable(route = AppScreens.IniciSessio.route) {
@@ -89,6 +93,32 @@ fun AppNavigation() {
         }
         composable(route = AppScreens.LlistaXats.route) {
             PantallaLlistaXats(navController)
+        }
+        composable(
+            route = AppScreens.LlistaReports.route,
+            arguments = listOf(
+                navArgument("userId") {
+                    type = NavType.IntType
+                    nullable = false
+                    defaultValue = -1
+                },
+                navArgument("username") {
+                    type = NavType.StringType
+                    nullable = true
+                    defaultValue = null
+                },
+                navArgument("imageUrl") {
+                    type = NavType.StringType
+                    nullable = true
+                    defaultValue = null
+                }
+        )
+        ) { backStackEntry ->
+            val userId = backStackEntry.arguments?.get("userId") as? Int
+            val username = backStackEntry.arguments?.getString("username")
+            val imageUrl = backStackEntry.arguments?.getString("imageUrl")
+
+            PantallaReport(navController, userId, username, imageUrl)
         }
     }
 }

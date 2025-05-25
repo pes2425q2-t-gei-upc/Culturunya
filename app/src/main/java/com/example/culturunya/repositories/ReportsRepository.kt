@@ -2,6 +2,7 @@ package com.example.culturunya.repositories
 
 import com.example.culturunya.Api
 import com.example.culturunya.CurrentSession
+import com.example.culturunya.dataclasses.ratings.Report
 import com.example.culturunya.dataclasses.ratings.ReportRequest
 import retrofit2.HttpException
 
@@ -14,6 +15,14 @@ class ReportsRepository(private val api: Api) {
             } else {
                 Result.failure(HttpException(response))
             }
+        } catch (e: Exception){
+            throw e
+        }
+    }
+    suspend fun getReports(): Result<List<Report>> {
+        return try{
+            val response = api.getReports(token = CurrentSession.getAuthHeader())
+            Result.success(response)
         } catch (e: Exception){
             throw e
         }

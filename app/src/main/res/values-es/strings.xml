@@ -164,6 +164,8 @@
     <!-- Report messages -->
     <string name="ReportSuccess">Se ha reportado correctamente</string>
     <string name="ReportError">Error al reportar</string>
+    <string name="Reporter">Reportado por</string>
+    <string name="ReportReason">Motivo</string>
 
     <!-- Notificaciones -->
     <string name="dailyNotification">"Recuerda hacer tus test diarios culturales para obtener puntos"</string>

@@ -161,6 +161,8 @@
     <!-- Report messages -->
     <string name="ReportSuccess">Report submitted successfully</string>
     <string name="ReportError">Error submitting report</string>
+    <string name="Reporter">Reported By</string>
+    <string name="ReportReason">Reason</string>
 
     <!-- Notificaciones -->
     <string name="dailyNotification">"Remember to do your daily cultural quizzes to get points"</string>

@@ -18,6 +18,7 @@ import com.example.culturunya.dataclasses.login.LoginRequest
 import com.example.culturunya.dataclasses.login.LoginResponse
 import com.example.culturunya.dataclasses.chats.SendMessageToAdminRequest
 import com.example.culturunya.dataclasses.chats.SendMessageToUserRequest
+import com.example.culturunya.dataclasses.ratings.Report
 import com.example.culturunya.dataclasses.ratings.ReportRequest
 import com.example.culturunya.dataclasses.settings.UpdateLanguageRequest
 import retrofit2.Response
@@ -116,5 +117,8 @@ interface Api {
         @Header("Authorization") token: String,
         @Body request: SetQuizPointsRequest
     ): Response<Unit>
+
+    @GET("reports/")
+    suspend fun getReports(@Header("Authorization") token: String): List<Report>
 
 }

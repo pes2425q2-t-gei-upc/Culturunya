@@ -72,7 +72,6 @@ class RatingViewModel : ViewModel() {
                 _error.value = null
             }.onFailure {
                 _error.value = "Error: ${it.message}"
-
             }
         }
     }
