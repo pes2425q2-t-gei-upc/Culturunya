@@ -409,6 +409,8 @@ def create_rating_endpoint(request):
         user_id = user.id
         rating = request.data['rating']
         comment = request.data.get('comment', None)
+        if user.banned_from_comments:
+            comment = None
 
         valid_ratings = [choice[0] for choice in TypeRating.choices]
         if rating not in valid_ratings:
