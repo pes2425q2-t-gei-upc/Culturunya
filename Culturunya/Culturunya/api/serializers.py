@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-
-from persistence.models import Report, ReportResolution, Rating
+from persistence.models import Report, ReportResolution, Rating, QuestionTranslation
 
 User = get_user_model()
 
@@ -20,8 +19,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
             'language',
             'rank_event',
             'rank_quiz',
-            'current_event_points',
-            'current_quiz_points',
             'total_event_points',
             'total_quiz_points',
             'banned_from_comments',
@@ -62,3 +59,8 @@ class RatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rating
         fields = ['user', 'id', 'date', 'rating', 'comment']
+
+class QuestionTranslationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model  = QuestionTranslation
+        fields = ("id", "language", "text", "options")

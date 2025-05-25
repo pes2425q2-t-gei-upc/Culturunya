@@ -2,23 +2,21 @@
 
 from django.urls import path
 from .views import (
-    edit_rating, test_api, data_test, post_test, put_test, delete_test,
+    delete_rating, edit_rating,
     get_events, get_filtered_events, create_user, create_rating_endpoint,
     CustomObtainAuthToken, delete_own_account, ChangePasswordView, UserProfileView, get_conversation_with_admin,
     get_conversation_with_user, send_message_user_to_admin, send_message_admin_to_user, update_language,
     update_username, logout_view, resolve_report, list_reports, send_report, get_event_comments, list_chats_admin,
     upload_profile_pic, google_auth, get_question, obtain_location_points, obtain_quiz_points,
-    get_event_assistance_ranking, get_quiz_ranking, GetUsers
+    get_event_assistance_ranking, get_quiz_ranking, GetUsers, delete_rating,
 )
-from .views import data_test
-from .views import delete_test
 
 urlpatterns = [#se concatena con el path de url del proyecto
-    path('test/', test_api, name='test_api'),
-    path('data/', data_test, name='data_test'),
-    path('post/', post_test, name='post_test' ),
-    path('put/', put_test, name='put_test'),
-    path('delete/', delete_test, name='delete_test'),
+    #path('test/', test_api, name='test_api'),
+    #path('data/', data_test, name='data_test'),
+    #path('post/', post_test, name='post_test' ),
+    #path('put/', put_test, name='put_test'),
+    #path('delete/', delete_test, name='delete_test'),
     path('events/', get_events, name='get_events'),
     path('events/filter/', get_filtered_events, name='get_filtered_events'),
     #un endpoint GET para obtener los eventos que un usuario tiene en su calendario personal
@@ -27,6 +25,7 @@ urlpatterns = [#se concatena con el path de url del proyecto
     path('ratings/create/', create_rating_endpoint, name='create_rating'),
     path('ratings/<str:event_id>/', get_event_comments, name='get_event_comments'),
     path('ratings/edit_rating/<str:rating_id>/', edit_rating, name='edit_rating'),
+    path('ratings/delete_rating/<str:rating_id>/', delete_rating, name='delete_rating'),
     path('login/', CustomObtainAuthToken.as_view(), name='api_token_auth'),
     path('logout/', logout_view, name='logout'),
     path('delete_account/', delete_own_account, name='delete_own_account'),

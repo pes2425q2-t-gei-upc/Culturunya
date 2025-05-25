@@ -31,13 +31,14 @@ from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
 from api.serializers import UserProfileSerializer, ChangePasswordSerializer, ReportSerializer, \
-    ReportResolutionSerializer, RatingSerializer
+    RatingSerializer, QuestionTranslationSerializer
 # Services
 from domain.users_service import get_all_events, filter_events, create_user_service, create_rating, create_message, \
     get_messages, create_resolved_report, get_messages_admin, create_report, get_quiz_ranking_leaderboard, \
-    get_events_ranking_leaderboard
-from persistence.models import User, Report, Rating, TypeRating, QuestionTranslation, TypeRank, POINTS_TO_NEXT_RANK, \
-    Event
+    get_events_ranking_leaderboard, update_rank_from_adding_points, update_rank_from_decreasing_points, \
+    get_admin_with_less_messages
+from persistence.models import User, Report, Rating, TypeRating, QuestionTranslation, \
+    Event, RANK_ORDER
 from api.serializers import ProfilePicSerializer
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.decorators import parser_classes
@@ -94,7 +95,7 @@ class CustomObtainAuthToken(ObtainAuthToken):
     security=[{'Token': []}],
     responses={
         200: openapi.Response(description="Sesión cerrada exitosamente"),
-        404: openapi.Response(description="Sesión no existente o ya eliminada"),
+        401: openapi.Response(description="Sesión no existente o ya eliminada"),
     }
 )
 @api_view(['POST'])
@@ -107,7 +108,7 @@ def logout_view(request):
     try:
         request.user.auth_token.delete()
     except (AttributeError, Token.DoesNotExist):
-        return Response({"error": "Sesión no existente o ya eliminada"}, status=status.HTTP_401_UNAUTHORIZED)
+        return Response({"detail": "Sesión no existente o ya eliminada"}, status=status.HTTP_401_UNAUTHORIZED)
 
     return Response({"message": "Sesión cerrada exitosamente"}, status=status.HTTP_200_OK)
 
@@ -204,6 +205,7 @@ def create_user(request):
     responses={
         200: openapi.Response(description="Lista de eventos"),
         400: openapi.Response(description="Error en la solicitud"),
+        405: openapi.Response(description="Invalid request method"),
     }
 )
 
@@ -212,102 +214,12 @@ def get_events(request):
     if request.method == "GET":
         events = get_all_events()
         return JsonResponse({"events": events})
-    else:
-        return JsonResponse({"error": "Invalid request method"}, status=405)
 
 
 
 #
 # ENDPOINTS PROTEGIDOS (requieren token)
 #
-
-
-@swagger_auto_schema(
-    method='get',
-    operation_description="Test endpoint que requiere token.",
-    security=[{'Token': []}],
-    responses={200: openapi.Response(description="OK")},
-)
-@api_view(["GET"])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-def test_api(request):
-    return JsonResponse({"message": "Testing API okay"})
-
-
-@swagger_auto_schema(
-    method='get',
-    operation_description="Devuelve data test, requiere token.",
-    security=[{'Token': []}],
-    responses={200: openapi.Response(description="OK")},
-)
-@api_view(["GET"])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-def data_test(request):
-    return JsonResponse({"message": "Testing API DATA"})
-
-
-@swagger_auto_schema(
-    method='post',
-    operation_description="POST test, requiere token.",
-    security=[{'Token': []}],
-    request_body=openapi.Schema(
-        type=openapi.TYPE_OBJECT,
-        additional_properties=openapi.Schema(type=openapi.TYPE_STRING),
-    ),
-    responses={200: openapi.Response(description="OK")},
-)
-@api_view(["POST"])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-def post_test(request):
-    if request.method == "POST":
-        try:
-            data = json.loads(request.body)
-            return JsonResponse({"message": "POST request received", "data": data})
-        except json.JSONDecodeError:
-            return JsonResponse({"error": "Invalid JSON"}, status=400)
-    return JsonResponse({"error": "Invalid request method"}, status=400)
-
-
-@swagger_auto_schema(
-    method='put',
-    operation_description="PUT test, requiere token.",
-    security=[{'Token': []}],
-    request_body=openapi.Schema(
-        type=openapi.TYPE_OBJECT,
-        additional_properties=openapi.Schema(type=openapi.TYPE_STRING),
-    ),
-    responses={200: openapi.Response(description="OK")},
-)
-@api_view(["PUT"])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-def put_test(request):
-    if request.method == "PUT":
-        try:
-            data = json.loads(request.body)
-            return JsonResponse({"message": "PUT request received", "updated_data": data})
-        except json.JSONDecodeError:
-            return JsonResponse({"error": "Invalid JSON"}, status=400)
-    return JsonResponse({"error": "Invalid request method"}, status=400)
-
-
-@swagger_auto_schema(
-    method='delete',
-    operation_description="DELETE test, requiere token.",
-    security=[{'Token': []}],
-    responses={200: openapi.Response(description="OK")},
-)
-@api_view(["DELETE"])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-def delete_test(request):
-    if request.method == "DELETE":
-        return JsonResponse({"message": "Delete request received"})
-    else:
-        return JsonResponse({"error": "Invalid request method"}, status=400)
 
 @swagger_auto_schema(
     method='get',
@@ -359,7 +271,7 @@ def delete_test(request):
     ],
     responses={
         200: openapi.Response(description="Lista de eventos filtrados"),
-        400: "Parametros invalidos",
+        405: "No permitido",
     }
 )
 @api_view(["GET"])
@@ -370,7 +282,6 @@ def get_filtered_events(request):
         filters = request.GET.dict()
         filtered_events = filter_events(filters)
         return JsonResponse({"events": filtered_events}, safe=False)
-    return JsonResponse({"error": "Invalid request method"}, status=400)
 
 
 @swagger_auto_schema(
@@ -411,6 +322,8 @@ def create_rating_endpoint(request):
         user_id = user.id
         rating = request.data['rating']
         comment = request.data.get('comment', None)
+        if user.banned_from_comments:
+            comment = None
 
         valid_ratings = [choice[0] for choice in TypeRating.choices]
         if rating not in valid_ratings:
@@ -446,6 +359,7 @@ def create_rating_endpoint(request):
     responses={
         200: openapi.Response(description="Rating actualizado correctamente", schema=RatingSerializer()),
         400: "Datos inválidos",
+        403: "El usario no tiene permisos para editar esa valoracion",
         401: "Sin autorización",
         404: "Rating no encontrado o no autorizado"
     },
@@ -458,7 +372,7 @@ def edit_rating(request, rating_id):
     except Rating.DoesNotExist:
         return Response({"error": "Rating no encontrado"}, status=status.HTTP_404_NOT_FOUND)
     if request.user.id != rating.user.id:
-        return Response({"error:": "El usario no tiene permisos para editar esa valoracion"})
+        return Response({"error:": "El usario no tiene permisos para editar esa valoracion"}, status=status.HTTP_403_FORBIDDEN)
     data = request.data
     new_rating_choices = data['rating']
     new_comment = data['comment']
@@ -479,6 +393,7 @@ def edit_rating(request, rating_id):
     responses={
         200: "Valoración borrada correctamente",
         401: "Sin autorización",
+        403: "El no tiene permisos para borrar esa valoracion",
         404: "Rating no encontrado"
     }
 )
@@ -490,7 +405,7 @@ def delete_rating(request, rating_id):
     except Rating.DoesNotExist:
         return Response({"error": "Rating no encontrado"}, status=status.HTTP_404_NOT_FOUND)
     if request.user.id != rating.user.id:
-        return Response({"error": "El no tiene permisos para borrar esa valoracion"})
+        return Response({"error": "El no tiene permisos para borrar esa valoracion"}, status=status.HTTP_403_FORBIDDEN)
     rating.delete()
     return Response({"Valoracion borrada correctamente"}, status=status.HTTP_200_OK)
 
@@ -561,7 +476,9 @@ def send_message_user_to_admin(request):
         if user.is_admin:
             return Response({"error": "Un administrador no usa este endpoint"}, status=403)
         # Buscar primer administrador disponible
-        admin = User.objects.filter(is_admin=True).first()
+        admin = get_admin_with_less_messages()
+        if admin is None:
+            return Response({"error": "No hay admins"}, status=404)
         create_message(user.id, admin.id, text)
 
         return Response({"message": "Mensaje enviado con exito"}, status=201)
@@ -595,6 +512,11 @@ def send_message_admin_to_user(request):
         if not user.is_admin:
             return Response({"error": "Solo los administradores pueden enviar mensajes desde este endpoint"},
                             status=403)
+
+        try:
+            receiver = User.objects.get(id=receiver_id)
+        except User.DoesNotExist:
+            return Response({"error": "Usuario destinatario no encontrado"}, status=400)
 
         receiver = User.objects.get(id=receiver_id)
         create_message(user.id, receiver.id, text)
@@ -1020,10 +942,11 @@ def get_question(request, question_id):
     user = User.objects.get(id=request.user.id)
     language = user.language
     try:
-        question = QuestionTranslation.objects.get(question_id=question_id, language=language)
+        question = QuestionTranslation.objects.get(question__id=question_id, language=language)
     except QuestionTranslation.DoesNotExist:
         return Response({"Error": "pregunta no encontrada"}, status=404)
-    return Response(question, status=200)
+    serializer = QuestionTranslationSerializer(question)
+    return Response(serializer.data, status=200)
 
 @swagger_auto_schema(
     method="put",
@@ -1041,25 +964,14 @@ def obtain_location_points(request, event_id):
     if not assisted:
         user.events_assisted.add(Event.objects.get(id=event_id))
         user.total_event_points += 20
-        event_points = user.current_event_points + 20
+        event_points = user.total_event_points
         rank = user.rank_event
-        points_to_next_rank = POINTS_TO_NEXT_RANK[rank]
-        if event_points >= points_to_next_rank:
-            if rank == TypeRank.UNRANKED:
-                rank = TypeRank.BRONZE
-            elif rank == TypeRank.BRONZE:
-                rank = TypeRank.SILVER
-            elif rank == TypeRank.SILVER:
-                rank = TypeRank.GOLD
-            elif rank == TypeRank.GOLD:
-                rank = TypeRank.RAMON_LLULL
-            user.current_event_points = 0
-            user.rank_event = rank
-            user.save()
+        new_rank = update_rank_from_adding_points(rank, event_points)
+        user.rank_event = new_rank
+        user.save()
+        if RANK_ORDER.index(new_rank) > RANK_ORDER.index(rank):
             return Response({"message": "¡Has subido de nivel!"}, status=200)
         else:
-            user.current_event_points = event_points
-            user.save()
             return Response({"message": "Puntos obtenidos"}, status=200)
     else:
         return Response({"error": "El usuario ya ha asistido al evento"}, status=403)
@@ -1084,31 +996,28 @@ def obtain_location_points(request, event_id):
 def obtain_quiz_points(request):
     user = User.objects.get(id=request.user.id)
     points = request.data['points']
-    user.total_quiz_points += points
+    user.total_quiz_points += int(points)
     if user.total_quiz_points < 0:
         user.total_quiz_points = 0
-    quiz_points = user.current_quiz_points + points
-    if quiz_points < 0:
-        quiz_points = 0
+    quiz_points = user.total_quiz_points
     rank = user.rank_quiz
-    points_to_next_rank = POINTS_TO_NEXT_RANK[rank]
-    if quiz_points >= points_to_next_rank:
-        if rank == TypeRank.UNRANKED:
-            rank = TypeRank.BRONZE
-        elif rank == TypeRank.BRONZE:
-            rank = TypeRank.SILVER
-        elif rank == TypeRank.SILVER:
-            rank = TypeRank.GOLD
-        elif rank == TypeRank.GOLD:
-            rank = TypeRank.RAMON_LLULL
-        user.current_quiz_points = 0
-        user.rank_quiz = rank
+    if int(points) > 0:
+        new_rank = update_rank_from_adding_points(rank, quiz_points)
+        user.rank_quiz = new_rank
         user.save()
-        return Response({"message": "¡Has subido de nivel!"}, status=200)
+        if RANK_ORDER.index(new_rank) > RANK_ORDER.index(rank):
+            return Response({"message": "¡Has subido de nivel!"}, status=200)
+        else:
+            return Response({"message": "Puntos obtenidos"}, status=200)
     else:
-        user.current_quiz_points = quiz_points
+        new_rank = update_rank_from_decreasing_points(rank, quiz_points)
+        user.rank_quiz = new_rank
         user.save()
-        return Response({"message": "Puntos obtenidos"}, status=200)
+        if RANK_ORDER.index(new_rank) < RANK_ORDER.index(rank):
+            return Response({"message": "Vaya, has bajado de nivel..."}, status=200)
+        else:
+            return Response({"message": "Puntos decrementados"}, status=200)
+
 
 @swagger_auto_schema(
     method="get",

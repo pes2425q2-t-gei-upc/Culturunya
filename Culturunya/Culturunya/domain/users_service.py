@@ -1,6 +1,6 @@
 from typing import List
 
-from django.db.models import Q, QuerySet
+from django.db.models import Q, QuerySet, Count
 from django.http import JsonResponse
 from django.core import serializers
 from datetime import datetime
@@ -10,7 +10,8 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 
 from api.serializers import ReportResolutionSerializer, ReportSerializer
-from persistence.models import Event, PersonalCalendar, Rating, Message, Report, TypeRank
+from persistence.models import Event, PersonalCalendar, Rating, Message, Report, \
+    RANK_ORDER, RANK_POINTS
 
 
 def get_all_events():
@@ -102,6 +103,12 @@ def create_rating(event_id: int, user_id: int, rating: str, comment: str = None)
         comment=comment
     )
 
+def get_admin_with_less_messages():
+    admin_with_less_messages = User.objects.filter(is_admin=True).annotate(
+        received_messages_count=Count('received_messages')
+    ).order_by('received_messages_count').first()
+    return admin_with_less_messages
+
 def create_message(sender_id: int, receiver_id: int, text: str) -> Message:
     try:
         sender = User.objects.get(id=sender_id)
@@ -187,6 +194,30 @@ def create_resolved_report(data, user, report_id):
 
     return {"error": serializer.errors}, 400
 
+def update_rank_from_adding_points(rank, points):
+    current_rank_index = RANK_ORDER.index(rank)
+    established = False
+    while current_rank_index < len(RANK_ORDER)-1 and not established:
+        next_rank = RANK_ORDER[current_rank_index+1]
+        if points >= RANK_POINTS[next_rank]:
+            rank = next_rank
+            current_rank_index += 1
+        else:
+            established = True
+    return rank
+
+def update_rank_from_decreasing_points(rank, points):
+    current_rank_index = RANK_ORDER.index(rank)
+    established = False
+    while current_rank_index > 0 and not established:
+        if points < RANK_POINTS[rank]:
+            rank = RANK_ORDER[current_rank_index-1]
+            current_rank_index -= 1
+        else:
+            established = True
+    return rank
+
+
 def get_events_ranking_leaderboard():
     best_users = User.objects.order_by("-total_event_points")
     best_users_serializer = []
@@ -196,7 +227,7 @@ def get_events_ranking_leaderboard():
             "username": user.username,
             "profile_picture": user.profile_pic.url if user.profile_pic else None,
             "rank": user.rank_event,
-            "points": user.current_event_points,
+            "points": user.total_event_points,
             "position": position,
         }
         best_users_serializer.append(user_info)
@@ -212,7 +243,7 @@ def get_quiz_ranking_leaderboard():
             "username": user.username,
             "profile_picture": user.profile_pic.url if user.profile_pic else None,
             "rank": user.rank_quiz,
-            "points": user.current_quiz_points,
+            "points": user.total_quiz_points,
             "position": position,
         }
         best_users_serializer.append(user_info)
