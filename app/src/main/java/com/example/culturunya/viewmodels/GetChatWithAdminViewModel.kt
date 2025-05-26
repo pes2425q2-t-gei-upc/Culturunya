@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.culturunya.Api
 import com.example.culturunya.repositories.ChatRepository
 import com.example.culturunya.dataclasses.chats.Message
-import com.example.culturunya.CurrentSession
+import com.example.culturunya.session.CurrentSession
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch

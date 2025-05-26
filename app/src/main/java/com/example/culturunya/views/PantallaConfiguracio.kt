@@ -1,6 +1,6 @@
 package com.example.culturunya.views
 
-import android.util.Log
+import SessionManager
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -30,10 +30,11 @@ import com.example.culturunya.viewmodels.GetChatsViewModel
 import com.example.culturunya.viewmodels.LogoutViewModel
 import com.example.culturunya.viewmodels.UpdateLanguageViewModel
 import com.example.culturunya.viewmodels.UserViewModel
-import com.example.culturunya.CurrentSession
+import com.example.culturunya.session.CurrentSession
 import com.example.culturunya.navigation.AppScreens
 import com.example.culturunya.ui.theme.GrisMoltFluix
 import com.example.culturunya.ui.theme.Morat
+import com.example.culturunya.viewmodels.AuthViewModel
 import com.example.culturunya.viewmodels.ReportViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -77,6 +78,9 @@ fun SettingsScreen(navController: NavController) {
     var selectedOption by remember { mutableStateOf(if (currentLocale == "en" || currentLocale == "EN") options[0] else options[1]) }
 
     val userViewModel: UserViewModel = viewModel()
+
+    val authViewModel: AuthViewModel = viewModel()
+    val sessionManager = remember { SessionManager(context) }
 
     LaunchedEffect(Unit) {
         getChatsViewModel.reset()
@@ -370,6 +374,7 @@ fun SettingsScreen(navController: NavController) {
 
     LaunchedEffect(logoutCode) {
         if (logoutCode == 200) {
+            authViewModel.logout(sessionManager)
             navController.navigate(AppScreens.IniciSessio.route)
         }
         else if (logoutCode != null) {

@@ -1,19 +1,22 @@
 package com.example.culturunya.viewmodels
 
+import SessionManager
+import android.app.Application
 import android.util.Log
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.culturunya.Api
 import com.example.culturunya.repositories.UserRepository
-import com.example.culturunya.CurrentSession
+import com.example.culturunya.session.CurrentSession
 import com.example.culturunya.dataclasses.users.UserInfo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
-class UserViewModel: ViewModel() {
+class UserViewModel(application: Application): AndroidViewModel(application) {
     private val repository = UserRepository(Api.instance)
+    private val sessionManager = SessionManager(application.applicationContext)
 
     private val _getUserInfoResponse = MutableStateFlow<UserInfo?>(null)
     val getUserInfoResponse: StateFlow<UserInfo?> = _getUserInfoResponse
@@ -35,6 +38,7 @@ class UserViewModel: ViewModel() {
                     Log.d("UserViewModel", "Setting user data with: ${user.username}, ${user.email}, ${user.language}")
                     if (user.profile_pic != null) CurrentSession.setUserData(user.username, user.email, user.profile_pic, user.language, user.is_admin)
                     else CurrentSession.setUserData(user.username, user.email, "", user.language, user.is_admin)
+                    CurrentSession.saveToDataStore(sessionManager)
                 }
             }
             catch (e: Exception){

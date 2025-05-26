@@ -28,7 +28,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.culturunya.R
 import com.example.culturunya.viewmodels.GetChatsViewModel
-import com.example.culturunya.CurrentSession
+import com.example.culturunya.session.CurrentSession
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 

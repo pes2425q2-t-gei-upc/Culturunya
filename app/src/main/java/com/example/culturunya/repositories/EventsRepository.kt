@@ -2,7 +2,7 @@ package com.example.culturunya.repositories
 
 import com.example.culturunya.Api
 import com.example.culturunya.dataclasses.events.Event
-import com.example.culturunya.CurrentSession
+import com.example.culturunya.session.CurrentSession
 
 class EventsRepository(private val api: Api) {
 

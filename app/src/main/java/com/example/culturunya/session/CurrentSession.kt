@@ -1,5 +1,8 @@
-package com.example.culturunya
+package com.example.culturunya.session
 
+import SessionManager
+import android.util.Log
+import kotlinx.coroutines.flow.first
 import java.util.*
 
 class CurrentSession private constructor() {
@@ -75,6 +78,30 @@ class CurrentSession private constructor() {
             username = userName
             password = newPassword
             email = mail
+        }
+
+        suspend fun loadFromDataStore(sessionManager: SessionManager) {
+            Log.d("CurrentSession", "Intentando recuperar sesión del DataStore...")
+
+            val sessionData = sessionManager.sessionData.first()
+
+            Log.d("CurrentSession", "Datos recuperados: $sessionData")
+
+            token = sessionData.token
+            username = sessionData.username
+            email = sessionData.email
+            profile_pic = sessionData.profilePic
+            is_admin = sessionData.isAdmin
+        }
+
+        suspend fun saveToDataStore(sessionManager: SessionManager) {
+            sessionManager.saveSession(
+                token = token,
+                username = username,
+                email = email,
+                profilePic = profile_pic,
+                isAdmin = is_admin
+            )
         }
     }
 }

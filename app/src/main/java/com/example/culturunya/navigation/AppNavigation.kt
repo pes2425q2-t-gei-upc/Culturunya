@@ -20,10 +20,10 @@ import com.example.culturunya.views.PantallaReport
 
     @RequiresApi(Build.VERSION_CODES.O)
     @Composable
-fun AppNavigation() {
+fun AppNavigation(isLoggedIn: Boolean, onLogout: () -> Unit) {
     val eventViewModel: EventViewModel = viewModel()
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = AppScreens.IniciSessio.route) {
+    NavHost(navController = navController, startDestination = if (isLoggedIn) AppScreens.MainScreen.createRoute("Events") else AppScreens.IniciSessio.route) {
         composable(route = AppScreens.IniciSessio.route) {
             ComposableIniciSessio(navController)
         }

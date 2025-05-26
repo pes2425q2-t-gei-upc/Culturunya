@@ -1,11 +1,10 @@
 package com.example.culturunya.repositories
 
 import com.example.culturunya.Api
-import com.example.culturunya.CurrentSession
 import com.example.culturunya.dataclasses.reports.Report
 import com.example.culturunya.dataclasses.reports.ReportRequest
-import com.example.culturunya.dataclasses.reports.ResolveAction
 import com.example.culturunya.dataclasses.reports.ResolveRequest
+import com.example.culturunya.session.CurrentSession
 import retrofit2.HttpException
 
 class ReportsRepository(private val api: Api) {
