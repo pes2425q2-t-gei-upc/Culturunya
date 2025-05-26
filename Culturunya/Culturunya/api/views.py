@@ -698,6 +698,7 @@ class ChangePasswordView(APIView):
             if not user.check_password(serializer.validated_data['old_password']):
                 return Response({"detail": "La contraseña actual es incorrecta."}, status=status.HTTP_400_BAD_REQUEST)
             user.set_password(serializer.validated_data['new_password'])
+            user.force_change_password = False;
             user.save()
             return Response({"detail": "Contraseña cambiada correctamente."}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
