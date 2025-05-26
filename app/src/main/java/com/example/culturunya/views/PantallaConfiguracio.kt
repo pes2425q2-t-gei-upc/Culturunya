@@ -27,11 +27,18 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.culturunya.R
+import com.example.culturunya.viewmodels.DeleteAccountViewModel
+import com.example.culturunya.viewmodels.GetChatsViewModel
+import com.example.culturunya.viewmodels.LogoutViewModel
+import com.example.culturunya.viewmodels.UpdateLanguageViewModel
+import com.example.culturunya.viewmodels.UserViewModel
 import com.example.culturunya.session.CurrentSession
 import com.example.culturunya.navigation.AppScreens
 import com.example.culturunya.screens.RankIcon
 import com.example.culturunya.ui.theme.GrisMoltFluix
 import com.example.culturunya.ui.theme.Morat
+import com.example.culturunya.viewmodels.AuthViewModel
+import com.example.culturunya.viewmodels.ReportViewModel
 import com.example.culturunya.viewmodels.*
 import java.io.File
 import java.io.FileOutputStream
@@ -46,6 +53,11 @@ fun SettingsScreen(navController: NavController) {
     val deleteAccountViewModel: DeleteAccountViewModel = viewModel()
     val deleteCode by deleteAccountViewModel.deleteAccountStatus.collectAsState()
     var showDeleteErrorDialog by remember { mutableStateOf(false) }
+
+    val reportViewModel: ReportViewModel = viewModel()
+    val reportResponse by reportViewModel.reports.collectAsState()
+    val reportCode by reportViewModel.errorCode.collectAsState()
+    var showReportErrorDialog by remember { mutableStateOf(false) }
 
     val updateLanguageViewModel: UpdateLanguageViewModel = viewModel()
     val updateLanguageCode by updateLanguageViewModel.updateLanguageStatus.collectAsState()
@@ -99,11 +111,30 @@ fun SettingsScreen(navController: NavController) {
         else showGetChatsErrorDialog = true
     }
 
-    if (showDeleteErrorDialog) {
-        val message = getString(context, R.string.unexpectedErrorLoadingChat, currentLocale)
+    LaunchedEffect(reportResponse, reportCode) {
+        if (reportResponse.isNotEmpty()) {
+            navController.navigate(route = AppScreens.ListReports.route)
+            reportViewModel.reset()
+        }
+        else if (reportCode == 403) {
+            navController.navigate(route = AppScreens.Reports.route)
+            reportViewModel.reset()
+        }
+        else if( reportCode == null){
+            //
+        }
+        else showReportErrorDialog = true
+    }
+
+    if (showReportErrorDialog) {
+        var message = getString(context, R.string.unexpectedErrorLoadingReports, currentLocale)
+        if (reportCode == 400) message = getString(context, R.string.notAValidLanguage, currentLocale)
+        else if (reportCode == 401) message = getString(context, R.string.unauthenticated, currentLocale)
+        else if (reportCode == 500) getString(context, R.string.serverError, currentLocale)
         popUpError(message, onClick = {
-            showGetChatsErrorDialog = false
+            showReportErrorDialog = false
         })
+        reportViewModel.reset()
     }
 
     if (showUpdateLanguageErrorDialog) {
@@ -291,6 +322,17 @@ fun SettingsScreen(navController: NavController) {
                         getChatsViewModel.getChats()
                     }
                 )
+                Log.d("Admin", "El usuario tiene admin en: ${CurrentSession.is_admin}")
+                if(CurrentSession.is_admin) {
+                    Divider(color = Color.LightGray)
+                    SettingsButton(
+                        icon = Icons.Default.Dangerous,
+                        text = getString(context, R.string.Reports, currentLocale),
+                        onClick = {
+                            reportViewModel.getReports()
+                        }
+                    )
+                }
             }
         }
 

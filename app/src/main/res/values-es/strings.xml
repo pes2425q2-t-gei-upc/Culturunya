@@ -183,6 +183,14 @@
     <!-- Report messages -->
     <string name="ReportSuccess">Se ha reportado correctamente</string>
     <string name="ReportError">Error al reportar</string>
+    <string name="Reporter">Reportado por</string>
+    <string name="ReportReason">Motivo</string>
+    <string name="Reported">Usuario reportado</string>
+    <string name="NoAction">Sin acción</string>
+    <string name="Warning">Advertencia</string>
+    <string name="Ban">Vetar</string>
+    <string name="Reports">Reportes</string>
+    <string name= "unexpectedErrorLoadingReports"> Se ha producido un error inesperado al cargar los reportes.</string>
 
     <!-- Notificaciones -->
     <string name="dailyNotification">"Recuerda hacer tus test diarios culturales para obtener puntos"</string>

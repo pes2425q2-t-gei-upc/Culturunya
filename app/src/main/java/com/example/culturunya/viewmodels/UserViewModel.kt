@@ -36,8 +36,9 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
                 val user = _getUserInfoResponse.value
                 if (user != null) {
                     Log.d("UserViewModel", "Setting user data with: ${user.username}, ${user.email}, ${user.language}")
-                    if (user.profile_pic != null) CurrentSession.setUserData(user.username, user.email, user.profile_pic, user.language, user.rank_quiz, user.rank_event, user.current_quiz_points, user.current_event_points)
-                    else CurrentSession.setUserData(user.username, user.email, "", user.language, user.rank_quiz, user.rank_event, user.current_quiz_points, user.current_event_points)
+
+                    if (user.profile_pic != null) CurrentSession.setUserData(user.username, user.email, user.profile_pic, user.language, user.rank_quiz, user.rank_event, user.current_quiz_points, user.current_event_points, user.is_admin)
+                    else CurrentSession.setUserData(user.username, user.email, "", user.language, user.rank_quiz, user.rank_event, user.current_quiz_points, user.current_event_points, user.is_admin)
                     CurrentSession.saveToDataStore(sessionManager)
                 }
             }

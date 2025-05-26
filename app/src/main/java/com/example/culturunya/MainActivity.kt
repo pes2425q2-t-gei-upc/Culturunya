@@ -67,13 +67,13 @@ class MainActivity : ComponentActivity() {
                     android.Manifest.permission.POST_NOTIFICATIONS
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
-                Log.d("MainActivity", "Solicitando permiso POST_NOTIFICATIONS")
+                //Log.d("MainActivity", "Solicitando permiso POST_NOTIFICATIONS")
                 requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
             } else {
-                Log.d("MainActivity", "Permiso POST_NOTIFICATIONS ya concedido")
+                //Log.d("MainActivity", "Permiso POST_NOTIFICATIONS ya concedido")
             }
         } else {
-            Log.d("MainActivity", "No se requiere permiso POST_NOTIFICATIONS en esta versión de Android")
+            //Log.d("MainActivity", "No se requiere permiso POST_NOTIFICATIONS en esta versión de Android")
         }
     }
 

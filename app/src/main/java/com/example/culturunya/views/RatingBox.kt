@@ -44,10 +44,11 @@ import androidx.media3.common.util.UnstableApi
 import com.example.culturunya.R
 import com.example.culturunya.dataclasses.ratings.Rating
 import com.example.culturunya.session.CurrentSession
-import com.example.culturunya.dataclasses.ratings.ReportRequest
+import com.example.culturunya.dataclasses.reports.ReportRequest
 import com.example.culturunya.ui.theme.*
-import com.google.android.gms.maps.model.Circle
 import com.example.culturunya.viewmodels.ReportViewModel
+import com.google.android.gms.maps.model.Circle
+
 
 @kotlin.OptIn(ExperimentalMaterial3Api::class)
 @OptIn(UnstableApi::class)

@@ -36,4 +36,6 @@ sealed class AppScreens(val route: String) {
     object Quiz : AppScreens("quiz") {
         override fun createRoute() = "quiz"
     }
+    object Reports : AppScreens("report_screen")
+    object ListReports: AppScreens("reports_screen")
 }

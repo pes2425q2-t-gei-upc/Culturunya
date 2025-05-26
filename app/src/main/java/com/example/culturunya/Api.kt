@@ -18,8 +18,10 @@ import com.example.culturunya.dataclasses.login.LoginRequest
 import com.example.culturunya.dataclasses.login.LoginResponse
 import com.example.culturunya.dataclasses.chats.SendMessageToAdminRequest
 import com.example.culturunya.dataclasses.chats.SendMessageToUserRequest
+import com.example.culturunya.dataclasses.reports.Report
+import com.example.culturunya.dataclasses.reports.ReportRequest
+import com.example.culturunya.dataclasses.reports.ResolveRequest
 import com.example.culturunya.dataclasses.ranking.RankingPosition
-import com.example.culturunya.dataclasses.ratings.ReportRequest
 import com.example.culturunya.dataclasses.settings.UpdateLanguageRequest
 import retrofit2.Response
 import retrofit2.http.*
@@ -112,11 +114,17 @@ interface Api {
     @POST("reports/create/")
     suspend fun reportRating(@Header("Authorization") token: String, @Body reportRequest: ReportRequest): Response<Unit>
 
-    @PUT("user/get_points_quiz/")
+    @PUT("user/set_points_quiz/")
     suspend fun setQuizPoints(
         @Header("Authorization") token: String,
         @Body request: SetQuizPointsRequest
     ): Response<Unit>
+
+    @GET("reports/")
+    suspend fun getReports(@Header("Authorization") token: String): List<Report>
+
+    @POST("reports/{report_Id}/resolve/")
+    suspend fun resolveReport(@Header("Authorization") token: String, @Path("report_Id") report_Id: String, @Body resolveRequest: ResolveRequest): Response<Unit>
 
 
     @GET("leaderboard/quiz/")

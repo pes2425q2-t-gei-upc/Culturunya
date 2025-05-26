@@ -77,11 +77,9 @@ class QuizViewModel : ViewModel() {
     }
 
     private fun loadCurrentPoints() {
-        Log.d("QUIZ_DEBUG", "Enviant GET /user/profile_info/ amb token: ${CurrentSession.token}")
         viewModelScope.launch {
             try {
                 val userInfo = repository.getProfileInfo("Token ${CurrentSession.token}")
-                Log.d("QUIZ_DEBUG", "Resposta del backend a GET: $userInfo")
                 _state.value = _state.value.copy(currentPoints = userInfo.total_quiz_points)
             } catch (e: Exception) {
                 Log.e("QUIZ_DEBUG", "Error obtenint dades de l'usuari: ${e.message}")
@@ -95,7 +93,7 @@ class QuizViewModel : ViewModel() {
             _state.value = _state.value.copy(isLoading = true)
             try {
                 // Intentar obtenir pregunta del servidor
-                val randomId = Random.nextInt(1, numQuestions + 1)  // +1 perquè Random.nextInt és exclusiu en el límit superior
+                val randomId = Random.nextInt(1, 201)
                 // TODO: Implementar crida al servidor quan estigui disponible
                 // Per ara, agafem una pregunta aleatòria del JSON
                 val randomQuestion = questions.random()

@@ -75,6 +75,7 @@ class CurrentSession private constructor() {
             Companion.rank_event = rank_event
             Companion.current_quiz_points = current_quiz_points
             Companion.current_event_points = current_event_points
+            Companion.is_admin = is_admin
         }
 
         fun setGoogleToken(idToken: String) {
@@ -83,8 +84,8 @@ class CurrentSession private constructor() {
 
         fun getGoogleToken(): String = googleIdToken
 
-        fun setAdminStatus(isAdmin: Boolean) {
-            is_admin = isAdmin
+        fun isAdmin(): Boolean {
+            return is_admin
         }
 
         fun changeLanguage(lang: String) {
@@ -105,6 +106,7 @@ class CurrentSession private constructor() {
             rank_event = ""
             current_quiz_points = 0
             current_event_points = 0
+            is_admin = false
         }
 
         fun hasActiveSession(): Boolean = token.isNotEmpty()
@@ -129,6 +131,7 @@ class CurrentSession private constructor() {
                 rank_event = sessionData.rankEvents
                 current_quiz_points = sessionData.currentQuizPoints
                 current_event_points = sessionData.currentEventsPoints
+                is_admin = sessionData.is_admin
 
                 Log.d("CurrentSession", "Sesión cargada exitosamente: $sessionData")
             } catch (e: Exception) {
@@ -149,15 +152,12 @@ class CurrentSession private constructor() {
                     rankEvents = rank_event,
                     currentQuizPoints = current_quiz_points,
                     currentEventsPoints = current_event_points
+                    is_admin = is_admin
                 )
                 Log.d("CurrentSession", "Sesión guardada exitosamente")
             } catch (e: Exception) {
                 Log.e("CurrentSession", "Error al guardar sesión en DataStore", e)
             }
-        }
-
-        fun isAdmin() {
-            is_admin = true
         }
     }
 }
