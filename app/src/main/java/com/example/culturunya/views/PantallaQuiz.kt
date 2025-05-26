@@ -49,7 +49,7 @@ fun PantallaQuiz(navController: NavController) {
     // Guardar punts quan es tanca la pantalla
     DisposableEffect(Unit) {
         onDispose {
-            viewModel.savePoints()
+            viewModel.savePoints(0)
         }
     }
 
@@ -68,7 +68,7 @@ fun PantallaQuiz(navController: NavController) {
         ) {
             IconButton(
                 onClick = {
-                    viewModel.savePoints()
+                    viewModel.savePoints(0)
                     navController.popBackStack()
                 },
                 modifier = Modifier.size(40.dp)
@@ -183,6 +183,13 @@ fun PantallaQuiz(navController: NavController) {
                                             )
                                             Spacer(modifier = Modifier.height(8.dp))
                                         }
+                                        Spacer(modifier = Modifier.height(8.dp))
+                                        Text(
+                                            text = getString(context, R.string.quizPointsMessage, currentLocale).format(currentQuestion.points),
+                                            fontSize = 16.sp,
+                                            color = Morat,
+                                            modifier = Modifier.padding(bottom = 8.dp)
+                                        )
                                         Text(
                                             text = currentQuestion.question,
                                             fontSize = 18.sp,

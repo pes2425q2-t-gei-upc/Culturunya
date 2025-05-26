@@ -14,6 +14,6 @@ data class UserInfo (
     val rank_quiz: String,
     val current_event_points: Int,
     val current_quiz_points: Int,
-    val points_to_next_rank_event: Int,
-    val points_to_next_quiz_points: Int
+    val total_event_points: Int,
+    val total_quiz_points: Int
 )

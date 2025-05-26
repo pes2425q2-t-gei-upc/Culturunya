@@ -112,7 +112,7 @@ interface Api {
     @POST("reports/create/")
     suspend fun reportRating(@Header("Authorization") token: String, @Body reportRequest: ReportRequest): Response<Unit>
 
-    @PUT("user/set_points_quiz/")
+    @PUT("user/get_points_quiz/")
     suspend fun setQuizPoints(
         @Header("Authorization") token: String,
         @Body request: SetQuizPointsRequest
@@ -124,4 +124,10 @@ interface Api {
 
     @GET("leaderboard/events/")
     suspend fun getLeaderboardEvents(@Header("Authorization") token: String): List<RankingPosition>
+
+    @PUT("user/get_points_event/{event_id}/")
+    suspend fun getPointsEvent(
+        @Path("event_id") eventId: String,
+        @Header("Authorization") token: String
+    ): Response<Unit>
 }

@@ -157,6 +157,7 @@
     <string name="quizIncorrect">Incorrect!</string>
     <string name="quizLoading">Loading question...</string>
     <string name="quizError">Error: %1$s</string>
+    <string name="quizPointsMessage">To get %d points answer this question correctly</string> 
 
     <!-- Pantalla Leaderboard -->
     <string name="monthlyRanking">Monthly Ranking</string>
@@ -183,8 +184,28 @@
     <!-- Notificaciones -->
     <string name="dailyNotification">"Remember to do your daily cultural quizzes to get points"</string>
 
-    <!-- New strings for sharing -->
-    <string name="shareMessage">¡Estoy siendo una persona más culta gracias a Culturunya! Descárgala aquí: https://play.google.com/store/apps/details?id=com.example.culturunya</string>
-    <string name="shareButton">Compartir</string>
+    <!-- Share strings -->
+    <string name="shareMessage">I\'m becoming a more cultured person thanks to Culturunya! Download it here: https://play.google.com/store/apps/details?id=com.example.culturunya</string>
+    <string name="shareButton">Share</string>
 
+    <!-- Navigation -->
+    <string name="nav_events">Events</string>
+    <string name="nav_map">Map</string>
+    <string name="nav_calendar">Calendar</string>
+    <string name="nav_list">List</string>
+    <string name="nav_quiz">Quiz</string>
+    <string name="nav_leaderboard">Leaderboard</string>
+    <string name="nav_settings">Settings</string>
+
+
+    <!-- Pantalla EventInfo -->
+    <string name="assistanceConfirmation">"Confirm attendance at the event"</string>
+    <string name="localizationPermissionsDenied">"You do not have permission to access the location"</string>
+    <string name="wrongTime">"The event is not currently running."</string>
+    <string name="wrongPosition">"You are not close to the event (more than 50m)."</string>
+    <string name="pointsAlreadyAdded">"You have already added the points previously."</string>
+    <string name="pointsAddedCorrectly">"You have added the points correctly!"</string>
+    <string name="registrationError">"Error registering attendance."</string>
+    <string name="localizationEerror">"Your location could not be obtained."</string>
+    <string name="assistance">"Check assistance"</string>
 </resources>
