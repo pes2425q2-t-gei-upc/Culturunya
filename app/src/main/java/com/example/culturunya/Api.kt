@@ -21,6 +21,7 @@ import com.example.culturunya.dataclasses.chats.SendMessageToUserRequest
 import com.example.culturunya.dataclasses.reports.Report
 import com.example.culturunya.dataclasses.reports.ReportRequest
 import com.example.culturunya.dataclasses.reports.ResolveRequest
+import com.example.culturunya.dataclasses.ranking.RankingPosition
 import com.example.culturunya.dataclasses.settings.UpdateLanguageRequest
 import retrofit2.Response
 import retrofit2.http.*
@@ -125,6 +126,12 @@ interface Api {
     @POST("reports/{report_Id}/resolve/")
     suspend fun resolveReport(@Header("Authorization") token: String, @Path("report_Id") report_Id: String, @Body resolveRequest: ResolveRequest): Response<Unit>
 
+
+    @GET("leaderboard/quiz/")
+    suspend fun getLeaderboardQuiz(@Header("Authorization") token: String): List<RankingPosition>
+
+    @GET("leaderboard/events/")
+    suspend fun getLeaderboardEvents(@Header("Authorization") token: String): List<RankingPosition>
 
     @PUT("user/get_points_event/{event_id}/")
     suspend fun getPointsEvent(

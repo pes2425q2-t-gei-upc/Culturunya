@@ -123,8 +123,8 @@ class LoginViewModel(application: Application): AndroidViewModel(application) {
                         Log.d("LoginViewModel", "Login con Google exitoso. Token: ${response.token}")
                         _loginResponse.value = response
                         CurrentSession.setTokenAndPassword(response.token, "")
+                        CurrentSession.setUserData(googleIdTokenCredential.displayName ?: "", "","", "", "", "", 0,0, false)
                         CurrentSession.saveToDataStore(sessionManager)
-                        CurrentSession.setUserData(googleIdTokenCredential.displayName ?: "", "","", "", false)
                         _googleLoginError.value = null
                     }.onFailure { error ->
                         Log.e("LoginViewModel", "Error en login con Google: ${error.message}")

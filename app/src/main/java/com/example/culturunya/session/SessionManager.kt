@@ -18,6 +18,10 @@ class SessionManager(context: Context) {
         private val EMAIL = stringPreferencesKey("email")
         private val PROFILE_PIC = stringPreferencesKey("profile_pic")
         private val IS_ADMIN = booleanPreferencesKey("is_admin")
+        private val RANK_QUIZ = stringPreferencesKey("rank_quiz")
+        private val RANK_EVENTS = stringPreferencesKey("rank_events")
+        private val CURRENT_QUIZ_POINTS = intPreferencesKey("current_quiz_points")
+        private val CURRENT_EVENTS_POINTS = intPreferencesKey("current_events_points")
 
         private const val TAG = "SessionManager"
     }
@@ -27,7 +31,11 @@ class SessionManager(context: Context) {
         username: String,
         email: String,
         profilePic: String,
-        isAdmin: Boolean
+        isAdmin: Boolean,
+        rankQuiz: String? = null,
+        rankEvents: String? = null,
+        currentQuizPoints: Int? = null,
+        currentEventsPoints: Int? = null
     ) {
         Log.d(TAG, "Saving session: token=$token, username=$username, email=$email, profilePic=$profilePic, isAdmin=$isAdmin")
 
@@ -37,6 +45,11 @@ class SessionManager(context: Context) {
             if (email.isNotEmpty()) preferences[EMAIL] = email
             if (profilePic.isNotEmpty()) preferences[PROFILE_PIC] = profilePic
             preferences[IS_ADMIN] = isAdmin
+
+            rankQuiz?.let { preferences[RANK_QUIZ] = it }
+            rankEvents?.let { preferences[RANK_EVENTS] = it }
+            currentQuizPoints?.let { preferences[CURRENT_QUIZ_POINTS] = it }
+            currentEventsPoints?.let { preferences[CURRENT_EVENTS_POINTS] = it }
         }
     }
 
@@ -54,7 +67,11 @@ class SessionManager(context: Context) {
                 username = preferences[USERNAME] ?: "",
                 email = preferences[EMAIL] ?: "",
                 profilePic = preferences[PROFILE_PIC] ?: "",
-                isAdmin = preferences[IS_ADMIN] ?: false
+                isAdmin = preferences[IS_ADMIN] ?: false,
+                rankQuiz = preferences[RANK_QUIZ] ?: "",
+                rankEvents = preferences[RANK_EVENTS] ?: "",
+                currentQuizPoints = preferences[CURRENT_QUIZ_POINTS] ?: 0,
+                currentEventsPoints = preferences[CURRENT_EVENTS_POINTS] ?: 0
             )
             Log.d(TAG, "Session data retrieved: $data")
             data
@@ -74,5 +91,9 @@ data class SessionData(
     val username: String,
     val email: String,
     val profilePic: String,
-    val isAdmin: Boolean
+    val isAdmin: Boolean,
+    val rankQuiz: String,
+    val rankEvents: String,
+    val currentQuizPoints: Int,
+    val currentEventsPoints: Int
 )
