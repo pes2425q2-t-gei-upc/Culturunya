@@ -124,4 +124,11 @@ interface Api {
 
     @POST("reports/{report_Id}/resolve/")
     suspend fun resolveReport(@Header("Authorization") token: String, @Path("report_Id") report_Id: String, @Body resolveRequest: ResolveRequest): Response<Unit>
+
+
+    @PUT("user/get_points_event/{event_id}/")
+    suspend fun getPointsEvent(
+        @Path("event_id") eventId: String,
+        @Header("Authorization") token: String
+    ): Response<Unit>
 }

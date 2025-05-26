@@ -23,6 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.example.culturunya.session.CurrentSession
 import com.example.culturunya.views.getString
+import androidx.compose.ui.platform.LocalContext
+import com.example.culturunya.views.getString
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -30,7 +32,7 @@ fun MainScreen(navController: NavController, viewModel: EventViewModel, initialS
     val context = LocalContext.current
     CurrentSession.getInstance()
     val currentLocale = CurrentSession.language
-    
+
     // Estat per a la pantalla principal
     // Estat per als sub-botons d'Events (Map, Calendar, List)
     // Només s'usa si la pantalla principal seleccionada és "Events".
