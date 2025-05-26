@@ -163,6 +163,12 @@
     <string name="ReportError">Error submitting report</string>
     <string name="Reporter">Reported By</string>
     <string name="ReportReason">Reason</string>
+    <string name="Reported">Reported User</string>
+    <string name="NoAction">No Action</string>
+    <string name="Warning">Warning</string>
+    <string name="Ban">Ban</string>
+    <string name="Reports">Reports</string>
+    <string name= "unexpectedErrorLoadingReports"> There was an unexpected error loading the reports.</string>
 
     <!-- Notificaciones -->
     <string name="dailyNotification">"Remember to do your daily cultural quizzes to get points"</string>

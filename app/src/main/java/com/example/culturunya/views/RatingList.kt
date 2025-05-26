@@ -65,7 +65,7 @@ fun RatingListScreen(
     // Collect the ratings
     val ratings by ratingViewModel.ratings.collectAsState()
     val ratingCreated by ratingViewModel.ratingCreated.collectAsState()
-    val user = UserInfo("test", "test@test.com", "", "", "", "", "", "", "", "", "", 0, 0, 0, 0)
+    val user = UserInfo("test", "test@test.com", "", "", "", "", "", "", "", "", "", 0, 0, false, false)
     val date = ""
     var rating_new by remember { mutableStateOf("") }
     var comment_new by remember { mutableStateOf("") }

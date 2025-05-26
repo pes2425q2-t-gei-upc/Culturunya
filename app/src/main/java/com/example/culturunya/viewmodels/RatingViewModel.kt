@@ -21,7 +21,10 @@ class RatingViewModel : ViewModel() {
     private val _ratings = MutableStateFlow<List<Rating>>(emptyList())
     val ratings: StateFlow<List<Rating>> = _ratings
 
-    private val _rating = MutableStateFlow(Rating(UserInfo("", "", "", "", "", "", "", "", "", "", "", 0, 0, 0, 0), 0, "", ""))
+    private val _rating = MutableStateFlow(Rating(UserInfo("", "", "", "", "", "", "", "", "", "", "", 0, 0,
+        banned_from_comments = false,
+        is_admin = false
+    ), 0, "", ""))
     val rating: StateFlow<Rating> = _rating
 
     private val _error = MutableStateFlow<String?>(null)

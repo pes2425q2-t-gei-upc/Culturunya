@@ -24,16 +24,16 @@ class GetChatWithUserViewModel : ViewModel() {
     private val repository = ChatRepository(api)
 
     fun getChatWithUser(userId: String) {
-        Log.d("GetChatWithUser", "Function called with userId: $userId")
+        //Log.d("GetChatWithUser", "Function called with userId: $userId")
 
         viewModelScope.launch {
             val token = CurrentSession.token
-            Log.d("GetChatWithUser", "Using token: $token")
+            //Log.d("GetChatWithUser", "Using token: $token")
 
             val result = repository.getChatWithUser("Token $token", userId)
 
             result.onSuccess { body ->
-                Log.d("GetChatWithUser", "Success: Received ${body.size} messages")
+                //Log.d("GetChatWithUser", "Success: Received ${body.size} messages")
                 _getChatWithUserResponse.value = body
                 _getChatWithUserError.value = null
             }.onFailure { error ->
@@ -41,7 +41,7 @@ class GetChatWithUserViewModel : ViewModel() {
                 _getChatWithUserResponse.value = null
                 _getChatWithUserError.value = when (error) {
                     is HttpException -> {
-                        Log.e("GetChatWithUser", "HTTP Error code: ${error.code()}")
+                        //Log.e("GetChatWithUser", "HTTP Error code: ${error.code()}")
                         error.code()
                     }
                     else -> -1

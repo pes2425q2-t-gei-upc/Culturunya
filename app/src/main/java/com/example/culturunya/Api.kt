@@ -18,8 +18,9 @@ import com.example.culturunya.dataclasses.login.LoginRequest
 import com.example.culturunya.dataclasses.login.LoginResponse
 import com.example.culturunya.dataclasses.chats.SendMessageToAdminRequest
 import com.example.culturunya.dataclasses.chats.SendMessageToUserRequest
-import com.example.culturunya.dataclasses.ratings.Report
-import com.example.culturunya.dataclasses.ratings.ReportRequest
+import com.example.culturunya.dataclasses.reports.Report
+import com.example.culturunya.dataclasses.reports.ReportRequest
+import com.example.culturunya.dataclasses.reports.ResolveRequest
 import com.example.culturunya.dataclasses.settings.UpdateLanguageRequest
 import retrofit2.Response
 import retrofit2.http.*
@@ -121,4 +122,6 @@ interface Api {
     @GET("reports/")
     suspend fun getReports(@Header("Authorization") token: String): List<Report>
 
+    @POST("reports/{report_Id}/resolve/")
+    suspend fun resolveReport(@Header("Authorization") token: String, @Path("report_Id") report_Id: String, @Body resolveRequest: ResolveRequest): Response<Unit>
 }

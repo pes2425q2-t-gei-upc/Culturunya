@@ -1,4 +1,4 @@
-package com.example.culturunya.dataclasses.ratings
+package com.example.culturunya.dataclasses.reports
 
 import com.squareup.moshi.Json
 

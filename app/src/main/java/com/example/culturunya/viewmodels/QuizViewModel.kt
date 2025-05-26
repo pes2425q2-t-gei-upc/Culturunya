@@ -78,7 +78,7 @@ class QuizViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val userInfo = repository.getProfileInfo("Token ${CurrentSession.token}")
-                _state.value = _state.value.copy(currentPoints = userInfo.current_quiz_points)
+                _state.value = _state.value.copy(currentPoints = userInfo.total_quiz_points)
             } catch (e: Exception) {
                 _state.value = _state.value.copy(error = context.getString(R.string.quizError, e.message))
             }

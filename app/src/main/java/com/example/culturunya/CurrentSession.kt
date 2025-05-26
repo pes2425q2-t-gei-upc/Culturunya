@@ -36,11 +36,12 @@ class CurrentSession private constructor() {
             Companion.password = password
         }
 
-        fun setUserData(username: String, email: String, profile_pic: String, language: String) {
+        fun setUserData(username: String, email: String, profile_pic: String, language: String, is_admin: Boolean) {
             Companion.username = username
             Companion.email = email
             Companion.profile_pic = profile_pic
             Companion.language = language
+            Companion.is_admin = is_admin
         }
 
         fun setGoogleToken(idToken: String) {
@@ -49,8 +50,8 @@ class CurrentSession private constructor() {
 
         fun getGoogleToken(): String = googleIdToken
 
-        fun isAdmin() {
-            is_admin = true
+        fun isAdmin(): Boolean {
+            return is_admin
         }
 
         fun changeLanguage(lang: String) {
