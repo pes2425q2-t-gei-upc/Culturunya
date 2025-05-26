@@ -117,4 +117,10 @@ interface Api {
         @Body request: SetQuizPointsRequest
     ): Response<Unit>
 
+
+    @PUT("user/get_points_event/{event_id}/")
+    suspend fun getPointsEvent(
+        @Path("event_id") eventId: String,
+        @Header("Authorization") token: String
+    ): Response<Unit>
 }
