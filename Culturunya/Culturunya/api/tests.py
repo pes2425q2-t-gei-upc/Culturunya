@@ -19,7 +19,7 @@ from persistence.models import (
     User, Event, Location, Category, Rating, TypeRating, RANK_POINTS, TypeRank, Message, Question, QuestionTranslation,
     TypeRank, RANK_ORDER,
 )
-
+from api.serializers import AdminChangeUserPasswordSerializer
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 
@@ -968,4 +968,91 @@ class ExtraRedBranchesTests(BaseAPITestCase):
             resp = self.client.post(url)
 
         self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
-        self.assertIn("Sesión no existente", resp.json()["detail"])  
+        self.assertIn("Sesión no existente", resp.json()["detail"])
+
+class AdminChangeUserPasswordViewTests(APITestCase):
+    """PUT /admin/change_user_password"""
+
+    def setUp(self):
+        # admin y usuario objetivo
+        self.admin = User.objects.create_user(
+            username="admin", password="admin123", email="admin@test.com", is_admin=True
+        )
+        self.target = User.objects.create_user(
+            username="victim", password="oldpwd", email="victim@test.com"
+        )
+        self.admin_token = Token.objects.create(user=self.admin)
+
+        self.url = reverse("admin_change_user_password")  # nombre de ruta real
+
+    # 403
+    def test_non_admin_forbidden(self):
+        user = User.objects.create_user(
+            username="pepe", password="abc123", email="pepe@test.com"
+        )
+        token = Token.objects.create(user=user)
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {token.key}")
+
+        resp = self.client.put(self.url, {})
+        self.assertEqual(resp.status_code, status.HTTP_403_FORBIDDEN)
+
+    # 400
+    @patch.object(AdminChangeUserPasswordSerializer, "is_valid", return_value=False)
+    @patch.object(AdminChangeUserPasswordSerializer, "errors", new_callable=PropertyMock)
+    def test_invalid_serializer_returns_400(self, mock_errors, _mock_is_valid):
+        mock_errors.return_value = {"field": ["bad"]}     # aporta .errors
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.admin_token.key}")
+
+        resp = self.client.put(self.url, {"foo": "bar"})
+        self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
+
+    # 404
+    @patch.object(AdminChangeUserPasswordSerializer, "is_valid", return_value=True)
+    @patch.object(AdminChangeUserPasswordSerializer, "validated_data", new_callable=PropertyMock)
+    def test_target_user_not_found_returns_404(self, mock_validated, _mock_is_valid):
+        mock_validated.return_value = {"user_id": 777, "new_password": "x"}
+
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.admin_token.key}")
+        resp = self.client.put(self.url, {"user_id": 777, "new_password": "x"})
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+
+    # 200 
+    @patch.object(AdminChangeUserPasswordSerializer, "is_valid", return_value=True)
+    @patch.object(AdminChangeUserPasswordSerializer, "validated_data", new_callable=PropertyMock)
+    def test_success_changes_password_and_deletes_token(self, mock_validated, _mock_is_valid):
+        mock_validated.return_value = {
+            "user_id": self.target.id,
+            "new_password": "nuevo123"
+        }
+
+        old_token = Token.objects.create(user=self.target)
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.admin_token.key}")
+
+        resp = self.client.put(
+            self.url,
+            {"user_id": self.target.id, "new_password": "nuevo123"}
+        )
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+
+        self.target.refresh_from_db()
+        self.assertTrue(self.target.check_password("nuevo123"))
+        self.assertTrue(self.target.force_change_password)
+        self.assertFalse(Token.objects.filter(key=old_token.key).exists())
+    def test_success_changes_password_and_deletes_token(self, *_):
+        # token antiguo que debe eliminarse
+        old_token = Token.objects.create(user=self.target)
+
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.admin_token.key}")
+        resp = self.client.put(
+            self.url,
+            {"user_id": self.target.id, "new_password": "nuevo123"}
+        )
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+
+        # password actualizado
+        self.target.refresh_from_db()
+        self.assertTrue(self.target.check_password("nuevo123"))
+        self.assertTrue(self.target.force_change_password)
+
+        # token viejo eliminado
+        self.assertFalse(Token.objects.filter(key=old_token.key).exists())

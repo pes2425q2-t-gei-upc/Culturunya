@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from persistence.models import Report, ReportResolution, Rating, QuestionTranslation
+from persistence.models import Report, ReportResolution, Rating, QuestionTranslation, User
 
 User = get_user_model()
 
@@ -64,3 +64,16 @@ class QuestionTranslationSerializer(serializers.ModelSerializer):
     class Meta:
         model  = QuestionTranslation
         fields = ("id", "language", "text", "options")
+
+
+class AdminChangeUserPasswordSerializer(serializers.Serializer):
+    """
+    Valida la peticion PUT del admin para cambiar la contrasena de otro usuario.
+    """
+    user_id = serializers.IntegerField()
+    new_password = serializers.CharField(write_only=True, min_length=8)
+
+    def validate_user_id(self, value):
+        if not User.objects.filter(id=value).exists():
+            raise serializers.ValidationError("Usuario no encontrado.")
+        return value

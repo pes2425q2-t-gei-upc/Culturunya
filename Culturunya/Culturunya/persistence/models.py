@@ -124,6 +124,7 @@ class User(AbstractUser):
     is_admin = models.BooleanField(default=False)
     google_sub = models.CharField(max_length=30, unique=True, null=True, blank=True)
     events_assisted = models.ManyToManyField(Event, related_name="events_assisted", blank=True)
+    force_change_password = models.BooleanField(default=False)
 
     groups = models.ManyToManyField(
         "auth.Group",
