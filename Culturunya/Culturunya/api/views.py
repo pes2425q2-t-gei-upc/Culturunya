@@ -31,7 +31,7 @@ from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
 from api.serializers import UserProfileSerializer, ChangePasswordSerializer, ReportSerializer, \
-    RatingSerializer, QuestionTranslationSerializer
+    RatingSerializer, QuestionTranslationSerializer, AdminChangeUserPasswordSerializer
 # Services
 from domain.users_service import get_all_events, filter_events, create_user_service, create_rating, create_message, \
     get_messages, create_resolved_report, get_messages_admin, create_report, get_quiz_ranking_leaderboard, \
@@ -702,6 +702,58 @@ class ChangePasswordView(APIView):
             return Response({"detail": "Contraseña cambiada correctamente."}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+class AdminChangeUserPasswordView(APIView):
+    """
+    Permite a un administrador cambiar la contraseña de otro usuario
+    y marca force_change_password = True.
+    """
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(
+        operation_summary="(Admin) Cambiar contraseña de otro usuario",
+        operation_description="""
+        Solo los administradores pueden usar este endpoint.  
+        Recibe `user_id` y `new_password`, cambia la contraseña del usuario objetivo
+        y marca automáticamente `force_change_password = true`.
+        """,
+        request_body=AdminChangeUserPasswordSerializer,
+        responses={
+            200: openapi.Response(description="Contraseña cambiada correctamente."),
+            400: "Datos inválidos",
+            403: "No autorizado (no eres admin)",
+            404: "Usuario no encontrado"
+        },
+        security=[{'Token': []}],
+    )
+    def put(self, request):
+        if not request.user.is_admin:
+            return Response({"error": "No autorizado, se requiere rol admin."},
+                            status=status.HTTP_403_FORBIDDEN)
+
+        serializer = AdminChangeUserPasswordSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        user_id      = serializer.validated_data['user_id']
+        new_password = serializer.validated_data['new_password']
+
+        try:
+            target_user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response({"error": "Usuario no encontrado."},
+                            status=status.HTTP_404_NOT_FOUND)
+
+        # Cambiamos contraseña y marcamos flag
+        target_user.set_password(new_password)
+        target_user.force_change_password = True
+        target_user.save()
+        from rest_framework.authtoken.models import Token
+        Token.objects.filter(user=target_user).delete()
+        return Response(
+            {"message": "Contraseña cambiada. El usuario deberá cambiarla en su próximo login."},
+            status=status.HTTP_200_OK
+        )
 
 class UserProfileView(APIView):
     permission_classes = [IsAuthenticated]
