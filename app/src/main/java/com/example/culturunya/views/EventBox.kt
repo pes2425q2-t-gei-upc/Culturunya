@@ -62,13 +62,12 @@ fun EventBox(
     val context = LocalContext.current
     CurrentSession.getInstance()
     val currentLocale by remember { mutableStateOf(CurrentSession.language) }
-    var showMenu by remember { mutableStateOf(false) }
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
             .background(PurpleGrey80, RoundedCornerShape(8.dp))
-            .clickable { showMenu = true }
+            .clickable { onEventClick(event) }
     ) {
         Row {
             //Sustituir por foto
@@ -125,22 +124,6 @@ fun EventBox(
                 )
 
             }
-        }
-        DropdownMenu(
-            expanded = showMenu,
-            onDismissRequest = { showMenu = false }
-        ) {
-            DropdownMenuItem(
-                text = { Text("Detalles del Evento") },
-                onClick = {
-                    onEventClick(event)
-                    showMenu = false
-                }
-            )
-            DropdownMenuItem(
-                text = { Text("Guardar Evento") },
-                onClick = { showMenu = false }
-            )
         }
     }
 }

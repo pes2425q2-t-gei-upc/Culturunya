@@ -1,9 +1,9 @@
 package com.example.culturunya.views
 
 import SessionManager
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import android.annotation.SuppressLint
+import android.content.Intent
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,6 +21,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.FileProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
@@ -30,6 +31,8 @@ import com.example.culturunya.navigation.AppScreens
 import com.example.culturunya.ui.theme.GrisMoltFluix
 import com.example.culturunya.ui.theme.Morat
 import com.example.culturunya.viewmodels.*
+import java.io.File
+import java.io.FileOutputStream
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -71,6 +74,8 @@ fun SettingsScreen(navController: NavController) {
     val authViewModel: AuthViewModel = viewModel()
     val sessionManager = remember { SessionManager(context) }
 
+    val scrollState = rememberScrollState()
+
     LaunchedEffect(Unit) {
         getChatsViewModel.reset()
     }
@@ -111,6 +116,7 @@ fun SettingsScreen(navController: NavController) {
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
+            .verticalScroll(scrollState)
     ) {
         // SECTION: Perfil (Avatar, Nom, Correu)
         ProfileHeader(
@@ -371,6 +377,7 @@ fun SettingsScreen(navController: NavController) {
 }
 
 
+@SuppressLint("ResourceType")
 @Composable
 fun ProfileHeader(
     username: String,
@@ -378,6 +385,7 @@ fun ProfileHeader(
     avatarRes: String,
     navController: NavController
 ) {
+    val context = LocalContext.current
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -424,6 +432,45 @@ fun ProfileHeader(
                 text = email,
                 fontSize = 14.sp,
                 color = Color.Gray
+            )
+        }
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        IconButton(
+            onClick = {
+                // Crear un fitxer temporal per la imatge
+                val imageFile = File(context.cacheDir, "logo_share.png")
+                context.resources.openRawResource(R.drawable.logo_retallat).use { input ->
+                    FileOutputStream(imageFile).use { output ->
+                        input.copyTo(output)
+                    }
+                }
+
+                // Crear l'URI de la imatge
+                val imageUri = FileProvider.getUriForFile(
+                    context,
+                    "${context.packageName}.provider",
+                    imageFile
+                )
+
+                // Crear l'Intent per compartir
+                val shareIntent = Intent().apply {
+                    action = Intent.ACTION_SEND_MULTIPLE
+                    type = "image/*"
+                    putExtra(Intent.EXTRA_TEXT, context.getString(R.string.shareMessage))
+                    putParcelableArrayListExtra(Intent.EXTRA_STREAM, arrayListOf(imageUri))
+                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                }
+
+                context.startActivity(Intent.createChooser(shareIntent, context.getString(R.string.shareButton)))
+            },
+            modifier = Modifier.size(40.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.Share,
+                contentDescription = "Share",
+                tint = Morat
             )
         }
     }
