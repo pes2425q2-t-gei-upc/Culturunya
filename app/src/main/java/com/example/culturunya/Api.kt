@@ -18,6 +18,7 @@ import com.example.culturunya.dataclasses.login.LoginRequest
 import com.example.culturunya.dataclasses.login.LoginResponse
 import com.example.culturunya.dataclasses.chats.SendMessageToAdminRequest
 import com.example.culturunya.dataclasses.chats.SendMessageToUserRequest
+import com.example.culturunya.dataclasses.ranking.RankingPosition
 import com.example.culturunya.dataclasses.ratings.ReportRequest
 import com.example.culturunya.dataclasses.settings.UpdateLanguageRequest
 import retrofit2.Response
@@ -117,6 +118,12 @@ interface Api {
         @Body request: SetQuizPointsRequest
     ): Response<Unit>
 
+
+    @GET("leaderboard/quiz/")
+    suspend fun getLeaderboardQuiz(@Header("Authorization") token: String): List<RankingPosition>
+
+    @GET("leaderboard/events/")
+    suspend fun getLeaderboardEvents(@Header("Authorization") token: String): List<RankingPosition>
 
     @PUT("user/get_points_event/{event_id}/")
     suspend fun getPointsEvent(

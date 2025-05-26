@@ -12,7 +12,7 @@
     <string name="register">" Register"</string>
     <string name="notAuthorized">"You are not authorized"</string>
     <string name="serverError">"Server error. Try again later."</string>
-    <string name="unknownErrorGetUserInfo">"Error desconocido obtenindo la información del usuario."</string>
+    <string name="unknownErrorGetUserInfo">"Unknown error getting user info."</string>
 
     <!-- Pantalla Canvi de contrasenya -->
     <string name="back">"Back"</string>
@@ -158,6 +158,24 @@
     <string name="quizLoading">Loading question...</string>
     <string name="quizError">Error: %1$s</string>
     <string name="quizPointsMessage">To get %d points answer this question correctly</string> 
+
+    <!-- Pantalla Leaderboard -->
+    <string name="monthlyRanking">Monthly Ranking</string>
+    <string name="quiz">Quiz</string>
+    <string name="eventAssistance">Event attendance</string>
+    <string name="unknownErrorRanking">Unknown error loading ranking.</string>
+    <string name="rankingSystem">Ranking system</string>
+    <string name="unranked">Unranked</string>
+    <string name="unrankedDescription">You have not accumulated enough points yet.</string>
+    <string name="bronze">Bronze (100+ points)</string>
+    <string name="bronzeDescription">You have started your cultural journey.</string>
+    <string name="silver">Silver (200+ points)</string>
+    <string name="silverDescription">You are on the right track, keep it up!</string>
+    <string name="gold">Gold (500+ points)</string>
+    <string name="goldDescription">Great job! You are among the best.</string>
+    <string name="ramonllull">Ramon Llull (1000+ points)</string>
+    <string name="ramonllullDescription">Rank only for legends. The infinite wisdom of Ramón Llull welcomes you.</string>
+    <string name="monthlyClassification">Your monthly classification</string>
 
     <!-- Report messages -->
     <string name="ReportSuccess">Report submitted successfully</string>

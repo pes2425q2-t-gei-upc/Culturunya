@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.internal.userAgent
 import retrofit2.HttpException
 import java.io.File
 
@@ -76,7 +77,7 @@ class ChangeProfilePicViewModel : ViewModel() {
                     try {
                         val userInfo = repository.getProfileInfo("Token $currentToken")
                         if (userInfo.profile_pic != null) {
-                            CurrentSession.setUserData(userInfo.username, userInfo.email, userInfo.profile_pic, userInfo.language)
+                            CurrentSession.setUserData(userInfo.username, userInfo.email, userInfo.profile_pic, userInfo.language, userInfo.rank_quiz, userInfo.rank_event, userInfo.current_quiz_points, userInfo.current_event_points)
                         }
                         _state.value = _state.value.copy(isLoading = false, success = true)
                     } catch (e: Exception) {
