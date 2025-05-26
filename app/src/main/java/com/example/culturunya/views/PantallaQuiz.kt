@@ -58,65 +58,6 @@ fun PantallaQuiz(navController: NavController) {
             .fillMaxSize()
             .background(Color.White)
     ) {
-        // Capçalera amb fletxa i botó de compartir
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 8.dp, start = 8.dp, end = 8.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            IconButton(
-                onClick = {
-                    viewModel.savePoints(0)
-                    navController.popBackStack()
-                },
-                modifier = Modifier.size(40.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.ArrowBack,
-                    contentDescription = "Back",
-                    tint = Color.Black
-                )
-            }
-            
-            IconButton(
-                onClick = {
-                    // Crear un fitxer temporal per la imatge
-                    val imageFile = File(context.cacheDir, "logo_share.png")
-                    context.resources.openRawResource(R.drawable.logo_sense_fons).use { input ->
-                        FileOutputStream(imageFile).use { output ->
-                            input.copyTo(output)
-                        }
-                    }
-                    
-                    // Crear l'URI de la imatge
-                    val imageUri = FileProvider.getUriForFile(
-                        context,
-                        "${context.packageName}.provider",
-                        imageFile
-                    )
-
-                    // Crear l'Intent per compartir
-                    val shareIntent = Intent().apply {
-                        action = Intent.ACTION_SEND_MULTIPLE
-                        type = "image/*"
-                        putExtra(Intent.EXTRA_TEXT, context.getString(R.string.shareMessage))
-                        putParcelableArrayListExtra(Intent.EXTRA_STREAM, arrayListOf(imageUri))
-                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                    }
-                    
-                    context.startActivity(Intent.createChooser(shareIntent, context.getString(R.string.shareButton)))
-                },
-                modifier = Modifier.size(40.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Share,
-                    contentDescription = "Share",
-                    tint = Morat
-                )
-            }
-        }
 
         // Contingut principal
         Column(
@@ -160,7 +101,8 @@ fun PantallaQuiz(navController: NavController) {
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .padding(4.dp),
-                                    shape = RoundedCornerShape(16.dp)
+                                    shape = RoundedCornerShape(16.dp),
+                                    colors = CardDefaults.cardColors(containerColor = Color.White)
                                 ) {
                                     Column(
                                         modifier = Modifier
@@ -186,13 +128,14 @@ fun PantallaQuiz(navController: NavController) {
                                         Spacer(modifier = Modifier.height(8.dp))
                                         Text(
                                             text = getString(context, R.string.quizPointsMessage, currentLocale).format(currentQuestion.points),
-                                            fontSize = 16.sp,
+                                            fontSize = 14.sp,
                                             color = Morat,
                                             modifier = Modifier.padding(bottom = 8.dp)
                                         )
+                                        Spacer(modifier = Modifier.height(8.dp))
                                         Text(
                                             text = currentQuestion.question,
-                                            fontSize = 18.sp,
+                                            fontSize = 22.sp,
                                             fontWeight = FontWeight.Bold,
                                             modifier = Modifier.padding(bottom = 8.dp)
                                         )

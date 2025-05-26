@@ -190,4 +190,7 @@
     <string name="registrationError">"Error registering attendance."</string>
     <string name="localizationEerror">"Your location could not be obtained."</string>
     <string name="assistance">"Check assistance"</string>
+
+    <!-- Navigation -->
+    <string name="pressAgainExit">"Press again to exit"</string>
 </resources>
