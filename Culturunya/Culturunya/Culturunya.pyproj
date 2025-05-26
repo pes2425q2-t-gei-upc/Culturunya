@@ -44,6 +44,9 @@
     <Compile Include="domain\events_service.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="domain\tests.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="domain\users_service.py">
       <SubType>Code</SubType>
     </Compile>
