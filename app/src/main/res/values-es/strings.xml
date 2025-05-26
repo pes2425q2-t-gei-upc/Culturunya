@@ -200,4 +200,7 @@
     <string name="registrationError">"Error al registrar la asistencia."</string>
     <string name="localizationEerror">"No se pudo obtener tu localización."</string>
     <string name="assistance">"Comprobar asistencia"</string>
+
+    <!-- Navigation -->
+    <string name="pressAgainExit">"Pulse otra vez para salir"</string>
 </resources>
