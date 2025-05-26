@@ -40,9 +40,10 @@ class CurrentSession private constructor() {
         var rank_event: String = ""
             private set
 
-        var current_quiz_points: Int = 0
+        var total_quiz_points: Int = 0
+            private set
 
-        var current_event_points: Int = 0
+        var total_event_points: Int = 0
             private set
 
         // Singleton
@@ -64,8 +65,9 @@ class CurrentSession private constructor() {
             language: String,
             rank_quiz: String,
             rank_event: String,
-            current_quiz_points: Int,
-            current_event_points: Int
+            total_quiz_points: Int,
+            total_event_points: Int,
+            is_admin: Boolean
         ) {
             Companion.username = username
             Companion.email = email
@@ -73,8 +75,8 @@ class CurrentSession private constructor() {
             Companion.language = language
             Companion.rank_quiz = rank_quiz
             Companion.rank_event = rank_event
-            Companion.current_quiz_points = current_quiz_points
-            Companion.current_event_points = current_event_points
+            Companion.total_quiz_points = total_quiz_points
+            Companion.total_event_points = total_event_points
             Companion.is_admin = is_admin
         }
 
@@ -86,6 +88,10 @@ class CurrentSession private constructor() {
 
         fun isAdmin(): Boolean {
             return is_admin
+        }
+
+        fun setAdmin(isAdmin: Boolean) {
+            is_admin = isAdmin
         }
 
         fun changeLanguage(lang: String) {
@@ -104,8 +110,8 @@ class CurrentSession private constructor() {
             is_admin = false
             rank_quiz = ""
             rank_event = ""
-            current_quiz_points = 0
-            current_event_points = 0
+            total_quiz_points = 0
+            total_event_points = 0
             is_admin = false
         }
 
@@ -129,8 +135,8 @@ class CurrentSession private constructor() {
                 is_admin = sessionData.isAdmin
                 rank_quiz = sessionData.rankQuiz
                 rank_event = sessionData.rankEvents
-                current_quiz_points = sessionData.currentQuizPoints
-                current_event_points = sessionData.currentEventsPoints
+                total_quiz_points = sessionData.totalQuizPoints
+                total_event_points = sessionData.totalEventsPoints
                 is_admin = sessionData.is_admin
 
                 Log.d("CurrentSession", "Sesión cargada exitosamente: $sessionData")
@@ -150,8 +156,8 @@ class CurrentSession private constructor() {
                     isAdmin = is_admin,
                     rankQuiz = rank_quiz,
                     rankEvents = rank_event,
-                    currentQuizPoints = current_quiz_points,
-                    currentEventsPoints = current_event_points
+                    totalQuizPoints = total_quiz_points,
+                    totalEventsPoints = total_event_points,
                     is_admin = is_admin
                 )
                 Log.d("CurrentSession", "Sesión guardada exitosamente")

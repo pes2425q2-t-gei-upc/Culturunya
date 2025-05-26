@@ -3,6 +3,7 @@ package com.example.culturunya.views
 import SessionManager
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -80,8 +81,8 @@ fun SettingsScreen(navController: NavController) {
     val imageUrl = CurrentSession.profile_pic
     val rank_quiz = CurrentSession.rank_quiz
     val rank_event = CurrentSession.rank_event
-    val current_quiz_points = CurrentSession.current_quiz_points
-    val current_event_points = CurrentSession.current_event_points
+    val total_quiz_points = CurrentSession.total_quiz_points
+    val total_event_points = CurrentSession.total_event_points
 
     val options = listOf("English", "Español")
     var expanded by remember { mutableStateOf(false) }
@@ -448,7 +449,7 @@ fun SettingsScreen(navController: NavController) {
                         Spacer (modifier = Modifier.height(10.dp))
                         Text(rank_quiz, modifier = Modifier.align(Alignment.CenterHorizontally))
                         Spacer (modifier = Modifier.height(10.dp))
-                        Text(text = "$current_quiz_points" + " pts", modifier = Modifier.align(Alignment.CenterHorizontally))
+                        Text(text = "$total_quiz_points" + " pts", modifier = Modifier.align(Alignment.CenterHorizontally))
                     }
                     Spacer (modifier = Modifier.width(30.dp))
                     Column {
@@ -463,7 +464,7 @@ fun SettingsScreen(navController: NavController) {
                         Spacer (modifier = Modifier.height(10.dp))
                         Text(rank_event, modifier = Modifier.align(Alignment.CenterHorizontally))
                         Spacer (modifier = Modifier.height(10.dp))
-                        Text(text = "$current_event_points" + " pts", modifier = Modifier.align(Alignment.CenterHorizontally))
+                        Text(text = "$total_event_points" + " pts", modifier = Modifier.align(Alignment.CenterHorizontally))
                     }
                 }
             },

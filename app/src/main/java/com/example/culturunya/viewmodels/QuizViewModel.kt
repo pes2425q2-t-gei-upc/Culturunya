@@ -144,7 +144,7 @@ class QuizViewModel : ViewModel() {
             try {
                 val result = repository.setQuizPoints("Token "+CurrentSession.token, increment)
                 Log.d("QUIZ_DEBUG", "Resposta del backend a PUT: $result")
-                CurrentSession.current_quiz_points = _state.value.currentPoints
+                CurrentSession.total_quiz_points = _state.value.currentPoints
             } catch (e: Exception) {
                 Log.e("QUIZ_DEBUG", "Error guardant els punts: ${e.message}")
                 _state.value = _state.value.copy(error = "Error guardant els punts: "+e.message)
