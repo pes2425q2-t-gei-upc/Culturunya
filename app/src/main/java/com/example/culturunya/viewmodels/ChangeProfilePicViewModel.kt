@@ -1,9 +1,12 @@
 package com.example.culturunya.viewmodels
 
+import SessionManager
+import android.app.Application
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.culturunya.Api
@@ -24,11 +27,12 @@ data class ChangeProfilePicState(
     val error: String? = null
 )
 
-class ChangeProfilePicViewModel : ViewModel() {
+class ChangeProfilePicViewModel(application: Application) : AndroidViewModel(application) {
     private val _state = MutableStateFlow(ChangeProfilePicState())
     val state: StateFlow<ChangeProfilePicState> = _state
 
     private val repository = UserRepository(Api.instance)
+    private val sessionManager = SessionManager(application.applicationContext)
     private lateinit var context: Context
 
     fun setContext(context: Context) {
@@ -77,6 +81,7 @@ class ChangeProfilePicViewModel : ViewModel() {
                         val userInfo = repository.getProfileInfo("Token $currentToken")
                         if (userInfo.profile_pic != null) {
                             CurrentSession.setUserData(userInfo.username, userInfo.email, userInfo.profile_pic, userInfo.language, userInfo.rank_quiz, userInfo.rank_event, userInfo.total_quiz_points, userInfo.total_event_points,userInfo.is_admin)
+                            CurrentSession.saveToDataStore(sessionManager)
                         }
                         _state.value = _state.value.copy(isLoading = false, success = true)
                     } catch (e: Exception) {
