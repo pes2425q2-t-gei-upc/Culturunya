@@ -126,7 +126,7 @@ class UsersServiceTests(TestCase):
         qs_stub = MagicMock()
         qs_stub.annotate.return_value.order_by.return_value.first.return_value = "ADMIN"
         mock_filter.return_value = qs_stub
-        self.assertEqual(us.get_admin_with_less_messages(), "ADMIN")
+        self.assertEqual(us.get_corresponding_admin(), "ADMIN")
 
     # ---- create_message - #
     @patch.object(us.Message.objects, "create")

@@ -36,7 +36,7 @@ from api.serializers import UserProfileSerializer, ChangePasswordSerializer, Rep
 from domain.users_service import get_all_events, filter_events, create_user_service, create_rating, create_message, \
     get_messages, create_resolved_report, get_messages_admin, create_report, get_quiz_ranking_leaderboard, \
     get_events_ranking_leaderboard, update_rank_from_adding_points, update_rank_from_decreasing_points, \
-    get_admin_with_less_messages
+    get_corresponding_admin
 from persistence.models import User, Report, Rating, TypeRating, QuestionTranslation, \
     Event, RANK_ORDER
 from api.serializers import ProfilePicSerializer
@@ -476,7 +476,7 @@ def send_message_user_to_admin(request):
         if user.is_admin:
             return Response({"error": "Un administrador no usa este endpoint"}, status=403)
         # Buscar primer administrador disponible
-        admin = get_admin_with_less_messages()
+        admin = get_corresponding_admin(user.id)
         if admin is None:
             return Response({"error": "No hay admins"}, status=404)
         create_message(user.id, admin.id, text)
@@ -518,7 +518,6 @@ def send_message_admin_to_user(request):
         except User.DoesNotExist:
             return Response({"error": "Usuario destinatario no encontrado"}, status=400)
 
-        receiver = User.objects.get(id=receiver_id)
         create_message(user.id, receiver.id, text)
 
         return Response({"message": "Mensaje enviado con exito"}, status=201)
@@ -559,7 +558,7 @@ def get_conversation_with_admin(request):
         return Response({"error": "Un administrador no usa este endpoint"}, status=403)
 
     # Buscar el primer admin (representante del "soporte")
-    admin = User.objects.filter(is_admin=True).first()
+    admin = get_corresponding_admin(user.id)
     if not admin:
         return Response({"error": "No hay administradores disponibles"}, status=404)
 
