@@ -103,11 +103,18 @@ def create_rating(event_id: int, user_id: int, rating: str, comment: str = None)
         comment=comment
     )
 
-def get_admin_with_less_messages():
-    admin_with_less_messages = User.objects.filter(is_admin=True).annotate(
-        received_messages_count=Count('received_messages')
-    ).order_by('received_messages_count').first()
-    return admin_with_less_messages
+def get_corresponding_admin(user_id: int):
+    corresponding_admin = User.objects.filter(
+        Q(received_messages__sender=user_id) | Q(sent_messages__receiver=user_id),
+        is_admin=True
+    ).first()
+    if corresponding_admin:
+        admin = corresponding_admin
+    else:
+        admin = User.objects.filter(is_admin=True).annotate(
+            received_messages_count=Count('received_messages')
+        ).order_by('received_messages_count').first()
+    return admin
 
 def create_message(sender_id: int, receiver_id: int, text: str) -> Message:
     try:
@@ -133,7 +140,7 @@ def get_messages(user1: int, user2: int):
 
 def get_messages_admin(admin):
     return Message.objects.filter(
-        Q(sender=admin) | Q(receiver=admin)
+        Q(sender=admin.id) | Q(receiver=admin.id)
     ).order_by("date_written")
 
 def create_report(data, user):
