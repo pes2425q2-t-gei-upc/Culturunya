@@ -41,7 +41,6 @@ class CurrentSession private constructor() {
             private set
 
         var total_quiz_points: Int = 0
-            private set
 
         var total_event_points: Int = 0
             private set
