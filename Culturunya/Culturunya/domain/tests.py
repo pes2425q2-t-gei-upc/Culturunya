@@ -35,6 +35,14 @@ class DummyUser(SimpleNamespace):
         pass
 
 
+def _fake_report(resolved=False):
+    return SimpleNamespace(
+        id=5,
+        reported_user=DummyUser(id=9),
+        is_resolved=resolved,
+        save=lambda: None,
+    )
+
 class DummyRating(SimpleNamespace):
     pass
 
@@ -120,7 +128,7 @@ class UsersServiceTests(TestCase):
         with self.assertRaises(ValueError):
             us.create_rating(1, 2, "LIKE")
 
-    # - get_admin_with_less_messages  #
+
     @patch.object(us.User.objects, "filter")
     def test_get_admin_with_less_messages(self, mock_filter):
         qs_stub = MagicMock()
@@ -128,7 +136,7 @@ class UsersServiceTests(TestCase):
         mock_filter.return_value = qs_stub
         self.assertEqual(us.get_admin_with_less_messages(), "ADMIN")
 
-    # ---- create_message - #
+
     @patch.object(us.Message.objects, "create")
     @patch.object(us.User.objects, "get")
     def test_create_message_ok(self, mock_user_get, mock_msg_create):
@@ -145,7 +153,7 @@ class UsersServiceTests(TestCase):
         with self.assertRaises(ValueError):
             us.create_message(1, 2, "hi")
 
-    # ----- get_messages -- #
+
     @patch.object(us.Message.objects, "filter")
     @patch.object(us.User.objects, "get")
     def test_get_messages_ok(self, mock_user_get, mock_filter):
@@ -164,7 +172,7 @@ class UsersServiceTests(TestCase):
         with self.assertRaises(ValueError):
             us.get_messages(1, 2)
 
-    # ----- create_report - #
+
     def _dummy_report_serializer(self, is_valid=True):
         ser = MagicMock()
         ser.is_valid.return_value = is_valid
@@ -200,10 +208,10 @@ class UsersServiceTests(TestCase):
         with self.assertRaises(ValueError):
             us.create_report({"rating_id": 9, "message": "x"}, DummyUser(id=1))
 
-    # ---- update_rank_* helpers ---- #
+
     def test_update_rank_from_adding_points(self):
-        bottom = us.RANK_ORDER[0]         # 'unranked'
-        top    = us.RANK_ORDER[-1]        # 'ramon_llull'
+        bottom = us.RANK_ORDER[0]         
+        top    = us.RANK_ORDER[-1]        
         self.assertEqual(
             us.update_rank_from_adding_points(bottom, 999999),
             top
@@ -215,7 +223,7 @@ class UsersServiceTests(TestCase):
 
     
 
-    # --- leaderboards ---- #
+
     @patch.object(us.User.objects, "order_by")
     def test_leaderboards(self, mock_order_by):
         users = [
@@ -245,3 +253,196 @@ class UsersServiceTests(TestCase):
         self.assertEqual(qz_ld[1]["username"], "b")
         self.assertEqual(ev_ld[0]["position"], 1)
         self.assertEqual(qz_ld[-1]["position"], len(users))
+
+    @patch.object(us.Event.objects, "filter")
+    def test_filter_events_category_dates_geo_ok(self, mock_filter):
+        """categories + date ranges + geofencing (flujo nominal)"""
+        dummy = DummyEvent(id=1, name="e")
+        mock_filter.return_value.distinct.return_value = [dummy]
+
+        result = us.filter_events({
+            "categories": "Music,Art",
+            "date_start_range": "2024-01-01",
+            "date_end_range":   "2024-12-31",
+            "latitude":  "41.0",
+            "longitude": "2.0",
+            "range":     "1.0",
+        })
+
+        self.assertEqual(result, [{"id": 1, "name": "e"}])
+        mock_filter.assert_called_once()  
+
+    @patch.object(us.Event.objects, "filter")
+    def test_filter_events_invalid_dates_and_geo(self, mock_filter):
+        """Dispara ValueError por fechas y lat/long no numericos"""
+        mock_filter.return_value.distinct.return_value = [] 
+
+        us.filter_events({
+            "date_start_range": "BAD-DATE",
+            "latitude":  "not-num",
+            "longitude": "2.0",
+            "range":     "1.0",
+        })
+
+        mock_filter.assert_called_once()                   
+    def test_create_resolved_report_unauthorized(self):
+        msg, code = us.create_resolved_report({}, DummyUser(is_admin=False), 5)
+        self.assertEqual(code, 403)
+        self.assertIn("No autorizado", msg["error"])
+
+    @patch.object(us.Report.objects, "get", side_effect=us.Report.DoesNotExist)
+    def test_create_resolved_report_not_found(self, _m_get):
+        msg, code = us.create_resolved_report({}, DummyUser(is_admin=True), 99)
+        self.assertEqual(code, 404)
+        self.assertIn("no encontrado", msg["error"].lower())
+
+    @patch.object(us.Report.objects, "get", return_value=_fake_report(resolved=True))
+    def test_create_resolved_report_already_resolved(self, _m_get):
+        msg, code = us.create_resolved_report({}, DummyUser(is_admin=True), 5)
+        self.assertEqual(code, 400)
+        self.assertIn("ya ha sido resuelto", msg["error"])
+
+  
+    @patch("domain.users_service.create_message", return_value=None)
+    @patch.object(us.ReportResolutionSerializer, "save", return_value=None)
+    @patch.object(us.ReportResolutionSerializer, "is_valid", return_value=True)
+    @patch.object(us.Report.objects, "get", return_value=_fake_report())
+    def test_create_resolved_report_warning_ok(
+            self, _m_get_report, _m_is_valid, _m_save, _m_msg):
+        admin = DummyUser(id=1, is_admin=True)
+        msg, code = us.create_resolved_report(
+            {"action": "Warning", "message": "cuidado"}, admin, 5
+        )
+        self.assertEqual(code, 200)
+        self.assertIn("Report resuelto", msg["message"])
+        _m_msg.assert_called_once()
+
+
+    @patch("domain.users_service.create_message", return_value=None)
+    @patch.object(us.Rating.objects, "filter")     
+    @patch.object(us.User.objects, "get", return_value=DummyUser(id=9))
+    @patch.object(us.ReportResolutionSerializer, "save", return_value=None)
+    @patch.object(us.ReportResolutionSerializer, "is_valid", return_value=True)
+    @patch.object(us.Report.objects, "get", return_value=_fake_report())
+    def test_create_resolved_report_ban_ok(
+            self, _m_get_report, _m_is_valid, _m_save, _m_user_get,
+            _m_rating_filter, _m_msg):
+        admin = DummyUser(id=1, is_admin=True)
+        msg, code = us.create_resolved_report(
+            {"action": "Ban", "message": "bloqueado"}, admin, 5
+        )
+        self.assertEqual(code, 200)
+        _m_rating_filter.assert_called_once()
+        _m_msg.assert_called_once()
+
+
+    @patch.object(us.ReportResolutionSerializer, "is_valid", return_value=False)
+    @patch.object(us.ReportResolutionSerializer, "errors", {"foo": ["bar"]})
+    @patch.object(us.Report.objects, "get", return_value=_fake_report())
+    def test_create_resolved_report_invalid_serializer(self, _m_get, _m_is_valid):
+        admin = DummyUser(id=1, is_admin=True)
+        msg, code = us.create_resolved_report({"action": "X"}, admin, 5)
+        self.assertEqual(code, 400)
+        self.assertIn("error", msg)
+
+LOWEST  = us.RANK_ORDER[0]        
+HIGHEST = us.RANK_ORDER[-1]       
+PENULT  = us.RANK_ORDER[-2]       
+
+
+class TestRankHelpers(TestCase):
+    
+
+    def test_rank_up_to_top(self):
+        """
+        Con suficientes puntos se asciende del rango mas bajo al mas alto.
+        """
+        many_points = max(us.RANK_POINTS.values()) + 1
+        new_rank = us.update_rank_from_adding_points(LOWEST, many_points)
+        self.assertEqual(new_rank, HIGHEST)
+
+    def test_rank_add_points_no_change(self):
+        """
+        Si ya esta en el tope y los puntos no superan el siguiente umbral (no existe),
+        el rango permanece igual.
+        """
+        still_top = us.update_rank_from_adding_points(HIGHEST, 0)
+        self.assertEqual(still_top, HIGHEST)
+
+
+
+    def test_rank_down_one_level(self):
+        """
+        Con pocos puntos baja exactamente un nivel: de HIGHEST - PENULT.
+        Elegimos puntos en el limite inferior del penultimo rango.
+        """
+        edge_points = us.RANK_POINTS[PENULT]
+        new_rank = us.update_rank_from_decreasing_points(HIGHEST, edge_points)
+        self.assertEqual(new_rank, PENULT)
+
+    def test_rank_down_no_change_at_bottom(self):
+        """
+        Si ya esta en el rango mas bajo y 'pierde' puntos, se mantiene.
+        """
+        stay = us.update_rank_from_decreasing_points(LOWEST, 0)
+        self.assertEqual(stay, LOWEST)
+
+    @patch.object(us.Message.objects, "filter")
+    def test_get_messages_admin_invoca_queryset(self, mock_filter):
+        admin = DummyUser(id=99)
+        qs_stub = MagicMock()
+        mock_filter.return_value.order_by.return_value = qs_stub
+
+        result = us.get_messages_admin(admin)
+
+        
+        mock_filter.assert_called_once()
+        self.assertIs(result, qs_stub)
+    
+    def test_update_rank_from_adding_points_sin_subir(self):
+        """Puntos insuficientes: se entra en el else y 'established' pasa a True."""
+        start_rank = us.RANK_ORDER[0]                
+        pocos_puntos = 0                             
+        self.assertEqual(
+            us.update_rank_from_adding_points(start_rank, pocos_puntos),
+            start_rank                               
+        )
+
+    @patch.object(us.Event.objects, "filter")
+    def test_filter_events_error_date_end_range(self, mock_filter):
+        mock_filter.return_value.distinct.return_value = []
+        us.filter_events({"date_end_range": "31-12-2024"})
+        mock_filter.assert_called_once()
+
+
+    @patch.object(us.Event.objects, "filter")
+    def test_filter_events_error_geo_values(self, mock_filter):
+        mock_filter.return_value.distinct.return_value = []
+        us.filter_events({"latitude": "bad", "longitude": "2.0", "range": "x"})
+        mock_filter.assert_called_once()
+
+    @patch.object(us.Rating.objects, "get")
+    @patch.object(us, "ReportSerializer")
+    def test_create_report_serializer_invalido_devuelve_400(
+        self, mock_serializer_cls, mock_rating_get
+    ):
+       
+        rating = DummyRating(id=1, user=DummyUser(id=77), comment="spam")
+        mock_rating_get.return_value = rating
+
+
+        ser_stub = MagicMock()
+        ser_stub.is_valid.return_value = False
+        ser_stub.errors = {"field": ["invalid"]}
+        mock_serializer_cls.return_value = ser_stub
+
+
+        msg, code = us.create_report({"rating_id": 1, "message": "xxx"}, DummyUser(id=10))
+
+
+        self.assertEqual(code, 400)
+        self.assertEqual(msg, {"error": ser_stub.errors})
+        ser_stub.is_valid.assert_called_once()
+        mock_serializer_cls.assert_called_once()
+
+

@@ -2,7 +2,7 @@
 
 import json
 from http.client import responses
-
+from django.shortcuts import get_object_or_404
 from django.db import IntegrityError
 from django.http import JsonResponse
 
@@ -452,6 +452,52 @@ def delete_own_account(request):
     user.delete()
     return Response({"message": f"Cuenta '{username}' eliminada correctamente."}, status=status.HTTP_200_OK)
 
+@swagger_auto_schema(
+    method='delete',
+    operation_summary="(Admin) eliminar la cuenta de otro usuario",
+    operation_description=(
+        "Permite que un **administrador** elimine la cuenta de un usuario "
+        "especificando su user_id."
+    ),
+    manual_parameters=[
+        openapi.Parameter(
+            name="user_id",
+            in_=openapi.IN_PATH,
+            description="ID del usuario a eliminar",
+            type=openapi.TYPE_INTEGER,
+            required=True,
+        )
+    ],
+    security=[{'Token': []}],
+    responses={
+        200: "Cuenta eliminada correctamente.",
+        401: "No autenticado.",
+        403: "No autorizado (no es admin).",
+        404: "Usuario no encontrado.",
+    },
+)
+@api_view(["DELETE"])
+@permission_classes([IsAuthenticated])
+def admin_delete_user_account(request, user_id):
+    """
+    Solo el usuario autenticado **con rol admin** puede ejecutar esta accion.
+    """
+
+    if not request.user.is_admin:
+        return Response(
+            {"error": "No autorizado"}, status=status.HTTP_403_FORBIDDEN
+        )
+
+
+    target_user = get_object_or_404(User, id=user_id)
+    username = target_user.username
+    target_user.delete()
+
+    return Response(
+        {"message": f"Cuenta '{username}' eliminada correctamente."},
+        status=status.HTTP_200_OK,
+    )
+
 
 @swagger_auto_schema(
     method='post',
@@ -501,7 +547,7 @@ def send_message_user_to_admin(request):
     responses={201: "Mensaje enviado", 401: "No autenticado", 404: "Usuario no encontrado"}
 )
 @api_view(["POST"])
-@permission_classes([IsAuthenticated])  # Puedes hacer una permission extra que restrinja solo a admins si quieres
+@permission_classes([IsAuthenticated])
 def send_message_admin_to_user(request):
     try:
         data = json.loads(request.body)
@@ -809,7 +855,7 @@ def update_user_partial(request, user_id):
     Solo los usuarios con is_admin=True pueden llamar a este endpoint.
     """
     # Permiso de administrador 
-    if not (request.user.is_admin == False):
+    if not request.user.is_admin:
         return Response(
             {"error": "no autorizado, tienes que ser admin"},
             status=status.HTTP_403_FORBIDDEN,
@@ -875,50 +921,65 @@ def upload_profile_pic(request):
     serializer = ProfilePicSerializer(user, data=request.data, partial=True)
     if serializer.is_valid():
         serializer.save()
-        # Devolver la URL completa para que el front la cache
+        
         return Response({"profile_pic": serializer.data["profile_pic"]}, status=200)
     return Response(serializer.errors, status=400)
 
 @swagger_auto_schema(
     method='post',
-    operation_summary="Subir / reemplazar la foto de perfil",
-    operation_description="Envía un archivo en un multipart-form con la clave `profile_pic`.",
+    operation_summary="(Admin) subir / reemplazar la foto de otro usuario",
+    operation_description=(
+        "Envie un archivo en un **multipart-form** con la clave "
+        "profile_pic. Solo los administradores pueden usar este endpoint."
+    ),
     manual_parameters=[
         openapi.Parameter(
             name="user_id",
             in_=openapi.IN_PATH,
-            description="ID del usuario que se va a modificar",
+            description="ID del usuario al que se le va a actualizar la foto",
             type=openapi.TYPE_INTEGER,
             required=True,
         ),
         openapi.Parameter(
-            name="Picture",
+            name="profile_pic",
             in_=openapi.IN_FORM,
             type=openapi.TYPE_FILE,
             required=True,
-            description="Imagen de perfil"
-        )
+            description="Imagen de perfil",
+        ),
     ],
     responses={
         200: openapi.Response(description="Foto actualizada"),
-        400: openapi.Response(description="Dato inválido"),
+        400: openapi.Response(description="Dato invalido"),
         401: openapi.Response(description="No autenticado"),
-    }
+        403: openapi.Response(description="No autorizado (no es admin)"),
+        404: openapi.Response(description="Usuario destino no encontrado"),
+    },
 )
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 @parser_classes([MultiPartParser, FormParser])
 def admin_upload_profile_pic(request, user_id):
-    user = request.user
-    user = User.objects.get(id=request.user.id)
-    if not user.is_admin:
-        return Response({"error": "No autorizado"}, status=403)
-    userObjective = User.objects.get(id=user_id)
-    serializer = ProfilePicSerializer(userObjective, data=request.data, partial=True)
+    """
+    El usuario autenticado **debe** ser admin.  
+    user_id es el usuario cuyo avatar se quiere modificar.
+    """
+    
+    if not request.user.is_admin:
+        return Response({"error": "No autorizado"}, status=status.HTTP_403_FORBIDDEN)
+
+    
+    target_user = get_object_or_404(User, id=user_id)
+
+    
+    serializer = ProfilePicSerializer(target_user, data=request.data, partial=True)
     if serializer.is_valid():
         serializer.save()
-        return Response({"profile_pic": serializer.data["profile_pic"]}, status=200)
-    return Response(serializer.errors, status=400)
+        return Response(
+            {"profile_pic": serializer.data["profile_pic"]},
+            status=status.HTTP_200_OK,
+        )
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @swagger_auto_schema(
@@ -1276,3 +1337,4 @@ class GetUsers(generics.ListAPIView):
         queryset = User.objects.all()
         serializer = UserProfileSerializer(queryset, many=True)
         return Response(serializer.data)
+

@@ -1,12 +1,14 @@
 
 # -*- coding: utf-8 -*-
 
+import ssl
+from tkinter import SE
 from django.test import TestCase
-
+from rest_framework.test import APITestCase
 # tests/test_endpoints.py
 import json
 from datetime import datetime, timedelta
-
+import io
 from PIL import Image
 import tempfile
 from django.urls import reverse
@@ -14,15 +16,16 @@ from django.utils import timezone
 from rest_framework.test import APITestCase, APIClient
 from rest_framework import status
 from rest_framework.authtoken.models import Token
-from unittest.mock import patch, MagicMock,PropertyMock
+from unittest.mock import patch, MagicMock,PropertyMock, seal
 from persistence.models import (
     User, Event, Location, Category, Rating, TypeRating, RANK_POINTS, TypeRank, Message, Question, QuestionTranslation,
     TypeRank, RANK_ORDER,
 )
 from api.serializers import AdminChangeUserPasswordSerializer
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.contrib.auth import get_user_model
 
-
+User = get_user_model()
 class BaseAPITestCase(APITestCase):
     """
     Crea un usuario normal y otro admin, con sus tokens,
@@ -1039,7 +1042,7 @@ class AdminChangeUserPasswordViewTests(APITestCase):
         self.assertTrue(self.target.force_change_password)
         self.assertFalse(Token.objects.filter(key=old_token.key).exists())
     def test_success_changes_password_and_deletes_token(self, *_):
-        # token antiguo que debe eliminarse
+
         old_token = Token.objects.create(user=self.target)
 
         self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.admin_token.key}")
@@ -1049,10 +1052,152 @@ class AdminChangeUserPasswordViewTests(APITestCase):
         )
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
 
-        # password actualizado
+
         self.target.refresh_from_db()
         self.assertTrue(self.target.check_password("nuevo123"))
         self.assertTrue(self.target.force_change_password)
 
-        # token viejo eliminado
         self.assertFalse(Token.objects.filter(key=old_token.key).exists())
+
+def _fake_image(name="avatar.png", fmt="PNG"):
+    """Devuelve un SimpleUploadedFile con una imagen mínima en memoria."""
+    img = Image.new("RGB", (10, 10), color="red")
+    buf = io.BytesIO()
+    img.save(buf, format=fmt)
+    buf.seek(0)
+    return SimpleUploadedFile(name, buf.read(), content_type="image/png")
+
+
+class _AdminBase(APITestCase):
+    """Crea un admin autenticado y un usuario objetivo."""
+
+
+    def setUp(self):
+
+        self.admin = User.objects.create_user(
+            username="admin",
+            email="admin@test.com",
+            password="pwd123",
+        )
+
+        self.admin.is_admin = True
+        self.admin.save()         
+
+
+        self.admin_token = Token.objects.create(user=self.admin)
+
+
+        self.user = User.objects.create_user(
+            username="pepe",
+            email="pepe@test.com",
+            password="pwd123",
+        )
+        self.user.save()
+        self.user_token = Token.objects.create(user=self.user)
+
+    
+    def _auth(self, token):
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {token.key}")
+
+
+class AdminDeleteUserAccountTests(_AdminBase):
+    def test_admin_can_delete_account(self):
+        self._auth(self.admin_token)
+        url = reverse("admin_delete_user_account", args=[self.user.id])
+
+        resp = self.client.delete(url)
+
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        self.assertFalse(User.objects.filter(id=self.user.id).exists())
+
+    def test_forbidden_if_not_admin(self):
+        self._auth(self.user_token)
+        self.admin.is_admin = False
+        self.admin.save() 
+        url = reverse("admin_delete_user_account", args=[self.user.id]) 
+
+        resp = self.client.delete(url)
+        self.admin.is_admin = True
+        self.admin.save() 
+        self.assertEqual(resp.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_user_not_found_returns_404(self):
+        self._auth(self.admin_token)
+        url = reverse("admin_delete_user_account", args=[9999]) 
+
+        resp = self.client.delete(url)
+
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+
+
+
+class AdminUpdateUserPartialTests(_AdminBase):
+    def test_partial_update_ok(self):
+        self._auth(self.admin_token)
+        url = reverse("update_user_partial", args=[self.user.id])
+        payload = {"fullname": "Nuevo Nombre", "language": "EN", "phone_number": ""}
+
+        resp = self.client.put(url, payload)
+
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.fullname, "Nuevo Nombre")  
+        self.assertEqual(self.user.language, "EN")            
+        self.assertNotEqual(self.user.phone_number, "")       
+
+    def test_forbidden_if_not_admin(self):
+        self._auth(self.user_token)
+        url = reverse("update_user_partial", args=[self.admin.id])
+
+        resp = self.client.put(url, {"language": "EN"})
+
+        self.assertEqual(resp.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_user_not_found(self):
+        self._auth(self.admin_token)
+        url = reverse("update_user_partial", args=[9999])
+
+        resp = self.client.put(url, {"language": "EN"})
+
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+
+
+
+class AdminUploadProfilePicTests(_AdminBase):
+    def test_upload_pic_success(self):
+        self._auth(self.admin_token)
+        url = reverse("admin_upload_profile_pic", args=[self.user.id])
+        file_obj = _fake_image()
+
+        resp = self.client.post(url, {"profile_pic": file_obj}, format="multipart")
+
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        self.user.refresh_from_db()
+        self.assertTrue(bool(self.user.profile_pic))
+
+    def test_forbidden_if_not_admin(self):
+        self._auth(self.user_token)
+        url = reverse("admin_upload_profile_pic", args=[self.user.id])
+        file_obj = _fake_image()
+
+        resp = self.client.post(url, {"profile_pic": file_obj}, format="multipart")
+
+        self.assertEqual(resp.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_user_not_found(self):
+        self._auth(self.admin_token)
+        url = reverse("admin_upload_profile_pic", args=[9999])
+        file_obj = _fake_image()
+
+        resp = self.client.post(url, {"profile_pic": file_obj}, format="multipart")
+
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_invalid_file_returns_400(self):
+        self._auth(self.admin_token)
+        url = reverse("admin_upload_profile_pic", args=[self.user.id])
+        bad_file = SimpleUploadedFile("bad.txt", b"not-an-image", content_type="text/plain")
+
+        resp = self.client.post(url, {"profile_pic": bad_file}, format="multipart")
+
+        self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
