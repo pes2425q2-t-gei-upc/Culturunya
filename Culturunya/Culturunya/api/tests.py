@@ -441,15 +441,23 @@ class ChatEndpointsTests(BaseAPITestCase):
         self.assertEqual(resp.status_code, 403)
         mock_create.assert_not_called()
     
-    @patch("api.views.get_admin_with_less_messages", side_effect=Exception("Error forzado"))
+    @patch("api.views.get_corresponding_admin", side_effect=Exception("Error forzado"))
     def test_send_message_user_to_admin_exception(self, mock_admin):
+        """
+        Cualquier excepción inesperada en la búsqueda de admin
+        debe propagarse como 400 con el mensaje de error correspondiente.
+        """
         self.auth(self.token)  # usuario normal
         url = reverse("send_to_admin")
         payload = {"text": "hola"}
 
-        resp = self.client.post(url, data=json.dumps(payload), content_type="application/json")
+        resp = self.client.post(
+            url,
+            data=json.dumps(payload),
+            content_type="application/json",
+        )
 
-        self.assertEqual(resp.status_code, 400)
+        self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertIn("Error forzado", resp.json()["error"])
 
 class ChatAdminEndpointsTests(BaseAPITestCase):
@@ -701,14 +709,19 @@ class RedBranchesTests(BaseAPITestCase):
         self.assertEqual(resp.status_code, 400)
         self.assertIn("boom", resp.json()["error"])
 
-    @patch("api.views.get_admin_with_less_messages", side_effect=Exception("ups"))
+    @patch("api.views.get_corresponding_admin", side_effect=Exception("ups"))
     def test_send_message_user_to_admin_generic_error_400(self, mock_get):
-        """Hace saltar el except de send_message_user_to_admin"""
+        """Hace saltar el except de send_message_user_to_admin."""
         self.auth(self.token)
         url = reverse("send_to_admin")
-        resp = self.client.post(url, json.dumps({"text": "x"}),
-                                content_type="application/json")
-        self.assertEqual(resp.status_code, 400)
+
+        resp = self.client.post(
+            url,
+            data=json.dumps({"text": "x"}),
+            content_type="application/json",
+        )
+
+        self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertIn("ups", resp.json()["error"])
     #
     #  GET_CONVERSATION_WITH_ADMIN / USER 
@@ -849,12 +862,22 @@ class RedBranchesTests(BaseAPITestCase):
 
 
     #  SEND MESSAGE USER TO ADMIN (no hay admins)
-    @patch("api.views.get_admin_with_less_messages", return_value=None)
+    @patch("api.views.get_corresponding_admin", return_value=None)
     def test_send_message_user_to_admin_no_admins(self, mock_admin):
-        self.auth(self.token)
+        """
+        Si no hay ningún administrador disponible, el endpoint debe devolver 404
+        y el mensaje de error debe contener 'No hay admins'.
+        """
+        self.auth(self.token)                          # usuario autenticado
         url = reverse("send_to_admin")
-        resp = self.client.post(url, json.dumps({"text": "hola"}), content_type="application/json")
-        self.assertEqual(resp.status_code, 404)
+
+        resp = self.client.post(
+            url,
+            data=json.dumps({"text": "hola"}),
+            content_type="application/json",
+        )
+
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
         self.assertIn("No hay admins", resp.json()["error"])
 
 
