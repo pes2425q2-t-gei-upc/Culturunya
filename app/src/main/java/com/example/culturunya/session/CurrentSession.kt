@@ -65,7 +65,8 @@ class CurrentSession private constructor() {
             rank_quiz: String,
             rank_event: String,
             current_quiz_points: Int,
-            current_event_points: Int
+            current_event_points: Int,
+            is_admin: Boolean
         ) {
             Companion.username = username
             Companion.email = email
@@ -131,7 +132,6 @@ class CurrentSession private constructor() {
                 rank_event = sessionData.rankEvents
                 current_quiz_points = sessionData.currentQuizPoints
                 current_event_points = sessionData.currentEventsPoints
-                is_admin = sessionData.is_admin
 
                 Log.d("CurrentSession", "Sesión cargada exitosamente: $sessionData")
             } catch (e: Exception) {
@@ -152,7 +152,6 @@ class CurrentSession private constructor() {
                     rankEvents = rank_event,
                     currentQuizPoints = current_quiz_points,
                     currentEventsPoints = current_event_points
-                    is_admin = is_admin
                 )
                 Log.d("CurrentSession", "Sesión guardada exitosamente")
             } catch (e: Exception) {
