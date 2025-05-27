@@ -756,11 +756,91 @@ class AdminChangeUserPasswordView(APIView):
             status=status.HTTP_200_OK
         )
 
+
+user_update_schema = openapi.Schema(
+    type=openapi.TYPE_OBJECT,
+    description="Solo los campos cuyo valor NO sea cadena vacía se actualizarán.",
+    properties={
+        "username":              openapi.Schema(type=openapi.TYPE_STRING, default=""),
+        "first_name":            openapi.Schema(type=openapi.TYPE_STRING, default=""),
+        "last_name":             openapi.Schema(type=openapi.TYPE_STRING, default=""),
+        "email":                 openapi.Schema(type=openapi.TYPE_STRING, format="email", default=""),
+        "fullname":              openapi.Schema(type=openapi.TYPE_STRING, default=""),
+        "phone_number":          openapi.Schema(type=openapi.TYPE_STRING, default=""),
+        "profile_pic":           openapi.Schema(type=openapi.TYPE_STRING, default=""),
+        "birth_date":            openapi.Schema(type=openapi.TYPE_STRING, format="date", default=""),
+        "language":              openapi.Schema(type=openapi.TYPE_STRING, default=""),
+        "rank_event":            openapi.Schema(type=openapi.TYPE_STRING, default=""),
+        "rank_quiz":             openapi.Schema(type=openapi.TYPE_STRING, default=""),
+        "total_event_points":    openapi.Schema(type=openapi.TYPE_INTEGER, nullable=True, default=None),
+        "total_quiz_points":     openapi.Schema(type=openapi.TYPE_INTEGER, nullable=True, default=None),
+        "banned_from_comments":  openapi.Schema(type=openapi.TYPE_BOOLEAN, nullable=True, default=None),
+        "is_admin":              openapi.Schema(type=openapi.TYPE_BOOLEAN, nullable=True, default=None),
+    },
+)
+
+@swagger_auto_schema(
+    method='put',
+    operation_summary="Modificar parcialmente un usuario (solo para admins)",
+    request_body=user_update_schema,
+    responses={
+        200: UserProfileSerializer,
+        400: "Datos invalidos",
+        403: "No autorizado (se requiere admin)",
+        404: "Usuario no encontrado",
+    },
+    manual_parameters=[
+        openapi.Parameter(
+            name="user_id",
+            in_=openapi.IN_PATH,
+            description="ID del usuario que se va a modificar",
+            type=openapi.TYPE_INTEGER,
+            required=True,
+        )
+    ],
+    security=[{'Token': []}],
+)
+@api_view(['PUT'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def update_user_partial(request, user_id):
+    """
+    Actualiza úunicamente los campos cuyo valor NO sea una cadena vacia.
+    Solo los usuarios con is_admin=True pueden llamar a este endpoint.
+    """
+    # Permiso de administrador 
+    if not (request.user.is_admin == False):
+        return Response(
+            {"error": "no autorizado, tienes que ser admin"},
+            status=status.HTTP_403_FORBIDDEN,
+        )
+
+    # Obtener usuario destino
+    try:
+        target_user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return Response(
+            {"error": "usuario no encontrado"},
+            status=status.HTTP_404_NOT_FOUND,
+        )
+
+    # Actualizar solo campos con valor real
+    for field, value in request.data.items():
+        if value not in ("", None, []):
+            setattr(target_user, field, value)
+
+    target_user.save()
+
+    return Response(
+        UserProfileSerializer(target_user).data,
+        status=status.HTTP_200_OK,
+    )
+
 class UserProfileView(APIView):
     permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(
-        operation_summary="Obtener información del usuario autenticado",
+        operation_summary="Obtener informacion del usuario autenticado",
         responses={200: UserProfileSerializer()}
     )
     def get(self, request):
@@ -795,7 +875,48 @@ def upload_profile_pic(request):
     serializer = ProfilePicSerializer(user, data=request.data, partial=True)
     if serializer.is_valid():
         serializer.save()
-        # Devolver la URL completa para que el front la cachee
+        # Devolver la URL completa para que el front la cache
+        return Response({"profile_pic": serializer.data["profile_pic"]}, status=200)
+    return Response(serializer.errors, status=400)
+
+@swagger_auto_schema(
+    method='post',
+    operation_summary="Subir / reemplazar la foto de perfil",
+    operation_description="Envía un archivo en un multipart-form con la clave `profile_pic`.",
+    manual_parameters=[
+        openapi.Parameter(
+            name="user_id",
+            in_=openapi.IN_PATH,
+            description="ID del usuario que se va a modificar",
+            type=openapi.TYPE_INTEGER,
+            required=True,
+        ),
+        openapi.Parameter(
+            name="Picture",
+            in_=openapi.IN_FORM,
+            type=openapi.TYPE_FILE,
+            required=True,
+            description="Imagen de perfil"
+        )
+    ],
+    responses={
+        200: openapi.Response(description="Foto actualizada"),
+        400: openapi.Response(description="Dato inválido"),
+        401: openapi.Response(description="No autenticado"),
+    }
+)
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+@parser_classes([MultiPartParser, FormParser])
+def admin_upload_profile_pic(request, user_id):
+    user = request.user
+    user = User.objects.get(id=request.user.id)
+    if not user.is_admin:
+        return Response({"error": "No autorizado"}, status=403)
+    userObjective = User.objects.get(id=user_id)
+    serializer = ProfilePicSerializer(userObjective, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
         return Response({"profile_pic": serializer.data["profile_pic"]}, status=200)
     return Response(serializer.errors, status=400)
 

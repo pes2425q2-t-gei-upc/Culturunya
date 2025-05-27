@@ -9,6 +9,7 @@ from .views import (
     update_username, logout_view, resolve_report, list_reports, send_report, get_event_comments, list_chats_admin,
     upload_profile_pic, google_auth, get_question, obtain_location_points, obtain_quiz_points,
     get_event_assistance_ranking, get_quiz_ranking, GetUsers, delete_rating, AdminChangeUserPasswordView,
+    update_user_partial, admin_upload_profile_pic
 )
 
 urlpatterns = [#se concatena con el path de url del proyecto
@@ -48,6 +49,9 @@ urlpatterns = [#se concatena con el path de url del proyecto
     path('leaderboard/quiz/', get_quiz_ranking, name='quiz_leaderboard'),
     path('leaderboard/events/', get_event_assistance_ranking, name='events_leaderboard'),
     path('admin/get_users/', GetUsers.as_view(), name='get_users'),
+    path('admin/update_user_partial/<int:user_id>/', update_user_partial, name='update_user_partial'),
     path('admin/change_user_password/', AdminChangeUserPasswordView.as_view(), name='admin_change_user_password'),
+    path('admin/admin_upload_profile_pic/', admin_upload_profile_pic, name='admin_upload_profile_pic'),
+    
     path('auth/google/', google_auth, name="google_auth"),
 ]

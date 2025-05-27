@@ -72,7 +72,7 @@ class AdminChangeUserPasswordSerializer(serializers.Serializer):
     Valida la peticion PUT del admin para cambiar la contrasena de otro usuario.
     """
     user_id = serializers.IntegerField()
-    new_password = serializers.CharField(write_only=True, min_length=8)
+    new_password = serializers.CharField(write_only=True, min_length=4)
 
     def validate_user_id(self, value):
         if not User.objects.filter(id=value).exists():
