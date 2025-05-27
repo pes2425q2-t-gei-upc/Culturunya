@@ -10,7 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
-import com.example.culturunya.CurrentSession
+import com.example.culturunya.session.CurrentSession
 
 
 @OptIn(ExperimentalMaterial3Api::class)
