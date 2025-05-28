@@ -160,7 +160,7 @@
     <string name="quizPointsMessage">To get %d points answer this question correctly</string>
 
     <!-- Pantalla Leaderboard -->
-    <string name="monthlyRanking">Monthly Ranking</string>
+    <string name="monthlyRanking">Ranking</string>
     <string name="quiz">Quiz</string>
     <string name="eventAssistance">Event attendance</string>
     <string name="unknownErrorRanking">Unknown error loading ranking.</string>
