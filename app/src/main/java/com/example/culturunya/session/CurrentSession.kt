@@ -136,7 +136,6 @@ class CurrentSession private constructor() {
                 rank_event = sessionData.rankEvents
                 total_quiz_points = sessionData.totalQuizPoints
                 total_event_points = sessionData.totalEventsPoints
-                is_admin = sessionData.is_admin
 
                 Log.d("CurrentSession", "Sesión cargada exitosamente: $sessionData")
             } catch (e: Exception) {
