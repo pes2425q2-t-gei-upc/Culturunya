@@ -6,7 +6,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface ChargingApi {
+fun interface ChargingApi {
 
     companion object {
         val instance: ChargingApi = Retrofit.Builder()
