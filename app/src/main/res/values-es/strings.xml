@@ -163,7 +163,7 @@
     <string name="quizPointsMessage">Para obtener %d puntos responda bien esta pregunta</string>
 
     <!-- Pantalla Leaderboard -->
-    <string name="monthlyRanking">Clasificación Mensual</string>
+    <string name="monthlyRanking">Clasificación</string>
     <string name="quiz">Questionarios</string>
     <string name="eventAssistance">Asistir a eventos</string>
     <string name="unknownErrorRanking">Error desconocido cargando la clasificación.</string>
