@@ -82,7 +82,13 @@ fun CalendarScreen(viewModel: EventViewModel) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "${getString(context, monthResources[currentDate.month.ordinal], currentLocale)} ${currentDate.year}",
+                    text = "${
+                        com.example.culturunya.views.functions.getString(
+                            context,
+                            monthResources[currentDate.month.ordinal],
+                            currentLocale
+                        )
+                    } ${currentDate.year}",
                     style = MaterialTheme.typography.titleLarge
                 )
                 Row {
@@ -188,7 +194,7 @@ fun CalendarGrid(
     ) {
         dayShortResources.forEach { resId ->
             Text(
-                text = getString(context, resId, currentLocale),
+                text = com.example.culturunya.views.functions.getString(context, resId, currentLocale),
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.weight(1f),
                 textAlign = TextAlign.Center,
@@ -271,9 +277,27 @@ fun SelectedDateDisplay(selectedDate: LocalDate) {
     )
 
     Text(
-        text = "${getString(context, dayResources[selectedDate.dayOfWeek.ordinal], currentLocale)}, " +
-                "${selectedDate.dayOfMonth} ${getString(context, R.string.ofconnector, currentLocale)} " +
-                "${getString(context, monthResources[selectedDate.month.ordinal], currentLocale)} " +
+        text = "${
+            com.example.culturunya.views.functions.getString(
+                context,
+                dayResources[selectedDate.dayOfWeek.ordinal],
+                currentLocale
+            )
+        }, " +
+                "${selectedDate.dayOfMonth} ${
+                    com.example.culturunya.views.functions.getString(
+                        context,
+                        R.string.ofconnector,
+                        currentLocale
+                    )
+                } " +
+                "${
+                    com.example.culturunya.views.functions.getString(
+                        context,
+                        monthResources[selectedDate.month.ordinal],
+                        currentLocale
+                    )
+                } " +
                 "${selectedDate.year}",
         style = MaterialTheme.typography.bodyLarge,
         textAlign = TextAlign.Center,

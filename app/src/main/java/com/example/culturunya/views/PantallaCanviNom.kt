@@ -86,7 +86,11 @@ fun PantallaCanviNom(navController: NavController) {
             Spacer(modifier = Modifier.height(40.dp))
 
             Text(
-                text = getString(context, R.string.changeUsername, currentLocale),
+                text = com.example.culturunya.views.functions.getString(
+                    context,
+                    R.string.changeUsername,
+                    currentLocale
+                ),
                 fontSize = 24.sp,
                 color = Color.Black,
                 fontWeight = FontWeight.Bold
@@ -100,12 +104,22 @@ fun PantallaCanviNom(navController: NavController) {
                     nouNom = it
                     viewModel.updateNewUsername(it)
                     if (it == currentUsername) {
-                        missatgeError = getString(context, R.string.sameUsernameError, currentLocale)
+                        missatgeError = com.example.culturunya.views.functions.getString(
+                            context,
+                            R.string.sameUsernameError,
+                            currentLocale
+                        )
                     } else {
                         missatgeError = ""
                     }
                 },
-                label = { Text(getString(context, R.string.newUsername, currentLocale)) },
+                label = { Text(
+                    com.example.culturunya.views.functions.getString(
+                        context,
+                        R.string.newUsername,
+                        currentLocale
+                    )
+                ) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -138,10 +152,16 @@ fun PantallaCanviNom(navController: NavController) {
                             },
                             colors = ButtonDefaults.buttonColors(containerColor = Morat)
                         ) {
-                            Text(getString(context, R.string.ok, currentLocale))
+                            Text(com.example.culturunya.views.functions.getString(context, R.string.ok, currentLocale))
                         }
                     },
-                    title = { Text(getString(context, R.string.usernameChangedSuccessfully, currentLocale)) },
+                    title = { Text(
+                        com.example.culturunya.views.functions.getString(
+                            context,
+                            R.string.usernameChangedSuccessfully,
+                            currentLocale
+                        )
+                    ) },
                     containerColor = Color.White
                 )
             }
@@ -160,7 +180,7 @@ fun PantallaCanviNom(navController: NavController) {
                         color = MaterialTheme.colorScheme.onPrimary
                     )
                 } else {
-                    Text(getString(context, R.string.saveChanges, currentLocale))
+                    Text(com.example.culturunya.views.functions.getString(context, R.string.saveChanges, currentLocale))
                 }
             }
         }

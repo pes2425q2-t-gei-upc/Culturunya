@@ -132,7 +132,11 @@ fun PantallaCanviFotoPerfil(navController: NavController) {
             Spacer(modifier = Modifier.height(40.dp))
 
             Text(
-                text = getString(context, R.string.changeProfilePic, currentLocale),
+                text = com.example.culturunya.views.functions.getString(
+                    context,
+                    R.string.changeProfilePic,
+                    currentLocale
+                ),
                 fontSize = 24.sp,
                 color = Color.Black,
                 fontWeight = FontWeight.Bold
@@ -160,10 +164,16 @@ fun PantallaCanviFotoPerfil(navController: NavController) {
                             },
                             colors = ButtonDefaults.buttonColors(containerColor = Morat)
                         ) {
-                            Text(getString(context, R.string.ok, currentLocale))
+                            Text(com.example.culturunya.views.functions.getString(context, R.string.ok, currentLocale))
                         }
                     },
-                    title = { Text(getString(context, R.string.profilePicUpdated, currentLocale)) },
+                    title = { Text(
+                        com.example.culturunya.views.functions.getString(
+                            context,
+                            R.string.profilePicUpdated,
+                            currentLocale
+                        )
+                    ) },
                     containerColor = Color.White
                 )
             }
@@ -182,7 +192,7 @@ fun PantallaCanviFotoPerfil(navController: NavController) {
                         color = MaterialTheme.colorScheme.onPrimary
                     )
                 } else {
-                    Text(getString(context, R.string.selectImage, currentLocale))
+                    Text(com.example.culturunya.views.functions.getString(context, R.string.selectImage, currentLocale))
                 }
             }
         }

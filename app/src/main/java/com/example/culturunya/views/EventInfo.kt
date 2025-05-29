@@ -389,7 +389,11 @@ fun AssistButton(event: Event) {
             ) == PermissionChecker.PERMISSION_GRANTED
 
             if (!permissionGranted) {
-                dialogMessage = getString(context, R.string.localizationPermissionsDenied, currentLocale)
+                dialogMessage = com.example.culturunya.views.functions.getString(
+                    context,
+                    R.string.localizationPermissionsDenied,
+                    currentLocale
+                )
                 showDialog = true
                 return@Button
             }
@@ -404,7 +408,11 @@ fun AssistButton(event: Event) {
                     val distance = location.distanceTo(eventLocation)
 
                     if (distance > 50) {
-                        dialogMessage = getString(context, R.string.wrongPosition, currentLocale)
+                        dialogMessage = com.example.culturunya.views.functions.getString(
+                            context,
+                            R.string.wrongPosition,
+                            currentLocale
+                        )
                         showDialog = true
                         return@addOnSuccessListener
                     }
@@ -415,7 +423,8 @@ fun AssistButton(event: Event) {
                     val end = LocalDateTime.parse(event.date_end, formatter)
 
                     if (now.isBefore(start) || now.isAfter(end)) {
-                        dialogMessage = getString(context, R.string.wrongTime, currentLocale)
+                        dialogMessage =
+                            com.example.culturunya.views.functions.getString(context, R.string.wrongTime, currentLocale)
                         showDialog = true
                         return@addOnSuccessListener
                     }
@@ -433,9 +442,21 @@ fun AssistButton(event: Event) {
                             }
 
                             dialogMessage = when (response.code()) {
-                                200 -> getString(context, R.string.pointsAddedCorrectly, currentLocale)
-                                403 -> getString(context, R.string.pointsAlreadyAdded, currentLocale)
-                                else -> getString(context, R.string.pointsAddedCorrectly, currentLocale)
+                                200 -> com.example.culturunya.views.functions.getString(
+                                    context,
+                                    R.string.pointsAddedCorrectly,
+                                    currentLocale
+                                )
+                                403 -> com.example.culturunya.views.functions.getString(
+                                    context,
+                                    R.string.pointsAlreadyAdded,
+                                    currentLocale
+                                )
+                                else -> com.example.culturunya.views.functions.getString(
+                                    context,
+                                    R.string.pointsAddedCorrectly,
+                                    currentLocale
+                                )
                             }
                         } catch (e: HttpException) {
                             dialogMessage = "Error HTTP: ${e.code()} - ${e.message()}"
@@ -445,7 +466,11 @@ fun AssistButton(event: Event) {
                         showDialog = true
                     }
                 } else {
-                    dialogMessage = getString(context, R.string.localizationEerror, currentLocale)
+                    dialogMessage = com.example.culturunya.views.functions.getString(
+                        context,
+                        R.string.localizationEerror,
+                        currentLocale
+                    )
                     showDialog = true
                 }
             }
@@ -469,7 +494,11 @@ fun AssistButton(event: Event) {
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = getString(context, R.string.assistanceConfirmation, currentLocale),
+                text = com.example.culturunya.views.functions.getString(
+                    context,
+                    R.string.assistanceConfirmation,
+                    currentLocale
+                ),
                 color = Color.White,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Medium
@@ -480,7 +509,13 @@ fun AssistButton(event: Event) {
     if (showDialog) {
         AlertDialog(
             onDismissRequest = { showDialog = false },
-            title = { Text(getString(context, R.string.assistance, currentLocale)) },
+            title = { Text(
+                com.example.culturunya.views.functions.getString(
+                    context,
+                    R.string.assistance,
+                    currentLocale
+                )
+            ) },
             text = { Text(dialogMessage) },
             confirmButton = {
                 TextButton(onClick = { showDialog = false }) {

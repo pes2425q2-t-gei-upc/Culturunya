@@ -27,19 +27,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.culturunya.R
+import com.example.culturunya.dataclasses.chats.Chat
 import com.example.culturunya.viewmodels.GetChatsViewModel
 import com.example.culturunya.session.CurrentSession
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
 
-data class Chat(
-    val username: String,
-    val lastMessage: String,
-    val avatar: String?,
-    val lastMessageDate: String,
-    val userId: Int
-)
+
 
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
@@ -117,7 +112,11 @@ fun PantallaLlistaXats(
 
             error != null -> {
                 Text(
-                    text = getString(context, R.string.unexpectedErrorLoadingChat, currentLocale),
+                    text = com.example.culturunya.views.functions.getString(
+                        context,
+                        R.string.unexpectedErrorLoadingChat,
+                        currentLocale
+                    ),
                     color = Color.Red,
                     modifier = Modifier.padding(16.dp)
                 )

@@ -18,6 +18,7 @@ import com.example.culturunya.dataclasses.login.LoginRequest
 import com.example.culturunya.dataclasses.login.LoginResponse
 import com.example.culturunya.dataclasses.chats.SendMessageToAdminRequest
 import com.example.culturunya.dataclasses.chats.SendMessageToUserRequest
+import com.example.culturunya.dataclasses.quiz.SetQuizPointsRequest
 import com.example.culturunya.dataclasses.reports.Report
 import com.example.culturunya.dataclasses.reports.ReportRequest
 import com.example.culturunya.dataclasses.reports.ResolveRequest
@@ -27,7 +28,7 @@ import retrofit2.Response
 import retrofit2.http.*
 import okhttp3.MultipartBody
 
-data class SetQuizPointsRequest(val points: Int)
+
 
 interface Api {
     companion object{

@@ -1,6 +1,5 @@
 package com.example.culturunya.views
 
-import android.os.Build
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -32,10 +31,7 @@ import com.example.culturunya.navigation.AppScreens
 import com.example.culturunya.ui.theme.Morat
 import com.example.culturunya.viewmodels.LoginViewModel
 import com.example.culturunya.viewmodels.UserViewModel
-import com.example.culturunya.notifications.NotificationService
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.isGranted
-import com.google.accompanist.permissions.rememberPermissionState
 import com.example.culturunya.session.CurrentSession
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
@@ -111,7 +107,7 @@ fun ComposableIniciSessio(navController: NavController) {
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = getString(context, R.string.login, currentLocale),
+                text = com.example.culturunya.views.functions.getString(context, R.string.login, currentLocale),
                 fontSize = 22.sp,
                 color = Color.Black,
                 fontWeight = FontWeight.Bold
@@ -122,7 +118,13 @@ fun ComposableIniciSessio(navController: NavController) {
             OutlinedTextField(
                 value = usuari,
                 onValueChange = { usuari = it },
-                label = { Text(getString(context, R.string.username, currentLocale)) },
+                label = { Text(
+                    com.example.culturunya.views.functions.getString(
+                        context,
+                        R.string.username,
+                        currentLocale
+                    )
+                ) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 leadingIcon = {
@@ -141,7 +143,13 @@ fun ComposableIniciSessio(navController: NavController) {
             OutlinedTextField(
                 value = contrasenya,
                 onValueChange = { contrasenya = it },
-                label = { Text(getString(context, R.string.password, currentLocale)) },
+                label = { Text(
+                    com.example.culturunya.views.functions.getString(
+                        context,
+                        R.string.password,
+                        currentLocale
+                    )
+                ) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
@@ -164,9 +172,21 @@ fun ComposableIniciSessio(navController: NavController) {
 
             if (loginError != null) {
                 val errorMessage = when (loginError) {
-                    400 -> getString(context, R.string.errIncorrectUsernameAndPassword, currentLocale)
-                    401 -> getString(context, R.string.notAuthorized, currentLocale)
-                    500 -> getString(context, R.string.serverError, currentLocale)
+                    400 -> com.example.culturunya.views.functions.getString(
+                        context,
+                        R.string.errIncorrectUsernameAndPassword,
+                        currentLocale
+                    )
+                    401 -> com.example.culturunya.views.functions.getString(
+                        context,
+                        R.string.notAuthorized,
+                        currentLocale
+                    )
+                    500 -> com.example.culturunya.views.functions.getString(
+                        context,
+                        R.string.serverError,
+                        currentLocale
+                    )
                     else -> "Unknown error"
                 }
                 Text(
@@ -178,7 +198,11 @@ fun ComposableIniciSessio(navController: NavController) {
             }
 
             if (getUserInfoError != null && getUserInfoError != 200)  {
-                val errorMessage = getString(context, R.string.unknownErrorGetUserInfo, currentLocale)
+                val errorMessage = com.example.culturunya.views.functions.getString(
+                    context,
+                    R.string.unknownErrorGetUserInfo,
+                    currentLocale
+                )
                 Text(
                     text = errorMessage,
                     color = Color.Red,
@@ -201,7 +225,11 @@ fun ComposableIniciSessio(navController: NavController) {
             Button(
                 onClick = {
                     if (usuari.isEmpty() || contrasenya.isEmpty()) {
-                        missatgeError = getString(context, R.string.errNeedUsernameAndPassword, currentLocale)
+                        missatgeError = com.example.culturunya.views.functions.getString(
+                            context,
+                            R.string.errNeedUsernameAndPassword,
+                            currentLocale
+                        )
                     } else {
                         loginViewModel.login(usuari, contrasenya)
                     }
@@ -209,7 +237,7 @@ fun ComposableIniciSessio(navController: NavController) {
                 modifier = Modifier.width(250.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Morat)
             ) {
-                Text(text = getString(context, R.string.enter, currentLocale), color = Color.White)
+                Text(text = com.example.culturunya.views.functions.getString(context, R.string.enter, currentLocale), color = Color.White)
             }
 
             OutlinedButton(
@@ -225,7 +253,11 @@ fun ComposableIniciSessio(navController: NavController) {
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Text(
-                    text = getString(context, R.string.enterWithGoogle, currentLocale),
+                    text = com.example.culturunya.views.functions.getString(
+                        context,
+                        R.string.enterWithGoogle,
+                        currentLocale
+                    ),
                     color = Color.Black
                 )
             }
@@ -238,7 +270,11 @@ fun ComposableIniciSessio(navController: NavController) {
 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = getString(context, R.string.noAccountYet, currentLocale),
+                    text = com.example.culturunya.views.functions.getString(
+                        context,
+                        R.string.noAccountYet,
+                        currentLocale
+                    ),
                     fontSize = 14.sp,
                     color = Color.Gray
                 )
@@ -251,7 +287,11 @@ fun ComposableIniciSessio(navController: NavController) {
                     elevation = null
                 ) {
                     Text(
-                        text = getString(context, R.string.register, currentLocale),
+                        text = com.example.culturunya.views.functions.getString(
+                            context,
+                            R.string.register,
+                            currentLocale
+                        ),
                         fontSize = 14.sp,
                         color = Color.Blue
                     )

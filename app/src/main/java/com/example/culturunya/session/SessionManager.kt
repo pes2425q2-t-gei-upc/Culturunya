@@ -4,6 +4,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
+import com.example.culturunya.dataclasses.users.SessionData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -86,16 +87,3 @@ class SessionManager(context: Context) {
         Log.d(TAG, "Session cleared.")
     }
 }
-
-data class SessionData(
-    val token: String,
-    val username: String,
-    val email: String,
-    val profilePic: String,
-    val isAdmin: Boolean,
-    val rankQuiz: String,
-    val rankEvents: String,
-    val totalQuizPoints: Int,
-    val totalEventsPoints: Int,
-    val is_admin: Boolean
-)

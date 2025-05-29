@@ -191,7 +191,12 @@ fun EventMapScreen() {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 CircularProgressIndicator(color = Purple40)
                 Spacer(modifier = Modifier.height(16.dp))
-                Text(getString(context, R.string.checkingPermissions, currentLocale), color = Color.Black)
+                Text(
+                    com.example.culturunya.views.functions.getString(
+                        context,
+                        R.string.checkingPermissions,
+                        currentLocale
+                    ), color = Color.Black)
             }
         }
 
@@ -239,13 +244,21 @@ fun EventMapScreen() {
                                     modifier = Modifier.weight(1f)
                                 ) {
                                     Text(
-                                        text = getString(context, R.string.bannerTitle, currentLocale),
+                                        text = com.example.culturunya.views.functions.getString(
+                                            context,
+                                            R.string.bannerTitle,
+                                            currentLocale
+                                        ),
                                         style = MaterialTheme.typography.bodyLarge,
                                         fontWeight = FontWeight.Bold,
                                         color = Color(0xFF856404)
                                     )
                                     Text(
-                                        text = getString(context, R.string.bannerContent, currentLocale),
+                                        text = com.example.culturunya.views.functions.getString(
+                                            context,
+                                            R.string.bannerContent,
+                                            currentLocale
+                                        ),
                                         style = MaterialTheme.typography.bodyMedium,
                                         color = Color(0xFF856404)
                                     )
@@ -281,10 +294,20 @@ fun EventMapScreen() {
     if (showPermissionDialog) {
         AlertDialog(
             onDismissRequest = { showPermissionDialog = false },
-            title = {getString(context, R.string.alertDialogTitle, currentLocale)},
+            title = {
+                com.example.culturunya.views.functions.getString(
+                    context,
+                    R.string.alertDialogTitle,
+                    currentLocale
+                )
+            },
             text = {
                 Text(
-                    text = getString(context, R.string.alertDialogContent, currentLocale),
+                    text = com.example.culturunya.views.functions.getString(
+                        context,
+                        R.string.alertDialogContent,
+                        currentLocale
+                    ),
                     textAlign = TextAlign.Center,
                     color = Color.Black
                 )
@@ -305,7 +328,11 @@ fun EventMapScreen() {
                         colors = ButtonDefaults.buttonColors(containerColor = Purple40)
                     ) {
                         Text(
-                            text = getString(context, R.string.accept, currentLocale),
+                            text = com.example.culturunya.views.functions.getString(
+                                context,
+                                R.string.accept,
+                                currentLocale
+                            ),
                             color = Color.White
                         )
                     }
@@ -540,7 +567,7 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                 }
                 Text(
                     text = "${
-                        getString(
+                        com.example.culturunya.views.functions.getString(
                             context,
                             monthResources[currentDate.month.ordinal],
                             currentLocale
@@ -613,7 +640,11 @@ fun MapContent(hasLocationPermission: Boolean = true) {
 
                         Marker(
                             state = MarkerState(position = position),
-                            title = getString(context, R.string.chargingPointLabel, currentLocale),
+                            title = com.example.culturunya.views.functions.getString(
+                                context,
+                                R.string.chargingPointLabel,
+                                currentLocale
+                            ),
                             snippet = "${station.direccio} - ${station.potencia} kW",
                             onClick = {
                                 // En fer clic, seleccionar aquest punt de càrrega i netejar qualsevol esdeveniment seleccionat
@@ -653,7 +684,11 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                             colors = CardDefaults.cardColors(containerColor = Color(0xFFFFDAD5))
                         ) {
                             Text(
-                                text = error ?: getString(context, R.string.unknownError, currentLocale),
+                                text = error ?: com.example.culturunya.views.functions.getString(
+                                    context,
+                                    R.string.unknownError,
+                                    currentLocale
+                                ),
                                 color = Color.Red,
                                 modifier = Modifier.padding(16.dp),
                                 textAlign = TextAlign.Center
@@ -671,7 +706,11 @@ fun MapContent(hasLocationPermission: Boolean = true) {
             ) {
                 Row {
                     Text(
-                        text = getString(context, R.string.distanceLabel, currentLocale),
+                        text = com.example.culturunya.views.functions.getString(
+                            context,
+                            R.string.distanceLabel,
+                            currentLocale
+                        ),
                         style = MaterialTheme.typography.bodyLarge,
                         color = Color.Black
                     )
@@ -681,7 +720,11 @@ fun MapContent(hasLocationPermission: Boolean = true) {
                         color = Color.Black
                     )
                     Text(
-                        text = getString(context, R.string.kilometersLabel, currentLocale), // " km"
+                        text = com.example.culturunya.views.functions.getString(
+                            context,
+                            R.string.kilometersLabel,
+                            currentLocale
+                        ), // " km"
                         style = MaterialTheme.typography.bodyLarge,
                         color = Color.Black
                     )
@@ -743,7 +786,11 @@ fun GoogleMapsButton(
                 colors = ButtonDefaults.buttonColors(containerColor = Purple40)
             ) {
                 Text(
-                    text = getString(context, R.string.eventDetails, currentLocale),
+                    text = com.example.culturunya.views.functions.getString(
+                        context,
+                        R.string.eventDetails,
+                        currentLocale
+                    ),
                     fontWeight = FontWeight.Bold,
                     color = Color.White
                 )
@@ -759,7 +806,7 @@ fun GoogleMapsButton(
                         selectedEvent.name
                     )
                 },
-                text = getString(context, R.string.mapsButton, currentLocale),
+                text = com.example.culturunya.views.functions.getString(context, R.string.mapsButton, currentLocale),
                 modifier = Modifier
                     .weight(1f)
                     .height(56.dp)
@@ -782,10 +829,16 @@ fun GoogleMapsButton(
                         context,
                         station.lat,
                         station.lng,
-                        "${getString(context, R.string.chargingPointLabel, currentLocale)} ${station.direccio}"
+                        "${
+                            com.example.culturunya.views.functions.getString(
+                                context,
+                                R.string.chargingPointLabel,
+                                currentLocale
+                            )
+                        } ${station.direccio}"
                     )
                 },
-                text = getString(context, R.string.mapsButton, currentLocale),
+                text = com.example.culturunya.views.functions.getString(context, R.string.mapsButton, currentLocale),
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp)

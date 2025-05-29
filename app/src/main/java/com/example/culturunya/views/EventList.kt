@@ -38,6 +38,7 @@ import com.example.culturunya.session.CurrentSession
 import java.text.Collator
 import java.util.Locale
 import com.example.culturunya.ui.theme.Purple40
+import com.example.culturunya.views.functions.getString
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable

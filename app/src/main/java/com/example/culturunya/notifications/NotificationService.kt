@@ -5,12 +5,11 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.NotificationCompat
 import com.example.culturunya.MainActivity
 import com.example.culturunya.R
 import com.example.culturunya.session.CurrentSession
-import com.example.culturunya.views.getString
+import com.example.culturunya.views.functions.getString
 
 const val NOTIFICATION_CHANNEL_ID = "ch-1"
 const val NOTIFICATION_CHANNEL_NAME = "Daily notification"

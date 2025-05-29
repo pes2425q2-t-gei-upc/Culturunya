@@ -28,9 +28,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.culturunya.screens.LeaderboardScreen
 import androidx.compose.ui.platform.LocalContext
 import com.example.culturunya.session.CurrentSession
-import com.example.culturunya.views.getString
-import androidx.compose.ui.platform.LocalContext
-import com.example.culturunya.views.getString
+import com.example.culturunya.views.functions.getString
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable

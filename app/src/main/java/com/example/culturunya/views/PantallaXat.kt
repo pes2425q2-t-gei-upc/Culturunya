@@ -125,7 +125,7 @@ fun formatTimestamp(timestamp: String): String {
         val formatter = SimpleDateFormat("HH:mm", Locale.getDefault())
         formatter.format(date!!)
     } catch (e: Exception) {
-        getString(context, R.string.invalidTimeFormat, currentLocale)
+        com.example.culturunya.views.functions.getString(context, R.string.invalidTimeFormat, currentLocale)
     }
 }
 
@@ -141,7 +141,7 @@ fun formatDate(timestamp: String): String {
         val formatter = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
         formatter.format(date!!)
     } catch (e: Exception) {
-        getString(context, R.string.invalidTimeFormat, currentLocale)
+        com.example.culturunya.views.functions.getString(context, R.string.invalidTimeFormat, currentLocale)
     }
 }
 
@@ -195,18 +195,34 @@ fun PantallaXat(navController: NavController, userId: Int?, username: String?, i
         var message = ""
         if (loadMessageStatus != 200) {
             if (loadMessageStatus == 404) {
-                if (imAdmin) message = getString(context, R.string.userChatNotFound, currentLocale)
-                else message = getString(context, R.string.noAdminsAviable, currentLocale)
+                if (imAdmin) message =
+                    com.example.culturunya.views.functions.getString(context, R.string.userChatNotFound, currentLocale)
+                else message =
+                    com.example.culturunya.views.functions.getString(context, R.string.noAdminsAviable, currentLocale)
             }
-            else message = getString(context, R.string.unexpectedErrorLoadingChat, currentLocale)
+            else message = com.example.culturunya.views.functions.getString(
+                context,
+                R.string.unexpectedErrorLoadingChat,
+                currentLocale
+            )
         }
         if (sendMessageStatus != 201) {
             if (sendMessageStatus == 404) {
-                if (imAdmin) message = getString(context, R.string.userChatNotFound, currentLocale)
-                else message = getString(context, R.string.noAdminsAviable, currentLocale)
+                if (imAdmin) message =
+                    com.example.culturunya.views.functions.getString(context, R.string.userChatNotFound, currentLocale)
+                else message =
+                    com.example.culturunya.views.functions.getString(context, R.string.noAdminsAviable, currentLocale)
             }
-            else if (sendMessageStatus == 401) getString(context, R.string.errorSendMsgNotAuth, currentLocale)
-            else message = getString(context, R.string.unexpectedErrorLoadingChat, currentLocale)
+            else if (sendMessageStatus == 401) com.example.culturunya.views.functions.getString(
+                context,
+                R.string.errorSendMsgNotAuth,
+                currentLocale
+            )
+            else message = com.example.culturunya.views.functions.getString(
+                context,
+                R.string.unexpectedErrorLoadingChat,
+                currentLocale
+            )
         }
         popUpError(message, onClick = {
             showErrorDialog = false
@@ -296,7 +312,11 @@ fun PantallaXat(navController: NavController, userId: Int?, username: String?, i
                 Spacer(modifier = Modifier.width(12.dp))
 
                 Text(
-                    text = if (imAdmin) username!! else getString(context, R.string.administrator, currentLocale),
+                    text = if (imAdmin) username!! else com.example.culturunya.views.functions.getString(
+                        context,
+                        R.string.administrator,
+                        currentLocale
+                    ),
                     style = MaterialTheme.typography.titleMedium,
                     color = Color.Black
                 )

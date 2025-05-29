@@ -90,7 +90,11 @@ fun EventBox(
                     .padding(16.dp)
             ) {
                 Text(
-                    text = getString(context, R.string.fromPrice, currentLocale) + event.price+"€",
+                    text = com.example.culturunya.views.functions.getString(
+                        context,
+                        R.string.fromPrice,
+                        currentLocale
+                    ) + event.price+"€",
                     style = MaterialTheme.typography.bodyMedium.copy(
                         fontSize = 10.sp
                     ),

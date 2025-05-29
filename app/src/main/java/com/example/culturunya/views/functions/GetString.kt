@@ -1,4 +1,4 @@
-package com.example.culturunya.views
+package com.example.culturunya.views.functions
 
 import android.content.Context
 import java.util.*

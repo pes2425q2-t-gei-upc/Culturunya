@@ -4,9 +4,6 @@ import androidx.compose.animation.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -25,12 +22,6 @@ import com.example.culturunya.ui.theme.Morat
 import coil.compose.AsyncImage
 import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.foundation.rememberScrollState
-import android.content.Intent
-import android.net.Uri
-import androidx.core.content.FileProvider
-import java.io.File
-import java.io.FileOutputStream
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -70,7 +61,7 @@ fun PantallaQuiz(navController: NavController) {
         ) {
             // Puntuació
             Text(
-                text = getString(context, R.string.quizScore, currentLocale).format(state.currentPoints),
+                text = com.example.culturunya.views.functions.getString(context, R.string.quizScore, currentLocale).format(state.currentPoints),
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Bold,
                 color = Morat,
@@ -90,7 +81,11 @@ fun PantallaQuiz(navController: NavController) {
                         if (state.isLoading) {
                             CircularProgressIndicator(color = Morat)
                             Text(
-                                text = getString(context, R.string.quizLoading, currentLocale),
+                                text = com.example.culturunya.views.functions.getString(
+                                    context,
+                                    R.string.quizLoading,
+                                    currentLocale
+                                ),
                                 fontSize = 16.sp,
                                 color = Color.Gray,
                                 modifier = Modifier.padding(top = 8.dp)
@@ -127,7 +122,11 @@ fun PantallaQuiz(navController: NavController) {
                                         }
                                         Spacer(modifier = Modifier.height(8.dp))
                                         Text(
-                                            text = getString(context, R.string.quizPointsMessage, currentLocale).format(currentQuestion.points),
+                                            text = com.example.culturunya.views.functions.getString(
+                                                context,
+                                                R.string.quizPointsMessage,
+                                                currentLocale
+                                            ).format(currentQuestion.points),
                                             fontSize = 14.sp,
                                             color = Morat,
                                             modifier = Modifier.padding(bottom = 8.dp)
@@ -176,7 +175,11 @@ fun PantallaQuiz(navController: NavController) {
                                         contentAlignment = Alignment.Center
                                     ) {
                                         Text(
-                                            text = getString(context, R.string.quizCorrect, currentLocale),
+                                            text = com.example.culturunya.views.functions.getString(
+                                                context,
+                                                R.string.quizCorrect,
+                                                currentLocale
+                                            ),
                                             fontSize = 24.sp,
                                             color = Color.Green,
                                             fontWeight = FontWeight.Bold
@@ -198,7 +201,11 @@ fun PantallaQuiz(navController: NavController) {
                                         contentAlignment = Alignment.Center
                                     ) {
                                         Text(
-                                            text = getString(context, R.string.quizIncorrect, currentLocale),
+                                            text = com.example.culturunya.views.functions.getString(
+                                                context,
+                                                R.string.quizIncorrect,
+                                                currentLocale
+                                            ),
                                             fontSize = 24.sp,
                                             color = Color.Red,
                                             fontWeight = FontWeight.Bold
@@ -213,7 +220,7 @@ fun PantallaQuiz(navController: NavController) {
             // Mostrar error si n'hi ha
             state.error?.let { error ->
                 Text(
-                    text = getString(context, R.string.quizError, currentLocale).format(error),
+                    text = com.example.culturunya.views.functions.getString(context, R.string.quizError, currentLocale).format(error),
                     color = Color.Red,
                     fontSize = 14.sp,
                     modifier = Modifier.padding(top = 4.dp)
