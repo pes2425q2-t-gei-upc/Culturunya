@@ -422,12 +422,14 @@ fun AssistButton(event: Event) {
                     val start = LocalDateTime.parse(event.date_start, formatter)
                     val end = LocalDateTime.parse(event.date_end, formatter)
 
+                    /*
                     if (now.isBefore(start) || now.isAfter(end)) {
                         dialogMessage =
                             com.example.culturunya.views.functions.getString(context, R.string.wrongTime, currentLocale)
                         showDialog = true
                         return@addOnSuccessListener
                     }
+                     */
 
                     coroutineScope.launch(Dispatchers.IO) {
                         try {
