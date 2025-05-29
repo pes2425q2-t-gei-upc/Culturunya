@@ -119,4 +119,22 @@ interface Api {
         @Body request: SetQuizPointsRequest
     ): Response<Unit>
 
+    @GET("reports/")
+    suspend fun getReports(@Header("Authorization") token: String): List<Report>
+
+    @POST("reports/{report_Id}/resolve/")
+    suspend fun resolveReport(@Header("Authorization") token: String, @Path("report_Id") report_Id: String, @Body resolveRequest: ResolveRequest): Response<Unit>
+
+
+    @GET("leaderboard/quiz/")
+    suspend fun getLeaderboardQuiz(@Header("Authorization") token: String): List<RankingPosition>
+
+    @GET("leaderboard/events/")
+    suspend fun getLeaderboardEvents(@Header("Authorization") token: String): List<RankingPosition>
+
+    @PUT("user/get_points_event/{event_id}/")
+    suspend fun getPointsEvent(
+        @Path("event_id") eventId: String,
+        @Header("Authorization") token: String
+    ): Response<Unit>
 }

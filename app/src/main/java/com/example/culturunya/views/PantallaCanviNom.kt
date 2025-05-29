@@ -48,7 +48,6 @@ fun PantallaCanviNom(navController: NavController) {
     LaunchedEffect(state.success) {
         if (state.success) {
             haCanviat = true
-            CurrentSession.username = nouNom
         }
     }
 

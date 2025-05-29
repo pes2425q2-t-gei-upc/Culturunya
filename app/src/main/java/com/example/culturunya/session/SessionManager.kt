@@ -25,8 +25,11 @@ class SessionManager(context: Context) {
         private val USERNAME = stringPreferencesKey("username")
         private val EMAIL = stringPreferencesKey("email")
         private val PROFILE_PIC = stringPreferencesKey("profile_pic")
+        private val RANK_QUIZ = stringPreferencesKey("rank_quiz")
+        private val RANK_EVENTS = stringPreferencesKey("rank_events")
+        private val TOTAL_QUIZ_POINTS = intPreferencesKey("total_quiz_points")
+        private val TOTAL_EVENTS_POINTS = intPreferencesKey("total_events_points")
         private val IS_ADMIN = booleanPreferencesKey("is_admin")
-
         private const val TAG = "SessionManager"
     }
 
@@ -44,7 +47,12 @@ class SessionManager(context: Context) {
         username: String,
         email: String,
         profilePic: String,
-        isAdmin: Boolean
+        isAdmin: Boolean,
+        rankQuiz: String? = null,
+        rankEvents: String? = null,
+        totalQuizPoints: Int? = null,
+        totalEventsPoints: Int? = null,
+        is_admin: Boolean
     ) {
         Log.d(TAG, "Saving session: token=$token, username=$username, email=$email, profilePic=$profilePic, isAdmin=$isAdmin")
 
@@ -54,6 +62,11 @@ class SessionManager(context: Context) {
             if (email.isNotEmpty()) preferences[EMAIL] = email
             if (profilePic.isNotEmpty()) preferences[PROFILE_PIC] = profilePic
             preferences[IS_ADMIN] = isAdmin
+
+            rankQuiz?.let { preferences[RANK_QUIZ] = it }
+            rankEvents?.let { preferences[RANK_EVENTS] = it }
+            totalQuizPoints?.let { preferences[TOTAL_QUIZ_POINTS] = it }
+            totalEventsPoints?.let { preferences[TOTAL_EVENTS_POINTS] = it }
         }
     }
 
@@ -71,7 +84,12 @@ class SessionManager(context: Context) {
                 username = preferences[USERNAME] ?: "",
                 email = preferences[EMAIL] ?: "",
                 profilePic = preferences[PROFILE_PIC] ?: "",
-                isAdmin = preferences[IS_ADMIN] ?: false
+                isAdmin = preferences[IS_ADMIN] ?: false,
+                rankQuiz = preferences[RANK_QUIZ] ?: "",
+                rankEvents = preferences[RANK_EVENTS] ?: "",
+                totalQuizPoints = preferences[TOTAL_QUIZ_POINTS] ?: 0,
+                totalEventsPoints = preferences[TOTAL_EVENTS_POINTS] ?: 0,
+                is_admin = preferences[IS_ADMIN] ?: false
             )
             Log.d(TAG, "Session data retrieved: $data")
             data
@@ -88,3 +106,4 @@ class SessionManager(context: Context) {
         Log.d(TAG, "Session cleared.")
     }
 }
+

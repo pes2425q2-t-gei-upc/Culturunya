@@ -13,37 +13,54 @@ import java.util.*
  */
 class CurrentSession private constructor() {
     companion object {
-
         @Volatile
         private var instance: CurrentSession? = null
 
+        // Propiedades de la sesión
         var token: String = ""
+            private set
 
         var googleIdToken: String = ""
+            private set
 
         var username: String = ""
 
         var password: String = ""
+            private set
 
         var language: String = Locale.getDefault().language
+            private set
 
         var is_admin: Boolean = false
+            private set
 
         var email: String = ""
+            private set
 
         var profile_pic: String = ""
+            private set
 
-        var current_quiz_points: Int = 0
+        var rank_quiz: String = ""
+            private set
+
+        var rank_event: String = ""
+            private set
+
+        var total_quiz_points: Int = 0
 
         /**
          * @brief Devuelve la instancia única de CurrentSession.
          *
          * @return CurrentSession
          */
+        var total_event_points: Int = 0
+            private set
+
         fun getInstance() =
             instance ?: synchronized(this) {
                 instance ?: CurrentSession().also { instance = it }
             }
+
 
         /**
          * @brief Establece el token y la contraseña del usuario.
@@ -51,12 +68,14 @@ class CurrentSession private constructor() {
          * @param token Token de autenticación del usuario.
          * @param password Contraseña del usuario.
          */
+
         fun setTokenAndPassword(token: String, password: String) {
             Companion.token = token
             Companion.password = password
         }
 
         /**
+         * OUTDATED
          * @brief Establece los datos del usuario.
          *
          * @param username Nombre de usuario.
@@ -64,11 +83,27 @@ class CurrentSession private constructor() {
          * @param profile_pic URL de la imagen de perfil del usuario.
          * @param language Idioma preferido del usuario.
          */
-        fun setUserData(username: String, email: String, profile_pic: String, language: String) {
+        fun setUserData(
+            username: String,
+            email: String,
+            profile_pic: String,
+            language: String,
+            rank_quiz: String,
+            rank_event: String,
+            total_quiz_points: Int,
+            total_event_points: Int,
+            is_admin: Boolean
+        ) {
+
             Companion.username = username
             Companion.email = email
             Companion.profile_pic = profile_pic
             Companion.language = language
+            Companion.rank_quiz = rank_quiz
+            Companion.rank_event = rank_event
+            Companion.total_quiz_points = total_quiz_points
+            Companion.total_event_points = total_event_points
+            Companion.is_admin = is_admin
         }
 
         /**
@@ -85,11 +120,17 @@ class CurrentSession private constructor() {
          */
         fun getGoogleToken(): String = googleIdToken
 
+
         /**
          * @brief Marca al usuario como administrador.
          */
-        fun isAdmin() {
-            is_admin = true
+        fun isAdmin(): Boolean {
+            return is_admin
+        }
+
+        fun setAdmin(isAdmin: Boolean) {
+            is_admin = isAdmin
+
         }
 
         /**
@@ -114,15 +155,24 @@ class CurrentSession private constructor() {
             googleIdToken = ""
             username = ""
             password = ""
+            email = ""
+            profile_pic = ""
+            is_admin = false
+            rank_quiz = ""
+            rank_event = ""
+            total_quiz_points = 0
+            total_event_points = 0
+            is_admin = false
         }
 
+
         /**
+         * OUTDATED
          * @brief Verifica si hay una sesión activa.
          * @return Boolean Verdadero si hay una sesión activa, falso en caso contrario.
          */
-        fun hasActiveSession(): Boolean {
-            return token.isNotEmpty()
-        }
+        fun hasActiveSession(): Boolean = token.isNotEmpty()
+
 
         /**
          * @brief Establece los puntos del cuestionario actual.
@@ -139,17 +189,24 @@ class CurrentSession private constructor() {
          * @param points Puntos obtenidos en el cuestionario.
          */
         suspend fun loadFromDataStore(sessionManager: SessionManager) {
-            Log.d("CurrentSession", "Intentando recuperar sesión del DataStore...")
+            try {
+                Log.d("CurrentSession", "Intentando recuperar sesión del DataStore...")
+                val sessionData = sessionManager.sessionData.first()
 
-            val sessionData = sessionManager.sessionData.first()
+                token = sessionData.token
+                username = sessionData.username
+                email = sessionData.email
+                profile_pic = sessionData.profilePic
+                is_admin = sessionData.isAdmin
+                rank_quiz = sessionData.rankQuiz
+                rank_event = sessionData.rankEvents
+                total_quiz_points = sessionData.totalQuizPoints
+                total_event_points = sessionData.totalEventsPoints
 
-            Log.d("CurrentSession", "Datos recuperados: $sessionData")
-
-            token = sessionData.token
-            username = sessionData.username
-            email = sessionData.email
-            profile_pic = sessionData.profilePic
-            is_admin = sessionData.isAdmin
+                Log.d("CurrentSession", "Sesión cargada exitosamente: $sessionData")
+            } catch (e: Exception) {
+                Log.e("CurrentSession", "Error al cargar sesión del DataStore", e)
+            }
         }
 
         /**
@@ -157,13 +214,24 @@ class CurrentSession private constructor() {
          * @param sessionManager Instancia de SessionManager para guardar los datos.
          */
         suspend fun saveToDataStore(sessionManager: SessionManager) {
-            sessionManager.saveSession(
-                token = token,
-                username = username,
-                email = email,
-                profilePic = profile_pic,
-                isAdmin = is_admin
-            )
+            try {
+                Log.d("CurrentSession", "Guardando sesión en DataStore...")
+                sessionManager.saveSession(
+                    token = token,
+                    username = username,
+                    email = email,
+                    profilePic = profile_pic,
+                    isAdmin = is_admin,
+                    rankQuiz = rank_quiz,
+                    rankEvents = rank_event,
+                    totalQuizPoints = total_quiz_points,
+                    totalEventsPoints = total_event_points,
+                    is_admin = is_admin
+                )
+                Log.d("CurrentSession", "Sesión guardada exitosamente")
+            } catch (e: Exception) {
+                Log.e("CurrentSession", "Error al guardar sesión en DataStore", e)
+            }
         }
     }
 }

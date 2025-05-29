@@ -1,9 +1,10 @@
 package com.example.culturunya.views
 
 import SessionManager
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import android.annotation.SuppressLint
+import android.content.Intent
+import android.util.Log
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -17,19 +18,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.modifier.modifierLocalMapOf
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.FileProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.culturunya.R
+import com.example.culturunya.viewmodels.DeleteAccountViewModel
+import com.example.culturunya.viewmodels.GetChatsViewModel
+import com.example.culturunya.viewmodels.LogoutViewModel
+import com.example.culturunya.viewmodels.UpdateLanguageViewModel
+import com.example.culturunya.viewmodels.UserViewModel
 import com.example.culturunya.session.CurrentSession
 import com.example.culturunya.navigation.AppScreens
+import com.example.culturunya.screens.RankIcon
 import com.example.culturunya.ui.theme.GrisMoltFluix
 import com.example.culturunya.ui.theme.Morat
+import com.example.culturunya.viewmodels.AuthViewModel
+import com.example.culturunya.viewmodels.ReportViewModel
 import com.example.culturunya.viewmodels.*
+import java.io.File
+import java.io.FileOutputStream
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,6 +60,11 @@ fun SettingsScreen(navController: NavController) {
     val deleteAccountViewModel: DeleteAccountViewModel = viewModel()
     val deleteCode by deleteAccountViewModel.deleteAccountStatus.collectAsState()
     var showDeleteErrorDialog by remember { mutableStateOf(false) }
+
+    val reportViewModel: ReportViewModel = viewModel()
+    val reportResponse by reportViewModel.reports.collectAsState()
+    val reportCode by reportViewModel.errorCode.collectAsState()
+    var showReportErrorDialog by remember { mutableStateOf(false) }
 
     val updateLanguageViewModel: UpdateLanguageViewModel = viewModel()
     val updateLanguageCode by updateLanguageViewModel.updateLanguageStatus.collectAsState()
@@ -67,6 +85,10 @@ fun SettingsScreen(navController: NavController) {
     val username = CurrentSession.username
     val email = CurrentSession.email
     val imageUrl = CurrentSession.profile_pic
+    val rank_quiz = CurrentSession.rank_quiz
+    val rank_event = CurrentSession.rank_event
+    val total_quiz_points = CurrentSession.total_quiz_points
+    val total_event_points = CurrentSession.total_event_points
 
     val options = listOf("English", "Español")
     var expanded by remember { mutableStateOf(false) }
@@ -76,6 +98,8 @@ fun SettingsScreen(navController: NavController) {
 
     val authViewModel: AuthViewModel = viewModel()
     val sessionManager = remember { SessionManager(context) }
+    var showProfileRanks by remember { mutableStateOf(false) }
+    val scrollState = rememberScrollState()
 
     LaunchedEffect(Unit) {
         getChatsViewModel.reset()
@@ -94,11 +118,30 @@ fun SettingsScreen(navController: NavController) {
         else showGetChatsErrorDialog = true
     }
 
-    if (showDeleteErrorDialog) {
-        val message = getString(context, R.string.unexpectedErrorLoadingChat, currentLocale)
+    LaunchedEffect(reportResponse, reportCode) {
+        if (reportResponse.isNotEmpty()) {
+            navController.navigate(route = AppScreens.ListReports.route)
+            reportViewModel.reset()
+        }
+        else if (reportCode == 403) {
+            navController.navigate(route = AppScreens.Reports.route)
+            reportViewModel.reset()
+        }
+        else if( reportCode == null){
+            //
+        }
+        else showReportErrorDialog = true
+    }
+
+    if (showReportErrorDialog) {
+        var message = getString(context, R.string.unexpectedErrorLoadingReports, currentLocale)
+        if (reportCode == 400) message = getString(context, R.string.notAValidLanguage, currentLocale)
+        else if (reportCode == 401) message = getString(context, R.string.unauthenticated, currentLocale)
+        else if (reportCode == 500) getString(context, R.string.serverError, currentLocale)
         popUpError(message, onClick = {
-            showGetChatsErrorDialog = false
+            showReportErrorDialog = false
         })
+        reportViewModel.reset()
     }
 
     if (showUpdateLanguageErrorDialog) {
@@ -117,6 +160,7 @@ fun SettingsScreen(navController: NavController) {
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
+            .verticalScroll(scrollState)
     ) {
         // SECTION: Perfil (Avatar, Nom, Correu)
         ProfileHeader(
@@ -171,6 +215,14 @@ fun SettingsScreen(navController: NavController) {
                     text = getString(context, R.string.changeProfilePic, currentLocale),
                     onClick = {
                         navController.navigate(AppScreens.ChangeProfilePic.route)
+                    }
+                )
+                Divider(color = Color.LightGray)
+                SettingsButton(
+                    icon = Icons.Default.BarChart,
+                    text = getString(context, R.string.monthlyClassification, currentLocale),
+                    onClick = {
+                        showProfileRanks = true
                     }
                 )
             }
@@ -277,13 +329,24 @@ fun SettingsScreen(navController: NavController) {
                         getChatsViewModel.getChats()
                     }
                 )
+                Log.d("Admin", "El usuario tiene admin en: ${CurrentSession.is_admin}")
+                if(CurrentSession.is_admin) {
+                    Divider(color = Color.LightGray)
+                    SettingsButton(
+                        icon = Icons.Default.Dangerous,
+                        text = getString(context, R.string.Reports, currentLocale),
+                        onClick = {
+                            reportViewModel.getReports()
+                        }
+                    )
+                }
             }
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(4.dp))
 
         // SEPARADOR
-        Divider(modifier = Modifier.padding(vertical = 8.dp))
+        Divider(modifier = Modifier.padding(vertical = 6.dp))
 
         // BOTÓ "LOG OUT"
         Text(
@@ -293,7 +356,7 @@ fun SettingsScreen(navController: NavController) {
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable { showLogoutDialog = true }
-                .padding(8.dp)
+                .padding(4.dp)
         )
 
         // BOTÓ "DELETE ACCOUNT"
@@ -304,7 +367,7 @@ fun SettingsScreen(navController: NavController) {
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable { showDeleteDialog = true }
-                .padding(8.dp)
+                .padding(4.dp)
         )
     }
 
@@ -374,9 +437,59 @@ fun SettingsScreen(navController: NavController) {
             showLogoutErrorDialog = false
         })
     }
+
+    if (showProfileRanks) {
+        AlertDialog(
+            onDismissRequest = { showProfileRanks = false },
+            text = {
+                Row {
+                    Column {
+                        Text(
+                            text = getString(context, R.string.quiz, currentLocale),
+                            fontSize = 20.sp,
+                            color = Color.Black,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Spacer (modifier = Modifier.height(15.dp))
+                        RankIcon(rank_quiz, modifier = Modifier.align(Alignment.CenterHorizontally))
+                        Spacer (modifier = Modifier.height(10.dp))
+                        Text(rank_quiz, modifier = Modifier.align(Alignment.CenterHorizontally))
+                        Spacer (modifier = Modifier.height(10.dp))
+                        Text(text = "$total_quiz_points" + " pts", modifier = Modifier.align(Alignment.CenterHorizontally))
+                    }
+                    Spacer (modifier = Modifier.width(30.dp))
+                    Column {
+                        Text(
+                            text = getString(context, R.string.eventAssistance, currentLocale),
+                            fontSize = 20.sp,
+                            color = Color.Black,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Spacer (modifier = Modifier.height(15.dp))
+                        RankIcon(rank_event, modifier = Modifier.align(Alignment.CenterHorizontally))
+                        Spacer (modifier = Modifier.height(10.dp))
+                        Text(rank_event, modifier = Modifier.align(Alignment.CenterHorizontally))
+                        Spacer (modifier = Modifier.height(10.dp))
+                        Text(text = "$total_event_points" + " pts", modifier = Modifier.align(Alignment.CenterHorizontally))
+                    }
+                }
+            },
+            confirmButton = {
+                Button(
+                    onClick = { showProfileRanks = false },
+                    colors = ButtonDefaults.buttonColors(containerColor = Morat)
+                ) {
+                    Text(text = "OK")
+                }
+            },
+            containerColor = Color.White
+        )
+    }
+
 }
 
 
+@SuppressLint("ResourceType")
 @Composable
 /**
  * Header de perfil que mostra la imatge d'usuari, el nom i el correu electrònic.
@@ -392,6 +505,7 @@ fun ProfileHeader(
     avatarRes: String,
     navController: NavController
 ) {
+    val context = LocalContext.current
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -438,6 +552,45 @@ fun ProfileHeader(
                 text = email,
                 fontSize = 14.sp,
                 color = Color.Gray
+            )
+        }
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        IconButton(
+            onClick = {
+                // Crear un fitxer temporal per la imatge
+                val imageFile = File(context.cacheDir, "logo_share.png")
+                context.resources.openRawResource(R.drawable.logo_retallat).use { input ->
+                    FileOutputStream(imageFile).use { output ->
+                        input.copyTo(output)
+                    }
+                }
+
+                // Crear l'URI de la imatge
+                val imageUri = FileProvider.getUriForFile(
+                    context,
+                    "${context.packageName}.provider",
+                    imageFile
+                )
+
+                // Crear l'Intent per compartir
+                val shareIntent = Intent().apply {
+                    action = Intent.ACTION_SEND_MULTIPLE
+                    type = "image/*"
+                    putExtra(Intent.EXTRA_TEXT, context.getString(R.string.shareMessage))
+                    putParcelableArrayListExtra(Intent.EXTRA_STREAM, arrayListOf(imageUri))
+                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                }
+
+                context.startActivity(Intent.createChooser(shareIntent, context.getString(R.string.shareButton)))
+            },
+            modifier = Modifier.size(40.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.Share,
+                contentDescription = "Share",
+                tint = Morat
             )
         }
     }

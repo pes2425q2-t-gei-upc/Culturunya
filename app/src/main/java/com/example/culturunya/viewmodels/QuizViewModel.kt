@@ -29,6 +29,7 @@ class QuizViewModel : ViewModel() {
     private val repository = UserRepository(Api.instance)
     private lateinit var context: Context
     private var questions: List<QuizQuestion> = emptyList()
+    private val numQuestions = 329  // Nombre total de preguntes
 
     /**
      * Sets the context for the ViewModel and loads questions and current points.
@@ -47,7 +48,7 @@ class QuizViewModel : ViewModel() {
      */
     private fun loadQuestionsFromJson() {
         try {
-            val inputStream = context.assets.open("quiz/quiz_200.json")
+            val inputStream = context.assets.open("quiz/quiz.json")
             val jsonString = BufferedReader(InputStreamReader(inputStream)).use { it.readText() }
             val questionsArray = JSONArray(jsonString)
             
@@ -66,7 +67,8 @@ class QuizViewModel : ViewModel() {
                     question = questionObj.getString("question_${CurrentSession.language.lowercase()}"),
                     options = optionsList,
                     correctAnswer = correctAnswer,
-                    image = questionObj.optString("image").takeIf { it != "null" && it.isNotBlank() }
+                    image = questionObj.optString("image").takeIf { it != "null" && it.isNotBlank() },
+                    points = questionObj.getInt("points")
                 )
             }
             
@@ -86,8 +88,9 @@ class QuizViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val userInfo = repository.getProfileInfo("Token ${CurrentSession.token}")
-                _state.value = _state.value.copy(currentPoints = userInfo.current_quiz_points)
+                _state.value = _state.value.copy(currentPoints = userInfo.total_quiz_points)
             } catch (e: Exception) {
+                Log.e("QUIZ_DEBUG", "Error obtenint dades de l'usuari: ${e.message}")
                 _state.value = _state.value.copy(error = context.getString(R.string.quizError, e.message))
             }
         }
@@ -134,11 +137,12 @@ class QuizViewModel : ViewModel() {
             selectedOption = selectedOption
         )
         // Actualitzar punts
-        val newPoints = if (isCorrect) _state.value.currentPoints + 1 else maxOf(0, _state.value.currentPoints - 1)
+        val increment = if (isCorrect) currentQuestion.points else -1
+        val newPoints = maxOf(0, _state.value.currentPoints + increment)
         _state.value = _state.value.copy(currentPoints = newPoints)
 
-        // Guardar punts sempre TODO: només cridar quan es tanca la pantalla
-        savePoints()
+        // Guardar punts
+        savePoints(increment)
         
         // Després d'un moment, carregar nova pregunta
         viewModelScope.launch {
@@ -152,17 +156,23 @@ class QuizViewModel : ViewModel() {
         }
     }
 
+
     /**
+     * OUTDATED
      * Saves the current points to the server.
      * It uses the repository to update the user's points.
      */
-    fun savePoints() {
+    fun savePoints(increment: Int = 0) {
+        Log.d("QUIZ_DEBUG", "Enviant PUT /user/get_points_quiz/ amb increment: $increment i token: ${CurrentSession.token}")
+
         viewModelScope.launch {
             try {
-                repository.setQuizPoints("Token ${CurrentSession.token}", _state.value.currentPoints)
-                CurrentSession.current_quiz_points = _state.value.currentPoints
+                val result = repository.setQuizPoints("Token "+CurrentSession.token, increment)
+                Log.d("QUIZ_DEBUG", "Resposta del backend a PUT: $result")
+                CurrentSession.total_quiz_points = _state.value.currentPoints
             } catch (e: Exception) {
-                _state.value = _state.value.copy(error = "Error guardant els punts: ${e.message}")
+                Log.e("QUIZ_DEBUG", "Error guardant els punts: ${e.message}")
+                _state.value = _state.value.copy(error = "Error guardant els punts: "+e.message)
             }
         }
     }

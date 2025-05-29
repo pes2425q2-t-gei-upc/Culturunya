@@ -26,7 +26,7 @@ class LogoutViewModel : ViewModel() {
     private lateinit var credentialManager: CredentialManager
 
     fun initialize(context: Context) {
-        Log.d("LogoutViewModel", "Inicializando CredentialManager")
+        //Log.d("LogoutViewModel", "Inicializando CredentialManager")
         credentialManager = CredentialManager.create(context)
     }
 
@@ -54,7 +54,7 @@ class LogoutViewModel : ViewModel() {
                     is HttpException -> error.code()
                     else -> -1
                 }
-                Log.e("LogoutViewModel", "Error en logout: ${error.message}")
+                //Log.e("LogoutViewModel", "Error en logout: ${error.message}")
             }
         }
     }
@@ -64,9 +64,9 @@ class LogoutViewModel : ViewModel() {
             // Usando la nueva API de Identity Services para cerrar sesión
             // No es necesario hacer un signOut explícito con la nueva API
             // Simplemente borramos los datos de la sesión en CurrentSession
-            Log.d("LogoutViewModel", "Limpiando datos de sesión de Google")
+            //Log.d("LogoutViewModel", "Limpiando datos de sesión de Google")
         } catch (e: Exception) {
-            Log.e("LogoutViewModel", "Excepción al manejar sesión con Google: ${e.message}")
+            //Log.e("LogoutViewModel", "Excepción al manejar sesión con Google: ${e.message}")
         }
     }
 }

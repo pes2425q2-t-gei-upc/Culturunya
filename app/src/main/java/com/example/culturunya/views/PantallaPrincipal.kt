@@ -18,8 +18,19 @@ import com.example.culturunya.R
 import com.example.culturunya.ui.theme.*
 import com.example.culturunya.viewmodels.EventViewModel
 import androidx.annotation.RequiresApi
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CalendarMonth
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Map
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import com.example.culturunya.screens.LeaderboardScreen
+import androidx.compose.ui.platform.LocalContext
+import com.example.culturunya.session.CurrentSession
+import com.example.culturunya.views.getString
+import androidx.compose.ui.platform.LocalContext
+import com.example.culturunya.views.getString
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -30,6 +41,10 @@ import androidx.compose.ui.Modifier
  * @param initialScreen Pantalla inicial seleccionada.
  */
 fun MainScreen(navController: NavController, viewModel: EventViewModel, initialScreen: String) {
+    val context = LocalContext.current
+    CurrentSession.getInstance()
+    val currentLocale = CurrentSession.language
+
     // Estat per a la pantalla principal
     // Estat per als sub-botons d'Events (Map, Calendar, List)
     // Només s'usa si la pantalla principal seleccionada és "Events".
@@ -62,8 +77,8 @@ fun MainScreen(navController: NavController, viewModel: EventViewModel, initialS
             ) {
                 // Botó MAP
                 TopButtonItem(
-                    subScreenName = "Map",
-                    iconRes = R.drawable.ic_map,
+                    subScreenName = getString(context, R.string.nav_map, currentLocale),
+                    icon = Icons.Default.Map,
                     isSelected = (currentEventsSubScreen == "Map")
                 ) {
                     currentEventsSubScreen = "Map"
@@ -71,8 +86,8 @@ fun MainScreen(navController: NavController, viewModel: EventViewModel, initialS
 
                 // Botó CALENDAR
                 TopButtonItem(
-                    subScreenName = "Calendar",
-                    iconRes = R.drawable.ic_calendar,
+                    subScreenName = getString(context, R.string.nav_calendar, currentLocale),
+                    icon = Icons.Default.CalendarMonth,
                     isSelected = (currentEventsSubScreen == "Calendar")
                 ) {
                     currentEventsSubScreen = "Calendar"
@@ -80,8 +95,8 @@ fun MainScreen(navController: NavController, viewModel: EventViewModel, initialS
 
                 // Botó LIST
                 TopButtonItem(
-                    subScreenName = "List",
-                    iconRes = R.drawable.ic_list,
+                    getString(context, R.string.nav_list, currentLocale),
+                    icon = Icons.Default.List,
                     isSelected = (currentEventsSubScreen == "List")
                 ) {
                     currentEventsSubScreen = "List"
@@ -107,7 +122,7 @@ fun MainScreen(navController: NavController, viewModel: EventViewModel, initialS
                 }
 
                 "Quiz" -> QuizScreen(navController)
-                "Leaderboard" -> LeaderboardScreen()
+                "Leaderboard" -> LeaderboardScreen(navController)
                 "Settings" -> SettingsScreen(navController)
             }
         }
@@ -121,17 +136,16 @@ fun MainScreen(navController: NavController, viewModel: EventViewModel, initialS
             verticalAlignment = Alignment.CenterVertically
         ) {
             BottomButtonItem(
-                screenName = "Events",
+                screenName = getString(context, R.string.nav_events, currentLocale),
                 iconRes = R.drawable.ic_events,
                 isSelected = currentScreen == "Events"
             ) {
                 currentScreen = "Events"
-                // Si canvia a Events, assegurem que Map quedi seleccionat per defecte
                 currentEventsSubScreen = "Map"
             }
 
             BottomButtonItem(
-                screenName = "Quiz",
+                screenName = getString(context, R.string.nav_quiz, currentLocale),
                 iconRes = R.drawable.ic_quiz,
                 isSelected = currentScreen == "Quiz"
             ) {
@@ -139,7 +153,7 @@ fun MainScreen(navController: NavController, viewModel: EventViewModel, initialS
             }
 
             BottomButtonItem(
-                screenName = "Leaderboard",
+                screenName = getString(context, R.string.nav_leaderboard, currentLocale),
                 iconRes = R.drawable.ic_leaderboard,
                 isSelected = currentScreen == "Leaderboard"
             ) {
@@ -147,12 +161,10 @@ fun MainScreen(navController: NavController, viewModel: EventViewModel, initialS
             }
 
             BottomButtonItem(
-                screenName = "Settings",
+                screenName = getString(context, R.string.nav_settings, currentLocale),
                 iconRes = R.drawable.ic_settings,
-                isSelected = currentScreen == "Settings",
-
-                ) {
-
+                isSelected = currentScreen == "Settings"
+            ) {
                 currentScreen = "Settings"
             }
         }
@@ -170,7 +182,7 @@ fun MainScreen(navController: NavController, viewModel: EventViewModel, initialS
  */
 fun TopButtonItem(
     subScreenName: String,
-    @DrawableRes iconRes: Int,
+    icon: ImageVector,
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
@@ -193,7 +205,7 @@ fun TopButtonItem(
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Icon(
-                painter = painterResource(id = iconRes),
+                imageVector = icon,
                 contentDescription = subScreenName
             )
             Spacer(modifier = Modifier.height(4.dp))
@@ -280,7 +292,6 @@ fun EventListScreen(viewModel: EventViewModel) {
  */
 fun QuizScreen(navController: NavController) {
     PantallaQuiz(navController)
-}
 
 @Composable
 /**
@@ -288,4 +299,5 @@ fun QuizScreen(navController: NavController) {
  */
 fun LeaderboardScreen() {
     Text(text = "Aquesta serà la pantalla de Leaderboard")
+
 }

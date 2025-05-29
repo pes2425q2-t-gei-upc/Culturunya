@@ -12,7 +12,7 @@
     <string name="register">" Regístrate"</string>
     <string name="notAuthorized">"No estás autorizado"</string>
     <string name="serverError">"Error del servidor. Inténtalo más tarde."</string>
-    <string name="unknownErrorGetUserInfo">"Unknown error getting user info."</string>
+    <string name="unknownErrorGetUserInfo">"Error desconocido obtenindo la información del usuario."</string>
 
     <!-- Pantalla Canvi de contrasenya -->
     <string name="back">"Atrás"</string>
@@ -160,10 +160,37 @@
     <string name="quizIncorrect">¡Incorrecto!</string>
     <string name="quizLoading">Cargando pregunta...</string>
     <string name="quizError">Error: %1$s</string>
+    <string name="quizPointsMessage">Para obtener %d puntos responda bien esta pregunta</string>
+
+    <!-- Pantalla Leaderboard -->
+    <string name="monthlyRanking">Clasificación</string>
+    <string name="quiz">Questionarios</string>
+    <string name="eventAssistance">Asistir a eventos</string>
+    <string name="unknownErrorRanking">Error desconocido cargando la clasificación.</string>
+    <string name="rankingSystem">Sistema de rangos</string>
+    <string name="unranked">Sin rango</string>
+    <string name="unrankedDescription">Aún no has acumulado suficientes puntos.</string>
+    <string name="bronze">Bronce (100+ puntos)</string>
+    <string name="bronzeDescription">Has empezado tu camino cultural.</string>
+    <string name="silver">Plata (200+ puntos)</string>
+    <string name="silverDescription">Vas por buen camino, ¡sigue así!</string>
+    <string name="gold">Oro (500+ puntos)</string>
+    <string name="goldDescription">¡Gran trabajo! Estás entre los mejores.</string>
+    <string name="ramonllull">Ramon Llull (1000+ puntos)</string>
+    <string name="ramonllullDescription">Rango solo para leyendas. La sabiduría infinita de Ramón Llull te acoge.</string>
+    <string name="monthlyClassification">Tu clasificación mensual</string>
 
     <!-- Report messages -->
     <string name="ReportSuccess">Se ha reportado correctamente</string>
     <string name="ReportError">Error al reportar</string>
+    <string name="Reporter">Reportado por</string>
+    <string name="ReportReason">Motivo</string>
+    <string name="Reported">Usuario reportado</string>
+    <string name="NoAction">Sin acción</string>
+    <string name="Warning">Advertencia</string>
+    <string name="Ban">Vetar</string>
+    <string name="Reports">Reportes</string>
+    <string name= "unexpectedErrorLoadingReports"> Se ha producido un error inesperado al cargar los reportes.</string>
 
     <!-- Notificaciones -->
     <string name="dailyNotification">"Recuerda hacer tus test diarios culturales para obtener puntos"</string>
@@ -171,4 +198,27 @@
     <!-- Share strings -->
     <string name="shareMessage">¡Estoy siendo una persona más culta gracias a Culturunya! Descárgala aquí: https://play.google.com/store/apps/details?id=com.example.culturunya</string>
     <string name="shareButton">Compartir</string>
+
+    <!-- Navigation -->
+    <string name="nav_events">Eventos</string>
+    <string name="nav_map">Mapa</string>
+    <string name="nav_calendar">Calendario</string>
+    <string name="nav_list">Lista</string>
+    <string name="nav_quiz">Quiz</string>
+    <string name="nav_leaderboard">Clasificación</string>
+    <string name="nav_settings">Ajustes</string>
+
+    <!-- Pantalla EventInfo -->
+    <string name="assistanceConfirmation">"Confirmar asistencia al evento"</string>
+    <string name="localizationPermissionsDenied">"No tienes permiso para acceder a la localización"</string>
+    <string name="wrongTime">"El evento no está en curso actualmente."</string>
+    <string name="wrongPosition">"No estás cerca del evento (más de 50m)."</string>
+    <string name="pointsAlreadyAdded">"Ya has sumado los puntos anteriormente."</string>
+    <string name="pointsAddedCorrectly">"¡Has sumado los puntos correctamente!"</string>
+    <string name="registrationError">"Error al registrar la asistencia."</string>
+    <string name="localizationEerror">"No se pudo obtener tu localización."</string>
+    <string name="assistance">"Comprobar asistencia"</string>
+
+    <!-- Navigation -->
+    <string name="pressAgainExit">"Pulse otra vez para salir"</string>
 </resources>
