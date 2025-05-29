@@ -132,9 +132,11 @@ class UsersServiceTests(TestCase):
     @patch.object(us.User.objects, "filter")
     def test_get_admin_with_less_messages(self, mock_filter):
         qs_stub = MagicMock()
+        qs_stub.first.return_value = None  
         qs_stub.annotate.return_value.order_by.return_value.first.return_value = "ADMIN"
         mock_filter.return_value = qs_stub
-        self.assertEqual(us.get_corresponding_admin(), "ADMIN")
+        admin = us.get_corresponding_admin(user_id=42)
+        self.assertEqual(admin, "ADMIN")
 
 
     @patch.object(us.Message.objects, "create")
@@ -444,5 +446,27 @@ class TestRankHelpers(TestCase):
         self.assertEqual(msg, {"error": ser_stub.errors})
         ser_stub.is_valid.assert_called_once()
         mock_serializer_cls.assert_called_once()
+    @patch.object(us.User.objects, "filter")
+    def test_get_corresponding_admin_devuelve_admin_correspondiente(self, mock_filter):
+        """Si existe un admin que ya hablo con el usuario, debe devolverse tal cual."""
+        
+        qs_stub = MagicMock()
+
+
+        dummy_admin = MagicMock(name="DUMMY_ADMIN")
+        qs_stub.first.return_value = dummy_admin
+
+
+        mock_filter.return_value = qs_stub
+
+
+        result = us.get_corresponding_admin(user_id=123)
+
+        self.assertIs(result, dummy_admin)   
+        qs_stub.first.assert_called_once()   
+        mock_filter.assert_called_once_with( 
+            us.Q(received_messages__sender=123) | us.Q(sent_messages__receiver=123),
+            is_admin=True,
+        )
 
 
