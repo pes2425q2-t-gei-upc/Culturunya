@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -18,13 +17,11 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -32,16 +29,13 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.culturunya.session.CurrentSession
 import com.example.culturunya.views.TopButtonItem
-import com.example.culturunya.views.getString
+import com.example.culturunya.views.functions.getString
 import com.example.culturunya.R
 import com.example.culturunya.navigation.AppScreens
 import com.example.culturunya.ui.theme.*
-import com.example.culturunya.viewmodels.GetChatWithAdminViewModel
-import com.example.culturunya.viewmodels.GetChatWithUserViewModel
 import com.example.culturunya.viewmodels.GetLeaderboardEventsViewModel
 import com.example.culturunya.viewmodels.GetLeaderboardQuizViewModel
 import com.example.culturunya.views.popUpError
-import kotlinx.coroutines.delay
 
 @Composable
 fun LeaderboardScreen(navController: NavController) {

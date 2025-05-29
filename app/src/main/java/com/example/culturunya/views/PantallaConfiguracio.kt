@@ -18,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.modifier.modifierLocalMapOf
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -40,7 +39,6 @@ import com.example.culturunya.ui.theme.GrisMoltFluix
 import com.example.culturunya.ui.theme.Morat
 import com.example.culturunya.viewmodels.AuthViewModel
 import com.example.culturunya.viewmodels.ReportViewModel
-import com.example.culturunya.viewmodels.*
 import java.io.File
 import java.io.FileOutputStream
 
@@ -128,10 +126,20 @@ fun SettingsScreen(navController: NavController) {
     }
 
     if (showReportErrorDialog) {
-        var message = getString(context, R.string.unexpectedErrorLoadingReports, currentLocale)
-        if (reportCode == 400) message = getString(context, R.string.notAValidLanguage, currentLocale)
-        else if (reportCode == 401) message = getString(context, R.string.unauthenticated, currentLocale)
-        else if (reportCode == 500) getString(context, R.string.serverError, currentLocale)
+        var message = com.example.culturunya.views.functions.getString(
+            context,
+            R.string.unexpectedErrorLoadingReports,
+            currentLocale
+        )
+        if (reportCode == 400) message =
+            com.example.culturunya.views.functions.getString(context, R.string.notAValidLanguage, currentLocale)
+        else if (reportCode == 401) message =
+            com.example.culturunya.views.functions.getString(context, R.string.unauthenticated, currentLocale)
+        else if (reportCode == 500) com.example.culturunya.views.functions.getString(
+            context,
+            R.string.serverError,
+            currentLocale
+        )
         popUpError(message, onClick = {
             showReportErrorDialog = false
         })
@@ -139,10 +147,17 @@ fun SettingsScreen(navController: NavController) {
     }
 
     if (showUpdateLanguageErrorDialog) {
-        var message = getString(context, R.string.unexpectedErrorLanguage, currentLocale)
-        if (updateLanguageCode == 400) message = getString(context, R.string.notAValidLanguage, currentLocale)
-        else if (updateLanguageCode == 401) message = getString(context, R.string.unauthenticated, currentLocale)
-        else if (updateLanguageCode == 500) getString(context, R.string.serverError, currentLocale)
+        var message =
+            com.example.culturunya.views.functions.getString(context, R.string.unexpectedErrorLanguage, currentLocale)
+        if (updateLanguageCode == 400) message =
+            com.example.culturunya.views.functions.getString(context, R.string.notAValidLanguage, currentLocale)
+        else if (updateLanguageCode == 401) message =
+            com.example.culturunya.views.functions.getString(context, R.string.unauthenticated, currentLocale)
+        else if (updateLanguageCode == 500) com.example.culturunya.views.functions.getString(
+            context,
+            R.string.serverError,
+            currentLocale
+        )
         popUpError(message, onClick = {
             showUpdateLanguageErrorDialog = false
         })
@@ -168,7 +183,7 @@ fun SettingsScreen(navController: NavController) {
 
         // SECTION: "ACCOUNT"
         Text(
-            text = getString(context, R.string.account, currentLocale),
+            text = com.example.culturunya.views.functions.getString(context, R.string.account, currentLocale),
             fontSize = 14.sp,
             color = Color.Black,
             fontWeight = FontWeight.Bold,
@@ -190,7 +205,11 @@ fun SettingsScreen(navController: NavController) {
             Column {
                 SettingsButton(
                     icon = Icons.Default.Person,
-                    text = getString(context, R.string.changeUsername, currentLocale),
+                    text = com.example.culturunya.views.functions.getString(
+                        context,
+                        R.string.changeUsername,
+                        currentLocale
+                    ),
                     onClick = {
                         navController.navigate(AppScreens.ChangeUsername.route)
                     }
@@ -198,7 +217,11 @@ fun SettingsScreen(navController: NavController) {
                 Divider(color = Color.LightGray)
                 SettingsButton(
                     icon = Icons.Default.Key,
-                    text = getString(context, R.string.changeThePassword, currentLocale),
+                    text = com.example.culturunya.views.functions.getString(
+                        context,
+                        R.string.changeThePassword,
+                        currentLocale
+                    ),
                     onClick = {
                         navController.navigate(AppScreens.CanviContrasenya.route)
                     }
@@ -206,7 +229,11 @@ fun SettingsScreen(navController: NavController) {
                 Divider(color = Color.LightGray)
                 SettingsButton(
                     icon = Icons.Default.PhotoCamera,
-                    text = getString(context, R.string.changeProfilePic, currentLocale),
+                    text = com.example.culturunya.views.functions.getString(
+                        context,
+                        R.string.changeProfilePic,
+                        currentLocale
+                    ),
                     onClick = {
                         navController.navigate(AppScreens.ChangeProfilePic.route)
                     }
@@ -214,7 +241,11 @@ fun SettingsScreen(navController: NavController) {
                 Divider(color = Color.LightGray)
                 SettingsButton(
                     icon = Icons.Default.BarChart,
-                    text = getString(context, R.string.monthlyClassification, currentLocale),
+                    text = com.example.culturunya.views.functions.getString(
+                        context,
+                        R.string.monthlyClassification,
+                        currentLocale
+                    ),
                     onClick = {
                         showProfileRanks = true
                     }
@@ -226,7 +257,7 @@ fun SettingsScreen(navController: NavController) {
 
         // SECTION: "SETTINGS"
         Text(
-            text = getString(context, R.string.settings, currentLocale),
+            text = com.example.culturunya.views.functions.getString(context, R.string.settings, currentLocale),
             fontWeight = FontWeight.Bold,
             fontSize = 14.sp,
             color = Color.Black,
@@ -262,7 +293,11 @@ fun SettingsScreen(navController: NavController) {
                         )
                         Spacer(modifier = Modifier.width(12.dp))
                         Text(
-                            text = getString(context, R.string.currentLanguage, currentLocale),
+                            text = com.example.culturunya.views.functions.getString(
+                                context,
+                                R.string.currentLanguage,
+                                currentLocale
+                            ),
                             color = Color.Gray
                         )
                     }
@@ -318,7 +353,11 @@ fun SettingsScreen(navController: NavController) {
                 Divider(color = Color.LightGray)
                 SettingsButton(
                     icon = Icons.Default.Help,
-                    text = getString(context, R.string.helpNSupport, currentLocale),
+                    text = com.example.culturunya.views.functions.getString(
+                        context,
+                        R.string.helpNSupport,
+                        currentLocale
+                    ),
                     onClick = {
                         getChatsViewModel.getChats()
                     }
@@ -328,7 +367,11 @@ fun SettingsScreen(navController: NavController) {
                     Divider(color = Color.LightGray)
                     SettingsButton(
                         icon = Icons.Default.Dangerous,
-                        text = getString(context, R.string.Reports, currentLocale),
+                        text = com.example.culturunya.views.functions.getString(
+                            context,
+                            R.string.Reports,
+                            currentLocale
+                        ),
                         onClick = {
                             reportViewModel.getReports()
                         }
@@ -344,7 +387,7 @@ fun SettingsScreen(navController: NavController) {
 
         // BOTÓ "LOG OUT"
         Text(
-            text = getString(context, R.string.logout, currentLocale),
+            text = com.example.culturunya.views.functions.getString(context, R.string.logout, currentLocale),
             fontWeight = FontWeight.Bold,
             color = Color.Red,
             modifier = Modifier
@@ -355,7 +398,7 @@ fun SettingsScreen(navController: NavController) {
 
         // BOTÓ "DELETE ACCOUNT"
         Text(
-            text = getString(context, R.string.deleteAccount, currentLocale),
+            text = com.example.culturunya.views.functions.getString(context, R.string.deleteAccount, currentLocale),
             fontWeight = FontWeight.Medium,
             color = Color.Gray,
             modifier = Modifier
@@ -368,7 +411,7 @@ fun SettingsScreen(navController: NavController) {
     // DIALOG: Confirmació Logout
     if (showLogoutDialog) {
         popUpDialog(
-            getString(context, R.string.sureLogout, currentLocale),
+            com.example.culturunya.views.functions.getString(context, R.string.sureLogout, currentLocale),
             onConfirm = {logoutViewModel.logout()},
             onDismiss = {showLogoutDialog = false}
         )
@@ -407,7 +450,7 @@ fun SettingsScreen(navController: NavController) {
     // DIALOG: Confirmació Eliminar compte
     if (showDeleteDialog) {
         popUpDialog(
-            getString(context, R.string.sureDeleteAccount, currentLocale),
+            com.example.culturunya.views.functions.getString(context, R.string.sureDeleteAccount, currentLocale),
             onConfirm = {
                 deleteAccountViewModel.deleteAccount()
                 showDeleteDialog = false
@@ -417,16 +460,26 @@ fun SettingsScreen(navController: NavController) {
     }
 
     if (showDeleteErrorDialog) {
-        val message = getString(context, R.string.deleteErrorNoAuth, currentLocale)
-        if (deleteCode != 401) getString(context, R.string.deleteError, currentLocale)
+        val message =
+            com.example.culturunya.views.functions.getString(context, R.string.deleteErrorNoAuth, currentLocale)
+        if (deleteCode != 401) com.example.culturunya.views.functions.getString(
+            context,
+            R.string.deleteError,
+            currentLocale
+        )
         popUpError(message, onClick = {
             showDeleteErrorDialog = false
         })
     }
 
     if (showLogoutErrorDialog) {
-        val message = getString(context, R.string.logoutUnexpectedError, currentLocale)
-        if (logoutCode == 400) getString(context, R.string.logoutUnexpectedError, currentLocale)
+        val message =
+            com.example.culturunya.views.functions.getString(context, R.string.logoutUnexpectedError, currentLocale)
+        if (logoutCode == 400) com.example.culturunya.views.functions.getString(
+            context,
+            R.string.logoutUnexpectedError,
+            currentLocale
+        )
         popUpError(message, onClick = {
             showLogoutErrorDialog = false
         })
@@ -439,7 +492,11 @@ fun SettingsScreen(navController: NavController) {
                 Row {
                     Column {
                         Text(
-                            text = getString(context, R.string.quiz, currentLocale),
+                            text = com.example.culturunya.views.functions.getString(
+                                context,
+                                R.string.quiz,
+                                currentLocale
+                            ),
                             fontSize = 20.sp,
                             color = Color.Black,
                             fontWeight = FontWeight.Bold
@@ -454,7 +511,11 @@ fun SettingsScreen(navController: NavController) {
                     Spacer (modifier = Modifier.width(30.dp))
                     Column {
                         Text(
-                            text = getString(context, R.string.eventAssistance, currentLocale),
+                            text = com.example.culturunya.views.functions.getString(
+                                context,
+                                R.string.eventAssistance,
+                                currentLocale
+                            ),
                             fontSize = 20.sp,
                             color = Color.Black,
                             fontWeight = FontWeight.Bold
@@ -634,7 +695,7 @@ fun popUpDialog(title: String, onConfirm: () -> Unit, onDismiss: () -> Unit) {
                 onClick = onConfirm,
                 colors = ButtonDefaults.buttonColors(containerColor = Morat)
             ) {
-                Text(getString(context, R.string.accept, currentLocale))
+                Text(com.example.culturunya.views.functions.getString(context, R.string.accept, currentLocale))
             }
         },
         dismissButton = {
@@ -642,7 +703,7 @@ fun popUpDialog(title: String, onConfirm: () -> Unit, onDismiss: () -> Unit) {
                 onClick = onDismiss,
                 colors = ButtonDefaults.buttonColors(containerColor = Morat)
             ) {
-                Text(getString(context, R.string.cancel, currentLocale))
+                Text(com.example.culturunya.views.functions.getString(context, R.string.cancel, currentLocale))
             }
         },
         containerColor = Color.White

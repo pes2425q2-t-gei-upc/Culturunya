@@ -83,7 +83,11 @@ fun PantallaCanviContrasenya(navController: NavController) {
             Spacer(modifier = Modifier.height(40.dp))
 
             Text(
-                text = getString(context, R.string.changePassword, currentLocale),
+                text = com.example.culturunya.views.functions.getString(
+                    context,
+                    R.string.changePassword,
+                    currentLocale
+                ),
                 fontSize = 24.sp,
                 color = Color.Black,
                 fontWeight = FontWeight.Bold
@@ -93,7 +97,13 @@ fun PantallaCanviContrasenya(navController: NavController) {
             OutlinedTextField(
                 value = contrasenyaActual,
                 onValueChange = { contrasenyaActual = it },
-                label = { Text(getString(context, R.string.actualPassword, currentLocale)) },
+                label = { Text(
+                    com.example.culturunya.views.functions.getString(
+                        context,
+                        R.string.actualPassword,
+                        currentLocale
+                    )
+                ) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 visualTransformation = if (currentPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
@@ -116,7 +126,13 @@ fun PantallaCanviContrasenya(navController: NavController) {
             OutlinedTextField(
                 value = novaContrasenya,
                 onValueChange = { novaContrasenya = it },
-                label = { Text(getString(context, R.string.newPassword, currentLocale)) },
+                label = { Text(
+                    com.example.culturunya.views.functions.getString(
+                        context,
+                        R.string.newPassword,
+                        currentLocale
+                    )
+                ) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 visualTransformation = if (newPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
@@ -139,7 +155,13 @@ fun PantallaCanviContrasenya(navController: NavController) {
             OutlinedTextField(
                 value = confirmaNovaContrasenya,
                 onValueChange = { confirmaNovaContrasenya = it },
-                label = { Text(getString(context, R.string.confirmNewPassword, currentLocale)) },
+                label = { Text(
+                    com.example.culturunya.views.functions.getString(
+                        context,
+                        R.string.confirmNewPassword,
+                        currentLocale
+                    )
+                ) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 visualTransformation = if (newPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
@@ -181,11 +203,23 @@ fun PantallaCanviContrasenya(navController: NavController) {
                             },
                             colors = ButtonDefaults.buttonColors(containerColor = Morat)
                         ) {
-                            Text(getString(context, R.string.ok, currentLocale))
+                            Text(com.example.culturunya.views.functions.getString(context, R.string.ok, currentLocale))
                         }
                     },
-                    title = { Text(getString(context, R.string.passwordChangeCompleted, currentLocale)) },
-                    text = { Text(getString(context, R.string.passwordChangedSuccessfully, currentLocale)) },
+                    title = { Text(
+                        com.example.culturunya.views.functions.getString(
+                            context,
+                            R.string.passwordChangeCompleted,
+                            currentLocale
+                        )
+                    ) },
+                    text = { Text(
+                        com.example.culturunya.views.functions.getString(
+                            context,
+                            R.string.passwordChangedSuccessfully,
+                            currentLocale
+                        )
+                    ) },
                     containerColor = Color.White
                 )
             }
@@ -197,16 +231,32 @@ fun PantallaCanviContrasenya(navController: NavController) {
                     Log.d("Contra actual", "$contrasenyaCorrecta")
                     when {
                         contrasenyaActual.isEmpty() || novaContrasenya.isEmpty() || confirmaNovaContrasenya.isEmpty() ->
-                            missatgeError = getString(context, R.string.allFieldsRequired, currentLocale)
+                            missatgeError = com.example.culturunya.views.functions.getString(
+                                context,
+                                R.string.allFieldsRequired,
+                                currentLocale
+                            )
 
                         novaContrasenya != confirmaNovaContrasenya ->
-                            missatgeError = getString(context, R.string.passwordsDontMatch, currentLocale)
+                            missatgeError = com.example.culturunya.views.functions.getString(
+                                context,
+                                R.string.passwordsDontMatch,
+                                currentLocale
+                            )
 
                         contrasenyaActual != contrasenyaCorrecta ->
-                            missatgeError = getString(context, R.string.incorrectActualPassword, currentLocale)
+                            missatgeError = com.example.culturunya.views.functions.getString(
+                                context,
+                                R.string.incorrectActualPassword,
+                                currentLocale
+                            )
 
                         contrasenyaActual == novaContrasenya ->
-                            missatgeError = getString(context, R.string.passwordsMustBeDifferent, currentLocale)
+                            missatgeError = com.example.culturunya.views.functions.getString(
+                                context,
+                                R.string.passwordsMustBeDifferent,
+                                currentLocale
+                            )
 
                         else -> {
                             missatgeError = ""
@@ -218,7 +268,11 @@ fun PantallaCanviContrasenya(navController: NavController) {
                 colors = ButtonDefaults.buttonColors(containerColor = Morat)
             ) {
                 Text(
-                    text = getString(context, R.string.changeThePassword, currentLocale),
+                    text = com.example.culturunya.views.functions.getString(
+                        context,
+                        R.string.changeThePassword,
+                        currentLocale
+                    ),
                     color = Color.White
                 )
             }
@@ -232,9 +286,17 @@ fun PantallaCanviContrasenya(navController: NavController) {
             }
 
             if (showErrorDialog) {
-                var message = getString(context, R.string.changePasswordErrorNoAuth, currentLocale)
+                var message = com.example.culturunya.views.functions.getString(
+                    context,
+                    R.string.changePasswordErrorNoAuth,
+                    currentLocale
+                )
                 if (changePasswordCode == 400) {
-                    message = getString(context, R.string.validationError, currentLocale)
+                    message = com.example.culturunya.views.functions.getString(
+                        context,
+                        R.string.validationError,
+                        currentLocale
+                    )
                 }
                 popUpError(message, onClick = {
                     showErrorDialog = false

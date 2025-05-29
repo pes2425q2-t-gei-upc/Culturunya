@@ -4,6 +4,7 @@ import SessionManager
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.culturunya.dataclasses.users.AuthState
 import com.example.culturunya.session.CurrentSession
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -60,7 +61,4 @@ class AuthViewModel : ViewModel() {
     }
 }
 
-data class AuthState(
-    val isAuthenticated: Boolean = false,
-    val isLoading: Boolean = true
-)
+

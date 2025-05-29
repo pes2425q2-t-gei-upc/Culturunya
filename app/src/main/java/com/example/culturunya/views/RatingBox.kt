@@ -1,13 +1,11 @@
 package com.example.culturunya.views
 
-import android.widget.Toast
 import androidx.annotation.OptIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -47,7 +45,7 @@ import com.example.culturunya.session.CurrentSession
 import com.example.culturunya.dataclasses.reports.ReportRequest
 import com.example.culturunya.ui.theme.*
 import com.example.culturunya.viewmodels.ReportViewModel
-import com.google.android.gms.maps.model.Circle
+import com.example.culturunya.views.functions.getString
 
 
 @kotlin.OptIn(ExperimentalMaterial3Api::class)

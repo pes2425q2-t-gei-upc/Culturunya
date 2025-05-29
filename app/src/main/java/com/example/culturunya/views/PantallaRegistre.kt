@@ -91,7 +91,11 @@ fun PantallaRegistre(navController: NavController) {
 
             //Títol de la pantalla de registre
             Text(
-                text = getString(context, R.string.registerScreenTitle, currentLocale),
+                text = com.example.culturunya.views.functions.getString(
+                    context,
+                    R.string.registerScreenTitle,
+                    currentLocale
+                ),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
@@ -102,7 +106,13 @@ fun PantallaRegistre(navController: NavController) {
             OutlinedTextField(
                 value = username,
                 onValueChange = { username = it },
-                label = { Text(getString(context, R.string.usernameBox, currentLocale)) },
+                label = { Text(
+                    com.example.culturunya.views.functions.getString(
+                        context,
+                        R.string.usernameBox,
+                        currentLocale
+                    )
+                ) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 leadingIcon = {
@@ -122,7 +132,13 @@ fun PantallaRegistre(navController: NavController) {
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
-                label = { Text(getString(context, R.string.mailBox, currentLocale)) },
+                label = { Text(
+                    com.example.culturunya.views.functions.getString(
+                        context,
+                        R.string.mailBox,
+                        currentLocale
+                    )
+                ) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 leadingIcon = {
@@ -142,7 +158,13 @@ fun PantallaRegistre(navController: NavController) {
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
-                label = { Text(getString(context, R.string.password, currentLocale)) },
+                label = { Text(
+                    com.example.culturunya.views.functions.getString(
+                        context,
+                        R.string.password,
+                        currentLocale
+                    )
+                ) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
@@ -170,7 +192,13 @@ fun PantallaRegistre(navController: NavController) {
             OutlinedTextField(
                 value = confirmPassword,
                 onValueChange = { confirmPassword = it },
-                label = { Text(getString(context, R.string.confirmPasswordBox, currentLocale))},
+                label = { Text(
+                    com.example.culturunya.views.functions.getString(
+                        context,
+                        R.string.confirmPasswordBox,
+                        currentLocale
+                    )
+                )},
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
@@ -209,15 +237,27 @@ fun PantallaRegistre(navController: NavController) {
                 onClick = {
                     when {
                         username.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() -> {
-                            errorMessage = getString(context, R.string.allFieldsRequired, currentLocale)
+                            errorMessage = com.example.culturunya.views.functions.getString(
+                                context,
+                                R.string.allFieldsRequired,
+                                currentLocale
+                            )
                             showDialog = true
                         }
                         !isValidEmail(email) -> {
-                            errorMessage = getString(context, R.string.invalidEmailError, currentLocale)
+                            errorMessage = com.example.culturunya.views.functions.getString(
+                                context,
+                                R.string.invalidEmailError,
+                                currentLocale
+                            )
                             showDialog = true
                         }
                         password != confirmPassword -> {
-                            errorMessage = getString(context, R.string.unmatchingPasswordsError, currentLocale)
+                            errorMessage = com.example.culturunya.views.functions.getString(
+                                context,
+                                R.string.unmatchingPasswordsError,
+                                currentLocale
+                            )
                             showDialog = true
                         }
                         else -> {
@@ -225,19 +265,35 @@ fun PantallaRegistre(navController: NavController) {
                             when (responseCode) {
                                 201 -> registreExit = true // Anar a la pantalla principal
                                 400 -> {
-                                    errorMessage = getString(context, R.string.invalidDataError, currentLocale)
+                                    errorMessage = com.example.culturunya.views.functions.getString(
+                                        context,
+                                        R.string.invalidDataError,
+                                        currentLocale
+                                    )
                                     showDialog = true
                                 }
                                 500 -> {
-                                    errorMessage = getString(context, R.string.serverError, currentLocale)
+                                    errorMessage = com.example.culturunya.views.functions.getString(
+                                        context,
+                                        R.string.serverError,
+                                        currentLocale
+                                    )
                                     showDialog = true
                                 }
                                 -1 -> {
-                                    errorMessage = getString(context, R.string.networkError, currentLocale)
+                                    errorMessage = com.example.culturunya.views.functions.getString(
+                                        context,
+                                        R.string.networkError,
+                                        currentLocale
+                                    )
                                     showDialog = true
                                 }
                                 else -> {
-                                    errorMessage = getString(context, R.string.unknownError, currentLocale) + "$responseCode"
+                                    errorMessage = com.example.culturunya.views.functions.getString(
+                                        context,
+                                        R.string.unknownError,
+                                        currentLocale
+                                    ) + "$responseCode"
                                     showDialog = true
                                 }
                             }
@@ -247,7 +303,11 @@ fun PantallaRegistre(navController: NavController) {
                 colors = ButtonDefaults.buttonColors(containerColor = Morat)
             ) {
                 Text(
-                    text = getString(context, R.string.registerButton, currentLocale),
+                    text = com.example.culturunya.views.functions.getString(
+                        context,
+                        R.string.registerButton,
+                        currentLocale
+                    ),
                     color = Color.White
                 )
             }
@@ -260,7 +320,11 @@ fun PantallaRegistre(navController: NavController) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = getString(context, R.string.alreadyRegisterded, currentLocale),
+                    text = com.example.culturunya.views.functions.getString(
+                        context,
+                        R.string.alreadyRegisterded,
+                        currentLocale
+                    ),
                     fontSize = 14.sp,
                     color = Color.Gray
                 )
@@ -273,7 +337,7 @@ fun PantallaRegistre(navController: NavController) {
                     elevation = null
                 ) {
                     Text(
-                        text = getString(context, R.string.login, currentLocale),
+                        text = com.example.culturunya.views.functions.getString(context, R.string.login, currentLocale),
                         fontSize = 14.sp,
                         color = Color.Blue
                     )
@@ -295,20 +359,32 @@ fun PantallaRegistre(navController: NavController) {
                         }
                     ) {
                         Text(
-                            text = getString(context, R.string.confirmationButton, currentLocale),
+                            text = com.example.culturunya.views.functions.getString(
+                                context,
+                                R.string.confirmationButton,
+                                currentLocale
+                            ),
                             color = Color.White
                         )
                     }
                 },
                 title = {
                     Text(
-                        text = getString(context, R.string.registrationCompleted, currentLocale),
+                        text = com.example.culturunya.views.functions.getString(
+                            context,
+                            R.string.registrationCompleted,
+                            currentLocale
+                        ),
                         color = Color.Black
                     )
                 },
                 text = {
                     Text(
-                        text = getString(context, R.string.registrationConfirmation, currentLocale),
+                        text = com.example.culturunya.views.functions.getString(
+                            context,
+                            R.string.registrationConfirmation,
+                            currentLocale
+                        ),
                         color = Color.Black
                     )
                 }
@@ -318,12 +394,22 @@ fun PantallaRegistre(navController: NavController) {
         if (showDialog) {
             AlertDialog(
                 onDismissRequest = { showDialog = false },
-                title = { getString(context, R.string.registrationGeneralError, currentLocale) },
+                title = {
+                    com.example.culturunya.views.functions.getString(
+                        context,
+                        R.string.registrationGeneralError,
+                        currentLocale
+                    )
+                },
                 text = { Text(errorMessage) },
                 confirmButton = {
                     Button(onClick = { showDialog = false }) {
                         Text(
-                            text = getString(context, R.string.confirmationButton, currentLocale),
+                            text = com.example.culturunya.views.functions.getString(
+                                context,
+                                R.string.confirmationButton,
+                                currentLocale
+                            ),
                             color = Color.White
                         )
                     }

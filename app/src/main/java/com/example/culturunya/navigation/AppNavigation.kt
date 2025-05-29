@@ -23,9 +23,9 @@ import com.example.culturunya.views.PantallaRegistre
 import com.example.culturunya.views.PantallaCanviContrasenya
 import com.example.culturunya.views.SettingsScreen
 import com.example.culturunya.views.PantallaReport
-import androidx.navigation.compose.*
 import com.example.culturunya.R
 import com.example.culturunya.session.CurrentSession
+import com.example.culturunya.views.functions.getString
 
 @RequiresApi(Build.VERSION_CODES.O)
     @Composable

@@ -1,11 +1,11 @@
 package com.example.culturunya.repositories
 
 import com.example.culturunya.Api
+import com.example.culturunya.dataclasses.quiz.SetQuizPointsRequest
 import com.example.culturunya.dataclasses.users.UserInfo
 import com.example.culturunya.dataclasses.settings.ChangePasswordRequest
 import com.example.culturunya.dataclasses.settings.ChangeUsernameRequest
 import com.example.culturunya.dataclasses.settings.UpdateLanguageRequest
-import com.example.culturunya.SetQuizPointsRequest
 import retrofit2.HttpException
 import okhttp3.MultipartBody
 

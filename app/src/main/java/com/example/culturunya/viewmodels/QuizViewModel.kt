@@ -8,6 +8,7 @@ import com.example.culturunya.R
 import com.example.culturunya.Api
 import com.example.culturunya.repositories.UserRepository
 import com.example.culturunya.dataclasses.quiz.QuizQuestion
+import com.example.culturunya.dataclasses.quiz.QuizState
 import com.example.culturunya.session.CurrentSession
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,15 +18,7 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import kotlin.random.Random
 
-data class QuizState(
-    val currentQuestion: QuizQuestion? = null,
-    val currentPoints: Int = 0,
-    val isLoading: Boolean = false,
-    val error: String? = null,
-    val showCorrectAnimation: Boolean = false,
-    val showIncorrectAnimation: Boolean = false,
-    val selectedOption: Int? = null
-)
+
 
 class QuizViewModel : ViewModel() {
     private val _state = MutableStateFlow(QuizState())

@@ -43,6 +43,7 @@ import androidx.compose.ui.Alignment
 import com.example.culturunya.dataclasses.users.UserInfo
 import com.example.culturunya.dataclasses.ratings.RatingType
 import com.example.culturunya.viewmodels.ReportViewModel
+import com.example.culturunya.views.functions.getString
 
 
 @OptIn(ExperimentalMaterial3Api::class)

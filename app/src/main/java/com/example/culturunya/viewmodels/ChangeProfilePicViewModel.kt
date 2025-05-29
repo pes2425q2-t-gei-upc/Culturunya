@@ -10,6 +10,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.culturunya.Api
+import com.example.culturunya.dataclasses.settings.ChangeProfilePicState
 import com.example.culturunya.repositories.UserRepository
 import com.example.culturunya.session.CurrentSession
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,11 +22,7 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.HttpException
 import java.io.File
 
-data class ChangeProfilePicState(
-    val isLoading: Boolean = false,
-    val success: Boolean = false,
-    val error: String? = null
-)
+
 
 class ChangeProfilePicViewModel(application: Application) : AndroidViewModel(application) {
     private val _state = MutableStateFlow(ChangeProfilePicState())

@@ -27,6 +27,7 @@ import com.example.culturunya.ui.theme.GrisMoltFluix
 import com.example.culturunya.ui.theme.Orange
 import com.example.culturunya.ui.theme.Purple40
 import com.example.culturunya.viewmodels.ReportViewModel
+import com.example.culturunya.views.functions.getString
 
 @Composable
 fun ReportBox(
